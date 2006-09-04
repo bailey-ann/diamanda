@@ -1,0 +1,61 @@
+{% load i18n %}
+{% extends "body.html" %}
+{% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
+{% block downmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
+
+
+{% block content %}
+
+<div class="actiontitle">{% trans "Edit Page" %}</div><br>
+
+<form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
+<tr><td width="140"><p>
+    {% trans "Title" %}:</td><td> {{ form.title }}
+    {% if form.title.errors %}<br>*** {{ form.title.errors|join:", " }}{% endif %}
+</p></td></tr>
+
+<tr><td width="140"><p>
+    {% trans "Description" %}:</td><td> {{ form.description }}
+    {% if form.description.errors %}<br>*** {{ form.description.errors|join:", " }}{% endif %}
+</p></td></tr>
+
+<tr><td><p>
+    <label for="id_address">{% trans "Content" %}:</td><td>
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[rk:syntax lang=\"python\"][/rk:syntax]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
+	<br>
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':whatthe:' "><img src="/site_media/wiki/smilies/icon_neutral.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/wiki/smilies/icon_evil.gif" border="0" /></a>
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/wiki/smilies/icon_twisted.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':?:' "><img src="/site_media/wiki/smilies/icon_question.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':idea:' "><img src="/site_media/wiki/smilies/icon_idea.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':arrow:' "><img src="/site_media/wiki/smilies/icon_arrow.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" border="0" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" border="0" /></a> 
+    {{ form.text }}
+    {% if form.text.errors %}<br>*** {{ form.text.errors|join:", " }}{% endif %}
+</p></td></tr>
+<tr><td><p>
+    {% trans "Summary of changes" %}:</td><td> {{ form.changes }}
+    {% if form.changes.errors %}<br>*** {{ form.changes.errors|join:", " }}{% endif %}
+</p></td></tr>
+<tr><td><p>
+    <label for="id_city">{% trans "Categories" %}:</td><td> {{ form.categories }}
+    {% if form.categories.errors %}<br>*** {{ form.categories.errors|join:", " }}{% endif %}
+</p></td></tr>
+</table>
+<center><input type="submit" value="{% trans "Save Changes" %}" class="actiontable" /></center>
+</form><script>document.getElementById('id_text').rows='20';</script>
+<br><br><B>{% trans "Allowed HTML Tags" %}</B>:b, a, i, br, p, u, pre, div, span, h1, h2, h3, h4, img, li, ul, ol, acronym, abbr, center, cite, map, strong, sub, sup, table, tr, td, tbody, thead, th, tfoot, label<br><br>
+
+
+<div class="actiontitle">{% trans "ContentBBCode List" %}</div>
+{% for i in cbcdesc %}
+<div class="tagdesc"><b>{{ i.tag }}</b> - <b>{{ i.tag_example }}</b></div>
+{{ i.description }}<br><br>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load i18n %}
+{% extends "myghtyboard/wow/body.html" %}
+{% block content %}
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0" id="buttonstable">
+	<tr>
+		<td align="center" valign="middle" width="100%" id="header-buttons">
+			{% trans "Edit Post" %}
+		</td>
+	</tr>
+	</table>
+	<table border="0" width="100%" cellspacing="0" cellpadding="0" class="content">
+	<tr>
+	<td class="content" valign="top">
+	<table width="100%" cellpadding="2" cellspacing="0" class="forumline">
+	<thead>
+		<caption><table border="0" cellspacing="0" cellpadding="0" width="100%" class="forumheader">
+		<tr>
+			<td align="left" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_left.gif" width="25" height="27" alt=""></td>
+			<td align="center" class="forumheader-mid">{% trans "Edit Post" %}</td>
+			<td align="right" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_righ.gif" width="25" height="27" alt=""></td>
+		</tr></table></caption>
+	</thead>
+	<tbody>
+	
+	<tr>
+		<th class="thRight" nowrap="nowrap">{% trans "Message" %}</th>
+	</tr>
+
+
+	<tr>
+		
+		<td class="row1" width="100%" height="28" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td colspan="2" class="postbody">
+<form method="post" action=".">
+
+
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[rk:source lang=\"xml\"][/rk:source]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
+	<br>
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':whatthe:' "><img src="/site_media/wiki/smilies/icon_neutral.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/wiki/smilies/icon_evil.gif" border="0"></a>
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/wiki/smilies/icon_twisted.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':?:' "><img src="/site_media/wiki/smilies/icon_question.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':idea:' "><img src="/site_media/wiki/smilies/icon_idea.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':arrow:' "><img src="/site_media/wiki/smilies/icon_arrow.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" border="0"></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" border="0"></a> 
+	
+
+<br><textarea rows="10" cols="100" name="post_text" id="id_text">{{ post_text }}</textarea>
+<center><input type="submit" value="{% trans "Save Changes" %}" style="actiontable"></center>
+</form>
+<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote<span class="gensmall"></span></td>
+			</tr>
+		</table></td>
+	</tr>
+
+	</tbody></table>
+	<br>
+
+
+{% endblock %}

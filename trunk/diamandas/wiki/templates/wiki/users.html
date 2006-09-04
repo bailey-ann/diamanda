@@ -1,0 +1,57 @@
+{% load i18n %}
+{% extends "body.html" %}
+
+{% block header %}
+<div class="pagetitle"><h1 class="header">{% trans "User Page" %}</h1></div>
+{% endblock %}
+
+{% block upmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Register" %}" onclick="location.assign('/wiki/register/');"><input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
+{% block downmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Register" %}" onclick="location.assign('/wiki/register/');"><input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
+
+{% block content %}
+{% if loginform %}
+	{% if error %}
+		<center><b>{% trans "Login Error - bad login and/or password" %}</b></center>
+	{% endif %}
+	<form action="." method="POST"><input type="hidden" value="{{ hash }}" name="imghash">
+	<center><table class="historytable" cellspacing="0" cellpadding="0">
+	<thead><tr>
+		<th class="title" width="40%"><center><b>{% trans "LOGIN FORM" %}</b></center></th>
+		<th class="title"> </th>
+	</tr></thead>
+	<tr>
+		<td class="title"><b>{% trans "Login" %}</b></td>
+		<td><center><input type="text" size="20" name="login"></center></td>
+	</tr>
+	<tr>
+		<td class="title"><b>{% trans "Password" %}</b></td>
+		<td><center><input type="password" size="20" name="password"></center></td>
+	</tr>
+	<tr>
+		<td class="title"><b>{% trans "Text from the image" %}</b><br>{% trans "(Use CAPITAL letters)" %}</td>
+		<td><center><input type="text" size="20" name="imgtext"><br><img src="/site_media/bg2.jpg"></center></td>
+	</tr>
+	</table>
+	<br><input type="submit" value="{% trans "Login" %}" class="actiontable">
+	</form></center>
+{% else %}
+	<b>{% trans "Welcome" %} {{ user }}</b><br>
+	{% if add %}
+		{% trans "- You can add new Pages" %}<br>
+	{% else %}
+		{% trans "- You can't add new Pages" %}<br>
+	{% endif %}
+	{% if edit %}
+		{% trans "- You can edit Pages" %}<br>
+	{% else %}
+		{% trans "- You can't edit Pages" %}<br>
+	{% endif %}
+	{% if current %}
+		{% trans "- Your edits will be displayed without delay" %}<br>
+	{% else %}
+		{% trans "- Your edits will be marked as "Edit Proposals" and won't appear on the wiki until the site staff won't review your changes." %}<br>
+	{% endif %}
+	<br>
+	<center><input type="button" value="{% trans "Log Out" %}" onclick="location.assign('/wiki/user/?log=out');"></center>
+{% endif %}
+{% endblock %}

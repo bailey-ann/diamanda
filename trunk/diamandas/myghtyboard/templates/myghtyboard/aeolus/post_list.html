@@ -1,0 +1,111 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/aeolus/body.html" %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css"></link>
+
+
+	{% for i in object_list %}
+	<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right" valign="bottom" width="23"><img src="/site_media/myghtyboard/aeolus/images/top_left.gif" alt="" border="0" height="36" width="23"></td><td align="left" background="/site_media/myghtyboard/aeolus/images/top_center.gif" valign="middle" width="100%"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" border="0" height="11" width="1"></td></tr><tr><td align="left" valign="center"><span class="cattitle"><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> >> <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a></span></td></tr></tbody></table></td><td align="left" valign="bottom" width="60"><img src="/site_media/myghtyboard/aeolus/images/top_right.gif" alt="" border="0" height="36" width="60"></td></tr></tbody></table><table class="forumline" border="0" cellpadding="0" cellspacing="1" width="100%">
+	<tbody><tr><td class="th" align="center" valign="middle"><table border="0" cellpadding="2" cellspacing="0" width="100%">	<tbody><tr height="26">
+		<td align="left" nowrap="nowrap" valign="middle"><span class="th"><img src="/site_media/myghtyboard/aeolus/images/icon_minipost.gif" alt="" title="" border="0" height="9" width="12"><span class="genmed">{{ i.post_date }} - {{ topic }}</span></span></td>
+		<td align="right" nowrap="nowrap" valign="middle">
+		{% if perms.add_post %}
+			<a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/"><img src="/site_media/myghtyboard/aeolus/images/{{ lang }}/icon_quote.gif" alt="{% trans "Reply with quote" %}" title="{% trans "Reply with quote" %}" border="0"></a>
+		{% endif %}
+		
+		{% ifequal i.post_author current_user %}
+			<a href="/forum/edit_post/{{ i.id }}/"><img src="/site_media/myghtyboard/aeolus/images/{{ lang }}/icon_edit.gif" alt="{% trans "Edit this post" %}" title="{% trans "Edit this post" %}" border="0"></a>
+		{% else %}
+		{% if perms.is_staff %}
+			<a href="/forum/edit_post/{{ i.id }}/"><img src="/site_media/myghtyboard/aeolus/images/{{ lang }}/icon_edit.gif" alt="{% trans "Edit this post" %}" title="{% trans "Edit this post" %}" border="0"></a>
+		{% endif %}
+		{% endifequal %}
+		
+		{% if perms.is_staff %}
+			<a href="/forum/delete_post/{{ i.id }}/{{ topic_id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')"><img src="/site_media/myghtyboard/aeolus/images/icon_delete.gif" alt="{% trans "Delete this post" %}" title="{% trans "Delete this post" %}" border="0"></a>
+		{% endif %}
+		{% if perms.is_staff %}
+			<img src="/site_media/myghtyboard/aeolus/images/{{ lang }}/icon_ip.gif" alt="{{ i.post_ip }} - {{ i.post_host }}" title="{{ i.post_ip }} - {{ i.post_host }}" border="0">
+		{% endif %}
+		</td>
+		</tr></tbody></table></td>
+	</tr>
+	<tr>
+		<td class="row1" align="left" valign="top" width="100%"><table border="0" cellpadding="0" cellspacing="0" width="100%"><!-- main table start -->
+		<tbody><tr>
+			<td rowspan="2" align="left" valign="top" width="150"><table border="0" cellpadding="0" cellspacing="0" width="100%"><!-- left row table start -->
+			<tbody><tr>
+				<td align="left" background="/site_media/myghtyboard/aeolus/images/post_bg.gif" valign="top" width="100%"><table border="0" cellpadding="4" cellspacing="0">
+				<tbody><tr>
+					<td align="left" valign="top"><table border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr><td><span class="name"><b>{{ i.post_author }}</b></span></td></tr>
+					<tr><td><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" alt="" border="0" height="5" width="120"></td></tr>
+					</tbody></table></td>
+				</tr>
+				</tbody></table><br><br></td>
+				<td background="/site_media/myghtyboard/aeolus/images/post_right.gif" width="15"><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" border="0" height="1" width="15"></td>
+			</tr>
+			<tr>
+				<td background="/site_media/myghtyboard/aeolus/images/post_bottom.gif" height="15"><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" border="0" height="15" width="1"></td>
+				<td height="15" width="15"><img src="/site_media/myghtyboard/aeolus/images/post_corner.gif" border="0" height="15" width="15"></td>
+			</tr>
+			<!-- left row table end --></tbody></table><br><br></td>
+			<td class="row1" align="left" valign="top" width="100%"><table border="0" cellpadding="5" cellspacing="0" width="100%"><!-- right top row table start -->
+			<tbody><tr>
+				<td width="100%"><span class="postbody">{{ i.post_text|fbc }}</span></td>
+			</tr>
+			<!-- right top row table end --></tbody></table></td>
+		</tr>
+		
+		</tbody></table></td>
+	</tr>
+	<tr>
+		<td class="row4" height="28" valign="bottom"><table border="0" cellpadding="3" cellspacing="0">
+		<tbody><tr>
+			<td width="120"><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" border="0" height="1" width="130"></td>
+			<td align="left" nowrap="nowrap" valign="middle" width="100%">
+			<!--<img src="/site_media/myghtyboard/aeolus/images/icon_profile.gif" alt="View user's profile" title="View user's profile" border="0">
+			<img src="/site_media/myghtyboard/aeolus/images/icon_pm.gif" alt="Send private message" title="Send private message" border="0">
+			
+			<img src="/site_media/myghtyboard/aeolus/images/icon_email.gif" alt="Send e-mail" title="Send e-mail" border="0"></td>-->
+		</tr></tbody></table></td>
+	</tr>
+	</tbody></table><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right" valign="top" width="10"><img src="/site_media/myghtyboard/aeolus/images/bottom_left.gif" alt="" border="0" height="10" width="10"></td><td background="/site_media/myghtyboard/aeolus/images/bottom_center.gif" width="100%"><img src="/site_media/myghtyboard/aeolus/images/spacer.gif" alt="" border="0" height="1" width="1"></td><td align="left" valign="top" width="10"><img src="/site_media/myghtyboard/aeolus/images/bottom_right.gif" alt="" border="0" height="10" width="10"></td></tr></tbody></table>
+	{% endfor %}
+	{% if perms.add_post %}
+		<p align="right"><a href="/forum/add_post/{{ topic_id }}/"><img src="/site_media/myghtyboard/aeolus/images/{{ lang }}/msg_newpost.gif" border="0"></a></p>
+	{% endif %}
+	
+	<center>
+	{% if has_previous %}
+		<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
+	{% endif %}
+	{% if has_next %}
+		<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
+	{% endif %}</center>
+
+	<p align="right">
+		{% if perms.add_topic %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost.gif"> {% trans "You can post new Topics" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost_new.gif"> {% trans "You can't post new Topics" %}<br>
+		{% endif %}
+		{% if perms.add_post %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost.gif"> {% trans "You can post new Posts" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost_new.gif"> {% trans "You can't post new Posts" %}<br>
+		{% endif %}
+		{% if perms.is_staff %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost.gif"> {% trans "You can moderate this Topic" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/aeolus/images/icon_minipost_new.gif">  {% trans "You can't moderate this Topic" %}<br>
+		{% endif %}
+	</p>
+
+
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shCore.js"></script>
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shBrushXml.js"></script>
+<script class="javascript">dp.SyntaxHighlighter.HighlightAll('code');</script>
+
+{% endblock %}

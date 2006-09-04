@@ -1,0 +1,111 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/wow/body.html" %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css"></link>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0" id="buttonstable">
+	<tr>
+		<td align="center" valign="middle" width="100%" id="header-buttons">
+			<a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> >> <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a>
+		</td>
+	</tr>
+	</table>
+	<table border="0" width="100%" cellspacing="0" cellpadding="0" class="content">
+	<tr>
+	<td class="content" valign="top">
+	<table width="100%" cellpadding="2" cellspacing="0" class="forumline">
+	<thead>
+		<caption><table border="0" cellspacing="0" cellpadding="0" width="100%" class="forumheader">
+		<tr>
+			<td align="left" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_left.gif" width="25" height="27" alt=""></td>
+			<td align="center" class="forumheader-mid"><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> >> <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a></td>
+			<td align="right" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_righ.gif" width="25" height="27" alt=""></td>
+		</tr></table></caption>
+	</thead>
+	<tbody>
+	
+	<tr>
+		<th class="thLeft" width="150" height="26" nowrap="nowrap">{% trans "Author" %}</th>
+		<th class="thRight" nowrap="nowrap">{% trans "Message" %}</th>
+	</tr>
+
+	{% for i in object_list %}
+	<tr>
+		<td width="150" align="center" valign="top" class="row1"><span class="gen">
+			<span class="postername"><b>{{ i.post_author }}</b></span>
+			<br>
+			<table border="0" cellspacing="0" cellpadding="2" width="95%">
+			<tr>
+				<td align="left" class="posterprofile">{{ i.post_date }}</td>
+			</tr>
+			</table></span>
+		</span></td>
+		<td class="row1" width="100%" height="28" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="100%" style="padding: 3px 0;"><span class="postsubject"> <!--- ssssssssssss --> </span></td>
+				<td valign="top" nowrap="nowrap">
+				{% if perms.add_post %}
+					<a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/"><img src="/site_media/myghtyboard/wow/images/{{ lang }}/icon_quote.gif" alt="{% trans "Reply with quote" %}" title="{% trans "Reply with quote" %}" border="0"></a>
+				{% endif %}
+				
+				{% ifequal i.post_author current_user %}
+					<a href="/forum/edit_post/{{ i.id }}/"><img src="/site_media/myghtyboard/wow/images/{{ lang }}/icon_edi.gif" alt="{% trans "Edit this post" %}" title="{% trans "Edit this post" %}" border="0"></a>
+				{% else %}
+				{% if perms.is_staff %}
+					<a href="/forum/edit_post/{{ i.id }}/"><img src="/site_media/myghtyboard/wow/images/{{ lang }}/icon_edi.gif" alt="{% trans "Edit this post" %}" title="{% trans "Edit this post" %}" border="0"></a>
+				{% endif %}
+				{% endifequal %}
+				
+				{% if perms.is_staff %}
+					<a href="/forum/delete_post/{{ i.id }}/{{ topic_id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')"><img src="/site_media/myghtyboard/wow/images/{{ lang }}/icon_delete.gif" alt="{% trans "Delete this post" %}" title="{% trans "Delete this post" %}" border="0"></a>
+				{% endif %}
+				{% if perms.is_staff %}
+					<img src="/site_media/myghtyboard/wow/images/{{ lang }}/icon_ip.gif" alt="{{ i.post_ip }} - {{ i.post_host }}" title="{{ i.post_ip }} - {{ i.post_host }}" border="0">
+				{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="postbody">{{ i.post_text|fbc }}<span class="gensmall"></span></td>
+			</tr>
+		</table></td>
+	</tr>
+	{% endfor %}
+	</tbody></table>
+	<br>
+	{% if perms.add_post %}
+		<p align="right"><a href="/forum/add_post/{{ topic_id }}/"><img src="/site_media/myghtyboard/wow/images/{{ lang }}/msg_newpost.gif" border="0"></a></p>
+	{% endif %}
+	
+	<center>
+	{% if has_previous %}
+		<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
+	{% endif %}
+	{% if has_next %}
+		<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
+	{% endif %}</center>
+
+	<p align="right">
+		{% if perms.add_topic %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You can post new Topics" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif"> {% trans "You can't post new Topics" %}<br>
+		{% endif %}
+		{% if perms.add_post %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You can post new Posts" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif"> {% trans "You can't post new Posts" %}<br>
+		{% endif %}
+		{% if perms.is_staff %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You can moderate this Topic" %}<br>
+		{% else %}
+			<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif">  {% trans "You can't moderate this Topic" %}<br>
+		{% endif %}
+	</p>
+
+
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shCore.js"></script>
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shBrushXml.js"></script>
+<script class="javascript">dp.SyntaxHighlighter.HighlightAll('code');</script>
+
+{% endblock %}

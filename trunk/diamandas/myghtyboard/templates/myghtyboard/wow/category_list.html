@@ -1,0 +1,68 @@
+{% load i18n %}
+{% extends "myghtyboard/wow/body.html" %}
+{% block content %}
+
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0" id="buttonstable">
+	<tr>
+		<td align="center" valign="middle" width="100%" id="header-buttons">
+			{% if perms.is_authenticated %}
+				 <a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a> | <a href="/forum/mytopics/">{% trans "My Topics" %}</a> | <a href="/forum/myptopics/">{% trans "My Posts" %}</a>
+			{% endif %}
+		</td>
+	</tr>
+	</table>
+	<table border="0" width="100%" cellspacing="0" cellpadding="0" class="content">
+	<tr>
+	<td class="content" valign="top">
+{% for cat in categories %}
+	<table width="100%" cellpadding="2" cellspacing="0" class="forumline">
+	<thead>
+		<caption><table border="0" cellspacing="0" cellpadding="0" width="100%" class="forumheader">
+		<tr>
+			<td align="left" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_left.gif" width="25" height="27" alt=""></td>
+			<td align="center" class="forumheader-mid">{{ cat.cat_name }}</td>
+			<td align="right" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_righ.gif" width="25" height="27" alt=""></td>
+		</tr></table></caption>
+	</thead>
+	<tbody>
+	<tr>
+		<th colspan="2">{% trans "Forum" %}</th>
+		<th width="50">{% trans "Topics" %}</th>
+		<th width="50">{% trans "Posts" %}</th>
+		<th>{% trans "Last Post" %}</th>
+	</tr>
+	
+	{% for forum in cat.forums %}
+	<tr>
+		<td class="row1" align="center" valign="middle" style="padding: 5px;"><img src="/site_media/myghtyboard/wow/images/folder_b.gif" width="25" height="25" alt="" title=""></td>
+		<td class="row1" width="100%"><span class="forumlink"> <a href="/forum/forum/{{ forum.id }}/" class="forumlink">{{ forum.forum_name }}</a><br>
+		</span> <span class="genmed">{{ forum.forum_description }}<br>
+		</span><span class="gensmall">&nbsp; &nbsp;</span></td>
+		<td class="row2" align="center" valign="middle"><span class="gensmall">{{ forum.forum_topics }}</span></td>
+		<td class="row2" align="center" valign="middle"><span class="gensmall">{{ forum.forum_posts }}</span></td>
+		<td class="row2" align="center" valign="middle" nowrap="nowrap"> <span class="gensmall">{{ forum.forum_lastpost }}</span></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table><br>
+	
+	{% endfor %}
+	<p align="right">
+	{% if perms.add_topic %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You can post new Topics" %}<br>
+	{% else %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif"> {% trans "You can't post new Topics" %}<br>
+	{% endif %}
+	{% if perms.add_post %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You can post new Posts" %}<br>
+	{% else %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif"> {% trans "You can't post new Posts" %}<br>
+	{% endif %}
+	{% if perms.is_staff %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost.gif"> {% trans "You are a Moderator" %}<br>
+	{% else %}
+		<img src="/site_media/myghtyboard/wow/images/icon_minipost_new.gif">  {% trans "You aren't a moderator" %}<br>
+	{% endif %}
+	</p>
+{% endblock %}

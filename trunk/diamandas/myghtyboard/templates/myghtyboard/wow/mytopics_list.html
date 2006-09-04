@@ -1,0 +1,45 @@
+{% load i18n %}
+{% extends "myghtyboard/wow/body.html" %}
+{% block content %}
+
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0" id="buttonstable">
+	<tr>
+		<td align="center" valign="middle" width="100%" id="header-buttons">
+			<a href="/forum/">{% trans "Forum Index" %}</a>
+		</td>
+	</tr>
+	</table>
+	<table border="0" width="100%" cellspacing="0" cellpadding="0" class="content">
+	<tr>
+	<td class="content" valign="top">
+	<table width="100%" cellpadding="2" cellspacing="0" class="forumline">
+	<thead>
+		<caption><table border="0" cellspacing="0" cellpadding="0" width="100%" class="forumheader">
+		<tr>
+			<td align="left" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_left.gif" width="25" height="27" alt=""></td>
+			<td align="center" class="forumheader-mid"><a href="/forum/">{% trans "Forum Index" %}</a></a></td>
+			<td align="right" valign="bottom" width="25"><img src="/site_media/myghtyboard/wow/images/hdr_righ.gif" width="25" height="27" alt=""></td>
+		</tr></table></caption>
+	</thead>
+	<tbody>
+	<tr>
+		<th colspan="2">{% trans "Topic Title" %}</th>
+		<th width="50">{% trans "Author" %}</th>
+		<th width="50">{% trans "Last Post" %}</th>
+		<th>{% trans "Posts" %}</th>
+	</tr>
+	
+{% for topic in topics %}
+<tr>
+	<td class="row1" align="center" valign="middle" style="padding: 5px;"><img src="/site_media/myghtyboard/wow/images/folder_b.gif" width="25" height="25" alt="" title=""></td>
+	<td class="row1" width="100%"><span class="forumlink"> <a href="/forum/topic/{{ topic.pagination_max }}/{{ topic.id }}/" class="forumlink">{{ topic.topic_name }}</a><br>
+	</span><span class="gensmall">&nbsp; &nbsp;</span></td>
+	<td class="row2" align="center" valign="middle"><span class="gensmall">{{ topic.topic_author }}<br>
+	</span></td>
+	<td class="row2" align="center" valign="middle"><span class="gensmall">{{ topic.topic_lastpost }}</span></td>
+	<td class="row2" align="center" valign="middle" nowrap="nowrap"> <span class="gensmall">{{ topic.topic_posts }}</span></td>
+</tr>
+{% endfor %}
+</tbody></table><br>
+{% endblock %}
