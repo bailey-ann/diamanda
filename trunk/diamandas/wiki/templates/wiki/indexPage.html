@@ -2,19 +2,23 @@
 {% load cbc %}
 {% extends "body.html" %}
 
-{% block upmenu %}<input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
+{% block upmenu %}
 <input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Edit Proposals" %}" onclick="location.assign('/wiki/proposals/');">
 {% if not is_authenticated %}
 <input type="button" value="{% trans "Login or Register" %}" onclick="location.assign('/wiki/user/');">
 {% else %}
 <input type="button" value="{% trans "Your Account" %}" onclick="location.assign('/wiki/user/');">
 {% endif %}
-<input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">
+<input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');"><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');">
 {% endblock %}
 
-{% block downmenu %}[<a href="/wiki/pdf/{{ page.slug }}/"><b>{% trans "Save as PDF" %}</b></a>] | [<a onclick="window.print()"><b>{% trans "Print Page" %}</b></a>] | [<a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a>]<br>
+{% block downmenu %}
+{% if pdf %}
+[<a href="/wiki/pdf/{{ page.slug }}/"><b>{% trans "Save as PDF" %}</b></a>] | 
+{% endif %}
+[<a onclick="window.print()"><b>{% trans "Print Page" %}</b></a>] | [<a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a>]<br>
 <input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Edit Proposals" %}" onclick="location.assign('/wiki/proposals/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Edit Proposals" %}" onclick="location.assign('/wiki/proposals/');"><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
 
 {% block header %}
 <div class="pagetitle"><h1 class="header">{{ page.title }}</h1></div>

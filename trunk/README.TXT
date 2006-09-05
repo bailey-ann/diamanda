@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 04.09.2006
+Diamanda Wiki SVN 06.09.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
@@ -45,6 +45,9 @@ ANONYMOUS_CAN_EDIT=True
 ANONYMOUS_CAN_ADD=True
 ANONYMOUS_CAN_VIEW=True
 ANONYMOUS_CAN_SET_CURENT=False
+
+# wiki config
+WIKI_USE_PDF = False # 'htmldoc' - uses htmldoc , False - no PDF generation
 
 # myghtyboard config
 ANONYMOUS_CAN_ADD_TOPIC=True

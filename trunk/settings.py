@@ -10,7 +10,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = 'test'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'django'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'root'             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -90,6 +90,9 @@ ANONYMOUS_CAN_EDIT=True
 ANONYMOUS_CAN_ADD=True
 ANONYMOUS_CAN_VIEW=True
 ANONYMOUS_CAN_SET_CURENT=False
+
+# wiki config
+WIKI_USE_PDF = False # 'htmldoc' - uses htmldoc , False - no PDF generation
 
 # myghtyboard config
 ANONYMOUS_CAN_ADD_TOPIC=True

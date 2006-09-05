@@ -3,9 +3,13 @@
 
 {% extends "body.html" %}
 {% block upmenu %}<input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
-{% block downmenu %}[<a href="/wiki/pdf/{{ page.slug }}/"><b>{% trans "Save as PDF" %}</b></a>] | [<a onclick="window.print()"><b>{% trans "Print Page" %}</b></a>]<br><input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');">{% endblock %}
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');"><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');">{% endblock %}
+{% block downmenu %}
+{% if pdf %}
+[<a href="/wiki/pdf/{{ page.slug }}/"><b>{% trans "Save as PDF" %}</b></a>] | 
+{% endif %}
+[<a onclick="window.print()"><b>{% trans "Print Page" %}</b></a>]<br><input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');"><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');">{% endblock %}
 
 {% block header %}
 <div class="pagetitle"><h1 class="header">{{ page.title }}</h1></div>

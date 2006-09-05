@@ -6,10 +6,6 @@ from django.conf import settings
 from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
 
-
-#####
-# i18n
-#####
 def users(request):
 	from django.contrib.auth import authenticate, login
 	if not request.user.is_authenticated():
@@ -90,6 +86,17 @@ def register(request):
 	else:
 		return render_to_response('wiki/register.html', {'hash': imghash})
 
+# Search using LIKE
+def search_pages(request):
+	if request.POST:
+		data = request.POST.copy()
+		if len(data['string']) > 3:
+			pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
+			return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string']})
+		else:
+			return render_to_response('wiki/search.html')
+	else:
+		return render_to_response('wiki/search.html')
 
 # List of categories and wiki pages
 def index(request):
@@ -139,10 +146,14 @@ def show_page(request, slug='index'):
 			page = Page.objects.get(slug__exact=slug)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		if (slug == 'index'):
-			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated() })
+		if settings.WIKI_USE_PDF:
+			pdf = True
 		else:
-			return render_to_response('wiki/page.html', {'page': page})
+			pdf = False
+		if (slug == 'index'):
+			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated(), 'pdf': pdf})
+		else:
+			return render_to_response('wiki/page.html', {'page': page, 'pdf': pdf})
 	else:
 		return render_to_response('wiki/noperm.html') # can't view page
 
@@ -151,7 +162,7 @@ def show_page(request, slug='index'):
 # using htmldoc
 def show_page_as_pdf(request, slug='index'):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
+	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') and settings.WIKI_USE_PDF == 'htmldoc' or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated() and settings.WIKI_USE_PDF == 'htmldoc':
 		try:
 			page = Page.objects.get(slug__exact=slug)
 		except Page.DoesNotExist:
@@ -323,7 +334,6 @@ def add_page(request, slug=''):
 			else:
 				errors = {}
 				page_data = {'slug': slug}
-			
 			form = forms.FormWrapper(manipulator, page_data, errors)
 			cbcdesc = Cbc.objects.all().order_by('tag')
 			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc})
