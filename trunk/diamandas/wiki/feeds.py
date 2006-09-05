@@ -1,7 +1,7 @@
 from wiki.models import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.contrib.syndication.feeds import Feed
-from django.contrib.sitemap import Sitemap
+from django.contrib.sitemaps import Sitemap
 from django.conf import settings
 
 class LatestPages(Feed):
