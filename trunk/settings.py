@@ -93,6 +93,9 @@ ANONYMOUS_CAN_SET_CURENT=False
 
 # wiki config
 WIKI_USE_PDF = False # 'htmldoc' - uses htmldoc , False - no PDF generation
+# if set to nonFalse API KEY "search" will allow also "Search this site with google"
+# requires pyGoogle, uses current SITE_ID domain name !!! example.com by default, change it to yours!
+WIKI_GOOGLE_SEARCH_API = False
 
 # myghtyboard config
 ANONYMOUS_CAN_ADD_TOPIC=True

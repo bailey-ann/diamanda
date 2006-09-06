@@ -16,11 +16,11 @@ def users(request):
 		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
 		imghash = sha.new(imgtext).hexdigest()
 		# create an image with the string
-		im=Image.open('/home/piotr/diamanda/media/bg.jpg')
+		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
 		draw=ImageDraw.Draw(im)
-		font=ImageFont.truetype("/home/piotr/diamanda/media/SHERWOOD.TTF", 18)
+		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-		im.save('/home/piotr/diamanda/media/bg2.jpg',"JPEG")
+		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
 		
 		# log in user
 		if request.POST:
@@ -60,11 +60,11 @@ def register(request):
 	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
 	imghash = sha.new(imgtext).hexdigest()
 	# create an image with the string
-	im=Image.open('/home/piotr/diamanda/media/bg.jpg')
+	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
 	draw=ImageDraw.Draw(im)
-	font=ImageFont.truetype("/home/piotr/diamanda/media/SHERWOOD.TTF", 18)
+	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-	im.save('/home/piotr/diamanda/media/bg2.jpg',"JPEG")
+	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
 
 	if request.POST:
 		data = request.POST.copy()
@@ -86,17 +86,31 @@ def register(request):
 	else:
 		return render_to_response('wiki/register.html', {'hash': imghash})
 
-# Search using LIKE
+# Search using LIKE and or google
 def search_pages(request):
+	if settings.WIKI_GOOGLE_SEARCH_API:
+		google = True
+	else:
+		google = False
 	if request.POST:
 		data = request.POST.copy()
 		if len(data['string']) > 3:
-			pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
-			return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string']})
+			if data.has_key('like'):
+				pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
+			else:
+				try:
+					import google
+					google.setLicense(settings.WIKI_GOOGLE_SEARCH_API)
+					pages = google.doGoogleSearch(data['string'] + ' site:' + str(Site.objects.get_current()))
+					pages = pages.results
+				except Exception:
+					return render_to_response('wiki/search.html', {'pages': False, 'string': data['string'], 'google': google})
+				else:
+					return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google})
 		else:
-			return render_to_response('wiki/search.html')
+			return render_to_response('wiki/search.html', {'google': google})
 	else:
-		return render_to_response('wiki/search.html')
+		return render_to_response('wiki/search.html', {'google': google})
 
 # List of categories and wiki pages
 def index(request):

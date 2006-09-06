@@ -29,6 +29,10 @@ class WikiCategory(models.Model):
 		verbose_name_plural = "Wiki Categories"
 	class Admin:
 		list_display = ('cat_name', 'cat_description', 'cat_parent')
+		fields = (
+		(None, {
+		'fields': ('cat_parent', 'cat_name', 'cat_depth', 'cat_description')
+		}),)
 	def __str__(self):
 		return self.cat_name
 
@@ -62,6 +66,10 @@ class News(models.Model):
 		list_filter = ['news_date']
 		search_fields = ['news_title', 'news_text']
 		date_hierarchy = 'news_date'
+		fields = (
+		(None, {
+		'fields': ('news_title', 'news_text', 'categories', 'news_date')
+		}),)
 	def __str__(self):
 		return self.news_title
 
