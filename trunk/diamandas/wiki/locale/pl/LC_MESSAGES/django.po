@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Diamanda Wiki\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-02 21:30+0200\n"
+"POT-Creation-Date: 2006-09-08 00:28+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:238
+#: views.py:264
 msgid "Restored version "
 msgstr "Przywrócona wersja"
 
-#: views.py:238
+#: views.py:264
 msgid " from Archive. ("
 msgstr "z Archiwum. ("
 
-#: views.py:278
+#: views.py:304
 msgid "Row"
 msgstr "Wiersz"
 
 #: templates/body.html:1 templates/wiki/add.html:7 templates/wiki/edit.html:4
 #: templates/wiki/edit.html.py:6 templates/wiki/page.html:6
-#: templates/wiki/page.html.py:8 templates/wiki/indexPage.html:6
-#: templates/wiki/indexPage.html.py:17 templates/wiki/page_history_list.html:4
+#: templates/wiki/page.html.py:12 templates/wiki/indexPage.html:6
+#: templates/wiki/indexPage.html.py:21 templates/wiki/page_history_list.html:4
 #: templates/wiki/page_history_list.html:6 templates/wiki/oldPage.html:5
 #: templates/wiki/oldPage.html.py:7 templates/wiki/diff.html:4
 #: templates/wiki/diff.html.py:6 templates/wiki/users.html:8
@@ -42,7 +42,7 @@ msgstr "Dodaj Stronę"
 #: templates/body.html:1 templates/wiki/add.html:3
 #: templates/wiki/add.html.py:4 templates/wiki/edit.html:4
 #: templates/wiki/edit.html.py:6 templates/wiki/page.html:6
-#: templates/wiki/page.html.py:8 templates/wiki/page_history_list.html:4
+#: templates/wiki/page.html.py:12 templates/wiki/page_history_list.html:4
 #: templates/wiki/page_history_list.html:6 templates/wiki/oldPage.html:5
 #: templates/wiki/oldPage.html.py:7 templates/wiki/diff.html:4
 #: templates/wiki/diff.html.py:6 templates/wiki/proposals.html:3
@@ -51,7 +51,8 @@ msgstr "Dodaj Stronę"
 #: templates/wiki/news_list_category.html:9
 #: templates/wiki/news_list_category.html:10 templates/wiki/users.html:8
 #: templates/wiki/users.html.py:9 templates/wiki/register.html:8
-#: templates/wiki/register.html.py:9
+#: templates/wiki/register.html.py:9 templates/wiki/search.html:3
+#: templates/wiki/search.html.py:4
 msgid "Main Page"
 msgstr "Strona Główna"
 
@@ -103,10 +104,10 @@ msgid "Back to Page"
 msgstr "Powrót do strony"
 
 #: templates/wiki/edit.html:3 templates/wiki/edit.html.py:5
-#: templates/wiki/page.html:5 templates/wiki/page.html.py:7
-#: templates/wiki/indexPage.html:5 templates/wiki/indexPage.html.py:16
-#: templates/wiki/oldPage.html:4 templates/wiki/oldPage.html.py:6
-#: templates/wiki/diff.html:3 templates/wiki/diff.html.py:5
+#: templates/wiki/page.html:5 templates/wiki/page.html.py:11
+#: templates/wiki/indexPage.html:20 templates/wiki/oldPage.html:4
+#: templates/wiki/oldPage.html.py:6 templates/wiki/diff.html:3
+#: templates/wiki/diff.html.py:5
 msgid "Page History"
 msgstr "Historia"
 
@@ -122,44 +123,48 @@ msgstr "Opis zmian"
 msgid "Save Changes"
 msgstr "Zapisz Zmiany"
 
-#: templates/wiki/page.html:5 templates/wiki/page.html.py:7
-#: templates/wiki/indexPage.html:5 templates/wiki/indexPage.html.py:16
-#: templates/wiki/page_history_list.html:3
+#: templates/wiki/page.html:5 templates/wiki/page.html.py:11
+#: templates/wiki/indexPage.html:20 templates/wiki/page_history_list.html:3
 #: templates/wiki/page_history_list.html:5
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/wiki/page.html:6 templates/wiki/page.html.py:8
-#: templates/wiki/indexPage.html:12 templates/wiki/indexPage.html.py:17
+#: templates/wiki/page.html:6 templates/wiki/page.html.py:12
+#: templates/wiki/indexPage.html:12 templates/wiki/indexPage.html.py:21
 #: templates/wiki/users.html:8 templates/wiki/users.html.py:9
 #: templates/wiki/register.html:8 templates/wiki/register.html.py:9
 msgid "Sitemap"
 msgstr "Mapa Serwisu"
 
-#: templates/wiki/page.html:7 templates/wiki/indexPage.html:15
+#: templates/wiki/page.html:6 templates/wiki/page.html.py:12
+#: templates/wiki/indexPage.html:12 templates/wiki/indexPage.html.py:21
+msgid "Search"
+msgstr "Szukaj"
+
+#: templates/wiki/page.html:9 templates/wiki/indexPage.html:17
 msgid "Save as PDF"
 msgstr "Zapisz jako PDF"
 
-#: templates/wiki/page.html:7 templates/wiki/indexPage.html:15
+#: templates/wiki/page.html:11 templates/wiki/indexPage.html:19
 msgid "Print Page"
 msgstr "Drukuj Stronę"
 
-#: templates/wiki/page.html:20 templates/wiki/oldPage.html:16
+#: templates/wiki/page.html:24 templates/wiki/oldPage.html:16
 #: templates/wiki/pdfpage.html:16
 msgid "Page Added"
 msgstr "Strona Dodana"
 
-#: templates/wiki/page.html:20 templates/wiki/oldPage.html:16
+#: templates/wiki/page.html:24 templates/wiki/oldPage.html:16
 #: templates/wiki/pdfpage.html:16
 msgid "Page Last Modification"
 msgstr "Ostatnia Modyfikacja"
 
-#: templates/wiki/page.html:20 templates/wiki/page_history_list.html:16
+#: templates/wiki/page.html:24 templates/wiki/page_history_list.html:16
 #: templates/wiki/oldPage.html:16 templates/wiki/pdfpage.html:16
 msgid "Changes"
 msgstr "Zmiany"
 
-#: templates/wiki/indexPage.html:6 templates/wiki/indexPage.html.py:17
+#: templates/wiki/indexPage.html:6 templates/wiki/indexPage.html.py:21
 msgid "Edit Proposals"
 msgstr "Propozycja Zmian"
 
@@ -171,7 +176,7 @@ msgstr "Zaloguj się lub Zarejestruj"
 msgid "Your Account"
 msgstr "Twoje Konto"
 
-#: templates/wiki/indexPage.html:15
+#: templates/wiki/indexPage.html:19
 msgid "sitemap.xml"
 msgstr "sitemap.xml"
 
@@ -308,6 +313,14 @@ msgstr "- Nie możesz edytować Stron"
 msgid "- Your edits will be displayed without delay"
 msgstr "- Zmiany wprowadzone przez ciebie ukażą się na stronie bez opóźnień"
 
+#: templates/wiki/users.html:52
+msgid ""
+"- Your edits will be marked as Edit Proposals and won't appear on the wiki "
+"until the site staff won't review your changes."
+msgstr ""
+"- Twoje edycje zostaną oznaczone jako Propozycje Zmian i nie będą widoczne "
+"na stronie dopuki nie zostaną zatwierdzone przez admina."
+
 #: templates/wiki/users.html:55
 msgid "Log Out"
 msgstr "Wyloguj"
@@ -347,3 +360,11 @@ msgstr "wymagane, twój adres email"
 #: templates/wiki/register.html:43
 msgid "Register My"
 msgstr "Zarejestruj Mnie"
+
+#: templates/wiki/search.html:7
+msgid "Plain Search"
+msgstr "Proste wyszukiwanie"
+
+#: templates/wiki/search.html:9
+msgid "Search This Site with Google"
+msgstr "Szukaj z pomocą Google"

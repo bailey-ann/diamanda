@@ -97,6 +97,7 @@ def search_pages(request):
 		if len(data['string']) > 3:
 			if data.has_key('like'):
 				pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
+				return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google})
 			else:
 				try:
 					import google
