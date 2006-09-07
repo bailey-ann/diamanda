@@ -166,7 +166,7 @@ msgstr "Zmiany"
 
 #: templates/wiki/indexPage.html:6 templates/wiki/indexPage.html.py:21
 msgid "Edit Proposals"
-msgstr "Propozycja Zmian"
+msgstr "Propozycje Zmian"
 
 #: templates/wiki/indexPage.html:8
 msgid "Login or Register"
