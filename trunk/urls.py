@@ -18,5 +18,5 @@ urlpatterns = patterns('',
 (r'^/?$', 'wiki.views.show_page'), # wiki main page under /
 (r'^wiki/', include('wiki.URLconf')), # wiki
 (r'^wiki/feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}), # wiki feeds
-(r'^wiki/sitemap.xml$', 'django.contrib.sitemap.views.sitemap', {'sitemaps': sitemaps}), # wikiPages sitemap
+(r'^wiki/sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}), # wikiPages sitemap
 )

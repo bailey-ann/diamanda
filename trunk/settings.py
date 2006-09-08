@@ -104,7 +104,7 @@ MYGHTYBOARD_THEME='aeolus'
 MYGHTYBOARD_LANG='english'
 
 # thumb CBC
-SITE_IMAGES_DIR_PATH = '/home/piotr/diamanda/media/images/'
+SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
 
 # Other
