@@ -31,7 +31,7 @@ class LatestNewsByCategory(Feed):
 	def item_link(self):
 		return ''
 	def items(self, obj):
-		category = Category.objects.get(id=obj)
+		category = WikiCategory.objects.get(id=obj)
 		return category.news_set.all().order_by('-news_date')[:10]
 
 class Wiki(Sitemap):

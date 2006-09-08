@@ -1,9 +1,8 @@
 from wiki.models import *
 def render(dic, text):
 	for i in dic:
-		category = Category.objects.get(cat_name=i['attributes']['name'])
+		category = WikiCategory.objects.get(cat_name=i['attributes']['name'])
 		tree = ''
-		
 		news = category.news_set.all()[:5]
 		if len(news) > 0:
 			tree = tree +'<div style="padding-left:5px; padding-bottom:3px;">'
