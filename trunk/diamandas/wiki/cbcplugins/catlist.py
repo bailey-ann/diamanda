@@ -1,8 +1,11 @@
 from wiki.models import *
 def render(dic, text):
 	for i in dic:
-		category = WikiCategory.objects.get(cat_name=i['attributes']['name'])
-		tree = '<br><img src="/site_media/wiki/img/category.png"> <b>' + i['attributes']['name'] + '</b>'
+		if i['attributes'].has_key('name'):
+			category = WikiCategory.objects.get(cat_name=i['attributes']['name'])
+		else:
+			category = WikiCategory.objects.get(id=i['attributes']['id'])
+		tree = '<br><img src="/site_media/wiki/img/category.png"> <b>' + str(category) + '</b>'
 		if category.cat_description:
 			tree = tree + ' - ' + str(category.cat_description)
 		pages = category.page_set.all()
