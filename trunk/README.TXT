@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 06.09.2006
+Diamanda Wiki SVN 09.09.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
@@ -11,8 +11,9 @@ Instalation:
 - edit urls.py and change the site_media path '/home/piotr/diamanda/media' to that on your computer:
 (r'^site_media/(.*)$', 'django.views.static.serve', {'document_root': '/path/here'}),
 
-- create tables (sqlite3 by default):
+- create tables (check DB in settings.py) and populate the data:
 python manage.py syncdb
+python install.py
 
 - create a superuser when creating tables!
 
