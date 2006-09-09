@@ -131,9 +131,9 @@ def add_topic(request, forum_id):
 			import re
 			import base64
 			from datetime import datetime
-			tags = re.findall( r'(?xs)\[\s*rk:source\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:source\]''', page_data['text'], re.MULTILINE)
+			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], re.MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[rk:source '+i[0]+']'+i[1]+'[/rk:source]', '[rk:source '+i[0]+']'+base64.b64encode(i[1])+'[/rk:source]')
+				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			text = page_data['text']
 			del page_data['text']
@@ -184,10 +184,10 @@ def add_post(request, topic_id, post_id = False):
 				
 				import re
 				import base64
-				tags = re.findall( r'(?xs)\[\s*rk:source\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:source\]''', page_data['post_text'], re.MULTILINE)
+				tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
 				from datetime import datetime
 				for i in tags:
-					page_data['post_text'] = page_data['post_text'].replace('[rk:source '+i[0]+']'+i[1]+'[/rk:source]', '[rk:source '+i[0]+']'+base64.b64encode(i[1])+'[/rk:source]')
+					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 				page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 				
 				page_data['post_ip'] = request.META['REMOTE_ADDR']
@@ -221,9 +221,9 @@ def add_post(request, topic_id, post_id = False):
 					# decode rk:source code
 					import re
 					import base64
-					tags = re.findall( r'(?xs)\[\s*rk:source\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:source\]''', quote.post_text, re.MULTILINE)
+					tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', quote.post_text, re.MULTILINE)
 					for i in tags:
-						quote.post_text = quote.post_text.replace('[rk:source '+i[0]+']'+i[1]+'[/rk:source]', '[rk:source '+i[0]+']'+base64.b64decode(i[1])+'[/rk:source]')
+						quote.post_text = quote.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
 					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br><cite>' + quote.post_text + '</cite></blockquote>\n'
 				else:
 					quote_text = ''
@@ -247,10 +247,10 @@ def edit_post(request, post_id):
 			
 			import re
 			import base64
-			tags = re.findall( r'(?xs)\[\s*rk:source\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:source\]''', page_data['post_text'], re.MULTILINE)
+			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], re.MULTILINE)
 			from datetime import datetime
 			for i in tags:
-				page_data['post_text'] = page_data['post_text'].replace('[rk:source '+i[0]+']'+i[1]+'[/rk:source]', '[rk:source '+i[0]+']'+base64.b64encode(i[1])+'[/rk:source]')
+				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 			page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			
 			post.post_text = page_data['post_text']
@@ -266,9 +266,9 @@ def edit_post(request, post_id):
 			# decode rk:source code
 			import re
 			import base64
-			tags = re.findall( r'(?xs)\[\s*rk:source\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:source\]''', post.post_text, re.MULTILINE)
+			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', post.post_text, re.MULTILINE)
 			for i in tags:
-				post.post_text = post.post_text.replace('[rk:source '+i[0]+']'+i[1]+'[/rk:source]', '[rk:source '+i[0]+']'+base64.b64decode(i[1])+'[/rk:source]')
+				post.post_text = post.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/edit_post.html', {'post_text': post.post_text, 'lang': settings.MYGHTYBOARD_LANG})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You can\'t edit this post')}) # can't edit post
