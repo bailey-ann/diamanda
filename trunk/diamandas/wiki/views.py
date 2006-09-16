@@ -113,21 +113,11 @@ def search_pages(request):
 	else:
 		return render_to_response('wiki/search.html', {'google': google})
 
-# List of categories and wiki pages
 def index(request):
-	categories = WikiCategory.objects.all()
+	pages = Page.objects.all()
 	tree = ''
-	for cat in categories:
-		tree = tree +'<div style="padding-left:'+ str(int(cat.cat_depth)*20) +'px;"><img src="/site_media/wiki/img/category.png"> <b>' + str(cat) + '</b>'
-		if cat.cat_description:
-			tree = tree + ' - ' + str(cat.cat_description)
-		pages = cat.page_set.all()
-		if len(pages) > 0:
-			tree = tree +'<div style="padding-left:5px; padding-bottom:3px;">'
-			for page in pages:
-				tree = tree + '<img src="/site_media/wiki/img/2.png"> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br>'
-			tree = tree + '</div>'
-		tree = tree + '</div>';
+	for page in pages:
+		tree = tree + '<img src="/site_media/wiki/img/2.png"> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br>'
 	return render_to_response('wiki/main.html', {'tree': tree})
 
 # show all edit proposals
