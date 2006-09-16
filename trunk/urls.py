@@ -3,8 +3,6 @@ from wiki.feeds import *
 # feeds for wikiPages and wikiNews
 feeds = {
     'latestpages': LatestPages,
-    'latestnews': LatestNews,
-    'latestnewsbycategory': LatestNewsByCategory,
 }
 
 sitemaps = {

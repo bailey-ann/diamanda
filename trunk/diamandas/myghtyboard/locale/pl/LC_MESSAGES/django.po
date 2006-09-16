@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MyghtyBoard\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-08 00:28+0000\n"
+"POT-Creation-Date: 2006-09-16 21:54+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,272 +15,281 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:72 views.py:89 views.py:110
-#: templates/myghtyboard/aeolus/category_list.html:7
-#: templates/myghtyboard/wow/category_list.html:10
+#: views.py:74 views.py:91 views.py:112
+#: templates/myghtyboard/CrystalClear/category_list.html:7
 msgid "My Topics"
 msgstr "Moje Tematy"
 
-#: views.py:75 views.py:92 views.py:113
+#: views.py:77 views.py:94 views.py:115
 msgid "You aren't logged in"
 msgstr "Nie jesteś zalogowany"
 
-#: views.py:161
+#: views.py:168
 msgid "You can't add topics"
 msgstr "Nie możesz dodawać nowych tematów"
 
-#: views.py:177
+#: views.py:177 views.py:248
+msgid "Topic is closed"
+msgstr "Temat zamknięty"
+
+#: views.py:187
 msgid "You can't post after your post"
 msgstr "Nie możesz dodawać postów po sobie"
 
-#: views.py:229
+#: views.py:241
 msgid "You can't add posts"
 msgstr "Nie możesz dodawać postów"
 
-#: views.py:271
+#: views.py:286
 msgid "You can't edit this post"
 msgstr "Nie możesz edytować tego posta"
 
-#: views.py:281 views.py:294
-#: templates/myghtyboard/aeolus/category_list.html:50
-#: templates/myghtyboard/wow/category_list.html:65
+#: views.py:296 views.py:309 views.py:323 views.py:336
+#: templates/myghtyboard/CrystalClear/category_list.html:66
 msgid "You aren't a moderator"
 msgstr "Nie jesteś moderatorem"
 
-#: views.py:283 views.py:296
+#: views.py:298 views.py:311 views.py:325 views.py:338
 msgid "You aren't a moderator and you aren't logged in"
 msgstr "Nie jesteś moderatorem i nie jesteś zalogowany"
 
-#: templates/myghtyboard/aeolus/category_list.html:7
-#: templates/myghtyboard/wow/category_list.html:10
+#: templates/myghtyboard/CrystalClear/category_list.html:7
 msgid "Last Active Topics"
 msgstr "Ostatnie Aktywne Tematy"
 
-#: templates/myghtyboard/aeolus/category_list.html:7
-#: templates/myghtyboard/wow/category_list.html:10
+#: templates/myghtyboard/CrystalClear/category_list.html:7
 msgid "My Posts"
 msgstr "Moje Posty"
 
-#: templates/myghtyboard/aeolus/category_list.html:15
-#: templates/myghtyboard/wow/category_list.html:30
+#: templates/myghtyboard/CrystalClear/category_list.html:18
 msgid "Forum"
 msgstr "Forum"
 
-#: templates/myghtyboard/aeolus/category_list.html:16
-#: templates/myghtyboard/wow/category_list.html:31
+#: templates/myghtyboard/CrystalClear/category_list.html:19
 msgid "Topics"
 msgstr "Tematów"
 
-#: templates/myghtyboard/aeolus/category_list.html:17
-#: templates/myghtyboard/aeolus/topics_list.html:12
-#: templates/myghtyboard/aeolus/mytopics_list.html:12
-#: templates/myghtyboard/wow/category_list.html:32
-#: templates/myghtyboard/wow/topics_list.html:30
-#: templates/myghtyboard/wow/mytopics_list.html:30
+#: templates/myghtyboard/CrystalClear/category_list.html:20
+#: templates/myghtyboard/CrystalClear/topics_list.html:14
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:14
 msgid "Posts"
 msgstr "Postów"
 
-#: templates/myghtyboard/aeolus/category_list.html:18
-#: templates/myghtyboard/aeolus/topics_list.html:11
-#: templates/myghtyboard/aeolus/mytopics_list.html:11
-#: templates/myghtyboard/wow/category_list.html:33
-#: templates/myghtyboard/wow/topics_list.html:29
-#: templates/myghtyboard/wow/mytopics_list.html:29
+#: templates/myghtyboard/CrystalClear/category_list.html:21
+#: templates/myghtyboard/CrystalClear/topics_list.html:15
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:15
 msgid "Last Post"
 msgstr "Ostatni Post"
 
-#: templates/myghtyboard/aeolus/category_list.html:38
-#: templates/myghtyboard/aeolus/topics_list.html:35
-#: templates/myghtyboard/aeolus/post_list.html:90
-#: templates/myghtyboard/wow/category_list.html:53
-#: templates/myghtyboard/wow/topics_list.html:53
-#: templates/myghtyboard/wow/post_list.html:90
+#: templates/myghtyboard/CrystalClear/category_list.html:54
+#: templates/myghtyboard/CrystalClear/topics_list.html:68
+#: templates/myghtyboard/CrystalClear/post_list.html:80
 msgid "You can post new Topics"
 msgstr "Możesz dodawać nowe Tematy"
 
-#: templates/myghtyboard/aeolus/category_list.html:40
-#: templates/myghtyboard/aeolus/topics_list.html:37
-#: templates/myghtyboard/aeolus/post_list.html:92
-#: templates/myghtyboard/wow/category_list.html:55
-#: templates/myghtyboard/wow/topics_list.html:55
-#: templates/myghtyboard/wow/post_list.html:92
+#: templates/myghtyboard/CrystalClear/category_list.html:56
+#: templates/myghtyboard/CrystalClear/topics_list.html:70
+#: templates/myghtyboard/CrystalClear/post_list.html:82
 msgid "You can't post new Topics"
 msgstr "Nie możesz dodawać nowych Tematów"
 
-#: templates/myghtyboard/aeolus/category_list.html:43
-#: templates/myghtyboard/aeolus/topics_list.html:40
-#: templates/myghtyboard/aeolus/post_list.html:95
-#: templates/myghtyboard/wow/category_list.html:58
-#: templates/myghtyboard/wow/topics_list.html:58
-#: templates/myghtyboard/wow/post_list.html:95
+#: templates/myghtyboard/CrystalClear/category_list.html:59
+#: templates/myghtyboard/CrystalClear/topics_list.html:73
+#: templates/myghtyboard/CrystalClear/post_list.html:86
 msgid "You can post new Posts"
 msgstr "Możesz dodawać nowe Posty"
 
-#: templates/myghtyboard/aeolus/category_list.html:45
-#: templates/myghtyboard/aeolus/topics_list.html:42
-#: templates/myghtyboard/aeolus/post_list.html:97
-#: templates/myghtyboard/wow/category_list.html:60
-#: templates/myghtyboard/wow/topics_list.html:60
-#: templates/myghtyboard/wow/post_list.html:97
+#: templates/myghtyboard/CrystalClear/category_list.html:61
+#: templates/myghtyboard/CrystalClear/topics_list.html:75
+#: templates/myghtyboard/CrystalClear/post_list.html:88
+#: templates/myghtyboard/CrystalClear/post_list.html:91
 msgid "You can't post new Posts"
 msgstr "Nie możesz dodawać nowych postów"
 
-#: templates/myghtyboard/aeolus/category_list.html:48
-#: templates/myghtyboard/wow/category_list.html:63
+#: templates/myghtyboard/CrystalClear/category_list.html:64
 msgid "You are a Moderator"
 msgstr "Jesteś moderatorem"
 
-#: templates/myghtyboard/aeolus/topics_list.html:7
-#: templates/myghtyboard/aeolus/post_list.html:9
-#: templates/myghtyboard/aeolus/mytopics_list.html:7
-#: templates/myghtyboard/wow/topics_list.html:9
-#: templates/myghtyboard/wow/topics_list.html:21
-#: templates/myghtyboard/wow/post_list.html:10
-#: templates/myghtyboard/wow/post_list.html:22
-#: templates/myghtyboard/wow/mytopics_list.html:9
-#: templates/myghtyboard/wow/mytopics_list.html:21
+#: templates/myghtyboard/CrystalClear/topics_list.html:4
+#: templates/myghtyboard/CrystalClear/topics_list.html:64
+msgid "Add New Topic"
+msgstr "Dodaj Nowy Temat"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:6
+#: templates/myghtyboard/CrystalClear/add_topic.html:6
+#: templates/myghtyboard/CrystalClear/post_list.html:24
+#: templates/myghtyboard/CrystalClear/add_post.html:4
+#: templates/myghtyboard/CrystalClear/edit_post.html:4
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:6
 msgid "Forum Index"
 msgstr "Indeks Forum"
 
-#: templates/myghtyboard/aeolus/topics_list.html:9
-#: templates/myghtyboard/aeolus/mytopics_list.html:9
+#: templates/myghtyboard/CrystalClear/topics_list.html:12
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:12
 msgid "Topic"
 msgstr "Temat"
 
-#: templates/myghtyboard/aeolus/topics_list.html:10
-#: templates/myghtyboard/aeolus/mytopics_list.html:10
-#: templates/myghtyboard/wow/topics_list.html:28
-#: templates/myghtyboard/wow/post_list.html:29
-#: templates/myghtyboard/wow/mytopics_list.html:28
+#: templates/myghtyboard/CrystalClear/topics_list.html:13
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:13
 msgid "Author"
 msgstr "Autor"
 
-#: templates/myghtyboard/aeolus/topics_list.html:22
-#: templates/myghtyboard/aeolus/mytopics_list.html:22
-#: templates/myghtyboard/wow/topics_list.html:40
+#: templates/myghtyboard/CrystalClear/topics_list.html:42
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:28
 msgid "Delete this Topic and all Posts?"
 msgstr "Skasować Temat i wszystkie jego posty?"
 
-#: templates/myghtyboard/aeolus/topics_list.html:22
-#: templates/myghtyboard/aeolus/post_list.html:26
-#: templates/myghtyboard/aeolus/mytopics_list.html:22
-#: templates/myghtyboard/wow/post_list.html:61
-msgid "Delete this post"
-msgstr "Skasować post"
+#: templates/myghtyboard/CrystalClear/topics_list.html:42
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:28
+msgid "Delete Topic"
+msgstr "Skasuj Temat"
 
-#: templates/myghtyboard/aeolus/topics_list.html:45
-#: templates/myghtyboard/wow/topics_list.html:63
+#: templates/myghtyboard/CrystalClear/topics_list.html:44
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:30
+msgid "Open This Topic?"
+msgstr "Otworzyć Temat?"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:44
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:30
+msgid "Unlock Topic"
+msgstr "Otwórz Temat"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:46
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:32
+msgid "Close This Topic?"
+msgstr "Zamknąć Temat?"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:46
+#: templates/myghtyboard/CrystalClear/mytopics_list.html:32
+msgid "Lock Topic"
+msgstr "Zamknij Temat"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:78
 msgid "You can moderate this Topics"
 msgstr "Możesz moderować ten Temat"
 
-#: templates/myghtyboard/aeolus/topics_list.html:47
-#: templates/myghtyboard/wow/topics_list.html:65
+#: templates/myghtyboard/CrystalClear/topics_list.html:80
 msgid "You can't moderate this Topics"
 msgstr "Nie możeszesz moderować tego Tematu"
 
-#: templates/myghtyboard/aeolus/add_topic.html:5
-#: templates/myghtyboard/aeolus/add_topic.html:38
-#: templates/myghtyboard/wow/add_topic.html:8
-#: templates/myghtyboard/wow/add_topic.html:20
-#: templates/myghtyboard/wow/add_topic.html:63
+#: templates/myghtyboard/CrystalClear/add_topic.html:7
+#: templates/myghtyboard/CrystalClear/add_topic.html:53
 msgid "Add Topic"
 msgstr "Dodaj Temat"
 
-#: templates/myghtyboard/aeolus/add_topic.html:13
-#: templates/myghtyboard/wow/add_topic.html:38
+#: templates/myghtyboard/CrystalClear/add_topic.html:11
 msgid "Title"
 msgstr "Tytuł"
 
-#: templates/myghtyboard/aeolus/add_topic.html:17
+#: templates/myghtyboard/CrystalClear/add_topic.html:15
 msgid "Text"
 msgstr "Treść"
 
-#: templates/myghtyboard/aeolus/add_topic.html:19
-#: templates/myghtyboard/aeolus/add_post.html:13
-#: templates/myghtyboard/aeolus/edit_post.html:14
-#: templates/myghtyboard/wow/add_topic.html:44
-#: templates/myghtyboard/wow/add_post.html:38
-#: templates/myghtyboard/wow/edit_post.html:39
+#: templates/myghtyboard/CrystalClear/add_topic.html:16
+#: templates/myghtyboard/CrystalClear/add_post.html:8
+#: templates/myghtyboard/CrystalClear/edit_post.html:10
+msgid "Bold"
+msgstr "Pogrubienie"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:17
+#: templates/myghtyboard/CrystalClear/add_post.html:9
+#: templates/myghtyboard/CrystalClear/edit_post.html:11
+msgid "Italic"
+msgstr "Kursywa"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:18
+#: templates/myghtyboard/CrystalClear/add_topic.html:19
+#: templates/myghtyboard/CrystalClear/add_post.html:10
+#: templates/myghtyboard/CrystalClear/add_post.html:11
+#: templates/myghtyboard/CrystalClear/edit_post.html:12
+#: templates/myghtyboard/CrystalClear/edit_post.html:13
+msgid "Underline"
+msgstr "Podkreślenie"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:20
+#: templates/myghtyboard/CrystalClear/add_post.html:12
+#: templates/myghtyboard/CrystalClear/edit_post.html:14
+msgid "Blockquote"
+msgstr "Blok wcięcia"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:21
+#: templates/myghtyboard/CrystalClear/add_post.html:13
+#: templates/myghtyboard/CrystalClear/edit_post.html:15
+msgid "Code Here"
+msgstr "Tutaj Kod"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:21
+#: templates/myghtyboard/CrystalClear/add_post.html:13
+#: templates/myghtyboard/CrystalClear/edit_post.html:15
 msgid "Code"
 msgstr "Kod"
 
-#: templates/myghtyboard/aeolus/add_topic.html:40
-#: templates/myghtyboard/aeolus/add_post.html:31
-#: templates/myghtyboard/aeolus/edit_post.html:31
-#: templates/myghtyboard/wow/add_topic.html:65
-#: templates/myghtyboard/wow/add_post.html:56
-#: templates/myghtyboard/wow/edit_post.html:56
+#: templates/myghtyboard/CrystalClear/add_topic.html:41
+msgid "Sticky"
+msgstr "Przyklejony"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:46
+msgid "Global"
+msgstr "Globalny"
+
+#: templates/myghtyboard/CrystalClear/add_topic.html:55
+#: templates/myghtyboard/CrystalClear/add_post.html:31
+#: templates/myghtyboard/CrystalClear/edit_post.html:32
 msgid "Allowed HTML Tags"
 msgstr "Dozwolone tagi HTML"
 
-#: templates/myghtyboard/aeolus/post_list.html:14
-#: templates/myghtyboard/wow/post_list.html:49
-msgid "Reply with quote"
-msgstr "Cytuj"
-
-#: templates/myghtyboard/aeolus/post_list.html:18
-#: templates/myghtyboard/aeolus/post_list.html:21
-#: templates/myghtyboard/wow/post_list.html:53
-#: templates/myghtyboard/wow/post_list.html:56
-msgid "Edit this post"
-msgstr "Edytuj ten post"
-
-#: templates/myghtyboard/aeolus/post_list.html:26
-#: templates/myghtyboard/wow/post_list.html:61
-msgid "Delete This Post?"
-msgstr "Skasować ten post?"
-
-#: templates/myghtyboard/aeolus/post_list.html:82
-#: templates/myghtyboard/wow/post_list.html:82
+#: templates/myghtyboard/CrystalClear/post_list.html:11
+#: templates/myghtyboard/CrystalClear/post_list.html:72
 msgid "Previous Page"
 msgstr "Poprzednia strona"
 
-#: templates/myghtyboard/aeolus/post_list.html:85
-#: templates/myghtyboard/wow/post_list.html:85
+#: templates/myghtyboard/CrystalClear/post_list.html:14
+#: templates/myghtyboard/CrystalClear/post_list.html:75
 msgid "Next Page"
 msgstr "Następna Strona"
 
-#: templates/myghtyboard/aeolus/post_list.html:100
-#: templates/myghtyboard/wow/post_list.html:100
-msgid "You can moderate this Topic"
-msgstr "Możesz moderować ten Temat"
-
-#: templates/myghtyboard/aeolus/post_list.html:102
-#: templates/myghtyboard/wow/post_list.html:102
-msgid "You can't moderate this Topic"
-msgstr "Nie możesz moderować tego Tematu"
-
-#: templates/myghtyboard/aeolus/add_post.html:5
-#: templates/myghtyboard/aeolus/add_post.html:29
-#: templates/myghtyboard/wow/add_post.html:8
-#: templates/myghtyboard/wow/add_post.html:20
-#: templates/myghtyboard/wow/add_post.html:54
+#: templates/myghtyboard/CrystalClear/post_list.html:19
+#: templates/myghtyboard/CrystalClear/post_list.html:66
+#: templates/myghtyboard/CrystalClear/add_post.html:5
+#: templates/myghtyboard/CrystalClear/add_post.html:29
 msgid "Add Post"
 msgstr "Dodaj Post"
 
-#: templates/myghtyboard/aeolus/edit_post.html:5
-#: templates/myghtyboard/wow/edit_post.html:8
-#: templates/myghtyboard/wow/edit_post.html:20
+#: templates/myghtyboard/CrystalClear/post_list.html:43
+msgid "Reply with quote"
+msgstr "Cytuj"
+
+#: templates/myghtyboard/CrystalClear/post_list.html:46
+#: templates/myghtyboard/CrystalClear/post_list.html:49
+msgid "Edit this post"
+msgstr "Edytuj ten post"
+
+#: templates/myghtyboard/CrystalClear/post_list.html:53
+msgid "Delete This Post?"
+msgstr "Skasować ten post?"
+
+#: templates/myghtyboard/CrystalClear/post_list.html:53
+msgid "Delete this post"
+msgstr "Skasować post"
+
+#: templates/myghtyboard/CrystalClear/post_list.html:94
+msgid "You can moderate this Topic"
+msgstr "Możesz moderować ten Temat"
+
+#: templates/myghtyboard/CrystalClear/post_list.html:96
+msgid "You can't moderate this Topic"
+msgstr "Nie możesz moderować tego Tematu"
+
+#: templates/myghtyboard/CrystalClear/edit_post.html:5
 msgid "Edit Post"
 msgstr "Edytuj Post"
 
-#: templates/myghtyboard/aeolus/noperm.html:9
-#: templates/myghtyboard/wow/noperm.html:9
+#: templates/myghtyboard/CrystalClear/noperm.html:14
 msgid "Permission Denied"
 msgstr "Brak Uprawnień"
 
-#: templates/myghtyboard/wow/topics_list.html:27
-#: templates/myghtyboard/wow/mytopics_list.html:27
-msgid "Topic Title"
-msgstr "Tytuł Tematu"
+#~ msgid "Message"
+#~ msgstr "Treść"
 
-#: templates/myghtyboard/wow/add_topic.html:27
-#: templates/myghtyboard/wow/post_list.html:30
-#: templates/myghtyboard/wow/add_post.html:27
-#: templates/myghtyboard/wow/edit_post.html:27
-msgid "Message"
-msgstr "Treść"
-
-#: templates/myghtyboard/wow/edit_post.html:54
-msgid "Save Changes"
-msgstr "Zapisz Zmiany"
+#~ msgid "Save Changes"
+#~ msgstr "Zapisz Zmiany"

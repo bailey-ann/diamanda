@@ -23,7 +23,13 @@
 
 <tr><td><p>
     <label for="id_address">{% trans "Content" %}:</td><td>
-	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[rk:syntax lang=\"python\"][/rk:syntax]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[rk:syntax lang=\"python\"][/rk:syntax]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a>
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" border="0"></a> 
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a> 
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a>
+	<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'><img src="/site_media/wiki/editor/block.png" title="{% trans "Blockquote" %}" alt="{% trans "Blockquote" %}" border="0"></a>
+	 
 	<br>
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0" /></a> 
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0" /></a> 
@@ -41,10 +47,6 @@
 <tr><td><p>
     {% trans "Summary of changes" %}:</td><td> {{ form.changes }}
     {% if form.changes.errors %}<br>*** {{ form.changes.errors|join:", " }}{% endif %}
-</p></td></tr>
-<tr><td><p>
-    <label for="id_city">{% trans "Categories" %}:</td><td> {{ form.categories }}
-    {% if form.categories.errors %}<br>*** {{ form.categories.errors|join:", " }}{% endif %}
 </p></td></tr>
 </table>
 <center><input type="submit" value="{% trans "Save Changes" %}" class="actiontable" /></center>

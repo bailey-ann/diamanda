@@ -17,8 +17,5 @@ urlpatterns = patterns('wiki',
 (r'^history/(?P<slug>[\w\-_]+)/$', 'views.show_page_history_list'),
 (r'^add/$', 'views.add_page'),
 (r'^search/$', 'views.search_pages'),
-(r'^edit/(?P<slug>[\w\-_]+)/$', 'views.edit_page'),
-(r'^news/$', 'views.list_news', {'pagination_id': '1'}),
-(r'^news/(?P<pagination_id>[0-9]+)/$', 'views.list_news'),
-(r'^news/(?P<pagination_id>[0-9]+)/(?P<category_id>[0-9]+)/$', 'views.list_news_from_category'),
+(r'^edit/(?P<slug>[\w\-_]+)/$', 'views.edit_page')
 )

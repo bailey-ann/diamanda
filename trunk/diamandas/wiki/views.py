@@ -419,14 +419,3 @@ def edit_page(request, slug):
 		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc})
 	else:
 		return render_to_response('wiki/noperm.html') # can't view page
-
-# List news
-def list_news(request, pagination_id):
-	from django.views.generic.list_detail import object_list
-	return object_list(request, News.objects.all().order_by('-news_date'), paginate_by = 5, page = pagination_id)
-
-# List news from category
-def list_news_from_category(request, category_id, pagination_id):
-	from django.views.generic.list_detail import object_list
-	category = WikiCategory.objects.get(id=category_id)
-	return object_list(request, category.news_set.all().order_by('-news_date'), template_name = 'wiki/news_list_category.html', paginate_by = 5, page = pagination_id, extra_context = {'category_id':category_id, 'category': category.cat_name})

@@ -7,7 +7,12 @@
 <form method="post" action=".">
 
 
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code][/code]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" border="0"></a> 
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a> 
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'><img src="/site_media/wiki/editor/block.png" title="{% trans "Blockquote" %}" alt="{% trans "Blockquote" %}" border="0"></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
 	<br>
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0"></a> 
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0"></a> 
