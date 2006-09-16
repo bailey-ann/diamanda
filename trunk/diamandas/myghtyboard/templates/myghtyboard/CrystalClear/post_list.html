@@ -1,0 +1,105 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/CrystalClear/body.html" %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css"></link>
+
+<div class="linkst">
+	<div class="inbox">
+		<p class="pagelink conl">
+			{% if has_previous %}
+				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
+			{% endif %}
+			{% if has_next %}
+			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
+			{% endif %}
+		</p>
+		<div class="clearer"></div>
+	</div>
+	<a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a>
+</div>
+
+	{% for i in object_list %}
+	<div id="p1" class="blockpost rowodd firstpost">
+	<h2><span><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> >> <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a></span></h2>
+	<div class="box">
+		<div class="inbox">
+			<div class="postleft">
+				<dl>
+					<dt><strong>{{ i.post_author }}</strong></dt>
+					<dd>{{ i.post_date }}</dd>
+					{% if perms.is_staff %}
+						<dd>{{ i.post_ip }} - {{ i.post_host }}</dd>
+					{% endif %}
+				</dl>
+			</div>
+			<div class="postright">
+				<div class="postmsg">
+					<p>{{ i.post_text|fbc }}</p>
+					<br /><br />
+				</div>
+					<div class="postfootright">
+					{% if perms.add_post %}
+						<a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a> | 
+					{% endif %}
+					{% ifequal i.post_author current_user %}
+						<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a> | 
+					{% else %}
+					{% if perms.is_staff %}
+						<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a> |
+					{% endif %}
+					{% endifequal %}
+					{% if perms.is_staff %}
+						<a href="/forum/delete_post/{{ i.id }}/{{ topic_id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete this post" %}</a>
+					{% endif %}
+					</div>
+
+			</div>
+			<div class="clearer"></div>
+		</div>
+	</div>
+</div>
+	
+	{% endfor %}
+	{% if perms.add_post %}
+		{% if opened %}
+		<p align="right"><a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a></p>
+		{% endif %}
+	{% endif %}
+	
+	<center>
+	{% if has_previous %}
+		<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
+	{% endif %}
+	{% if has_next %}
+		<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
+	{% endif %}</center>
+
+	<p align="right">
+		{% if perms.add_topic %}
+			- {% trans "You can post new Topics" %}<br>
+		{% else %}
+			- {% trans "You can't post new Topics" %}<br>
+		{% endif %}
+		{% if perms.add_post %}
+			{% if opened %}
+				- {% trans "You can post new Posts" %}<br>
+			{% else %}
+				- {% trans "You can't post new Posts" %}<br>
+			{% endif %}
+		{% else %}
+			- {% trans "You can't post new Posts" %}<br>
+		{% endif %}
+		{% if perms.is_staff %}
+			- {% trans "You can moderate this Topic" %}<br>
+		{% else %}
+			-  {% trans "You can't moderate this Topic" %}<br>
+		{% endif %}
+	</p>
+
+
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shCore.js"></script>
+<script class="javascript" src="/site_media/cbc/syntax/Scripts/shBrushXml.js"></script>
+<script class="javascript">dp.SyntaxHighlighter.HighlightAll('code');</script>
+
+{% endblock %}

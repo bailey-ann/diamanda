@@ -5,6 +5,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from stripogram import html2safehtml
+from django.db.models import Q
 #############
 # lepsza walidacja forumularzy
 # paginacja tematow
@@ -42,7 +43,8 @@ def category_list(request):
 
 # list of topics in a forum
 def topic_list(request, forum_id):
-	topics = Topic.objects.order_by('-topic_modification_date').filter(topic_forum=forum_id)
+	#topics = Topic.objects.order_by('-topic_modification_date').filter(topic_forum=forum_id)
+	topics = Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1'))
 	for i in topics:
 		pmax =  i.post_set.all().count()/10
 		pmaxten =  i.post_set.all().count()%10
@@ -117,7 +119,11 @@ def my_posttopic_list(request):
 def post_list(request, topic_id, pagination_id):
 	from django.views.generic.list_detail import object_list
 	topic = Topic.objects.get(id=topic_id)
-	return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + '/post_list.html')
+	if  topic.is_locked:
+		opened = False
+	else:
+		opened = True
+	return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + '/post_list.html')
 
 # add topic
 def add_topic(request, forum_id):
@@ -157,7 +163,7 @@ def add_topic(request, forum_id):
 			page_data = {}
 		
 		form = forms.FormWrapper(manipulator, page_data, errors)
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/add_topic.html', {'form': form, 'lang': settings.MYGHTYBOARD_LANG})
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/add_topic.html', {'form': form, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You can\'t add topics')}) # can't add topic
 
@@ -166,6 +172,9 @@ def add_topic(request, forum_id):
 def add_post(request, topic_id, post_id = False):
 	# can add_post or anonymous ANONYMOUS_CAN_ADD_POST
 	if request.user.is_authenticated() and request.user.has_perm('myghtyboard.add_post') or settings.ANONYMOUS_CAN_ADD_POST and not request.user.is_authenticated():
+		topic = Topic.objects.values('is_locked').get(id=topic_id)
+		if topic['is_locked']:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('Topic is closed')}) # locked topic!
 		# check who made the last post.
 		lastpost = Post.objects.order_by('-post_date').filter(post_topic=topic_id)[:1]
 		if request.user.is_authenticated():
@@ -173,8 +182,8 @@ def add_post(request, topic_id, post_id = False):
 			is_staff = user_data.is_staff
 		else:
 			is_staff = False
-		# if the last poster is the current one (login or IP) and he isn't staff then we don't let him post after his post
-		if str(lastpost[0].post_author) == str(request.user) and not is_staff or str(lastpost[0].post_ip) == str(request.META['REMOTE_ADDR']) and not is_staff:
+		# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
+		if str(lastpost[0].post_author) == str(request.user) and not is_staff:
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You can\'t post after your post')}) # can't post after post!
 		else:
 			manipulator = Post.AddManipulator()
@@ -234,6 +243,9 @@ def add_post(request, topic_id, post_id = False):
 #edit post
 def edit_post(request, post_id):
 	post = Post.objects.get(id=post_id)
+	topic = Topic.objects.values('is_locked').get(id=post.post_topic.id)
+	if topic['is_locked']:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('Topic is closed')}) # locked topic!
 	if request.user.is_authenticated():
 		user_data = User.objects.get(username=str(request.user))
 		is_staff = user_data.is_staff
@@ -247,7 +259,7 @@ def edit_post(request, post_id):
 			
 			import re
 			import base64
-			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], re.MULTILINE)
+			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
 			from datetime import datetime
 			for i in tags:
 				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
@@ -297,3 +309,30 @@ def delete_topic(request, topic_id, forum_id):
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
+
+# close topic
+def close_topic(request, topic_id, forum_id):
+	if request.user.is_authenticated():
+		user_data = User.objects.get(username=str(request.user))
+		if user_data.is_staff:
+			topic = Topic.objects.get(id=topic_id)
+			topic.is_locked=True
+			topic.save()
+			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't close
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't close
+# open topic
+def open_topic(request, topic_id, forum_id):
+	if request.user.is_authenticated():
+		user_data = User.objects.get(username=str(request.user))
+		if user_data.is_staff:
+			topic = Topic.objects.get(id=topic_id)
+			topic.is_locked=False
+			topic.save()
+			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't open
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't open

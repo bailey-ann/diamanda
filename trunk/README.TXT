@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 09.09.2006
+Diamanda Wiki SVN 16.09.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
