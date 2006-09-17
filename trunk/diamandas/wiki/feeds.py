@@ -1,8 +1,13 @@
 from wiki.models import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.contrib.syndication.feeds import Feed
-from django.contrib.sitemaps import Sitemap
 from django.conf import settings
+try:
+	from django.contrib.sitemaps import Sitemap
+except:
+	raise Exception, 'Sitemaps contrib application not found! Use Django SVN > 0.95 or backport Sitemaps to 0.95 by puting sitemaps folder in django/contrib'
+	print 'Sitemaps contrib application not found!'
+	print 'Use Django SVN > 0.95 or backport Sitemaps to 0.95 by puting sitemaps folder in django/contrib'
 
 class LatestPages(Feed):
 	title = settings.SITE_NAME
