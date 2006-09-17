@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 import re
 import sys
 sys.path.append('diamandas/wiki/cbcplugins/')
@@ -56,7 +57,7 @@ def parse_cbc_tags(text):
 		
 		
 	# single: [tag]
-	tags = re.findall('\[rk:([a-z0-9]*) ([a-zA-z0-9 /=.,"\']*)\]', text)
+	tags = re.findall('\[rk:([a-z0-9]*) ([a-zA-z0-9 -@#$%^&*()/=.,"\']*)\]', text)
 	parsed = {}
 	for tag in tags:
 		k = str(tag[0]).strip()
