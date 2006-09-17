@@ -97,19 +97,22 @@ def last_topic_list(request):
 # list topics with my posts
 def my_posttopic_list(request):
 	if request.user.is_authenticated():
-		topics = Post.objects.order_by('-post_date').filter(post_author=str(request.user)).values('post_topic').distinct()[:50]
-		posts = []
-		for i in topics:
-			posts.append(int(i['post_topic']))
-		topics = Topic.objects.order_by('-topic_modification_date').filter(id__in=posts)
-		for i in topics:
-			pmax =  i.post_set.all().count()/10
-			pmaxten =  i.post_set.all().count()%10
-			if pmaxten != 0:
-				i.pagination_max = pmax+1
-			else:
-				i.pagination_max = pmax
-		forum_name = _('My Topics')
+		try:
+			topics = Post.objects.order_by('-post_date').filter(post_author=str(request.user)).values('post_topic').distinct()[:50]
+			posts = []
+			for i in topics:
+				posts.append(int(i['post_topic']))
+			topics = Topic.objects.order_by('-topic_modification_date').filter(id__in=posts)
+			for i in topics:
+				pmax =  i.post_set.all().count()/10
+				pmaxten =  i.post_set.all().count()%10
+				if pmaxten != 0:
+					i.pagination_max = pmax+1
+				else:
+					i.pagination_max = pmax
+			forum_name = _('My Topics')
+		except:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/mytopics_list.html', {'lang': settings.MYGHTYBOARD_LANG})
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
