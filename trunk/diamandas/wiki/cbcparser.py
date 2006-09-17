@@ -5,16 +5,16 @@ sys.path.append('diamandas/wiki/cbcplugins/')
 
 def parse_cbc_tags(text):
 	# lolish basic emots parser
-	text = text.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" border="0" />')
-	text = text.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0" />')
-	text = text.replace(':whatthe:', '<img src="/site_media/wiki/smilies/icon_neutral.gif" border="0" />')
-	text = text.replace(':evil:', '<img src="/site_media/wiki/smilies/icon_evil.gif" border="0" />')
-	text = text.replace(':twisted:', '<img src="/site_media/wiki/smilies/icon_twisted.gif" border="0" />')
-	text = text.replace(':?:', '<img src="/site_media/wiki/smilies/icon_question.gif" border="0" />')
-	text = text.replace(':idea:', '<img src="/site_media/wiki/smilies/icon_idea.gif" border="0" />')
-	text = text.replace(':arrow:', '<img src="/site_media/wiki/smilies/icon_arrow.gif" border="0" />')
-	text = text.replace(':grin:', '<img src="/site_media/wiki/smilies/icon_cheesygrin.gif" border="0" />')
-	text = text.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" border="0" />')
+	text = text.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" />')
+	text = text.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" />')
+	text = text.replace(':whatthe:', '<img src="/site_media/wiki/smilies/icon_neutral.gif" />')
+	text = text.replace(':evil:', '<img src="/site_media/wiki/smilies/icon_evil.gif" />')
+	text = text.replace(':twisted:', '<img src="/site_media/wiki/smilies/icon_twisted.gif" />')
+	text = text.replace(':?:', '<img src="/site_media/wiki/smilies/icon_question.gif" />')
+	text = text.replace(':idea:', '<img src="/site_media/wiki/smilies/icon_idea.gif" />')
+	text = text.replace(':arrow:', '<img src="/site_media/wiki/smilies/icon_arrow.gif" />')
+	text = text.replace(':grin:', '<img src="/site_media/wiki/smilies/icon_cheesygrin.gif" />')
+	text = text.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" />')
 	
 	# double: [tag]something here[/tag]
 	tags = re.findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text, re.MULTILINE)
@@ -52,7 +52,7 @@ def parse_cbc_tags(text):
 		toc = ''
 		for i in tags:
 			pad = str((int(i[1]) -1)*20)
-			toc = toc+'<div style="padding-left:' + pad + 'px; padding-bottom:3px;"><img src="/site_media/wiki/img/' + i[1] + '.png" border="0"> <a href="#' + i[0] + '">' + i[2] + '</a></div>'
+			toc = toc+'<div style="padding-left:' + pad + 'px; padding-bottom:3px;"><img src="/site_media/wiki/img/' + i[1] + '.png" alt="" /> <a href="#' + i[0] + '">' + i[2] + '</a></div>'
 		text = text.replace('[toc]', toc)
 		
 		

@@ -2,7 +2,7 @@
 {% extends "myghtyboard/CrystalClear/body.html" %}
 {% block content %}
 <a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a>
-<div id="idx1" class="blocktable">
+<div class="blocktable">
 	<h2><span><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a></span></h2>
 	<div class="box">
 		<div class="inbox">
@@ -22,13 +22,13 @@
 				<td class="tcl">
 					<div class="intd">
 						{% if topic.is_locked %}
-							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/lock.png" /></div>
+							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/lock.png" alt="*" /></div>
 						{% else %}
 							{% if topic.is_sticky %}
-							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/stick.png" /></div>
+							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/stick.png" alt="*" /></div>
 							{% else %}
 								{% if topic.is_global %}
-									<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/glob.png" /></div>
+									<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/glob.png" alt="*" /></div>
 								{% else %}
 									<div class="icon"><div class="nosize"><!-- --></div></div>
 								{% endif%}
@@ -39,7 +39,7 @@
 						<div class="tclcon">
 							<h3><a href="/forum/topic/{{ topic.pagination_max }}/{{ topic.id }}/">{{ topic.topic_name }}</a></h3>
 							{% if perms.is_staff %}
-								<br><a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
+								<br /><a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
 								{% if topic.is_locked %}
 									<a href="/forum/open_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock Topic" %}</a>
 								{% else %}
@@ -61,23 +61,23 @@
 	</div>
 
 {% if perms.add_topic %}
-	<p align="right"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></p>
+	<p style="text-align:right;"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></p>
 {% endif %}
-<p align="right">
+<p style="text-align:right;">
 	{% if perms.add_topic %}
-		- {% trans "You can post new Topics" %}<br>
+		- {% trans "You can post new Topics" %}<br />
 	{% else %}
-		- {% trans "You can't post new Topics" %}<br>
+		- {% trans "You can't post new Topics" %}<br />
 	{% endif %}
 	{% if perms.add_post %}
-		- {% trans "You can post new Posts" %}<br>
+		- {% trans "You can post new Posts" %}<br />
 	{% else %}
-		- {% trans "You can't post new Posts" %}<br>
+		- {% trans "You can't post new Posts" %}<br />
 	{% endif %}
 	{% if perms.is_staff %}
-		- {% trans "You can moderate this Topics" %}<br>
+		- {% trans "You can moderate this Topics" %}<br />
 	{% else %}
-		-  {% trans "You can't moderate this Topics" %}<br>
+		-  {% trans "You can't moderate this Topics" %}<br />
 	{% endif %}
 </p>
 {% endblock %}

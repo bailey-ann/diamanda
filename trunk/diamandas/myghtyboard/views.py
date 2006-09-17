@@ -148,7 +148,7 @@ def add_topic(request, forum_id):
 			del page_data['text']
 			page_data['topic_forum'] = forum_id
 			page_data['topic_posts'] = 1
-			page_data['topic_lastpost'] = str(request.user)+'<br>' + str(datetime.today())[:-7]
+			page_data['topic_lastpost'] = str(request.user)+'<br />' + str(datetime.today())[:-7]
 			manipulator.do_html2python(page_data)
 			new_place = manipulator.save(page_data)
 			if len(request.META['REMOTE_HOST']) < 1:
@@ -158,7 +158,7 @@ def add_topic(request, forum_id):
 			forum = Forum.objects.get(id=forum_id)
 			forum.forum_topics = forum.forum_topics +1
 			forum.forum_posts = forum.forum_posts +1
-			forum.forum_lastpost = str(request.user)+'<br>' + str(datetime.today())[:-7] + '<br><a href="/forum/topic/1/' + str(new_place.id) + '/">' + str(new_place.topic_name) + '</a>'
+			forum.forum_lastpost = str(request.user)+'<br />' + str(datetime.today())[:-7] + '<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + str(new_place.topic_name) + '</a>'
 			forum.save()
 			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 		else:
@@ -212,7 +212,7 @@ def add_post(request, topic_id, post_id = False):
 				
 				topic = Topic.objects.get(id=topic_id)
 				topic.topic_posts = topic.topic_posts +1
-				topic.topic_lastpost = str(request.user)+'<br>' + str(datetime.today())[:-7]
+				topic.topic_lastpost = str(request.user)+'<br />' + str(datetime.today())[:-7]
 				topic.save()
 				
 				forum = Forum.objects.get(id=topic.topic_forum.id)
@@ -223,7 +223,7 @@ def add_post(request, topic_id, post_id = False):
 				if pmaxten != 0:
 					pmax = pmax+1
 				
-				forum.forum_lastpost = str(request.user)+'<br>' + str(datetime.today())[:-7] + '<br><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + str(topic.topic_name) + '</a>'
+				forum.forum_lastpost = str(request.user)+'<br />' + str(datetime.today())[:-7] + '<br /><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + str(topic.topic_name) + '</a>'
 				forum.save()
 				
 				return HttpResponseRedirect("/forum/topic/" + str(pmax) + "/" + topic_id +"/")
@@ -236,7 +236,7 @@ def add_post(request, topic_id, post_id = False):
 					tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', quote.post_text, re.MULTILINE)
 					for i in tags:
 						quote.post_text = quote.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
-					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br><cite>' + quote.post_text + '</cite></blockquote>\n'
+					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br /><cite>' + quote.post_text + '</cite></blockquote>\n'
 				else:
 					quote_text = ''
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG})

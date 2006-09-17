@@ -2,13 +2,14 @@
 {% extends "myghtyboard/CrystalClear/body.html" %}
 {% block content %}
 
-<p align="right">
+
 {% if perms.is_authenticated %}
+<p style="text-align:right;">
 	<a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a> | <a href="/forum/mytopics/">{% trans "My Topics" %}</a> | <a href="/forum/myptopics/">{% trans "My Posts" %}</a>
-{% endif %}
 </p>
+{% endif %}
 {% for cat in categories %}
-<div id="idx1" class="blocktable">
+<div class="blocktable">
 	<h2><span>{{ cat.cat_name }}</span></h2>
 	<div class="box">
 		<div class="inbox">
@@ -27,7 +28,7 @@
 				<td class="tcl">
 					<div class="intd">
 						{% if forum.is_redirect %}
-							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/stick.png" /></div>
+							<div style="float:left;"><img src="/site_media/myghtyboard/CrystalClear/stick.png" alt="" /></div>
 						{% else %}
 							<div class="icon"><div class="nosize"><!-- --></div></div>
 						{% endif %}
@@ -53,21 +54,21 @@
 		</div>
 	</div>
 	{% endfor %}
-	<p align="right">
+	<p style="text-align:right;">
 	{% if perms.add_topic %}
-		- {% trans "You can post new Topics" %}<br>
+		- {% trans "You can post new Topics" %}<br />
 	{% else %}
-		- {% trans "You can't post new Topics" %}<br>
+		- {% trans "You can't post new Topics" %}<br />
 	{% endif %}
 	{% if perms.add_post %}
-		- {% trans "You can post new Posts" %}<br>
+		- {% trans "You can post new Posts" %}<br />
 	{% else %}
-		- {% trans "You can't post new Posts" %}<br>
+		- {% trans "You can't post new Posts" %}<br />
 	{% endif %}
 	{% if perms.is_staff %}
-		- {% trans "You are a Moderator" %}<br>
+		- {% trans "You are a Moderator" %}<br />
 	{% else %}
-		-  {% trans "You aren't a moderator" %}<br>
+		-  {% trans "You aren't a moderator" %}<br />
 	{% endif %}
 	</p>
 {% endblock %}

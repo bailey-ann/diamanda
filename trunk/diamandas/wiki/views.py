@@ -117,7 +117,7 @@ def index(request):
 	pages = Page.objects.all()
 	tree = ''
 	for page in pages:
-		tree = tree + '<img src="/site_media/wiki/img/2.png"> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br>'
+		tree = tree + '<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br />'
 	return render_to_response('wiki/main.html', {'tree': tree})
 
 # show all edit proposals
@@ -291,7 +291,7 @@ def show_diff(request):
 				elif len(i) > 1 and i[0:2] == '@@':
 					i = i.replace('@@', '').strip().split(' ')
 					i = str(i[0]).split(',')
-					html_result.append('<tr><td></td><td class="diffno"><br></td></tr><tr><td></td><td class="diffinfo"><B>' + _('Row') + '</B>: ' + str(i[0])[1:] + '</td></tr>')
+					html_result.append('<tr><td></td><td class="diffno"><br /></td></tr><tr><td></td><td class="diffinfo"><B>' + _('Row') + '</B>: ' + str(i[0])[1:] + '</td></tr>')
 				elif len(i) > 1 and i[0:2] != '++' and i[0:2] != '--':
 					html_result.append('<tr><td width="15"></td><td class="diffno">' + i + '</td></tr>')
 			html_result.append('</table>')

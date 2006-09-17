@@ -1,10 +1,10 @@
 {% load i18n %}
 {% load cbc %}
 {% extends "body.html" %}
-{% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
+{% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');" /> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');" /> 
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');" />{% endblock %}
+{% block downmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');" /> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');" /> 
+<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');" />{% endblock %}
 
 
 
@@ -12,8 +12,8 @@
 <h1>{{ page.title }}</h1>
 <h3>{{ page.description }}</h3>
 {{ page.text|cbc }}
-<HR>
-<center><B>{% trans "Page Added" %}:</B> {{ page.creation_date }} | <B>{% trans "Page Last Modification" %}</B>: {{ page.creation_date }} | <B>{% trans "Changes" %}</B>: {{ page.changes }}</center>
+<hr />
+<center><b>{% trans "Page Added" %}:</b> {{ page.creation_date }} | <b>{% trans "Page Last Modification" %}</b>: {{ page.creation_date }} | <b>{% trans "Changes" %}</b>: {{ page.changes }}</center>
 {% endblock %}
 
 {% block title %}{{ page.title }}{% endblock %}
