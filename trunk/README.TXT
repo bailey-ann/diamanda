@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 16.09.2006
+Diamanda Wiki SVN 19.09.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
@@ -90,9 +90,6 @@ restore it / and if needed - edit it.
 RSS Feeds
 ############################
 http://localhost:8080/wiki/feeds/latestpages/ - latest pages
-http://localhost:8080/wiki/feeds/latestnews/ - 10 latest news
-http://localhost:8080/wiki/feeds/latestnewsbycategory/X/ - where X is the category ID - latest 10 news from that category
-
 
 
 Wiki Markup
