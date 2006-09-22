@@ -16,7 +16,9 @@
 		</p>
 		<div class="clearer"></div>
 	</div>
+	{% if openned %}
 	<a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a>
+	{% endif %}
 </div>
 
 	{% for i in object_list %}
@@ -40,10 +42,14 @@
 				</div>
 					<div class="postfootright">
 					{% if perms.add_post %}
-						<a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a> | 
+					{% if openned %}
+						<a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a> |
+					{% endif %}
 					{% endif %}
 					{% ifequal i.post_author current_user %}
-						<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a> | 
+					{% if openned %}
+						<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a> |
+					{% endif %} 
 					{% else %}
 					{% if perms.is_staff %}
 						<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a> |

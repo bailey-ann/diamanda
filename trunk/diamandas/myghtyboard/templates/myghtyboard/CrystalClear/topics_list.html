@@ -45,6 +45,9 @@
 								{% else %}
 									<a href="/forum/close_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock Topic" %}</a>
 								{% endif %}
+								{% ifnotequal topic.is_locked 1 %}
+								 | <a href="/forum/move_topic/{{ topic.id }}/{{ forum }}/">{% trans "Move Topic" %}</a>
+								 {% endifnotequal %}
 							{% endif %}
 						</div>
 					</div>

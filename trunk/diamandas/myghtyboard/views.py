@@ -52,11 +52,8 @@ def topic_list(request, forum_id):
 			i.pagination_max = pmax+1
 		else:
 			i.pagination_max = pmax
-	if topics and topics[0]:
-		forum_name = topics[0].topic_forum.forum_name
-	else:
-		forum_name = Forum.objects.get(id=forum_id)
-		forum_name = forum_name.forum_name
+	forum_name = Forum.objects.get(id=forum_id)
+	forum_name = forum_name.forum_name
 	return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
 
 
@@ -313,6 +310,29 @@ def delete_topic(request, topic_id, forum_id):
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
 
+# move topic
+def move_topic(request, topic_id, forum_id):
+	if request.user.is_authenticated():
+		user_data = User.objects.get(username=str(request.user))
+		if user_data.is_staff:
+			if request.POST and len(request.POST['forum']) > 0:
+				topic = Topic.objects.get(id=topic_id)
+				topic.topic_forum=Forum.objects.get(id=request.POST['forum'])
+				topic.save()
+				t = Topic(topic_forum=Forum.objects.get(id=forum_id), topic_name = topic.topic_name, topic_author = topic.topic_author, topic_posts = 0, topic_lastpost = _('Topic Moved'), is_locked = 1)
+				t.save()
+				p = Post(post_topic = t, post_text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>', post_author = _('Forum Staff'), post_ip = str(request.META['REMOTE_ADDR']), post_host = 'none')
+				p.save()
+				return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+			else:
+				forums = Forum.objects.exclude(id=forum_id).exclude(is_redirect=1)
+				topic = Topic.objects.get(id=topic_id)
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/move_topic.html', {'forums': forums, 'topic': topic})
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't move
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't move
+
 # close topic
 def close_topic(request, topic_id, forum_id):
 	if request.user.is_authenticated():
@@ -326,6 +346,7 @@ def close_topic(request, topic_id, forum_id):
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't close
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't close
+
 # open topic
 def open_topic(request, topic_id, forum_id):
 	if request.user.is_authenticated():
