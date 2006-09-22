@@ -1,0 +1,18 @@
+{% load i18n %}
+{% extends "body.html" %}
+{% block title %}{{ task.task_name }}{% endblock %}
+{% block header %}
+<div class="pagetitle"><h1 class="header">{{ task.task_name }}</h1></div>
+{% endblock %}
+{% block content %}
+
+<b>Task Type</b>: {{ task.task_type }}<br />
+<b>Task Status</b>: {{ task.task_status }}<br />
+<b>Assigned To</b>: {{ user_list }}<br />
+<b>Creation Date</b>: {{ task.task_creation_date }}<br />
+<b>Creation Date</b>: {{ task.task_modification_date }}<br />
+<b>Creation Date</b>: {{ task.task_progress }}<br /><br />
+
+<div class="pagetitle"><h3 class="header">Task Description</h3></div>
+{{ task.task_text }}
+{% endblock %}

@@ -120,11 +120,6 @@ def index(request):
 		tree = tree + '<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br />'
 	return render_to_response('wiki/main.html', {'tree': tree})
 
-# show all edit proposals
-def proposal_list(request):
-	proposals = Archive.objects.order_by('-modification_date').filter(is_proposal__exact=True)
-	return render_to_response('wiki/proposals.html', {'proposals': proposals})
-
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
 	if request.user.is_authenticated():
@@ -409,3 +404,25 @@ def edit_page(request, slug):
 		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc})
 	else:
 		return render_to_response('wiki/noperm.html') # can't view page
+
+
+# list tasks
+def task_list(request, pagination_id):
+	from django.views.generic.list_detail import object_list
+	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress').order_by('-task_modification_date')
+	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
+	if len(tasks) == 0:
+		return render_to_response('wiki/task_list.html', {'proposals': proposals})
+	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
+
+# show tasks
+def task_show(request, task_id):
+	task = Task.objects.get(id=task_id)
+	users = task.task_assignedto.all()
+	if len(users) > 0:
+		user_list = ''
+		for i in users:
+			user_list = user_list + str(i) + ' '
+	else:
+		user_list = _('None')
+	return render_to_response('wiki/task_show.html', {'task': task, 'user_list': user_list ,'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})

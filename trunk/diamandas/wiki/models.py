@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Table with ContentBBCode descriptions that show on add/edit pages
 class Cbc(models.Model):
@@ -70,3 +71,40 @@ class Archive(models.Model):
 	class Meta:
 		verbose_name = _('WikiPage Archive')
 		verbose_name_plural = _('WikiPages Archive')
+
+# Tasks
+class Task(models.Model):
+	TYPES = (
+	(_('Site Content'), _('Site Content')),
+	(_('Technical Issues'), _('Technical Issues')),
+	(_('Site in the Web'), _('Site in the Web')),
+	(_('Other'), _('Other')),
+	)
+	STATUSS = (
+	(_('Unassigned'), _('Unassigned')),
+	(_('Assigned'), _('Assigned')),
+	(_('Closed'), _('Closed')),
+	)
+	PROGRESS = (
+	('0', _('Nothing Done Yet')),
+	('25', _('25% Done')),
+	('50', _('50% Done')),
+	('75', _('75% Done')),
+	('100', _('Task Completed')),
+	)
+	task_name = models.CharField(maxlength=255, verbose_name=_('Task Title'))
+	task_type = models.CharField(maxlength=255, choices=TYPES, verbose_name=_('Task Type'))
+	task_text = models.TextField(verbose_name=_('Task Description'))
+	task_status = models.CharField(maxlength=255, choices=STATUSS, verbose_name=_('Task Status'))
+	task_assignedto = models.ManyToManyField(User, verbose_name=_('Assigned To'), blank=True, default='')
+	task_creation_date = models.DateTimeField(auto_now_add = True, verbose_name=_('Creation Date'))
+	task_modification_date = models.DateTimeField(auto_now = True, verbose_name=_('Modification Date'))
+	task_progress = models.CharField(maxlength=255, choices=PROGRESS, verbose_name=_('Progress'))
+	class Meta:
+		verbose_name = _('Task')
+		verbose_name_plural = _('Wiki Tasks')
+	class Admin:
+		list_display = ('task_name', 'task_status', 'task_progress')
+		search_fields = ['task_name', 'task_text']
+	def __str__(self):
+		return self.task_name

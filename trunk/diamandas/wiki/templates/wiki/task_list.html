@@ -1,0 +1,53 @@
+{% load i18n %}
+{% extends "body.html" %}
+{% block content %}
+{% if object_list %}
+<div class="pagetitle"><h3 class="header">{% trans "Site Tasks" %}</h3></div><br />
+<table width="100%" class="historytable" cellspacing="0" cellpadding="0">
+	<thead><tr>
+		<th class="title" width="40%"><center><B>{% trans "Task Title" %}</B></center></th>
+		<th class="title"><center><B>{% trans "Task Status" %}</B></center></th>
+		<th width="250" class="title"><center><B>{% trans "Last Update" %}</B></center></th>
+		<th width="80" class="title"><center><B>{% trans "Progress" %}</B></center></th>
+	</tr></thead>
+
+
+{% for t in object_list %}
+<tr>
+<td><div style="text-align:center;"><a href="/wiki/task_show/{{ t.id }}/">{{ t.task_name }}</a></div></td>
+<td><div style="text-align:center;">{{ t.task_status }}</div></td>
+<td><div style="text-align:center;">{{ t.task_modification_date }}</div></td>
+<td><div style="text-align:center;">{{ t.task_progress }}%</div></td>
+</tr>
+{% endfor %}
+</table>
+{% if has_previous %}
+<a href="/wiki/task_list/{{ previous }}/"><b>{% trans "Previous Page" %}</b></a>
+{% endif %}
+{% if has_next %}
+<a href="/wiki/task_list/{{ next }}/"><b>{% trans "Next Page" %}</b></a>
+{% endif %}
+{% endif %}
+
+{% if proposals %}
+	<br /><br /><br />
+	<div class="pagetitle"><h3 class="header">{% trans "Edit Proposals" %}</h3></div>
+	<br />
+	<table width="100%" class="historytable" cellspacing="0" cellpadding="0">
+	<thead><tr>
+		<th class="title" width="40%"><center><B>{% trans "Page Title" %}</B></center></th>
+		<th class="title"><center><B>{% trans "Modified by" %}</B></center></th>
+		<th width="250" class="title"><center><B>{% trans "Date" %}</B></center></th>
+		<th width="80" class="title"><center><B>{% trans "Changes Summary" %}</B></center></th>
+	</tr></thead>
+	{% for page in proposals %}
+	<tr>
+		<td><div style="text-align:center;"><a href="/wiki/history/{{ page.slug }}/">{{page.title}}</a></div></td>
+		<td><div style="text-align:center;">{{ page.modification_user }}</div></td>
+		<td><div style="text-align:center;">{{ page.modification_date }}</div></td>
+		<td><div style="text-align:center;">{{ page.changes }}</div></td>
+	</tr>
+	{% endfor %}
+	</table>
+{% endif %}
+{% endblock %}
