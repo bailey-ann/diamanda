@@ -1,0 +1,18 @@
+{% load i18n %}
+{% extends "myghtyboard/CrystalClear/body.html" %}
+{% block content %}
+
+
+<h3><span><a href="/forum/"><b>{% trans "Forum Index" %}</b></a></span></h3>
+<h2><span>{% trans "Move Topic" %}</span></h2>
+{% trans "Select a forum to which the topic " %}"<b>{{ topic.topic_name }}</b>" {% trans "should be moved" %}:<br /><br />
+<div style="text-align:center;">
+<form method="post" action="."><table width="100%" cellspacing="2" cellpadding="2">
+<select name="forum">
+{% for f in forums %}
+<option value="{{ f.id }}">{{ f.forum_name }}</option>
+{% endfor %}
+</select>
+<input type="submit" value="{% trans "Move Topic" %}" style="actiontable" />
+</form></div>
+{% endblock %}
