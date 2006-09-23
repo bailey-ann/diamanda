@@ -5,14 +5,31 @@
 <div class="pagetitle"><h1 class="header">{{ task.task_name }}</h1></div>
 {% endblock %}
 {% block content %}
-
-<b>Task Type</b>: {{ task.task_type }}<br />
-<b>Task Status</b>: {{ task.task_status }}<br />
-<b>Assigned To</b>: {{ user_list }}<br />
-<b>Creation Date</b>: {{ task.task_creation_date }}<br />
-<b>Creation Date</b>: {{ task.task_modification_date }}<br />
-<b>Creation Date</b>: {{ task.task_progress }}<br /><br />
-
-<div class="pagetitle"><h3 class="header">Task Description</h3></div>
+<div class="pagetitle"><h3 class="header">{% trans "Task Description" %}</h3></div>
 {{ task.task_text }}
+<br />
+<br />
+<div style="text-align:center;"><b>Task Type</b>: {{ task.task_type }} | <b>Task Status</b>: {{ task.task_status }} | <b>Assigned To</b>: {{ user_list }} | <b>Progress</b>: {{ task.task_progress }}%<br />
+<b>Creation Date</b>: {{ task.task_creation_date }} | <b>Last Modification Date</b>: {{ task.task_modification_date }}</div>
+<br />
+{% if com %}
+<div class="pagetitle"><h3 class="header">{% trans "Task Comments" %}</h3></div><br />
+<table width="100%" class="historytable" cellspacing="0" cellpadding="0">
+	<thead><tr>
+		<th class="title" width="100"><center><B>{% trans "Author" %}</B></center></th>
+		<th class="title"><center><B>{% trans "Text" %}</B></center></th>
+		<th width="200" class="title"><center><B>{% trans "Date" %}</B></center></th>
+	</tr></thead>
+{% for c in com %}
+<tr>
+<td><div style="text-align:center;">{{ c.com_author }}</div></td>
+<td>{{ c.com_text }}</td>
+<td><div style="text-align:center;">{{ c.com_date }}<br />{{ c.com_ip }}<br />{{ c.com_host }}</div></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
 {% endblock %}
+{% block upmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Task List" %}" onclick="location.assign('/wiki/task_list/1/');">
+<input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');">{% endblock %}
+{% block downmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Task List" %}" onclick="location.assign('/wiki/task_list/1/');"><input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');">{% endblock %}

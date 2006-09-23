@@ -33,7 +33,8 @@ Diamanda (wiki and forum) is released under GPL License<br>
 - multilingual interface (pl/en currently)<br>
 - google sitemap generation<br>
 - PDF export with htmldoc<br>
-- bans
+- bans<br>
+- Task Management
 </blockquote><br>
 <b>MyghtyBoard Forum</b>
 <blockquote>
@@ -43,7 +44,8 @@ Diamanda (wiki and forum) is released under GPL License<br>
 - IP, hostname saved<br>
 - Nice themes :)<br>
 - Lock/Open topics, sticky/global topics<br>
-- Topics with my posts, My Topics, Last active Topics lists
+- Topics with my posts, My Topics, Last active Topics lists<br>
+- Move Topics
 </blockquote><br><br>
 
 [rk:h id="2"]Requirements:[/rk:h]
@@ -152,4 +154,4 @@ g.save()
 #a = Permission.objects.all()
 #for i in a:
 	#print str(i.name) + ' - ' + str(i.codename)
-g.permissions.add(Permission.objects.get(codename='can_view'), Permission.objects.get(codename='can_set_current'), Permission.objects.get(codename='add_page'), Permission.objects.get(codename='change_page'), Permission.objects.get(codename='add_topic'), Permission.objects.get(codename='add_post'))
+g.permissions.add(Permission.objects.get(codename='can_view'), Permission.objects.get(codename='can_set_current'), Permission.objects.get(codename='add_page'), Permission.objects.get(codename='add_taskcomment'), Permission.objects.get(codename='change_page'), Permission.objects.get(codename='add_topic'), Permission.objects.get(codename='add_post'))

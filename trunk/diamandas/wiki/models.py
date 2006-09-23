@@ -108,3 +108,16 @@ class Task(models.Model):
 		search_fields = ['task_name', 'task_text']
 	def __str__(self):
 		return self.task_name
+# Task comments
+class TaskComment(models.Model):
+	com_task_id = models.ForeignKey(Task) # ID of the task
+	com_text = models.TextField(verbose_name=_('Comment'))
+	com_author = models.CharField(maxlength=255, verbose_name="Author", blank=True)
+	com_date = models.DateTimeField(auto_now_add = True)
+	com_ip = models.CharField(maxlength=20, blank=True)
+	com_host = models.CharField(maxlength=100, blank=True)
+	class Meta:
+		verbose_name = _('Task Comment')
+		verbose_name_plural = _('Task Comments')
+	def __str__(self):
+		return str(self.id)

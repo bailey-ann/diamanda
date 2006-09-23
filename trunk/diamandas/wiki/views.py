@@ -425,4 +425,18 @@ def task_show(request, task_id):
 			user_list = user_list + str(i) + ' '
 	else:
 		user_list = _('None')
-	return render_to_response('wiki/task_show.html', {'task': task, 'user_list': user_list ,'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
+	com = TaskComment.objects.filter(com_task_id = task_id)
+	return render_to_response('wiki/task_show.html', {'task': task, 'com': com, 'user_list': user_list ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
+
+def com_task_add(request, task_id):
+	if request.user.is_authenticated() and request.user.has_perm('wiki.add_taskcomment'):
+		if request.POST and len(request.POST['text']) > 0:
+			task = Task.objects.get(id=task_id)
+			text = html2safehtml(request.POST['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'pre', 'div', 'span', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'blockquote'))
+			co = TaskComment(com_task_id = task, com_text = text, com_author = str(request.user), com_ip = request.META['REMOTE_ADDR'], com_host =request.META['REMOTE_HOST'])
+			co.save()
+			task.save()
+			return HttpResponseRedirect('/wiki/task_show/' + str(task_id) + '/')
+		else:
+			return render_to_response('wiki/com_task_add.html')
+	return render_to_response('wiki/noperm.html') # can't view page
