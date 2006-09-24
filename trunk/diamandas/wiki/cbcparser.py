@@ -1,7 +1,7 @@
  # -*- coding: utf-8 -*-
-import re
-import sys
-sys.path.append('diamandas/wiki/cbcplugins/')
+from re import findall, MULTILINE
+from sys import path
+path.append('diamandas/wiki/cbcplugins/')
 
 def parse_cbc_tags(text):
 	# lolish basic emots parser
@@ -17,7 +17,7 @@ def parse_cbc_tags(text):
 	text = text.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" />')
 	
 	# double: [tag]something here[/tag]
-	tags = re.findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text, re.MULTILINE)
+	tags = findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text, MULTILINE)
 	parsed_double = {}
 	for tag in tags:
 		k = str(tag[0]).strip()
@@ -48,7 +48,7 @@ def parse_cbc_tags(text):
 				pass
 			
 	if text.find('[toc]') != -1:
-		tags = re.findall('<a name="([0-9]*)" h="([0-9]*)" title="(.*?)"></a>', text)
+		tags = findall('<a name="([0-9]*)" href="([0-9]*)" title="(.*?)"></a>', text)
 		toc = ''
 		for i in tags:
 			pad = str((int(i[1]) -1)*20)
@@ -57,7 +57,7 @@ def parse_cbc_tags(text):
 		
 		
 	# single: [tag]
-	tags = re.findall('\[rk:([a-z0-9]*) ([a-zA-z0-9 -@#$%^&*()/=.,"\']*)\]', text)
+	tags = findall(r'\[rk:([a-z_0-9]*) (.*?)\]', text)
 	parsed = {}
 	for tag in tags:
 		k = str(tag[0]).strip()
