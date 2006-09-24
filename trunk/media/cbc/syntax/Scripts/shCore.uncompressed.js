@@ -27,7 +27,7 @@ var dp = {
 		RegexLib: {},
 		Brushes	: {},
 		Strings : {},
-		Version : '1.4.0'
+		Version : '1.4.1'
 	}
 };
 
@@ -187,7 +187,7 @@ dp.sh.Match = function(value, index, css)
 //
 dp.sh.Highlighter = function()
 {
-	this.addGutter = true;
+	this.noGutter = false;
 	this.addControls = true;
 	this.collapse = false;
 	this.tabsToSpaces = true;
@@ -476,6 +476,9 @@ dp.sh.Highlighter.prototype.Highlight = function(code)
 
 	if(this.collapse)
 		this.div.className += ' collapsed';
+	
+	if(this.noGutter)
+		this.div.className += ' nogutter';
 
 	// replace tabs with spaces
 	if(this.tabsToSpaces == true)
@@ -618,7 +621,7 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 		// hide the original element
 		element.style.display = 'none';
 
-		highlighter.addGutter = (showGutter == null) ? !IsOptionSet('nogutter', options) : showGutter;
+		highlighter.noGutter = (showGutter == null) ? IsOptionSet('nogutter', options) : !showGutter;
 		highlighter.addControls = (showControls == null) ? !IsOptionSet('nocontrols', options) : showControls;
 		highlighter.collapse = (collapseAll == null) ? IsOptionSet('collapse', options) : collapseAll;
 		highlighter.showColumns = (showColumns == null) ? IsOptionSet('showcolumns', options) : showColumns;

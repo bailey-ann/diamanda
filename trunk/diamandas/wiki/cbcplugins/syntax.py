@@ -38,5 +38,7 @@ def render(dic, text):
 		text = text + '<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shBrushRuby.js"></script>'
 	if langs.has_key('css'):
 		text = text + '<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shBrushCss.js"></script>'
+	if langs.has_key('cpp'):
+		text = text + '<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shBrushCpp.js"></script>'
 	# the end, activate the code
 	return text + '<script class="javascript">dp.SyntaxHighlighter.HighlightAll(\'code\');</script>'
