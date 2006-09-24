@@ -9,7 +9,10 @@
 {{ task.task_text }}
 <br />
 <br />
-<div style="text-align:center;"><b>Task Type</b>: {{ task.task_type }} | <b>Task Status</b>: {{ task.task_status }} | <b>Assigned To</b>: {{ user_list }} | <b>Progress</b>: {{ task.task_progress }}%<br />
+{% ifnotequal task.task_progress "0" %}
+<div class="box" style="width:{{ task.task_progress }}%;"><b>Progress</b>: {{ task.task_progress }}%</div>
+{% endifnotequal %}
+<div style="text-align:center;"><b>Task Type</b>: {{ task.task_type }} | <b>Task Status</b>: {{ task.task_status }} | <b>Assigned To</b>: {{ user_list }}<br />
 <b>Creation Date</b>: {{ task.task_creation_date }} | <b>Last Modification Date</b>: {{ task.task_modification_date }}</div>
 <br />
 {% if com %}

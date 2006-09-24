@@ -1,7 +1,7 @@
+import base64
 def render(dic, text):
-	#dp.syntaxhighlighter 1.4.0
-	import base64
-	# w3c will kill us for this :)
+	#dp.syntaxhighlighter 1.4.1
+	# w3c will kill us for this
 	text = '<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css" media="screen"></link>' + text
 	langs = {}
 	for i in dic:

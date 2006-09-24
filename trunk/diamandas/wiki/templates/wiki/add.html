@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load cbc %}
 {% extends "body.html" %}
 {% block upmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
 {% block downmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
@@ -49,10 +50,20 @@
     {% if form.changes.errors %}<br>*** {{ form.changes.errors|join:", " }}{% endif %}
 </p></td></tr>
 </table>
-<center><input type="submit" value="{% trans "Save Page" %}" style="actiontable" /></center>
+<center><input type="submit" value="{% trans "Save Page" %}" style="actiontable" /><br /><br />
+<input type="submit" value="{% trans "Preview" %}" name="preview" class="actiontable" /></center>
 </form><script lang="javascript" type="text/javascript">document.getElementById('id_text').rows=20;</script>
 <br><br>
 <B>{% trans "Allowed HTML Tags" %}</B>:b, a, i, br, p, u, pre, div, span, h1, h2, h3, h4, img, li, ul, ol, acronym, abbr, center, cite, map, strong, sub, sup, table, tr, td, tbody, thead, th, tfoot, label<br><br>
+
+<br />
+{% if preview %}
+<div class="pagetitle"><h1 class="header">Page Preview</h1></div>
+	{{ preview|cbc }}
+<div class="pagetitle"><h1 class="header">End of Preview</h1></div>
+{% endif %}
+
+<br />
 
 <div class="actiontitle">{% trans "ContentBBCode List" %}</div>
 {% for i in cbcdesc %}

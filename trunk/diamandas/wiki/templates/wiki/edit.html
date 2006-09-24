@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load cbc %}
 {% extends "body.html" %}
 {% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');"> 
 <input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
@@ -9,7 +10,6 @@
 {% block content %}
 
 <div class="actiontitle">{% trans "Edit Page" %}</div><br>
-
 <form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
 <tr><td width="140"><p>
     {% trans "Title" %}:</td><td> {{ form.title }}
@@ -49,10 +49,19 @@
     {% if form.changes.errors %}<br>*** {{ form.changes.errors|join:", " }}{% endif %}
 </p></td></tr>
 </table>
-<center><input type="submit" value="{% trans "Save Changes" %}" class="actiontable" /></center>
+<center><input type="submit" value="{% trans "Save Changes" %}" class="actiontable" /><br /><br />
+<input type="submit" value="{% trans "Preview" %}" name="preview" class="actiontable" /></center>
 </form><script>document.getElementById('id_text').rows='20';</script>
 <br><br><B>{% trans "Allowed HTML Tags" %}</B>:b, a, i, br, p, u, pre, div, span, h1, h2, h3, h4, img, li, ul, ol, acronym, abbr, center, cite, map, strong, sub, sup, table, tr, td, tbody, thead, th, tfoot, label<br><br>
 
+<br />
+{% if preview %}
+<div class="pagetitle"><h1 class="header">Page Preview</h1></div>
+	{{ preview|cbc }}
+<div class="pagetitle"><h1 class="header">End of Preview</h1></div>
+{% endif %}
+
+<br />
 
 <div class="actiontitle">{% trans "ContentBBCode List" %}</div>
 {% for i in cbcdesc %}
