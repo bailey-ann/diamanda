@@ -85,6 +85,12 @@ class Task(models.Model):
 	(_('Assigned'), _('Assigned')),
 	(_('Closed'), _('Closed')),
 	)
+	PRIOR = (
+	('Minor', _('Minor')),
+	('Moderate', _('Moderate')),
+	('High', _('High')),
+	('Critical', _('Critical')),
+	)
 	PROGRESS = (
 	('0', _('Nothing Done Yet')),
 	('25', _('25% Done')),
@@ -96,6 +102,7 @@ class Task(models.Model):
 	task_type = models.CharField(maxlength=255, choices=TYPES, verbose_name=_('Task Type'))
 	task_text = models.TextField(verbose_name=_('Task Description'))
 	task_status = models.CharField(maxlength=255, choices=STATUSS, verbose_name=_('Task Status'))
+	task_priority = models.CharField(maxlength=255, choices=PRIOR, verbose_name=_('Task Priority'))
 	task_assignedto = models.ManyToManyField(User, verbose_name=_('Assigned To'), blank=True, default='')
 	task_creation_date = models.DateTimeField(auto_now_add = True, verbose_name=_('Creation Date'))
 	task_modification_date = models.DateTimeField(auto_now = True, verbose_name=_('Modification Date'))

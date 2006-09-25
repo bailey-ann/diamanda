@@ -7,15 +7,28 @@
 	<thead><tr>
 		<th class="title"><center><B>{% trans "Task Title" %}</B></center></th>
 		<th class="title" width="150"><center><B>{% trans "Task Status" %}</B></center></th>
+		<th class="title" width="100"><center><B>{% trans "Task Priority" %}</B></center></th>
 		<th width="100" class="title"><center><B>{% trans "Last Update" %}</B></center></th>
 		<th width="100" class="title"><center><B>{% trans "Progress" %}</B></center></th>
 	</tr></thead>
 
 
 {% for t in object_list %}
-<tr>
+{% ifequal t.task_priority "Critical" %}
+<tr style="background-color:#FFA9A9;">
+{% endifequal %}
+{% ifequal t.task_priority "High" %}
+<tr style="background-color:#FFEEA0;">
+{% endifequal %}
+{% ifequal t.task_priority "Moderate" %}
+<tr style="background-color:#C3FFB3;">
+{% endifequal %}
+{% ifequal t.task_priority "Minor" %}
+<tr style="background-color:#BFBCFF;">
+{% endifequal %}
 <td><div style="text-align:center;"><a href="/wiki/task_show/{{ t.id }}/">{{ t.task_name }}</a></div></td>
 <td><div style="text-align:center;">{{ t.task_status }}</div></td>
+<td><div style="text-align:center;">{% trans t.task_priority %}</div></td>
 <td><div style="text-align:center;">{{ t.task_modification_date }}</div></td>
 <td><div style="text-align:center;">{{ t.task_progress }}%</div></td>
 </tr>

@@ -422,7 +422,7 @@ def edit_page(request, slug):
 # list tasks
 def task_list(request, pagination_id):
 	from django.views.generic.list_detail import object_list
-	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress').order_by('-task_modification_date')
+	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority').order_by('-task_modification_date')
 	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
 	if len(tasks) == 0:
 		return render_to_response('wiki/task_list.html', {'proposals': proposals})

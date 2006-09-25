@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Diamanda Wiki\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-08 00:28+0000\n"
+"POT-Creation-Date: 2006-09-26 00:00+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,20 +15,232 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:264
+#: models.py:6
+msgid "Tag Name"
+msgstr ""
+
+#: models.py:6
+msgid "The name of the ContentBBCode Tag ([rk:TAGNAME ****])"
+msgstr ""
+
+#: models.py:7
+msgid "Example Tag"
+msgstr ""
+
+#: models.py:7
+msgid "An example tag construct"
+msgstr ""
+
+#: models.py:8
+#, fuzzy
+msgid "Tag Description"
+msgstr "Opis"
+
+#: models.py:8
+msgid "What this CBC does and how to use it"
+msgstr ""
+
+#: models.py:13
+#, fuzzy
+msgid "Wiki CBC Description"
+msgstr "Opis"
+
+#: models.py:14
+#, fuzzy
+msgid "Wiki CBC Descriptions"
+msgstr "Opis"
+
+#: models.py:24
+msgid "Ban Type"
+msgstr ""
+
+#: models.py:24
+msgid "Is it IP or hostname"
+msgstr ""
+
+#: models.py:25
+msgid "Ban Item"
+msgstr ""
+
+#: models.py:25
+msgid "The IP, IP range or hostname to ban"
+msgstr ""
+
+#: models.py:26
+#, fuzzy
+msgid "Comments"
+msgstr "Treść"
+
+#: models.py:28
+msgid "Wiki Ban"
+msgstr ""
+
+#: models.py:29
+msgid "Wiki Bans"
+msgstr ""
+
+#: models.py:51
+msgid "WikiPage"
+msgstr ""
+
+#: models.py:52
+msgid "WikiPages"
+msgstr ""
+
+#: models.py:72
+msgid "WikiPage Archive"
+msgstr ""
+
+#: models.py:73
+msgid "WikiPages Archive"
+msgstr ""
+
+#: models.py:78
+#, fuzzy
+msgid "Site Content"
+msgstr "Treść"
+
+#: models.py:79
+msgid "Technical Issues"
+msgstr ""
+
+#: models.py:80
+msgid "Site in the Web"
+msgstr ""
+
+#: models.py:81
+msgid "Other"
+msgstr ""
+
+#: models.py:84
+msgid "Unassigned"
+msgstr ""
+
+#: models.py:85
+msgid "Assigned"
+msgstr ""
+
+#: models.py:86
+#, fuzzy
+msgid "Closed"
+msgstr "Kod"
+
+#: models.py:89
+msgid "Minor"
+msgstr ""
+
+#: models.py:90
+msgid "Moderate"
+msgstr "Średnia"
+
+#: models.py:91
+msgid "High"
+msgstr "Wysoka"
+
+#: models.py:92
+msgid "Critical"
+msgstr "Krytyczna"
+
+#: models.py:95
+msgid "Nothing Done Yet"
+msgstr ""
+
+#: models.py:96
+msgid "25% Done"
+msgstr ""
+
+#: models.py:97
+msgid "50% Done"
+msgstr ""
+
+#: models.py:98
+msgid "75% Done"
+msgstr ""
+
+#: models.py:99
+#, fuzzy
+msgid "Task Completed"
+msgstr "Porównaj Zaznaczone"
+
+#: models.py:101 templates/wiki/task_list.html:8
+#, fuzzy
+msgid "Task Title"
+msgstr "Tytuł"
+
+#: models.py:102
+msgid "Task Type"
+msgstr ""
+
+#: models.py:103 templates/wiki/task_show.html:8
+#, fuzzy
+msgid "Task Description"
+msgstr "Opis"
+
+#: models.py:104 templates/wiki/task_list.html:9
+msgid "Task Status"
+msgstr ""
+
+#: models.py:105 templates/wiki/task_list.html:10
+msgid "Task Priority"
+msgstr ""
+
+#: models.py:106
+msgid "Assigned To"
+msgstr ""
+
+#: models.py:107
+#, fuzzy
+msgid "Creation Date"
+msgstr "Data Modyfikacji"
+
+#: models.py:108 templates/wiki/page_history_list.html:15
+msgid "Modification Date"
+msgstr "Data Modyfikacji"
+
+#: models.py:109 templates/wiki/task_list.html:12
+msgid "Progress"
+msgstr ""
+
+#: models.py:111
+msgid "Task"
+msgstr ""
+
+#: models.py:112
+msgid "Wiki Tasks"
+msgstr ""
+
+#: models.py:121
+#, fuzzy
+msgid "Comment"
+msgstr "Treść"
+
+#: models.py:127
+msgid "Task Comment"
+msgstr ""
+
+#: models.py:128 templates/wiki/task_show.html:19
+msgid "Task Comments"
+msgstr ""
+
+#: views.py:249
 msgid "Restored version "
 msgstr "Przywrócona wersja"
 
-#: views.py:264
+#: views.py:249
 msgid " from Archive. ("
 msgstr "z Archiwum. ("
 
-#: views.py:304
+#: views.py:289
 msgid "Row"
 msgstr "Wiersz"
 
-#: templates/body.html:1 templates/wiki/add.html:7 templates/wiki/edit.html:4
-#: templates/wiki/edit.html.py:6 templates/wiki/page.html:6
+#: views.py:440
+#, fuzzy
+msgid "None"
+msgstr "dnia"
+
+#: templates/body.html:1 templates/wiki/add.html:8 templates/wiki/edit.html:5
+#: templates/wiki/edit.html.py:7 templates/wiki/page.html:6
 #: templates/wiki/page.html.py:12 templates/wiki/indexPage.html:6
 #: templates/wiki/indexPage.html.py:21 templates/wiki/page_history_list.html:4
 #: templates/wiki/page_history_list.html:6 templates/wiki/oldPage.html:5
@@ -39,71 +251,88 @@ msgstr "Wiersz"
 msgid "Add a Page"
 msgstr "Dodaj Stronę"
 
-#: templates/body.html:1 templates/wiki/add.html:3
-#: templates/wiki/add.html.py:4 templates/wiki/edit.html:4
-#: templates/wiki/edit.html.py:6 templates/wiki/page.html:6
+#: templates/body.html:1 templates/wiki/add.html:4
+#: templates/wiki/add.html.py:5 templates/wiki/edit.html:5
+#: templates/wiki/edit.html.py:7 templates/wiki/page.html:6
 #: templates/wiki/page.html.py:12 templates/wiki/page_history_list.html:4
 #: templates/wiki/page_history_list.html:6 templates/wiki/oldPage.html:5
 #: templates/wiki/oldPage.html.py:7 templates/wiki/diff.html:4
-#: templates/wiki/diff.html.py:6 templates/wiki/proposals.html:3
-#: templates/wiki/proposals.html.py:4 templates/wiki/news_list.html:9
-#: templates/wiki/news_list.html.py:10
-#: templates/wiki/news_list_category.html:9
-#: templates/wiki/news_list_category.html:10 templates/wiki/users.html:8
+#: templates/wiki/diff.html.py:6 templates/wiki/users.html:8
 #: templates/wiki/users.html.py:9 templates/wiki/register.html:8
 #: templates/wiki/register.html.py:9 templates/wiki/search.html:3
-#: templates/wiki/search.html.py:4
+#: templates/wiki/search.html.py:4 templates/wiki/task_show.html:36
+#: templates/wiki/task_show.html.py:38 templates/wiki/com_task_add.html:3
+#: templates/wiki/com_task_add.html.py:4
 msgid "Main Page"
 msgstr "Strona Główna"
 
-#: templates/wiki/add.html:11 templates/wiki/edit.html:15
+#: templates/wiki/add.html:12 templates/wiki/edit.html:15
 msgid "Title"
 msgstr "Tytuł"
 
-#: templates/wiki/add.html:15
+#: templates/wiki/add.html:16
 msgid "Slug"
 msgstr "Odnośnik"
 
-#: templates/wiki/add.html:19 templates/wiki/edit.html:20
+#: templates/wiki/add.html:20 templates/wiki/edit.html:20
 msgid "Description"
 msgstr "Opis"
 
-#: templates/wiki/add.html:23 templates/wiki/edit.html:25
+#: templates/wiki/add.html:24 templates/wiki/edit.html:25
 msgid "Content"
 msgstr "Treść"
 
-#: templates/wiki/add.html:24 templates/wiki/edit.html:26
+#: templates/wiki/add.html:25 templates/wiki/edit.html:26
 msgid "Code"
 msgstr "Kod"
 
-#: templates/wiki/add.html:42
+#: templates/wiki/add.html:26 templates/wiki/edit.html:27
+msgid "Bold"
+msgstr ""
+
+#: templates/wiki/add.html:27 templates/wiki/edit.html:28
+msgid "Italic"
+msgstr ""
+
+#: templates/wiki/add.html:28 templates/wiki/add.html.py:29
+#: templates/wiki/edit.html:29 templates/wiki/edit.html.py:30
+msgid "Underline"
+msgstr ""
+
+#: templates/wiki/add.html:30 templates/wiki/edit.html:31
+msgid "Blockquote"
+msgstr ""
+
+#: templates/wiki/add.html:49
 msgid "Changes summary"
 msgstr "Opis Zmian"
 
-#: templates/wiki/add.html:46 templates/wiki/edit.html:46
-msgid "Categories"
-msgstr "Kategorie"
-
-#: templates/wiki/add.html:50
+#: templates/wiki/add.html:53
 msgid "Save Page"
 msgstr "Zapisz Stronę"
 
-#: templates/wiki/add.html:53 templates/wiki/edit.html:52
+#: templates/wiki/add.html:54 templates/wiki/edit.html:53
+#, fuzzy
+msgid "Preview"
+msgstr "Poprzednia Strona"
+
+#: templates/wiki/add.html:57 templates/wiki/edit.html:55
+#: templates/wiki/com_task_add.html:13
 msgid "Allowed HTML Tags"
 msgstr "Dozwolone tagi HTML"
 
-#: templates/wiki/add.html:55 templates/wiki/edit.html:55
+#: templates/wiki/add.html:68 templates/wiki/edit.html:66
 msgid "ContentBBCode List"
 msgstr "Lista tagów ContentBBCode"
 
-#: templates/wiki/edit.html:3 templates/wiki/edit.html.py:5
+#: templates/wiki/edit.html:4 templates/wiki/edit.html.py:6
 #: templates/wiki/page_history_list.html:3
 #: templates/wiki/page_history_list.html:5 templates/wiki/oldPage.html:4
 #: templates/wiki/oldPage.html.py:6
 msgid "Back to Page"
 msgstr "Powrót do strony"
 
-#: templates/wiki/edit.html:3 templates/wiki/edit.html.py:5
+#: templates/wiki/edit.html:4 templates/wiki/edit.html.py:6
 #: templates/wiki/page.html:5 templates/wiki/page.html.py:11
 #: templates/wiki/indexPage.html:20 templates/wiki/oldPage.html:4
 #: templates/wiki/oldPage.html.py:6 templates/wiki/diff.html:3
@@ -111,15 +340,15 @@ msgstr "Powrót do strony"
 msgid "Page History"
 msgstr "Historia"
 
-#: templates/wiki/edit.html:11
+#: templates/wiki/edit.html:12
 msgid "Edit Page"
 msgstr "Edytuj"
 
-#: templates/wiki/edit.html:42
+#: templates/wiki/edit.html:48
 msgid "Summary of changes"
 msgstr "Opis zmian"
 
-#: templates/wiki/edit.html:50
+#: templates/wiki/edit.html:52
 msgid "Save Changes"
 msgstr "Zapisz Zmiany"
 
@@ -164,9 +393,9 @@ msgstr "Ostatnia Modyfikacja"
 msgid "Changes"
 msgstr "Zmiany"
 
-#: templates/wiki/indexPage.html:6 templates/wiki/indexPage.html.py:21
-msgid "Edit Proposals"
-msgstr "Propozycje Zmian"
+#: templates/wiki/indexPage.html:6 templates/wiki/task_list.html:5
+msgid "Site Tasks"
+msgstr ""
 
 #: templates/wiki/indexPage.html:8
 msgid "Login or Register"
@@ -180,17 +409,18 @@ msgstr "Twoje Konto"
 msgid "sitemap.xml"
 msgstr "sitemap.xml"
 
-#: templates/wiki/page_history_list.html:13
+#: templates/wiki/indexPage.html:21
+#, fuzzy
+msgid "Site Tasks and Edit Proposals"
+msgstr "Propozycje Zmian"
+
+#: templates/wiki/page_history_list.html:13 templates/wiki/task_list.html:44
 msgid "Page Title"
 msgstr "Tytuł"
 
 #: templates/wiki/page_history_list.html:14
 msgid "See Old Version"
 msgstr "Zobacz starą wersję"
-
-#: templates/wiki/page_history_list.html:15
-msgid "Modification Date"
-msgstr "Data Modyfikacji"
 
 #: templates/wiki/page_history_list.html:17
 msgid "Compare"
@@ -223,38 +453,6 @@ msgstr "Porównaj Zaznaczone"
 #: templates/wiki/noperm.html:4
 msgid "Permission Denied"
 msgstr "Brak Uprawnień"
-
-#: templates/wiki/proposals.html:9
-msgid "Modified by"
-msgstr "Zmodyfikowany przez"
-
-#: templates/wiki/proposals.html:9
-msgid "on"
-msgstr "dnia"
-
-#: templates/wiki/proposals.html:12
-msgid "No proposals"
-msgstr "Brak propozycji zmian"
-
-#: templates/wiki/news_list.html:6
-msgid "Latest News"
-msgstr "Najnowsze Nowości"
-
-#: templates/wiki/news_list.html:16 templates/wiki/news_list_category.html:16
-msgid "Added"
-msgstr "Dodany"
-
-#: templates/wiki/news_list.html:21 templates/wiki/news_list_category.html:21
-msgid "Previous Page"
-msgstr "Poprzednia Strona"
-
-#: templates/wiki/news_list.html:24 templates/wiki/news_list_category.html:24
-msgid "Next Page"
-msgstr "Następna Strona"
-
-#: templates/wiki/news_list_category.html:6
-msgid "News for"
-msgstr "Nowości dla"
 
 #: templates/wiki/users.html:5 templates/wiki/register.html:5
 msgid "User Page"
@@ -368,3 +566,69 @@ msgstr "Proste wyszukiwanie"
 #: templates/wiki/search.html:9
 msgid "Search This Site with Google"
 msgstr "Szukaj z pomocą Google"
+
+#: templates/wiki/task_list.html:11
+msgid "Last Update"
+msgstr ""
+
+#: templates/wiki/task_list.html:31
+msgid "Previous Page"
+msgstr "Poprzednia Strona"
+
+#: templates/wiki/task_list.html:34
+msgid "Next Page"
+msgstr "Następna Strona"
+
+#: templates/wiki/task_list.html:40
+msgid "Edit Proposals"
+msgstr "Propozycje Zmian"
+
+#: templates/wiki/task_list.html:45
+msgid "Modified by"
+msgstr "Zmodyfikowany przez"
+
+#: templates/wiki/task_list.html:46 templates/wiki/task_show.html:24
+msgid "Date"
+msgstr ""
+
+#: templates/wiki/task_list.html:47
+#, fuzzy
+msgid "Changes Summary"
+msgstr "Opis Zmian"
+
+#: templates/wiki/task_show.html:22
+msgid "Author"
+msgstr ""
+
+#: templates/wiki/task_show.html:23
+msgid "Text"
+msgstr ""
+
+#: templates/wiki/task_show.html:36 templates/wiki/task_show.html.py:38
+#: templates/wiki/com_task_add.html:3 templates/wiki/com_task_add.html.py:4
+msgid "Task List"
+msgstr ""
+
+#: templates/wiki/task_show.html:37 templates/wiki/task_show.html.py:38
+#: templates/wiki/com_task_add.html:11
+msgid "Add Comment"
+msgstr ""
+
+#: templates/wiki/com_task_add.html:7
+msgid "Add a Task Comment"
+msgstr ""
+
+#~ msgid "Categories"
+#~ msgstr "Kategorie"
+
+#~ msgid "No proposals"
+#~ msgstr "Brak propozycji zmian"
+
+#~ msgid "Latest News"
+#~ msgstr "Najnowsze Nowości"
+
+#~ msgid "Added"
+#~ msgstr "Dodany"
+
+#~ msgid "News for"
+#~ msgstr "Nowości dla"
