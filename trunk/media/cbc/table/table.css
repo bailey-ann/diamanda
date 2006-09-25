@@ -1,0 +1,16 @@
+thead td{
+	font-weight:bold;
+	color:#000;
+	background-color:#E2EBED;
+	cursor:pointer;
+	text-align:center !important;
+}
+
+.tableRollOverEffect1{
+	background-color:#317082;
+	color:#FFF;
+}
+.tableRollOverEffect2{
+	background-color:#000;
+	color:#FFF;
+} 

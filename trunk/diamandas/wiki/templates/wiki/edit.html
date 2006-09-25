@@ -65,7 +65,8 @@
 
 <div class="actiontitle">{% trans "ContentBBCode List" %}</div>
 {% for i in cbcdesc %}
-<div class="tagdesc"><b>{{ i.tag }}</b> - <b>{{ i.tag_example }}</b></div>
+<div class="tagdesc"><b>{{ i.tag }}</b></div>
+<b><pre>{{ i.tag_example }}</pre></b>
 {{ i.description }}<br><br>
 {% endfor %}
 

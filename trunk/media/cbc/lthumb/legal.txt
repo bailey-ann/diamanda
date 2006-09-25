@@ -1,0 +1,4 @@
+This folder contains Lightbox JS widget static files.
+Project web page: http://www.huddletogether.com/projects/lightbox2/
+Comments (including author information) have been stripped out of them to reduce filesize (from 100KB to about 80KB)
+For licenses, and other informations visit project web page

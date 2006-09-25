@@ -22,13 +22,16 @@ def parse_cbc_tags(text):
 	for tag in tags:
 		k = str(tag[0]).strip()
 		v = tag[1]
-		v = v.split(' ')
+		v = v.split('" ')
 		vals = {}
 		vals['attributes'] = {}
 		for attr in v:
 			attr = attr.split('=')
 			val = attr[1]
-			attr[1] = val[1:-1]
+			if val[-1] != '"':
+				attr[1] = val[1:]
+			else:
+				attr[1] = val[1:-1]
 			vals['attributes'][attr[0]] = attr[1]
 		vals['code'] = tag[2]
 		vals['tag'] = '[rk:' + tag[0] + ' ' + tag[1] + ']' + tag[2] + '[/rk:' + tag[0] + ']'
@@ -62,13 +65,16 @@ def parse_cbc_tags(text):
 	for tag in tags:
 		k = str(tag[0]).strip()
 		v = tag[1]
-		v = v.split(' ')
+		v = v.split('" ')
 		vals = {}
 		vals['attributes'] = {}
 		for attr in v:
 			attr = attr.split('=')
 			val = attr[1]
-			attr[1] = val[1:-1]
+			if val[-1] != '"':
+				attr[1] = val[1:]
+			else:
+				attr[1] = val[1:-1]
 			vals['attributes'][attr[0]] = attr[1]
 		vals['tag'] = '[rk:' + tag[0] + ' ' + tag[1] + ']'
 		if not parsed.has_key(k):
