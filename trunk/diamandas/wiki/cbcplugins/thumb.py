@@ -16,5 +16,5 @@ def render(dic, text):
 				im = Image.open(settings.SITE_IMAGES_DIR_PATH+i['attributes']['src'])
 				im.thumbnail((120, 120))
 				im.save(settings.SITE_IMAGES_DIR_PATH+thumb)
-		text = text.replace(i['tag'], '<div style="text-aling:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" onClick="window.open(\'\',\'popup\', \'height=auto, width=auto, scrollbars=yes, location=no, statusbar=no, resizable=no toolbar=no, menubar=no\')" target="popup"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
+		text = text.replace(i['tag'], '<div style="text-align:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" onClick="window.open(\'\',\'popup\', \'height=auto, width=auto, scrollbars=yes, location=no, statusbar=no, resizable=no toolbar=no, menubar=no\')" target="popup"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
 	return text
