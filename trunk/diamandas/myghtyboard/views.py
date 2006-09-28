@@ -148,8 +148,8 @@ def add_topic(request, forum_id):
 			page_data['topic_lastpost'] = str(request.user)+'<br />' + str(datetime.today())[:-7]
 			manipulator.do_html2python(page_data)
 			new_place = manipulator.save(page_data)
-			if len(request.META['REMOTE_HOST']) < 1:
-				request.META['REMOTE_HOST'] = 'Unknown'
+			if not request.META.has_key('REMOTE_HOST') or len(request.META['REMOTE_HOST']) < 1:
+				request.META['HTTP_HOST'] = 'Unknown'
 			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'], post_host = request.META['REMOTE_HOST'])
 			post.save()
 			forum = Forum.objects.get(id=forum_id)
@@ -200,8 +200,8 @@ def add_post(request, topic_id, post_id = False):
 				page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 				
 				page_data['post_ip'] = request.META['REMOTE_ADDR']
-				if len(request.META['REMOTE_HOST']) < 1:
-					request.META['REMOTE_HOST'] = 'Unknown'
+				if not request.META.has_key('REMOTE_HOST') or len(request.META['REMOTE_HOST']) < 1:
+					request.META['HTTP_HOST'] = 'Unknown'
 				page_data['post_host'] = request.META['REMOTE_HOST']
 				page_data['post_topic'] = topic_id
 				manipulator.do_html2python(page_data)
