@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MyghtyBoard\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-16 21:54+0000\n"
+"POT-Creation-Date: 2006-09-28 02:29+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:74 views.py:91 views.py:112
-#: templates/myghtyboard/CrystalClear/category_list.html:7
+#: views.py:71 views.py:88 views.py:110
+#: templates/myghtyboard/CrystalClear/category_list.html:8
 msgid "My Topics"
 msgstr "Moje Tematy"
 
-#: views.py:77 views.py:94 views.py:115
+#: views.py:74 views.py:91 views.py:115
 msgid "You aren't logged in"
 msgstr "Nie jesteś zalogowany"
 
@@ -44,83 +44,108 @@ msgstr "Nie możesz dodawać postów"
 msgid "You can't edit this post"
 msgstr "Nie możesz edytować tego posta"
 
-#: views.py:296 views.py:309 views.py:323 views.py:336
-#: templates/myghtyboard/CrystalClear/category_list.html:66
+#: views.py:296 views.py:309 views.py:332 views.py:346 views.py:360
+#: templates/myghtyboard/CrystalClear/category_list.html:71
 msgid "You aren't a moderator"
 msgstr "Nie jesteś moderatorem"
 
-#: views.py:298 views.py:311 views.py:325 views.py:338
+#: views.py:298 views.py:311 views.py:334 views.py:348 views.py:362
 msgid "You aren't a moderator and you aren't logged in"
 msgstr "Nie jesteś moderatorem i nie jesteś zalogowany"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:7
+#: views.py:322
+msgid "Topic Moved"
+msgstr "Temat Przeniesiony"
+
+#: views.py:324
+msgid "This topic has been moved to another forum. To see the topic follow"
+msgstr "Ten temat został przeniesiony do innego forum. By przejść do tematu kliknij"
+
+#: views.py:324
+msgid "this link"
+msgstr "w ten link"
+
+#: views.py:324
+msgid "Forum Staff"
+msgstr "Obsługa Forum"
+
+#: templates/myghtyboard/CrystalClear/body.html:13
+msgid "Quick Links"
+msgstr "Nawigacja"
+
+#: templates/myghtyboard/CrystalClear/body.html:14
+msgid "Main Page"
+msgstr "Strona Główna"
+
+#: templates/myghtyboard/CrystalClear/category_list.html:8
 msgid "Last Active Topics"
 msgstr "Ostatnie Aktywne Tematy"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:7
+#: templates/myghtyboard/CrystalClear/category_list.html:8
 msgid "My Posts"
 msgstr "Moje Posty"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:18
+#: templates/myghtyboard/CrystalClear/category_list.html:19
 msgid "Forum"
 msgstr "Forum"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:19
+#: templates/myghtyboard/CrystalClear/category_list.html:20
 msgid "Topics"
 msgstr "Tematów"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:20
+#: templates/myghtyboard/CrystalClear/category_list.html:21
 #: templates/myghtyboard/CrystalClear/topics_list.html:14
 #: templates/myghtyboard/CrystalClear/mytopics_list.html:14
 msgid "Posts"
 msgstr "Postów"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:21
+#: templates/myghtyboard/CrystalClear/category_list.html:22
 #: templates/myghtyboard/CrystalClear/topics_list.html:15
 #: templates/myghtyboard/CrystalClear/mytopics_list.html:15
 msgid "Last Post"
 msgstr "Ostatni Post"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:54
-#: templates/myghtyboard/CrystalClear/topics_list.html:68
-#: templates/myghtyboard/CrystalClear/post_list.html:80
+#: templates/myghtyboard/CrystalClear/category_list.html:59
+#: templates/myghtyboard/CrystalClear/topics_list.html:71
+#: templates/myghtyboard/CrystalClear/post_list.html:86
 msgid "You can post new Topics"
 msgstr "Możesz dodawać nowe Tematy"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:56
-#: templates/myghtyboard/CrystalClear/topics_list.html:70
-#: templates/myghtyboard/CrystalClear/post_list.html:82
+#: templates/myghtyboard/CrystalClear/category_list.html:61
+#: templates/myghtyboard/CrystalClear/topics_list.html:73
+#: templates/myghtyboard/CrystalClear/post_list.html:88
 msgid "You can't post new Topics"
 msgstr "Nie możesz dodawać nowych Tematów"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:59
-#: templates/myghtyboard/CrystalClear/topics_list.html:73
-#: templates/myghtyboard/CrystalClear/post_list.html:86
+#: templates/myghtyboard/CrystalClear/category_list.html:64
+#: templates/myghtyboard/CrystalClear/topics_list.html:76
+#: templates/myghtyboard/CrystalClear/post_list.html:92
 msgid "You can post new Posts"
 msgstr "Możesz dodawać nowe Posty"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:61
-#: templates/myghtyboard/CrystalClear/topics_list.html:75
-#: templates/myghtyboard/CrystalClear/post_list.html:88
-#: templates/myghtyboard/CrystalClear/post_list.html:91
+#: templates/myghtyboard/CrystalClear/category_list.html:66
+#: templates/myghtyboard/CrystalClear/topics_list.html:78
+#: templates/myghtyboard/CrystalClear/post_list.html:94
+#: templates/myghtyboard/CrystalClear/post_list.html:97
 msgid "You can't post new Posts"
 msgstr "Nie możesz dodawać nowych postów"
 
-#: templates/myghtyboard/CrystalClear/category_list.html:64
+#: templates/myghtyboard/CrystalClear/category_list.html:69
 msgid "You are a Moderator"
 msgstr "Jesteś moderatorem"
 
 #: templates/myghtyboard/CrystalClear/topics_list.html:4
-#: templates/myghtyboard/CrystalClear/topics_list.html:64
+#: templates/myghtyboard/CrystalClear/topics_list.html:67
 msgid "Add New Topic"
 msgstr "Dodaj Nowy Temat"
 
 #: templates/myghtyboard/CrystalClear/topics_list.html:6
 #: templates/myghtyboard/CrystalClear/add_topic.html:6
-#: templates/myghtyboard/CrystalClear/post_list.html:24
+#: templates/myghtyboard/CrystalClear/post_list.html:26
 #: templates/myghtyboard/CrystalClear/add_post.html:4
 #: templates/myghtyboard/CrystalClear/edit_post.html:4
 #: templates/myghtyboard/CrystalClear/mytopics_list.html:6
+#: templates/myghtyboard/CrystalClear/move_topic.html:6
 msgid "Forum Index"
 msgstr "Indeks Forum"
 
@@ -164,11 +189,17 @@ msgstr "Zamknąć Temat?"
 msgid "Lock Topic"
 msgstr "Zamknij Temat"
 
-#: templates/myghtyboard/CrystalClear/topics_list.html:78
+#: templates/myghtyboard/CrystalClear/topics_list.html:49
+#: templates/myghtyboard/CrystalClear/move_topic.html:7
+#: templates/myghtyboard/CrystalClear/move_topic.html:16
+msgid "Move Topic"
+msgstr "Przenieś Temat"
+
+#: templates/myghtyboard/CrystalClear/topics_list.html:81
 msgid "You can moderate this Topics"
 msgstr "Możesz moderować ten Temat"
 
-#: templates/myghtyboard/CrystalClear/topics_list.html:80
+#: templates/myghtyboard/CrystalClear/topics_list.html:83
 msgid "You can't moderate this Topics"
 msgstr "Nie możeszesz moderować tego Tematu"
 
@@ -239,44 +270,44 @@ msgid "Allowed HTML Tags"
 msgstr "Dozwolone tagi HTML"
 
 #: templates/myghtyboard/CrystalClear/post_list.html:11
-#: templates/myghtyboard/CrystalClear/post_list.html:72
+#: templates/myghtyboard/CrystalClear/post_list.html:78
 msgid "Previous Page"
 msgstr "Poprzednia strona"
 
 #: templates/myghtyboard/CrystalClear/post_list.html:14
-#: templates/myghtyboard/CrystalClear/post_list.html:75
+#: templates/myghtyboard/CrystalClear/post_list.html:81
 msgid "Next Page"
 msgstr "Następna Strona"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:19
-#: templates/myghtyboard/CrystalClear/post_list.html:66
+#: templates/myghtyboard/CrystalClear/post_list.html:20
+#: templates/myghtyboard/CrystalClear/post_list.html:72
 #: templates/myghtyboard/CrystalClear/add_post.html:5
 #: templates/myghtyboard/CrystalClear/add_post.html:29
 msgid "Add Post"
 msgstr "Dodaj Post"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:43
+#: templates/myghtyboard/CrystalClear/post_list.html:46
 msgid "Reply with quote"
 msgstr "Cytuj"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:46
-#: templates/myghtyboard/CrystalClear/post_list.html:49
+#: templates/myghtyboard/CrystalClear/post_list.html:51
+#: templates/myghtyboard/CrystalClear/post_list.html:55
 msgid "Edit this post"
 msgstr "Edytuj ten post"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:53
+#: templates/myghtyboard/CrystalClear/post_list.html:59
 msgid "Delete This Post?"
 msgstr "Skasować ten post?"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:53
+#: templates/myghtyboard/CrystalClear/post_list.html:59
 msgid "Delete this post"
 msgstr "Skasować post"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:94
+#: templates/myghtyboard/CrystalClear/post_list.html:100
 msgid "You can moderate this Topic"
 msgstr "Możesz moderować ten Temat"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:96
+#: templates/myghtyboard/CrystalClear/post_list.html:102
 msgid "You can't moderate this Topic"
 msgstr "Nie możesz moderować tego Tematu"
 
@@ -287,6 +318,14 @@ msgstr "Edytuj Post"
 #: templates/myghtyboard/CrystalClear/noperm.html:14
 msgid "Permission Denied"
 msgstr "Brak Uprawnień"
+
+#: templates/myghtyboard/CrystalClear/move_topic.html:8
+msgid "Select a forum to which the topic "
+msgstr "Wybierz forum do którego temat "
+
+#: templates/myghtyboard/CrystalClear/move_topic.html:8
+msgid "should be moved"
+msgstr "powinien być przeniesiony"
 
 #~ msgid "Message"
 #~ msgstr "Treść"

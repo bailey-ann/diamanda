@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html dir="ltr">
 <head>
@@ -9,6 +10,10 @@
 
 <div id="punwrap">
 <div id="punindex" class="pun">
+<h2><b>{% trans "Quick Links" %}</b>:
+<a href="/" style="text-decoration:underline;">{% trans "Main Page" %}</a> | <a href="/" style="text-decoration:underline;">{% trans "Forum" %}</a>
+</h2>
+<br /><br />
 
 {% block content %}{% endblock %}
 

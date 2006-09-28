@@ -319,13 +319,13 @@ def move_topic(request, topic_id, forum_id):
 				topic = Topic.objects.get(id=topic_id)
 				topic.topic_forum=Forum.objects.get(id=request.POST['forum'])
 				topic.save()
-				t = Topic(topic_forum=Forum.objects.get(id=forum_id), topic_name = topic.topic_name, topic_author = topic.topic_author, topic_posts = 0, topic_lastpost = _('Topic Moved'), is_locked = 1)
+				t = Topic(topic_forum=Forum.objects.get(id=forum_id), topic_name = topic.topic_name, topic_author = topic.topic_author, topic_posts = 0, topic_lastpost = _('Topic Moved'), is_locked = True)
 				t.save()
 				p = Post(post_topic = t, post_text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>', post_author = _('Forum Staff'), post_ip = str(request.META['REMOTE_ADDR']), post_host = 'none')
 				p.save()
 				return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 			else:
-				forums = Forum.objects.exclude(id=forum_id).exclude(is_redirect=1)
+				forums = Forum.objects.exclude(id=forum_id).exclude(is_redirect=True)
 				topic = Topic.objects.get(id=topic_id)
 				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + '/move_topic.html', {'forums': forums, 'topic': topic})
 		else:
