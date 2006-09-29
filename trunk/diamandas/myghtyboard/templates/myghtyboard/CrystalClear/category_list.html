@@ -43,7 +43,7 @@
 					</div>
 				</td>
 				<td class="tc2">{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
-				<td class="tc3">{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
+				<td class="tc3">{% if forum.is_redirect %}-{% else %}{{ forum.forum_posts }}{% endif %}</td>
 				<td class="tcr">{% if forum.is_redirect %}-{% else %}{{ forum.forum_lastpost }}{% endif %}</td>
 			</tr>
 	{% endfor %}
