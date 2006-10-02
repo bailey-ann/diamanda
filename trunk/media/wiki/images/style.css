@@ -1,0 +1,262 @@
+body {
+	margin: 0 auto;
+	padding: 0;
+	font: 10pt  Helvetica, "dejaVu Sans", Verdana, Tahoma, Arial, Sans-Serif;
+	background: #fff;
+}
+
+a {
+	text-decoration: none;
+	color: #2489DB;
+}
+
+a:hover {
+	color: #808080;
+}
+
+a img {
+	border: 0;
+}
+
+
+#bg { 
+	width: 100%px;
+	margin: 0 auto;
+	padding: 0px;
+}
+
+
+#sadrzaj {
+	color: #303030;
+	width: 100%px;
+	
+}
+
+#toplinks {
+	height: 20px;
+	background: #2489DB;
+	text-align: right;
+	padding-right: 10px;	
+	padding-top: 5px;
+}
+
+#toplinks a {
+	font: 11px "dejaVu Sans", Verdana, Tahoma, Arial, Sans-Serif;
+	display: inline;
+	padding-left: 8px;
+	padding-right: 5px;
+	background: url(strelica.gif) left no-repeat;
+	padding-bottom: 3px;
+	margin-left: 15px;
+	color: #fff;
+}
+
+#toplinks a:hover {
+	border-bottom: 2px solid #fff;	
+}
+
+#zaglavlje {
+	clear: both;
+	margin: 0px 0 5px 0;
+	height: 70px;
+	background: url(header.gif) repeat-x;
+}
+
+#title {
+	font-family:Verdana, Tahoma;
+	float: left;
+	font-size: 14pt;
+	font-weight: bold;
+	padding-top: 25px;
+	padding-left: 5px;
+}
+
+#title_info {
+	float: right;
+	height: auto;
+	padding: 8px;
+	width: 310px;
+	margin: 10px 5px 0 0;
+	border: 2px solid #fff;	
+	background: #FFF5D9;
+	color: #808080;
+}
+
+#title_info p {
+	margin: 0;
+}
+
+#navigacija {
+	position: fixed;
+	bottom:0px;
+	margin: 0px;
+	padding-top: 8px;
+	font: 10pt, "dejaVu Sans", Verdana, Tahoma, Arial, Sans-Serif;
+	font-weight:bold;
+	text-align:center;
+	border-top: 1px dashed black;
+	background: #E5EFF9 url(plavo.gif);
+	width:100%;
+	height:20px;
+}
+
+.lijevo {
+	margin: 2px 0 10px 0;
+	padding: 3px 10px 5px 10px;
+	width: 130px;
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	color: #6B6B6B;
+	background: #eee url(lijevo.gif) repeat-x;
+}
+
+#desna_rubrika {
+	float: right;
+	width: 223px;
+	margin: 0 0 10px 0;
+	padding: 5px 13px 20px 10px;
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	background: #eee url(lijevo.gif) repeat-x;
+	color: #5D5D5D;
+	line-height: 1.5em;
+}
+
+#desna_rubrika p {
+	margin: 0px;
+	font-size: 90%;
+}
+
+
+#desna_rubrika a {
+	display: block;
+	height: 12px;
+	padding-bottom: 4px;
+	margin-bottom: 2px;
+	border-bottom: 1px solid #ccc;
+}
+
+#podaci {
+	margin: 15px 0 0 0;
+	border: 2px solid #fff;
+	background: #E5EFF9 url(plavo.gif);
+	padding: 3px 3px 3px 6px;
+	color: #70C256;
+}
+
+#podaci a, #podaci a:visited {
+	display: inline;
+	border: none;	
+}
+
+#clanci {
+	margin:  5px;
+	padding: 0 10px 5px 6px;
+	line-height: 1.4em;
+	text-align:justify;
+	background: url(clanak.gif) repeat-x bottom left;
+}
+
+
+#clanci p {
+	margin: 0;
+}
+
+.datum {
+	padding-top: 2px;
+	height: 30px;
+	margin: 5px 0 6px 0;
+	border-top: 1px solid #eee;
+	font-size: 80%;
+	text-transform: uppercase;	
+	color: #808080;
+}
+
+#lijeva_rubrika {
+	margin: 0 250px 20px 155px;
+	border-top: 1px solid #AFCEED;
+	border-bottom: 1px solid #AFCEED;
+	background: #E5EFF9 url(plavo.gif) repeat-x;
+	padding: 5px 6px 5px 6px;
+	line-height: 1.6em;
+	text-align: left;
+	color: #5D5D5D;
+}
+
+#lijeva_rubrika a, #lijeva_rubrika a:visited {
+	text-decoration: underline;	
+}
+
+#lijeva_rubrika p {
+	padding: 0;
+	margin: 0;
+}
+
+.box
+	{
+	border:#C5CEFF dashed 1px;
+	padding:10px;
+	background-color:#E6E6FF;
+	}
+.pageh
+	{
+	margin: 5px 0 0 0;
+	border: 2px solid #fff;
+	background: #E5EFF9 url(plavo.gif);
+	padding: 3px 3px 3px 6px;
+	font-family: Verdana, Tahoma;
+	color: #70C256;
+	}
+.historytable th
+	{
+	padding:10px;
+	margin:0px;
+	border: 1px solid #434659;
+	border-collapse:collapse;
+	text-align:center;
+	font-weight:bold;
+	background-color: #EDE8FF;
+	}
+
+.historyinput
+	{
+	background-color:#CCD1FF;
+	font-size:12px;
+	font-weight:bold;
+	border:1px solid #6E6E6E;
+	margin:4px;
+	padding-bottom:4px;
+	}
+.historytable
+	{
+	border-collapse:collapse;
+	}
+.historytable td
+	{
+	padding:10px;
+	margin:0px;
+	border: 1px solid #434659;
+	border-collapse:collapse;
+	text-align:left;
+	}
+h1
+{
+font-size: 160%;
+}
+h2
+{
+font-size: 140%;
+}
+h3
+{
+font-size: 120%;
+}
+h4
+{
+font-size: 115%;
+}
+
+textarea
+{
+width:100%;
+}

@@ -1,9 +1,13 @@
 {% load i18n %}
 {% extends "body.html" %}
-{% block upmenu %}<input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
+{% block upmenu %}
+<a href="/wiki/history/{{ slug }}/">{% trans "Page History" %}</a>
+<a href="/">{% trans "Main Page" %}</a>
+<a href="/forum/">{% trans "Forum" %}</a>
+<a href="/wiki/search/">{% trans "Search" %}</a>
+<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
+
+
 {% block content %}
 	{% for line in diffresult %}
 		{{ line }}

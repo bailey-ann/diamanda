@@ -1,16 +1,15 @@
 {% load i18n %}
 {% load cbc %}
 {% extends "body.html" %}
-{% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');" /> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');" /> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');" />{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');" /> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');" /> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');" />{% endblock %}
-
-
+{% block upmenu %}
+<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a>
+<a href="/">{% trans "Main Page" %}</a>
+<a href="/forum/">{% trans "Forum" %}</a>
+<a href="/wiki/search/">{% trans "Search" %}</a>
+<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
 
 {% block content %}
-<h1>{{ page.title }}</h1>
-<h3>{{ page.description }}</h3>
+{{ page.title }} - {{ page.description }}
 {{ page.text|cbc }}
 <hr />
 <center><b>{% trans "Page Added" %}:</b> {{ page.creation_date }} | <b>{% trans "Page Last Modification" %}</b>: {{ page.creation_date }} | <b>{% trans "Changes" %}</b>: {{ page.changes }}</center>

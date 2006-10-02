@@ -2,7 +2,7 @@
 {% extends "body.html" %}
 {% block title %}{{ task.task_name }}{% endblock %}
 {% block header %}
-<div class="pagetitle"><h1 class="header">{{ task.task_name }}</h1></div>
+{{ task.task_name }}
 {% endblock %}
 {% block content %}
 <div class="pagetitle"><h3 class="header">{% trans "Task Description" %}</h3></div>
@@ -19,9 +19,9 @@
 <div class="pagetitle"><h3 class="header">{% trans "Task Comments" %}</h3></div><br />
 <table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>
-		<th class="title" width="100"><center><B>{% trans "Author" %}</B></center></th>
-		<th class="title"><center><B>{% trans "Text" %}</B></center></th>
-		<th width="200" class="title"><center><B>{% trans "Date" %}</B></center></th>
+		<th class="title" width="100"><div style="text-align:center;"><b>{% trans "Author" %}</b></div></th>
+		<th class="title"><div style="text-align:center;"><b>{% trans "Text" %}</b></div></th>
+		<th width="200" class="title"><div style="text-align:center;"><b>{% trans "Date" %}</b></div></th>
 	</tr></thead>
 {% for c in com %}
 <tr>
@@ -33,6 +33,10 @@
 </table>
 {% endif %}
 {% endblock %}
-{% block upmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Task List" %}" onclick="location.assign('/wiki/task_list/1/');">
-<input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');">{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');"><input type="button" value="{% trans "Task List" %}" onclick="location.assign('/wiki/task_list/1/');"><input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');">{% endblock %}
+
+{% block upmenu %}
+<a href="/wiki/task_list/1/">{% trans "Task List" %}</a>
+<a href="/">{% trans "Main Page" %}</a>
+<a href="/forum/">{% trans "Forum" %}</a>
+<a href="/wiki/search/">{% trans "Search" %}</a>
+<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}

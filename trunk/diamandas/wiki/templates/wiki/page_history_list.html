@@ -1,33 +1,34 @@
 {% load i18n %}
 {% extends "body.html" %}
-{% block upmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Back to Page" %}" onclick="location.assign('/wiki/page/{{ page.slug }}/');"> <input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');"> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');"> <input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
-
-
+{% block upmenu %}
+<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a>
+<a href="/">{% trans "Main Page" %}</a>
+<a href="/forum/">{% trans "Forum" %}</a>
+<a href="/wiki/search/">{% trans "Search" %}</a>
+<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
 {% block content %}
+
 <form method="post" action="/wiki/diff/">
 <table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>
-		<th class="title" width="40%"><center><B>{% trans "Page Title" %}</B></center></th>
-		<th class="title"><center><B>{% trans "See Old Version" %}</B></center></th>
-		<th width="130" class="title"><center><B>{% trans "Modification Date" %}</B></center></th>
-		<th width="250" class="title"><center><B>{% trans "Changes" %}</B></center></th>
-		<th width="80" class="title"><center><B>{% trans "Compare" %}</B></center></th>
-		<th width="90" class="title"><center><B>{% trans "Actions" %}</B></center></th>
+		<th class="title" width="40%"><div style="text-align:center;"><b>{% trans "Page Title" %}</b></div></th>
+		<th class="title"><div style="text-align:center;"><b>{% trans "See Old Version" %}</b></div></th>
+		<th width="130" class="title"><div style="text-align:center;"><b>{% trans "Modification Date" %}</b></div></th>
+		<th width="250" class="title"><div style="text-align:center;"><b>{% trans "Changes" %}</b></div></th>
+		<th width="80" class="title"><div style="text-align:center;"><b>{% trans "Compare" %}</b></div></th>
+		<th width="90" class="title"><div style="text-align:center;"><b>{% trans "Actions" %}</b></div></th>
 	</tr></thead>
 	<thead><tr>
-		<th><a href="/wiki/page/{{ page.slug }}/"><B>{{page.title}}</B></a></th>
+		<th><a href="/wiki/page/{{ page.slug }}/"><b>{{page.title}}</b></a></th>
 		<th> </th>
-		<th><center>{{ page.modification_date }}<br>{{ page.modification_user }}
+		<th><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
 		{% if is_staff %}
-			<br><br>{{ page.modification_ip }}<br>
+			<br /><br />{{ page.modification_ip }}<br />
 			{{ page.modification_host }}
 		{% endif %}
-		</center></th>
+		</div></th>
 		<th>{{ page.changes }}</th>
-		<th><center><input type="radio" name="new" value="0" style="margin-right:25px;" checked="checked"></center></th>
+		<th><div style="text-align:center;"><input type="radio" name="new" value="0" style="margin-right:25px;" checked="checked" /></div></th>
 		<th> </th>
 	</tr></thead>
 		{% for page in archive %}
@@ -38,31 +39,31 @@
 					<td>
 				{% endif %}
 				{{page.title}}</td>
-				<td><center><input type="button" class="historyinput" value="{% trans "See This Version" %}" onclick="location.assign('/wiki/oldpage/{{ page.id }}/');"></td>
-				<td><center>{{ page.modification_date }}<br>{{ page.modification_user }}
+				<td><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "See This Version" %}" onclick="location.assign('/wiki/oldpage/{{ page.id }}/');" /></td>
+				<td><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
 				
 				{% if is_staff %}
-					<br><br>{{ page.modification_ip }}<br>
+					<br /><br />{{ page.modification_ip }}<br />
 					{{ page.modification_host }}
 				{% endif %}
 				
-				</center></td>
+				</div></td>
 				
 				{% if page.is_proposal %}
-					<td style="background: #AFFFAC;"><center><B>{% trans "Changes Proposal" %}</B></center>
+					<td style="background: #AFFFAC;"><div style="text-align:center;"><b>{% trans "Changes Proposal" %}</b></div>
 				{% else %}
 					<td>
 				{% endif %}
 				{{ page.changes }}</td>
-				<td><center><input type="radio" name="new" value="{{ page.id }}"><input type="radio" name="old" value="{{ page.id }}"></center></td>
-				<td><center><input type="button" class="historyinput" value="{% trans "Restore" %}" onclick="location.assign('/wiki/restore/{{ page.id }}/');">
+				<td><div style="text-align:center;"><input type="radio" name="new" value="{{ page.id }}" /><input type="radio" name="old" value="{{ page.id }}" /></div></td>
+				<td><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "Restore" %}" onclick="location.assign('/wiki/restore/{{ page.id }}/');" />
 				{% if page.is_proposal %}
-					<br><br><input type="button" class="historyinput" value="{% trans "Unpropose" %}" onclick="location.assign('/wiki/unpropose/{{ page.id }}/');">
+					<br /><br /><input type="button" class="historyinput" value="{% trans "Unpropose" %}" onclick="location.assign('/wiki/unpropose/{{ page.id }}/');" />
 				{% endif %}
-				</center></td>
+				</div></td>
 			</tr>
 		{% endfor %}
 </table>
-<div align="right"><input type="submit" value="{% trans "Compare Selected" %}" class="actiontable"></div>
+<div align="right"><input type="submit" value="{% trans "Compare Selected" %}" class="actiontable" /></div>
 </form>
 {% endblock %}

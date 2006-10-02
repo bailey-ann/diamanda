@@ -1,5 +1,10 @@
 {% load i18n %}
 {% extends "body.html" %}
+
+{% block header %}
+{{ page.title }}
+{% endblock %}
+
 {% block content %}
-<center><h1>{% trans "Permission Denied" %}</h1></center>
+{% trans "Permission Denied" %}
 {% endblock %}

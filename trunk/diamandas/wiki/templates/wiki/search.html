@@ -1,24 +1,26 @@
 {% load i18n %}
 {% extends "body.html" %}
-{% block upmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
-{% block downmenu %}<input type="button" value="{% trans "Main Page" %}" onclick="location.assign('/');">{% endblock %}
+
 {% block content %}
 
-<div class="downmenu"><form method="post" action="."><input type="text" value="{{ string }}" name="string" size="20"> <input type="submit" value="{% trans "Plain Search" %}" name="like">
+<div style="text-align:center;"><form method="post" action="."><input type="text" value="{{ string }}" name="string" size="20" /> <input type="submit" value="{% trans "Plain Search" %}" name="like" />
 {% if google %}
- <input type="submit" value="{% trans "Search This Site with Google" %}" name="google">
+ <input type="submit" value="{% trans "Search This Site with Google" %}" name="google" />
 {% endif %}
-</form></div>
+</form>
+</div>
 
 {% if pages %}
 	{% if google %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png"> <a href="{{ page.URL }}">{{ page.title }}</a><br>
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="{{ page.URL }}">{{ page.title }}</a><br />
 		{% endfor %}
 	{% else %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png"> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br>
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/w/p/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
 		{% endfor %}
 	{% endif %}
+{% else %}
+<div style="text-align:center;">{% trans "Enter a word or a phrase to search" %}</div>
 {% endif %}
 {% endblock %}

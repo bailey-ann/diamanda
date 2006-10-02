@@ -3,27 +3,34 @@
 {% extends "body.html" %}
 
 {% block upmenu %}
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Site Tasks" %}" onclick="location.assign('/wiki/task_list/1/');" />
+
 {% if not is_authenticated %}
-<input type="button" value="{% trans "Login or Register" %}" onclick="location.assign('/wiki/user/');" />
+<a href="/wiki/user/">{% trans "Login or Register" %}</a>
 {% else %}
-<input type="button" value="{% trans "Your Account" %}" onclick="location.assign('/wiki/user/');" />
+<a href="/wiki/user/">{% trans "Your Account" %}</a>
 {% endif %}
-<input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');" /><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');" />
+<a href="/wiki/search/">{% trans "Search" %}</a>
+<a href="/wiki/sitelist/">{% trans "Sitemap" %}</a>
 {% endblock %}
 
-{% block downmenu %}
+{% block leftmenu %}
+
+
+<a href="/wiki/edit/{{ page.slug }}/">{% trans "Edit" %}</a> | 
+<a href="/wiki/add/">{% trans "Add a Page" %}</a> | 
+<a href="/wiki/task_list/1/">{% trans "Site Tasks and Edit Proposals" %}</a> | 
+<a href="/wiki/search/">{% trans "Search" %}</a> | 
 {% if pdf %}
-[<a href="/wiki/pdf/{{ page.slug }}/"><b>{% trans "Save as PDF" %}</b></a>] | 
+<a href="/wiki/pdf/{{ page.slug }}/">{% trans "Save as PDF" %}</a> | 
 {% endif %}
-[<a onclick="window.print()"><b>{% trans "Print Page" %}</b></a>] | [<a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a>]<br>
-<input type="button" value="{% trans "Edit" %}" onclick="location.assign('/wiki/edit/{{ page.slug }}/');" /> <input type="button" value="{% trans "Page History" %}" onclick="location.assign('/wiki/history/{{ page.slug }}/');" /> 
-<input type="button" value="{% trans "Add a Page" %}" onclick="location.assign('/wiki/add/');" /> <input type="button" value="{% trans "Site Tasks and Edit Proposals" %}" onclick="location.assign('/wiki/task_list/1/');" /><input type="button" value="{% trans "Search" %}" onclick="location.assign('/wiki/search/');" /><input type="button" value="{% trans "Sitemap" %}" onclick="location.assign('/wiki/sitelist/');" />{% endblock %}
+<a onclick="window.print()">{% trans "Print Page" %}</a> | 
+<a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a>
+{% endblock %}
 
 {% block header %}
-<div class="pagetitle"><h1 class="header">{{ page.title }}</h1></div>
+{{ page.title }}
 {% if page.description %}
-<h2 class="header">{{ page.description }}</h2>
+ - {{ page.description }}
 {% endif %}
 {% endblock %}
 
