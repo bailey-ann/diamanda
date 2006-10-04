@@ -291,6 +291,9 @@ def delete_post(request, post_id, topic_id):
 		user_data = User.objects.get(username=str(request.user))
 		if user_data.is_staff:
 			Post.objects.get(id=post_id).delete()
+			topic = Topic.objects.get(id=topic_id)
+			topic.topic_posts = topic.topic_posts -1
+			topic.save()
 			return HttpResponseRedirect("/forum/topic/1/" + topic_id +"/")
 		else:
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
@@ -302,8 +305,14 @@ def delete_topic(request, topic_id, forum_id):
 	if request.user.is_authenticated():
 		user_data = User.objects.get(username=str(request.user))
 		if user_data.is_staff:
+			posts = Post.objects.filter(post_topic=topic_id).count()
 			Topic.objects.get(id=topic_id).delete()
-			Post.objects.filter(id=topic_id).delete()
+			print posts
+			Post.objects.filter(post_topic=topic_id).delete()
+			forum = Forum.objects.get(id=forum_id)
+			forum.forum_topics = forum.forum_topics -1
+			forum.forum_posts = forum.forum_posts - posts
+			forum.save()
 			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 		else:
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete

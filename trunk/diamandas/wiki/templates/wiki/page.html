@@ -1,6 +1,14 @@
 {% load i18n %}
 {% load cbc %}
-
+{% block leftmenu %}
+<li><a href="/wiki/edit/{{ page.slug }}/">{% trans "Edit" %}</a></li>
+<li><a href="/wiki/history/{{ page.slug }}/">{% trans "Page History" %}</a></li>
+<li><a href="/wiki/add/">{% trans "Add a Page" %}</a></li>
+{% if pdf %}
+<li><a href="/wiki/pdf/{{ page.slug }}/">{% trans "Save as PDF" %}</a></li>
+{% endif %}
+<li><a onclick="window.print();">{% trans "Print Page" %}</a></li>
+{% endblock %}
 {% extends "body.html" %}
 {% block header %}
 {{ page.title }}

@@ -1,11 +1,10 @@
 {% load i18n %}
 {% extends "body.html" %}
-{% block upmenu %}
-<a href="/wiki/history/{{ slug }}/">{% trans "Page History" %}</a>
-<a href="/">{% trans "Main Page" %}</a>
-<a href="/forum/">{% trans "Forum" %}</a>
-<a href="/wiki/search/">{% trans "Search" %}</a>
-<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
+{% block leftmenu %}
+<li><a href="/wiki/edit/{{ slug }}/">{% trans "Edit" %}</a></li>
+<li><a href="/wiki/history/{{ slug }}/">{% trans "Page History" %}</a></li>
+<li><a href="/wiki/add/">{% trans "Add a Page" %}</a></li>
+{% endblock %}
 
 
 {% block content %}

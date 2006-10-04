@@ -6,16 +6,29 @@
 
 <div class="linkst">
 	<div class="inbox">
-		<p class="pagelink conl">
+			<div style="text-align:center;">
+			{% ifnotequal pages 0 %}
+			{% ifnotequal pages 1 %}
+			<a href="/forum/topic/1/{{ topic_id }}/"><b>{% trans "First Page" %}</b></a> | 
+			{% endifnotequal %}
+			{% endifnotequal %}
+			
 			{% if has_previous %}
-				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
+				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %} </b></a>
 			{% endif %}
+			
 			{% if has_next %}
-			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
+			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b> {% trans "Next Page" %}</b></a>
 			{% endif %}
+			
+			{% ifnotequal pages 0 %}
+			{% ifnotequal pages 1 %}
+			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/"><b>{% trans "Last Page" %}</b></a>
+			{% endifnotequal %}
+			{% endifnotequal %}
+			</div>
 		</p>
-		<div class="clearer"></div>
-	</div>
+		
 	{% if opened %}
 	<a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a>
 	{% endif %}
@@ -74,14 +87,27 @@
 		<p style="text-align:right;"><a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a></p>
 		{% endif %}
 	{% endif %}
-	
-	<div style="align:center;">
-	{% if has_previous %}
-		<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %}</b></a>
-	{% endif %}
-	{% if has_next %}
-		<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b>{% trans "Next Page" %}</b></a>
-	{% endif %}</div>
+			<div style="text-align:center;">
+			{% ifnotequal pages 0 %}
+			{% ifnotequal pages 1 %}
+			<a href="/forum/topic/1/{{ topic_id }}/"><b>{% trans "First Page" %}</b></a> | 
+			{% endifnotequal %}
+			{% endifnotequal %}
+			
+			{% if has_previous %}
+				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %} </b></a>
+			{% endif %}
+			
+			{% if has_next %}
+			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b> {% trans "Next Page" %}</b></a>
+			{% endif %}
+			
+			{% ifnotequal pages 0 %}
+			{% ifnotequal pages 1 %}
+			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/"><b>{% trans "Last Page" %}</b></a>
+			{% endifnotequal %}
+			{% endifnotequal %}
+			</div>
 
 	<p style="text-align:right;">
 		{% if perms.add_topic %}

@@ -1,13 +1,6 @@
 {% load i18n %}
 {% extends "body.html" %}
 
-{% block upmenu %}
-<a href="/">{% trans "Main Page" %}</a>
-{% if loginform %}
-<a href="/wiki/register/">{% trans "Register" %}</a>
-{% endif %}
-{% endblock %}
-
 {% block header %}
 {% trans "User Page" %}
 {% endblock %}

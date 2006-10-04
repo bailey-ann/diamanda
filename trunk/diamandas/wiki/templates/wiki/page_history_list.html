@@ -1,13 +1,6 @@
 {% load i18n %}
 {% extends "body.html" %}
-{% block upmenu %}
-<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a>
-<a href="/">{% trans "Main Page" %}</a>
-<a href="/forum/">{% trans "Forum" %}</a>
-<a href="/wiki/search/">{% trans "Search" %}</a>
-<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
 {% block content %}
-
 <form method="post" action="/wiki/diff/">
 <table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>

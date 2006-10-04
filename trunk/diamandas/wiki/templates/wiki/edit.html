@@ -1,13 +1,16 @@
 {% load i18n %}
 {% load cbc %}
 {% extends "body.html" %}
-{% block upmenu %}
-<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a>
-<a href="/">{% trans "Main Page" %}</a>
-<a href="/forum/">{% trans "Forum" %}</a>
-<a href="/wiki/search/">{% trans "Search" %}</a>
-<a href="/wiki/user/">{% trans "My Account" %}</a>{% endblock %}
 
+
+{% block upmenu %}
+				<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a>
+				<a href="/">{% trans "Main Page" %}</a>
+				<a href="/wiki/search/">{% trans "Search" %}</a>
+				<a href="/wiki/task_list/1/">{% trans "Site Tasks" %}</a>
+				<a href="/wiki/user/">{% trans "My Account" %}</a>
+				<a href="/forum/">{% trans "Forum" %}</a>
+				{% endblock %}
 
 {% block content %}
 

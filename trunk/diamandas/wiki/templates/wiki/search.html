@@ -17,7 +17,7 @@
 		{% endfor %}
 	{% else %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/w/p/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
 		{% endfor %}
 	{% endif %}
 {% else %}

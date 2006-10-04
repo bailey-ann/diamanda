@@ -2,29 +2,15 @@
 {% load cbc %}
 {% extends "body.html" %}
 
-{% block upmenu %}
-
-{% if not is_authenticated %}
-<a href="/wiki/user/">{% trans "Login or Register" %}</a>
-{% else %}
-<a href="/wiki/user/">{% trans "Your Account" %}</a>
-{% endif %}
-<a href="/wiki/search/">{% trans "Search" %}</a>
-<a href="/wiki/sitelist/">{% trans "Sitemap" %}</a>
-{% endblock %}
-
 {% block leftmenu %}
-
-
-<a href="/wiki/edit/{{ page.slug }}/">{% trans "Edit" %}</a> | 
-<a href="/wiki/add/">{% trans "Add a Page" %}</a> | 
-<a href="/wiki/task_list/1/">{% trans "Site Tasks and Edit Proposals" %}</a> | 
-<a href="/wiki/search/">{% trans "Search" %}</a> | 
+<li><a href="/wiki/edit/{{ page.slug }}/">{% trans "Edit" %}</a></li>
+<li><a href="/wiki/history/{{ page.slug }}/">{% trans "Page History" %}</a></li>
+<li><a href="/wiki/add/">{% trans "Add a Page" %}</a></li>
 {% if pdf %}
-<a href="/wiki/pdf/{{ page.slug }}/">{% trans "Save as PDF" %}</a> | 
+<li><a href="/wiki/pdf/{{ page.slug }}/">{% trans "Save as PDF" %}</a></li>
 {% endif %}
-<a onclick="window.print()">{% trans "Print Page" %}</a> | 
-<a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a>
+<li><a onclick="window.print();">{% trans "Print Page" %}</a></li>
+<li><a href="/wiki/sitemap.xml">{% trans "sitemap.xml" %}</a></li>
 {% endblock %}
 
 {% block header %}
