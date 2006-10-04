@@ -14,7 +14,7 @@
 
 {% block content %}
 
-<div class="actiontitle">{% trans "Edit Page" %}</div><br />
+<h2 class="pageh">{% trans "Edit Page" %}</h2><br />
 <form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
 <tr><td width="140"><p>
     {% trans "Title" %}:</td><td> {{ form.title }}
@@ -61,14 +61,14 @@
 
 <br />
 {% if preview %}
-<div class="pagetitle"><h1 class="header">Page Preview</h1></div>
+<h1 class="pageh">Page Preview</h1>
 	{{ preview|cbc }}
-<div class="pagetitle"><h1 class="header">End of Preview</h1></div>
+<h1 class="pageh">End of Preview</h1>
 {% endif %}
 
 <br />
 
-<div class="actiontitle">{% trans "ContentBBCode List" %}</div>
+<h2 class="pageh">{% trans "ContentBBCode List" %}</h2>
 {% for i in cbcdesc %}
 <div class="tagdesc"><b>{{ i.tag }}</b></div>
 <b><pre>{{ i.tag_example }}</pre></b>

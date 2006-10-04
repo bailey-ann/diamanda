@@ -5,21 +5,22 @@
 {{ task.task_name }}
 {% endblock %}
 {% block content %}
-<div class="pagetitle"><h3 class="header">{% trans "Task Description" %}</h3></div>
+<h2 class="pageh">{% trans "Task Description" %}</h2>
 {{ task.task_text }}
 <br />
-<br />
-{% ifnotequal task.task_progress "0" %}
-<div class="box" style="width:{{ task.task_progress }}%;"><b>{% trans "Progress" %}</b>: {{ task.task_progress }}%</div>
-{% endifnotequal %}
 <div style="text-align:center;"><b>{% trans "Task Type" %}</b>: {{ task.task_type }} | <b>{% trans "Task Status" %}</b>: {{ task.task_status }} | <b>{% trans "Assigned To" %}</b>: {{ user_list }}<br />
-<b>{% trans "Creation Date" %}</b>: {{ task.task_creation_date }} | <b>{% trans "Last Modification Date" %}</b>: {{ task.task_modification_date }}<br /><br />
+<b>{% trans "Creation Date" %}</b>: {{ task.task_creation_date }} | <b>{% trans "Last Modification Date" %}</b>: {{ task.task_modification_date }}<br />
+{% if add_task %}
+<a href="/admin/wiki/task/add/">{% trans "Add new Task" %}</a> | <a href="/admin/wiki/task/{{ task.id }}/">{% trans "Edit Task" %}</a><br />
+{% endif %}
 
-<input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');" />
+{% ifnotequal task.task_progress "0" %}
+<br /><div style="width:{{ task.task_progress }}%; color:white; background:#2489DB; padding:3px;">{% trans "Progress" %}: {{ task.task_progress }}%</div>
+{% endifnotequal %}
 </div>
 <br />
 {% if com %}
-<div class="pagetitle"><h3 class="header">{% trans "Task Comments" %}</h3></div><br />
+<h2 class="pageh">{% trans "Task Comments" %}</h2><br />
 <table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>
 		<th class="title" width="100"><div style="text-align:center;"><b>{% trans "Author" %}</b></div></th>
@@ -35,4 +36,6 @@
 {% endfor %}
 </table>
 {% endif %}
+<div style="text-align:center;"><input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/wiki/task_com_add/{{ task.id }}/');" /></div>
+
 {% endblock %}

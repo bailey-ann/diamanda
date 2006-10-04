@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load fbc %}
 {% extends "myghtyboard/CrystalClear/body.html" %}
 {% block content %}
 <h3><span><a href="/forum/"><b>{% trans "Forum Index" %}</b></a></span></h3>
@@ -28,5 +29,42 @@
 <textarea rows="10" cols="100" name="post_text" id="id_text">{{ quote_text }}</textarea>
 <center><input type="submit" value="{% trans "Add Post" %}" style="actiontable"></center>
 </form>
-<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote
+<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote<br /><br />
+
+<h2>{% trans "Last 10 posts from topic" %}</h2>
+{% if lastpost %}
+<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css"></link>
+	{% for i in lastpost %}
+	<div class="blockpost rowodd firstpost">
+	<div class="box">
+		<div class="inbox">
+			<div class="postleft">
+				<dl>
+					<dt><strong>{{ i.post_author }}</strong></dt>
+					<dd>{{ i.post_date }}</dd>
+					{% if perms.is_staff %}
+						<dd>{{ i.post_ip }} - {{ i.post_host }}</dd>
+					{% endif %}
+				</dl>
+			</div>
+			<div class="postright">
+				<div class="postmsg">
+					<p>{{ i.post_text|fbc }}</p>
+					<br /><br />
+				</div>
+			</div>
+			<div class="clearer"></div>
+		</div>
+	</div>
+</div>
+	{% endfor %}
+
+
+
+<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shCore.js"></script>
+<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shBrushXml.js"></script>
+<script type="text/javascript">dp.SyntaxHighlighter.HighlightAll('code');</script>
+
+
+{% endif %}
 {% endblock %}

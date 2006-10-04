@@ -2,7 +2,7 @@
 {% extends "body.html" %}
 {% block content %}
 {% if object_list %}
-<div class="pagetitle"><h3 class="header">{% trans "Site Tasks" %}</h3></div><br />
+<h2 class="pageh">{% trans "Site Tasks" %}</h2><br />
 <table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>
 		<th class="title"><div style="text-align:center;"><b>{% trans "Task Title" %}</b></div></th>
@@ -26,7 +26,7 @@
 {% ifequal t.task_priority "Minor" %}
 <tr style="background-color:#BFBCFF;">
 {% endifequal %}
-<td><div style="text-align:center;"><a href="/wiki/task_show/{{ t.id }}/">{{ t.task_name }}</a></div></td>
+<td><div style="text-align:center; font-weight:bold;"><a href="/wiki/task_show/{{ t.id }}/">{{ t.task_name }}</a></div></td>
 <td><div style="text-align:center;">{{ t.task_status }}</div></td>
 <td><div style="text-align:center;">{% trans t.task_priority %}</div></td>
 <td><div style="text-align:center;">{{ t.task_modification_date }}</div></td>
@@ -42,9 +42,13 @@
 {% endif %}
 {% endif %}
 
+{% if add_task %}
+<br /><div style="text-align:center; font-weight:bold;"><a href="/admin/wiki/task/add/">{% trans "Add new Task" %}</a></div>
+{% endif %}
+
 {% if proposals %}
 	<br /><br /><br />
-	<div class="pagetitle"><h3 class="header">{% trans "Edit Proposals" %}</h3></div>
+	<h2 class="pageh">{% trans "Edit Proposals" %}</h2>
 	<br />
 	<table width="100%" class="historytable" cellspacing="0" cellpadding="0">
 	<thead><tr>

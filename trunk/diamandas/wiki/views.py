@@ -426,7 +426,11 @@ def task_list(request, pagination_id):
 	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
 	if len(tasks) == 0:
 		return render_to_response('wiki/task_list.html', {'proposals': proposals})
-	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
+	if request.user.is_authenticated() and request.user.has_perm('wiki.add_task'):
+		add_task = True
+	else:
+		add_task = False
+	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
 
 # show tasks
 def task_show(request, task_id):
@@ -439,7 +443,11 @@ def task_show(request, task_id):
 	else:
 		user_list = _('None')
 	com = TaskComment.objects.filter(com_task_id = task_id)
-	return render_to_response('wiki/task_show.html', {'task': task, 'com': com, 'user_list': user_list ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
+	if request.user.is_authenticated() and request.user.has_perm('wiki.add_task'):
+		add_task = True
+	else:
+		add_task = False
+	return render_to_response('wiki/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'add_task': add_task ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
 
 def com_task_add(request, task_id):
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_taskcomment'):

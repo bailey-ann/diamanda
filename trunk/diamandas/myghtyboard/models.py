@@ -64,3 +64,13 @@ class Post(models.Model):
 		verbose_name_plural = "Posts"
 	def __str__(self):
 		return str(self.id)
+
+class Profile(models.Model):
+	username = models.CharField(maxlength=255, verbose_name="Username") # username
+	email = models.EmailField() # user email to be shown/used
+	signature = models.CharField(maxlength=255, verbose_name="Signature", blank=True, default='') # user sig
+	avatar = models.CharField(maxlength=255, verbose_name="Avatar", blank=True, default='') # user avatar
+	theme = models.CharField(maxlength=255, verbose_name="Theme", blank=True, default='') # forum theme
+	contacts = models.CharField(maxlength=255, verbose_name="Contacts", blank=True, default='') # contacts
+	def __str__(self):
+		return str(self.username)

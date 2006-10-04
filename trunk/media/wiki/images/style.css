@@ -19,7 +19,12 @@ a:hover {
 a img {
 	border: 0;
 }
-
+.tagdesc
+	{
+	border:1px dashed blue;
+	background-color:#EFEFEF;
+	padding:3px;
+	}
 
 #bg { 
 	width: 100%px;

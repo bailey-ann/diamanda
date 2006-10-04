@@ -236,7 +236,9 @@ def add_post(request, topic_id, post_id = False):
 					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br /><cite>' + quote.post_text + '</cite></blockquote>\n'
 				else:
 					quote_text = ''
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG})
+			# get 10 last posts from this topic
+			lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t add posts')}) # can't add posts
 
