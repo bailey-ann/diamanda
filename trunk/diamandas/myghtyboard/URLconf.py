@@ -18,4 +18,7 @@ urlpatterns = patterns('myghtyboard',
 (r'^mytopics/$', 'views.my_topic_list'),
 (r'^lasttopics/$', 'views.last_topic_list'),
 (r'^myptopics/$', 'views.my_posttopic_list'),
+(r'^profile/$', 'views.user_profile'),
+(r'^show_profile/(?P<show_user>.*)/$', 'views.show_profile'),
+
 )

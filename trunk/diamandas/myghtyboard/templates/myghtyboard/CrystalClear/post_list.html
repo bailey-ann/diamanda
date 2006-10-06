@@ -41,7 +41,7 @@
 		<div class="inbox">
 			<div class="postleft">
 				<dl>
-					<dt><strong>{{ i.post_author }}</strong></dt>
+					<dt><strong><a href="/forum/show_profile/{{ i.post_author }}/">{{ i.post_author }}</a></strong></dt>
 					<dd>{{ i.post_date }}</dd>
 					{% if perms.is_staff %}
 						<dd>{{ i.post_ip }} - {{ i.post_host }}</dd>

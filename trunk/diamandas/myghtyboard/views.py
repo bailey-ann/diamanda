@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from myghtyboard.models import *
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -309,7 +309,6 @@ def delete_topic(request, topic_id, forum_id):
 		if user_data.is_staff:
 			posts = Post.objects.filter(post_topic=topic_id).count()
 			Topic.objects.get(id=topic_id).delete()
-			print posts
 			Post.objects.filter(post_topic=topic_id).delete()
 			forum = Forum.objects.get(id=forum_id)
 			forum.forum_topics = forum.forum_topics -1
@@ -371,3 +370,37 @@ def open_topic(request, topic_id, forum_id):
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't open
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't open
+
+def user_profile(request):
+	if request.user.is_authenticated():
+		try:
+			profile = Profile.objects.get(username=request.user)
+			if request.POST:
+				data = request.POST.copy()
+				data['email'] = html2safehtml(data['email'] ,valid_tags=())
+				data['signature'] = html2safehtml(data['signature'] ,valid_tags=())
+				data['avatar'] = html2safehtml(data['avatar'] ,valid_tags=())
+				data['theme'] = html2safehtml(data['theme'] ,valid_tags=())
+				data['contacts'] = html2safehtml(data['contacts'] ,valid_tags=('br', 'b', 'u', 'i'))
+				profile.email = data['email']
+				profile.signature = data['signature']
+				profile.avatar = data['avatar']
+				profile.theme = data['theme']
+				profile.contacts = data['contacts']
+				profile.save()
+		except Profile.DoesNotExist:
+			p = Profile(username=request.user)
+			p.save()
+			return HttpResponseRedirect('/forum/profile/')
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'profile.html', {'profile': profile})
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')})
+def show_profile(request, show_user):
+	if request.user.is_authenticated():
+		try:
+			profile = Profile.objects.get(username=User.objects.get(username=show_user))
+		except Profile.DoesNotExist:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('No such profile')})
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'show_profile.html', {'profile': profile})
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')})

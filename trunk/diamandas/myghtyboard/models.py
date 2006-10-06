@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 # Forum Categories
 class Category(models.Model):
@@ -66,7 +67,7 @@ class Post(models.Model):
 		return str(self.id)
 
 class Profile(models.Model):
-	username = models.CharField(maxlength=255, verbose_name="Username") # username
+	username = models.ForeignKey(User)
 	email = models.EmailField() # user email to be shown/used
 	signature = models.CharField(maxlength=255, verbose_name="Signature", blank=True, default='') # user sig
 	avatar = models.CharField(maxlength=255, verbose_name="Avatar", blank=True, default='') # user avatar

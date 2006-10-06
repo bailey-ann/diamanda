@@ -1,0 +1,68 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/CrystalClear/body.html" %}
+{% block content %}
+<h2><span>{% trans "User Profile" %}</span></h2>
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Public Email" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" style="width:75%;"><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Signature" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.signature }}</td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Avatar" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.avatar }}</td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Theme" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.theme }}</td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Contacts" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.contacts }}</td>
+</tr>
+
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
