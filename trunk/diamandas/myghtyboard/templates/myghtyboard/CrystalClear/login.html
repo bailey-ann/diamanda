@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/CrystalClear/body.html" %}
+{% block content %}
+<h2><span>{% trans "User Profile" %}</span></h2>
+<form action="." method="post">
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+
+{% if loginform %}
+	{% if error %}
+		<div style="text-align:center;"><b>{% trans "Login Error - bad login and/or password" %}</b></div>
+	{% endif %}
+	<div style="text-align:center;"><form action="." method="post"><input type="hidden" value="{{ hash }}" name="imghash" />
+
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Login" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" style="width:70%;"><input type="text" size="30" name="login" /></td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Password" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2"><input type="password" size="30" name="password" /></td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3><b>{% trans "Text from the image" %}</b><br />{% trans "(Use CAPITAL letters)" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2"><input type="text" size="30" name="imgtext" /><br /><img src="/site_media/bg2.jpg" alt="" style="padding:4px;" /></td>
+</tr>
+</tbody>
+</table></div></div>
+	<br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}" class="actiontable" /><br /><br />
+	<input type="button" value="{% trans "Register" %}" onclick="location.assign('/forum/register/');" /><br />
+	</div>
+	</form>
+{% endif %}
+			
+		
+	</div>
+
+{% endblock %}
+
+
+
+
+
+

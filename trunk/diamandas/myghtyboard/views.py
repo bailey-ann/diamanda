@@ -3,13 +3,10 @@ from myghtyboard.models import *
 from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
 from django.db.models import Q
-#############
-# lepsza walidacja forumularzy
-# paginacja tematow
-############
+
 # list permissions used in templates
 def list_perms(request):
 	perms = {}
@@ -58,9 +55,11 @@ def topic_list(request, forum_id):
 
 
 # list my topics
-def my_topic_list(request):
+def my_topic_list(request, show_user=False):
+	if not show_user:
+		show_user = str(request.user)
 	if request.user.is_authenticated():
-		topics = Topic.objects.order_by('-topic_modification_date').filter(topic_author=str(request.user))[:50]
+		topics = Topic.objects.order_by('-topic_modification_date').filter(topic_author=show_user)[:50]
 		for i in topics:
 			pmax =  i.post_set.all().count()/10
 			pmaxten =  i.post_set.all().count()%10
@@ -68,7 +67,7 @@ def my_topic_list(request):
 				i.pagination_max = pmax+1
 			else:
 				i.pagination_max = pmax
-		forum_name = _('My Topics')
+		forum_name = _('User Topics')
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
@@ -85,17 +84,19 @@ def last_topic_list(request):
 				i.pagination_max = pmax+1
 			else:
 				i.pagination_max = pmax
-		forum_name = _('My Topics')
+		forum_name = _('Last Active Topics')
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
 
 # list topics with my posts
-def my_posttopic_list(request):
+def my_posttopic_list(request, show_user=False):
+	if not show_user:
+		show_user = str(request.user)
 	if request.user.is_authenticated():
 		try:
-			topics = Post.objects.order_by('-post_date').filter(post_author=str(request.user)).values('post_topic').distinct()[:50]
+			topics = Post.objects.order_by('-post_date').filter(post_author=show_user).values('post_topic').distinct()[:50]
 			posts = []
 			for i in topics:
 				posts.append(int(i['post_topic']))
@@ -107,7 +108,7 @@ def my_posttopic_list(request):
 					i.pagination_max = pmax+1
 				else:
 					i.pagination_max = pmax
-			forum_name = _('My Topics')
+			forum_name = _('User Posts in Latest Topics')
 		except:
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'lang': settings.MYGHTYBOARD_LANG})
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
@@ -123,17 +124,50 @@ def post_list(request, topic_id, pagination_id):
 		opened = False
 	else:
 		opened = True
-	return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
+	if settings.FORUMS_USE_CAPTCHA:
+		# captcha image creation
+		from random import choice
+		import Image, ImageDraw, ImageFont, sha
+		# create a 5 char random strin and sha hash it
+		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+		imghash = sha.new(imgtext).hexdigest()
+		# create an image with the string
+		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+		draw=ImageDraw.Draw(im)
+		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
+		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+	return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
 
 # add topic
 def add_topic(request, forum_id):
+	if settings.FORUMS_USE_CAPTCHA:
+		# captcha image creation
+		from random import choice
+		import Image, ImageDraw, ImageFont, sha
+		# create a 5 char random strin and sha hash it
+		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+		imghash = sha.new(imgtext).hexdigest()
+		# create an image with the string
+		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+		draw=ImageDraw.Draw(im)
+		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
+		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+		
 	# can add_topic or anonymous ANONYMOUS_CAN_ADD_TOPIC
 	if request.user.is_authenticated() and request.user.has_perm('myghtyboard.add_topic') or settings.ANONYMOUS_CAN_ADD_TOPIC and not request.user.is_authenticated():
 		manipulator = Topic.AddManipulator()
 		if request.POST and len(request.POST.copy()['text']) > 1 and  len(request.POST.copy()['topic_name']) > 1:
 			page_data = request.POST.copy()
+			if settings.FORUMS_USE_CAPTCHA and page_data['imghash'] != sha.new(page_data['imgtext']).hexdigest():
+				errors = {}
+				page_data = {}
+				form = forms.FormWrapper(manipulator, page_data, errors)
+				post_text = html2safehtml(request.POST.copy()['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'hash': imghash, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request), 'post_text': post_text})
+
 			page_data['topic_author'] = str(request.user)
-			
 			import re
 			import base64
 			from datetime import datetime
@@ -142,6 +176,9 @@ def add_topic(request, forum_id):
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			text = page_data['text']
+			profil = Profile.objects.get(username=request.user)
+			if len(profil.signature) > 1:
+				text = text + '<br /><br />-------------------------------------------------<br />' + profil.signature
 			del page_data['text']
 			page_data['topic_forum'] = forum_id
 			page_data['topic_posts'] = 1
@@ -163,13 +200,30 @@ def add_topic(request, forum_id):
 			page_data = {}
 		
 		form = forms.FormWrapper(manipulator, page_data, errors)
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
+		if settings.FORUMS_USE_CAPTCHA:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'hash': imghash, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t add topics')}) # can't add topic
 
 
 # add post
 def add_post(request, topic_id, post_id = False):
+	if settings.FORUMS_USE_CAPTCHA:
+		# captcha image creation
+		from random import choice
+		import Image, ImageDraw, ImageFont, sha
+		# create a 5 char random strin and sha hash it
+		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+		imghash = sha.new(imgtext).hexdigest()
+		# create an image with the string
+		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+		draw=ImageDraw.Draw(im)
+		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
+		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+		
 	# can add_post or anonymous ANONYMOUS_CAN_ADD_POST
 	if request.user.is_authenticated() and request.user.has_perm('myghtyboard.add_post') or settings.ANONYMOUS_CAN_ADD_POST and not request.user.is_authenticated():
 		topic = Topic.objects.values('is_locked').get(id=topic_id)
@@ -189,8 +243,19 @@ def add_post(request, topic_id, post_id = False):
 			manipulator = Post.AddManipulator()
 			if request.POST and len(request.POST.copy()['post_text']) > 1:
 				page_data = request.POST.copy()
-				page_data['post_author'] = str(request.user)
 				
+				if settings.FORUMS_USE_CAPTCHA and page_data['imghash'] != sha.new(page_data['imgtext']).hexdigest():
+					errors = {}
+					page_data = {}
+					form = forms.FormWrapper(manipulator, page_data, errors)
+					post_text = html2safehtml(request.POST.copy()['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
+					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost, 'hash': imghash, 'post_text': post_text})
+
+				
+				page_data['post_author'] = str(request.user)
+				profil = Profile.objects.get(username=request.user)
+				if len(profil.signature) > 1:
+					page_data['post_text'] = page_data['post_text'] + '<br /><br />-------------------------------------------------<br />' + profil.signature
 				import re
 				import base64
 				tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
@@ -238,7 +303,10 @@ def add_post(request, topic_id, post_id = False):
 					quote_text = ''
 			# get 10 last posts from this topic
 			lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost})
+			if settings.FORUMS_USE_CAPTCHA:
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost, 'hash': imghash})
+			else:
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost})
 	else:
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t add posts')}) # can't add posts
 
@@ -378,23 +446,25 @@ def user_profile(request):
 			if request.POST:
 				data = request.POST.copy()
 				data['email'] = html2safehtml(data['email'] ,valid_tags=())
-				data['signature'] = html2safehtml(data['signature'] ,valid_tags=())
+				data['signature'] = html2safehtml(data['signature'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
 				data['avatar'] = html2safehtml(data['avatar'] ,valid_tags=())
-				data['theme'] = html2safehtml(data['theme'] ,valid_tags=())
-				data['contacts'] = html2safehtml(data['contacts'] ,valid_tags=('br', 'b', 'u', 'i'))
+				#data['theme'] = html2safehtml(data['theme'] ,valid_tags=())
+				data['contacts'] = html2safehtml(data['contacts'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
 				profile.email = data['email']
 				profile.signature = data['signature']
 				profile.avatar = data['avatar']
-				profile.theme = data['theme']
+				#profile.theme = data['theme']
 				profile.contacts = data['contacts']
 				profile.save()
 		except Profile.DoesNotExist:
 			p = Profile(username=request.user)
 			p.save()
 			return HttpResponseRedirect('/forum/profile/')
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'profile.html', {'profile': profile})
+		from os import listdir
+		avatars = listdir(settings.SITE_IMAGES_DIR_PATH + '/avatars/')
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'profile.html', {'profile': profile, 'avatars': avatars})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')})
+		return HttpResponseRedirect('/forum/user/')
 def show_profile(request, show_user):
 	if request.user.is_authenticated():
 		try:
@@ -403,4 +473,85 @@ def show_profile(request, show_user):
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('No such profile')})
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'show_profile.html', {'profile': profile})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')})
+		return HttpResponseRedirect('/forum/user/')
+
+
+def users(request):
+	from django.contrib.auth import authenticate, login
+	if not request.user.is_authenticated():
+		# captcha image creation
+		from random import choice
+		import Image, ImageDraw, ImageFont, sha
+		# create a 5 char random strin and sha hash it
+		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+		imghash = sha.new(imgtext).hexdigest()
+		# create an image with the string
+		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+		draw=ImageDraw.Draw(im)
+		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
+		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+		
+		# log in user
+		if request.POST:
+			data = request.POST.copy()
+			# does the captcha math
+			if data['imghash'] == sha.new(data['imgtext']).hexdigest():
+				user = authenticate(username=data['login'], password=data['password'])
+				if user is not None:
+					login(request, user)
+					return HttpResponseRedirect('/forum/user/')
+				else:
+					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash})
+			else:
+					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash})
+		# no post data, show the login forum
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'hash': imghash})
+	else:
+		# user authenticated, show his page with permissions
+		if request.GET:
+			# if /forum/user/?log=out -> logout user
+			data = request.GET.copy()
+			if data['log'] == 'out':
+				from django.contrib.auth import logout
+				logout(request)
+				return HttpResponseRedirect('/forum/user/')
+		# show the page
+		return HttpResponseRedirect('/forum/')
+
+# register user
+def register(request):
+	from django.contrib.auth import authenticate, login
+	# captcha image creation
+	from random import choice
+	import Image, ImageDraw, ImageFont, sha
+	# create a 5 char random strin and sha hash it
+	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+	imghash = sha.new(imgtext).hexdigest()
+	# create an image with the string
+	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+	draw=ImageDraw.Draw(im)
+	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
+	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+
+	if request.POST:
+		data = request.POST.copy()
+		if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
+			data['email'] = html2safehtml(data['email'] ,valid_tags=())
+			try:
+				user = User.objects.create_user(data['login'], data['email'], data['password1'])
+			except Exception:
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True})
+			else:
+				user.save()
+				user = authenticate(username=data['login'], password=data['password1'])
+				if user is not None:
+					login(request, user)
+					user.groups.add(Group.objects.get(name='users'))
+				return HttpResponseRedirect('/forum/user/')
+		else:
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'hash': imghash})
+	else:
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'hash': imghash})

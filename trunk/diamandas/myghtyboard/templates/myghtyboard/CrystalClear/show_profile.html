@@ -2,6 +2,8 @@
 {% load fbc %}
 {% extends "myghtyboard/CrystalClear/body.html" %}
 {% block content %}
+
+<p style="text-align:right;"><a href="/forum/mytopics/{{ profile.username }}/">{% trans "User Topics" %}</a> | <a href="/forum/myptopics/{{ profile.username }}/">{% trans "User Posts" %}</a></p>
 <h2><span>{% trans "User Profile" %}</span></h2>
 <div class="blocktable">
 	<div class="box">
@@ -36,17 +38,7 @@
 			</div>
 		</div>
 	</td>
-	<td class="tc2">{{ profile.avatar }}</td>
-</tr>
-<tr>
-	<td class="tcl">
-		<div class="intd">
-			<div class="tclcon">
-				<h3>{% trans "Theme" %}</h3>
-			</div>
-		</div>
-	</td>
-	<td class="tc2">{{ profile.theme }}</td>
+	<td class="tc2"><img src="/site_media/images/avatars/{{ profile.avatar }}" alt="" /></td>
 </tr>
 <tr>
 	<td class="tcl">

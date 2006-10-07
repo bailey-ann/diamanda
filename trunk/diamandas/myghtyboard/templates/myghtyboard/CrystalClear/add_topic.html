@@ -4,16 +4,34 @@
 
 
 <h3><span><a href="/forum/"><b>{% trans "Forum Index" %}</b></a></span></h3>
-<h2><span>{% trans "Add Topic" %}</span></h2>
 
-<form method="post" action="."><table width="100%" cellspacing="2" cellpadding="2">
-<tr><td width="140"><p>
-    <b>{% trans "Title" %}</b>:</td><td> {{ form.topic_name }}
-    {% if form.topic_name.errors %}<br>*** {{ form.topic_name.errors|join:", " }}{% endif %}
-</p></td></tr>
-<tr><td width="140"><p>
- <b>{% trans "Text" %}</b>:</td><td>
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+
+<h2><span>{% trans "Add Topic" %}</span></h2>
+<form method="post" action=".">
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Title" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:25%;">{{ form.topic_name }}{% if form.topic_name.errors %}<br>*** {{ form.topic_name.errors|join:", " }}{% endif %}</td>
+</tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Text" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:75%;"><a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
 <a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" border="0"></a> 
 <a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a> 
 <a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a>
@@ -34,23 +52,55 @@
 <br>
  
  
- <textarea rows="10" cols="60" name="text" id="id_text"></textarea>
-</p>
-</td></tr>
-<tr><td width="140"><p>
-    <b>{% trans "Sticky" %}</b>:</td><td> {{ form.is_sticky }}
-    {% if form.is_sticky.errors %}<br>*** {{ form.is_sticky.errors|join:", " }}{% endif %}
-</p></td></tr>
+ <textarea rows="10" cols="60" name="text" id="id_text">{{ post_text }}</textarea>
+</td>
+</tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Sticky" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:75%;"> {{ form.is_sticky }}{% if form.is_sticky.errors %}<br>*** {{ form.is_sticky.errors|join:", " }}{% endif %}</td>
+</tr>
 {% if perms.is_staff %}
-<tr><td width="140"><p>
-    <b>{% trans "Global" %}</b>:</td><td> {{ form.is_global }}
-    {% if form.is_global.errors %}<br>*** {{ form.is_global.errors|join:", " }}{% endif %}
-</p></td></tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Global" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:75%;">{{ form.is_global }}{% if form.is_global.errors %}<br>*** {{ form.is_global.errors|join:", " }}{% endif %}</td>
+</tr>
+{% endif %}
+{% if hash %}
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Text from the image" %}<br />{% trans "(Use CAPITAL letters)" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:75%;"><input type="text" size="20" name="imgtext" /><br /><img src="/site_media/bg2.jpg" alt="" style="padding:4px;"><br />
+    <input type="hidden" value="{{ hash }}" name="imghash" />
+    {% if post_text %}
+    <b>{% trans "Enter Correct Captcha Text" %}</b>
+    {% endif %}</td>
+</tr>
 {% endif %}
 
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
-</table>
-<center><input type="submit" value="{% trans "Add Topic" %}" style="actiontable" /></center>
-</form><br>
-<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote
+<div style="text-align:center;"><input type="submit" value="{% trans "Add Topic" %}" style="actiontable" /></div>
+</form><br />
+<br /><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote
 {% endblock %}

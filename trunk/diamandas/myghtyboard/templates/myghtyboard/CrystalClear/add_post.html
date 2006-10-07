@@ -4,30 +4,69 @@
 {% block content %}
 <h3><span><a href="/forum/"><b>{% trans "Forum Index" %}</b></a></span></h3>
 <h2><span>{% trans "Add Post" %}</span></h2>
-<form method="post" action=".">
 
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" border="0"></a> 
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a> 
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a>
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'><img src="/site_media/wiki/editor/block.png" title="{% trans "Blockquote" %}" alt="{% trans "Blockquote" %}" border="0"></a>
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a> 
-	<br>
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':whatthe:' "><img src="/site_media/wiki/smilies/icon_neutral.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/wiki/smilies/icon_evil.gif" border="0"></a>
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/wiki/smilies/icon_twisted.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':?:' "><img src="/site_media/wiki/smilies/icon_question.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':idea:' "><img src="/site_media/wiki/smilies/icon_idea.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':arrow:' "><img src="/site_media/wiki/smilies/icon_arrow.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" border="0"></a> 
-	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" border="0"></a> 
-	
-
-<br>
-<textarea rows="10" cols="100" name="post_text" id="id_text">{{ quote_text }}</textarea>
-<center><input type="submit" value="{% trans "Add Post" %}" style="actiontable"></center>
+<form action="." method="post">
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Text" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:25%;"><a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" /></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" /></a> 
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" /></a> 
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" /></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'><img src="/site_media/wiki/editor/block.png" title="{% trans "Blockquote" %}" alt="{% trans "Blockquote" %}" /></a>
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" /></a> 
+	<br />
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':whatthe:' "><img src="/site_media/wiki/smilies/icon_neutral.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/wiki/smilies/icon_evil.gif" alt="" /></a>
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/wiki/smilies/icon_twisted.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':?:' "><img src="/site_media/wiki/smilies/icon_question.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':idea:' "><img src="/site_media/wiki/smilies/icon_idea.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':arrow:' "><img src="/site_media/wiki/smilies/icon_arrow.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" alt="" /></a> 
+	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" alt="" /></a> 
+<br />
+<textarea rows="10" cols="60" name="post_text" id="id_text">
+{% if post_text %}
+{{ post_text }}
+{% else %}
+{{ quote_text }}
+{% endif %}
+</textarea></td>
+</tr>
+{% if hash %}
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Text from the image" %}<br />{% trans "(Use CAPITAL letters)" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:75%;"><input type="text" size="20" name="imgtext" /><br /><img src="/site_media/bg2.jpg" alt="" style="padding:4px;"><br />
+    <input type="hidden" value="{{ hash }}" name="imghash" />
+    {% if post_text %}
+    <b>{% trans "Enter Correct Captcha Text" %}</b>
+    {% endif %}</td>
+</tr>
+{% endif %}
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<div style="text-align:center;"><input type="submit" value="{% trans "Add Post" %}" style="actiontable"></div>
 </form>
 <br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote<br /><br />
 

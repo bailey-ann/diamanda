@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/CrystalClear/body.html" %}
+{% block content %}
+<h2><span>{% trans "User Profile" %}</span></h2>
+<form action="." method="post">
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+			
+{% if error %}
+	<div style="text-align:center;"><b>{% trans "Registration Error" %}</b></div>
+{% endif %}
+
+<form action="/wiki/register/" method="POST"><input type="hidden" value="{{ hash }}" name="imghash" />
+<table cellspacing="0" cellpadding="0">
+	<thead><tr>
+		<th width="50%"><div style="text-align:center;"><b>{% trans "REGISTER FORM" %}</b></div></th>
+		<th> </th>
+	</tr></thead>
+	<tr>
+		<td><b>{% trans "Login" %}</b><br />{% trans "required, more than 3 chars<br />letters or numbers" %}</td>
+		<td><div style="text-align:center;"><input type="text" size="20" name="login" /></div></td>
+	</tr>
+	<tr>
+		<td><b>{% trans "Password" %}</b><br />{% trans "required, more than 4 chars<br />letters or numbers" %}</td>
+		<td><div style="text-align:center;"><input type="password" size="20" name="password1" /></div></td>
+	</tr>
+	<tr>
+		<td><b>{% trans "Password Again" %}</b><br />{% trans "required, enter the same password" %}</td>
+		<td><div style="text-align:center;"><input type="password" size="20" name="password2" /></div></td>
+	</tr>
+	<tr>
+		<td><b>{% trans "Email" %}</b><br />{% trans "required, your email addres" %}</td>
+		<td><div style="text-align:center;"><input type="text" size="20" name="email" /></div></td>
+	</tr>
+	<tr>
+		<td><b>{% trans "Text from the image" %}</b><br />{% trans "(Use CAPITAL letters)" %}</td>
+		<td><div style="text-align:center;"><input type="text" size="20" name="imgtext" /><br /><img src="/site_media/bg2.jpg" alt=""></div></td>
+	</tr></table>
+
+</tbody>
+</table></div></div>
+
+<br /><div style="text-align:center;"><input type="submit" value="{% trans "Register My" %}" class="actiontable"></div>
+
+</form></div>
+{% endblock %}

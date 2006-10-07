@@ -100,6 +100,7 @@ WIKI_GOOGLE_SEARCH_API = False
 # myghtyboard config
 ANONYMOUS_CAN_ADD_TOPIC=True
 ANONYMOUS_CAN_ADD_POST=True
+FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
 MYGHTYBOARD_THEME='CrystalClear/' # theme = folder name in diamandas/myghtyboard/templates with ending slash
 MYGHTYBOARD_LANG='english' # pointless for CrystalClear
 
