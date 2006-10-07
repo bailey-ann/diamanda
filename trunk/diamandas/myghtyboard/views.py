@@ -137,7 +137,9 @@ def post_list(request, topic_id, pagination_id):
 		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-	return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
+	else:
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
 
 # add topic
 def add_topic(request, forum_id):
@@ -469,7 +471,7 @@ def show_profile(request, show_user):
 	if request.user.is_authenticated():
 		try:
 			profile = Profile.objects.get(username=User.objects.get(username=show_user))
-		except Profile.DoesNotExist:
+		except:
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('No such profile')})
 		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'show_profile.html', {'profile': profile})
 	else:

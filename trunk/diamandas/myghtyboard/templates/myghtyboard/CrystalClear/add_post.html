@@ -37,13 +37,7 @@
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" alt="" /></a> 
 	<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" alt="" /></a> 
 <br />
-<textarea rows="10" cols="60" name="post_text" id="id_text">
-{% if post_text %}
-{{ post_text }}
-{% else %}
-{{ quote_text }}
-{% endif %}
-</textarea></td>
+<textarea rows="10" cols="60" name="post_text" id="id_text">{% if post_text %}{{ post_text }}{% else %}{{ quote_text }}{% endif %}</textarea></td>
 </tr>
 {% if hash %}
 <tr>
