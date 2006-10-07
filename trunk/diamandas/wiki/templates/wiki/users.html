@@ -31,6 +31,7 @@
 	</table>
 	<br /><input type="submit" value="{% trans "Login" %}" class="actiontable" />
 	</form></div>
+	<div style="text-align:center;"><input type="button" value="{% trans "Register" %}" onclick="location.assign('/wiki/register/');" /></div>
 {% else %}
 	<b>{% trans "Welcome" %} {{ user }}</b><br />
 	<br />

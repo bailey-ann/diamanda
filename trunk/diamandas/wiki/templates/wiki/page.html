@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load cbc %}
+{% extends "body.html" %}
 {% block leftmenu %}
 <li><a href="/wiki/edit/{{ page.slug }}/">{% trans "Edit" %}</a></li>
 <li><a href="/wiki/history/{{ page.slug }}/">{% trans "Page History" %}</a></li>
@@ -9,7 +10,6 @@
 {% endif %}
 <li><a onclick="window.print();">{% trans "Print Page" %}</a></li>
 {% endblock %}
-{% extends "body.html" %}
 {% block header %}
 {{ page.title }}
 {% if page.description %}
