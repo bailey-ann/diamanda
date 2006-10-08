@@ -107,7 +107,7 @@ def search_pages(request):
 				except Exception:
 					return render_to_response('wiki/search.html', {'pages': False, 'string': data['string'], 'google': google})
 				else:
-					return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google})
+					return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'googleuse': True})
 		else:
 			return render_to_response('wiki/search.html', {'google': google})
 	else:
@@ -241,7 +241,7 @@ def restore_page_from_archive(request, archive_id):
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/') # no page, display error msg!
 		# save old version as new, move current version to the archive
-		old = Archive(page_id = page_new, title=page_new.title, slug = page_new.slug, description = page_new.description, text=page_new.text, changes = 'Moved to Archive. ('+ page_new.changes +')', modification_date = page_new.modification_date, modification_user = page_new.modification_user, modification_ip = page_new.modification_ip, modification_host = page_new.modification_host)
+		old = Archive(page_id = page_new, title=page_new.title, slug = page_new.slug, description = page_new.description, text=page_new.text, changes = 'Moved to Archive. ('+ page_new.changes +')', modification_date = page_new.modification_date, modification_user = page_new.modification_user, modification_ip = page_new.modification_ip)
 		old.save()
 		page_new.title = page_old.title
 		page_new.description = page_old.description
@@ -250,7 +250,6 @@ def restore_page_from_archive(request, archive_id):
 		page_new.modification_date = page_old.modification_date
 		page_new.modification_user = str(request.user)
 		page_new.modification_ip = request.META['REMOTE_ADDR']
-		page_new.modification_host = request.META['REMOTE_HOST']
 		page_new.save()
 		return HttpResponseRedirect('/wiki/history/'+page_new.slug +'/')
 	else:
@@ -320,7 +319,6 @@ def add_page(request, slug=''):
 				page_data = request.POST.copy()
 				page_data['modification_user'] = str(request.user)
 				page_data['modification_ip'] = request.META['REMOTE_ADDR']
-				page_data['modification_host'] = request.META['REMOTE_HOST']
 				errors = manipulator.get_validation_errors(page_data)
 				if not errors and not page_data.has_key('preview'):
 					tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], re.MULTILINE)
@@ -375,7 +373,6 @@ def edit_page(request, slug):
 			page_data['slug'] = page.slug
 			page_data['modification_user'] = str(request.user)
 			page_data['modification_ip'] = request.META['REMOTE_ADDR']
-			page_data['modification_host'] = request.META['REMOTE_HOST']
 			errors = manipulator.get_validation_errors(page_data)
 			if not errors and not page_data.has_key('preview'):
 				# encode rk:syntax code so we can stripp HTML etc. 
@@ -387,7 +384,7 @@ def edit_page(request, slug):
 				# can user / anonymous set new changeset as current? wiki.can_set_current and settings.ANONYMOUS_CAN_SET_CURENT for anonymous
 				if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
 					#save old version to Archive
-					old = Archive(page_id = page, title=page.title, slug = page.slug, description = page.description, text=page.text, changes = page.changes, modification_date = page.modification_date, modification_user = page.modification_user, modification_ip = page.modification_ip, modification_host = page.modification_host)
+					old = Archive(page_id = page, title=page.title, slug = page.slug, description = page.description, text=page.text, changes = page.changes, modification_date = page.modification_date, modification_user = page.modification_user, modification_ip = page.modification_ip)
 					old.save()
 					#set edit as current content
 					manipulator.do_html2python(page_data)
@@ -395,7 +392,7 @@ def edit_page(request, slug):
 				else:
 					# can't save as current - save as a "old" revision with...
 					from datetime import datetime
-					old = Archive(page_id = page, title=page_data['title'], slug = page_data['slug'], description = page_data['description'], text=page_data['text'], changes = page_data['changes'], modification_date = datetime.today(), modification_user = page_data['modification_user'], modification_ip = page_data['modification_ip'], modification_host = page_data['modification_host'], is_proposal=True)
+					old = Archive(page_id = page, title=page_data['title'], slug = page_data['slug'], description = page_data['description'], text=page_data['text'], changes = page_data['changes'], modification_date = datetime.today(), modification_user = page_data['modification_user'], modification_ip = page_data['modification_ip'], is_proposal=True)
 					old.save()
 				return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
 			elif page_data.has_key('preview'):
@@ -454,7 +451,7 @@ def com_task_add(request, task_id):
 		if request.POST and len(request.POST['text']) > 0:
 			task = Task.objects.get(id=task_id)
 			text = html2safehtml(request.POST['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'pre', 'div', 'span', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'blockquote'))
-			co = TaskComment(com_task_id = task, com_text = text, com_author = str(request.user), com_ip = request.META['REMOTE_ADDR'], com_host =request.META['REMOTE_HOST'])
+			co = TaskComment(com_task_id = task, com_text = text, com_author = str(request.user), com_ip = request.META['REMOTE_ADDR'])
 			co.save()
 			task.save()
 			return HttpResponseRedirect('/wiki/task_show/' + str(task_id) + '/')

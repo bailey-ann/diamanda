@@ -178,18 +178,21 @@ def add_topic(request, forum_id):
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			text = page_data['text']
-			profil = Profile.objects.get(username=request.user)
-			if len(profil.signature) > 1:
-				text = text + '<br /><br />-------------------------------------------------<br />' + profil.signature
+			if request.user.is_authenticated():
+				try:
+					profil = Profile.objects.get(username=request.user)
+				except Profile.DoesNotExist:
+					pass
+				else:
+					if len(profil.signature) > 1:
+						text = text + '<br /><br />-------------------------------------------------<br />' + profil.signature
 			del page_data['text']
 			page_data['topic_forum'] = forum_id
 			page_data['topic_posts'] = 1
 			page_data['topic_lastpost'] = str(request.user)+'<br />' + str(datetime.today())[:-7]
 			manipulator.do_html2python(page_data)
 			new_place = manipulator.save(page_data)
-			if not request.META.has_key('REMOTE_HOST') or len(request.META['REMOTE_HOST']) < 1:
-				request.META['HTTP_HOST'] = 'Unknown'
-			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'], post_host = request.META['REMOTE_HOST'])
+			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'])
 			post.save()
 			forum = Forum.objects.get(id=forum_id)
 			forum.forum_topics = forum.forum_topics +1
@@ -255,9 +258,14 @@ def add_post(request, topic_id, post_id = False):
 
 				
 				page_data['post_author'] = str(request.user)
-				profil = Profile.objects.get(username=request.user)
-				if len(profil.signature) > 1:
-					page_data['post_text'] = page_data['post_text'] + '<br /><br />-------------------------------------------------<br />' + profil.signature
+				if request.user.is_authenticated():
+					try:
+						profil = Profile.objects.get(username=request.user)
+					except Profile.DoesNotExist:
+						pass
+					else:
+						if len(profil.signature) > 3:
+							page_data['post_text'] = page_data['post_text'] + '<br /><br />-------------------------------------------------<br />' + profil.signature
 				import re
 				import base64
 				tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
@@ -267,9 +275,6 @@ def add_post(request, topic_id, post_id = False):
 				page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 				
 				page_data['post_ip'] = request.META['REMOTE_ADDR']
-				if not request.META.has_key('REMOTE_HOST') or len(request.META['REMOTE_HOST']) < 1:
-					request.META['HTTP_HOST'] = 'Unknown'
-				page_data['post_host'] = request.META['REMOTE_HOST']
 				page_data['post_topic'] = topic_id
 				manipulator.do_html2python(page_data)
 				new_place = manipulator.save(page_data)
@@ -401,7 +406,7 @@ def move_topic(request, topic_id, forum_id):
 				topic.save()
 				t = Topic(topic_forum=Forum.objects.get(id=forum_id), topic_name = topic.topic_name, topic_author = topic.topic_author, topic_posts = 0, topic_lastpost = _('Topic Moved'), is_locked = True)
 				t.save()
-				p = Post(post_topic = t, post_text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>', post_author = _('Forum Staff'), post_ip = str(request.META['REMOTE_ADDR']), post_host = 'none')
+				p = Post(post_topic = t, post_text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>', post_author = _('Forum Staff'), post_ip = str(request.META['REMOTE_ADDR']))
 				p.save()
 				return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 			else:

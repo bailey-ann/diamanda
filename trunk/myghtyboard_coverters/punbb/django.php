@@ -58,7 +58,7 @@ IF($result = $db->query("SELECT * FROM ".$db->prefix."posts"))
 		$row['message'] = nl2br($row['message']);
 		$row['message'] = str_replace("\n", '', $row['message']);
 		$row['message'] = $db->escape(str_replace("\n\r", '', $row['message']));
-echo 'mp = Post(post_topic = Topic.objects.get(id='.$row['topic_id'].'), post_text = \'\'\''.$row['message'].'\'\'\', post_author = \'\'\''.$row['poster'].'\'\'\', post_date = \'\'\''.date("Y-m-d H:i:s", $res['posted']).'\'\'\', post_ip = \'1.2.3.4\', post_host =\'local\')
+echo 'mp = Post(post_topic = Topic.objects.get(id='.$row['topic_id'].'), post_text = \'\'\''.$row['message'].'\'\'\', post_author = \'\'\''.$row['poster'].'\'\'\', post_date = \'\'\''.date("Y-m-d H:i:s", $res['posted']).'\'\'\', post_ip = \'1.2.3.4\')
 mp.save()'."\n";
 		}
 	}

@@ -45,7 +45,6 @@ class Page(models.Model):
 	modification_date = models.DateTimeField(auto_now = True)
 	modification_user = models.CharField(maxlength=30)
 	modification_ip = models.CharField(maxlength=20, blank=True)
-	modification_host = models.CharField(maxlength=100, blank=True)
 	class Meta:
 		permissions = (("can_view", "Can view Page"), ("can_set_current", "Can set Page as current"))
 		verbose_name = _('WikiPage')
@@ -66,7 +65,6 @@ class Archive(models.Model):
 	modification_date = models.DateTimeField()
 	modification_user = models.CharField(maxlength=30)
 	modification_ip = models.CharField(maxlength=20, blank=True)
-	modification_host = models.CharField(maxlength=100, blank=True)
 	is_proposal = models.BooleanField(blank=True, default=False) # is a changeset a proposal - when user can't set it as a current ver.
 	class Meta:
 		verbose_name = _('WikiPage Archive')
@@ -122,7 +120,6 @@ class TaskComment(models.Model):
 	com_author = models.CharField(maxlength=255, verbose_name="Author", blank=True)
 	com_date = models.DateTimeField(auto_now_add = True)
 	com_ip = models.CharField(maxlength=20, blank=True)
-	com_host = models.CharField(maxlength=100, blank=True)
 	class Meta:
 		verbose_name = _('Task Comment')
 		verbose_name_plural = _('Task Comments')

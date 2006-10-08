@@ -59,7 +59,6 @@ class Post(models.Model):
 	post_author = models.CharField(maxlength=255, verbose_name="Author", blank=True) # topic author
 	post_date = models.DateTimeField(auto_now_add = True) # post add date
 	post_ip = models.CharField(maxlength=20, blank=True)
-	post_host = models.CharField(maxlength=100, blank=True)
 	class Meta:
 		verbose_name = "Post"
 		verbose_name_plural = "Posts"
