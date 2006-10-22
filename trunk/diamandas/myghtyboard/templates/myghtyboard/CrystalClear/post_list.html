@@ -46,6 +46,7 @@
 					{% if perms.is_staff %}
 						<dd>{{ i.post_ip }}</dd>
 					{% endif %}
+					<dd><strong><a href="/forum/show_profile/{{ i.post_author }}/">{% trans "User Profile" %}</a></strong></dd>
 				</dl>
 			</div>
 			<div class="postright">

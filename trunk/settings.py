@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    #('Your Name', 'your_email@domain.com'),
 )
 
 MANAGERS = ADMINS
@@ -74,10 +74,9 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'wiki',
 'myghtyboard',
-'django.contrib.admin'
+'django.contrib.admin',
 )
 
 # RSS Settings

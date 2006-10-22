@@ -1,6 +1,7 @@
  # -*- coding: utf-8 -*-
 from re import findall, MULTILINE
 from sys import path
+from os.path import isfile
 path.append('diamandas/wiki/cbcplugins/')
 
 def parse_cbc_tags(text):
@@ -40,15 +41,9 @@ def parse_cbc_tags(text):
 		parsed_double[k].append(vals)
 	
 	for plugin in parsed_double:
-		try:
+		if isfile('diamandas/wiki/cbcplugins/' + plugin + '.py'):
 			exec 'from ' + plugin + ' import *'
-		except:
-			pass
-		else:
-			try:
-				text = render(parsed_double[plugin], text)
-			except:
-				pass
+			text = render(parsed_double[plugin], text)
 			
 	if text.find('[toc]') != -1:
 		tags = findall('<a name="([0-9]*)" href="([0-9]*)" title="(.*?)"></a>', text)
@@ -82,13 +77,7 @@ def parse_cbc_tags(text):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		try:
+		if isfile('diamandas/wiki/cbcplugins/' + plugin + '.py'):
 			exec 'from ' + plugin + ' import *'
-		except:
-			pass
-		else:
-			try:
-				text = render(parsed[plugin], text)
-			except:
-				pass
+			text = render(parsed[plugin], text)
 	return text

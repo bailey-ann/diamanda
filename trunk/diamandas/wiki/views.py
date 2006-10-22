@@ -1,10 +1,11 @@
 from django.shortcuts import render_to_response
 from wiki.models import *
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
+from wiki.cbcparser import *
 
 def users(request):
 	from django.contrib.auth import authenticate, login
@@ -139,7 +140,7 @@ def unpropose(request, archive_id):
 		return render_to_response('wiki/noperm.html') # can't unpropose
 
 # show the page by given slug
-def show_page(request, slug='index'):
+def show_page(request, slug='index'):	
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
 		try:
@@ -312,26 +313,31 @@ def add_page(request, slug=''):
 		# page doesn't exist so we can add it
 		except Page.DoesNotExist:
 			manipulator = Page.AddManipulator()
-			import re
+			from re import findall, MULTILINE
 			import base64
 			preview = False
+			cbcerrors = False
 			if request.POST:
 				page_data = request.POST.copy()
 				page_data['modification_user'] = str(request.user)
 				page_data['modification_ip'] = request.META['REMOTE_ADDR']
 				errors = manipulator.get_validation_errors(page_data)
-				if not errors and not page_data.has_key('preview'):
-					tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], re.MULTILINE)
-					for i in tags:
-						page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
-					page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
-					
+				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
+				for i in tags:
+					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+				page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
+				try:
+					parse_cbc_tags(page_data['text'])
+				except:
+					cbcerrors = True
+				
+				if not errors and not page_data.has_key('preview') and not cbcerrors:
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
 					return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
-				elif page_data.has_key('preview'):
+				elif page_data.has_key('preview') and not cbcerrors:
 					preview = page_data['text']
-					tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, re.MULTILINE)
+					tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 					for i in tags:
 						preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
 					preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
@@ -340,7 +346,7 @@ def add_page(request, slug=''):
 				page_data = {'slug': slug}
 			form = forms.FormWrapper(manipulator, page_data, errors)
 			cbcdesc = Cbc.objects.all().order_by('tag')
-			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview})
+			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors})
 		# page exist
 		else:
 			return HttpResponseRedirect("/wiki/page/" + slug +"/")
@@ -358,9 +364,10 @@ def edit_page(request, slug):
 				return render_to_response('wiki/ban.html')
 	# can user change the page (change_page) or anonymous "anonymous_can_edit" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.change_page') or settings.ANONYMOUS_CAN_EDIT and not request.user.is_authenticated():
-		import re
+		from re import findall, MULTILINE
 		import base64
 		preview = False
+		cbcerrors = False
 		try:
 			page_id = Page.objects.get(slug__exact=slug)
 			manipulator = Page.ChangeManipulator(page_id.id)
@@ -373,14 +380,17 @@ def edit_page(request, slug):
 			page_data['slug'] = page.slug
 			page_data['modification_user'] = str(request.user)
 			page_data['modification_ip'] = request.META['REMOTE_ADDR']
+			# encode rk:syntax code so we can stripp HTML etc. 
+			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
+			for i in tags:
+				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
+			try:
+				parse_cbc_tags(page_data['text'])
+			except:
+				cbcerrors = True
 			errors = manipulator.get_validation_errors(page_data)
-			if not errors and not page_data.has_key('preview'):
-				# encode rk:syntax code so we can stripp HTML etc. 
-				tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], re.MULTILINE)
-				for i in tags:
-					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
-				# change HTML to plain/text - markdown
-				page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
+			if not errors and not page_data.has_key('preview') and not cbcerrors:
 				# can user / anonymous set new changeset as current? wiki.can_set_current and settings.ANONYMOUS_CAN_SET_CURENT for anonymous
 				if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
 					#save old version to Archive
@@ -395,9 +405,9 @@ def edit_page(request, slug):
 					old = Archive(page_id = page, title=page_data['title'], slug = page_data['slug'], description = page_data['description'], text=page_data['text'], changes = page_data['changes'], modification_date = datetime.today(), modification_user = page_data['modification_user'], modification_ip = page_data['modification_ip'], is_proposal=True)
 					old.save()
 				return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
-			elif page_data.has_key('preview'):
+			elif page_data.has_key('preview') and not cbcerrors:
 				preview = page_data['text']
-				tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, re.MULTILINE)
+				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 				for i in tags:
 					preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
 				preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
@@ -406,12 +416,12 @@ def edit_page(request, slug):
 			#page_data = page.__dict__
 			page_data['changes'] = ''
 			# decode rk:syntax code
-			tags = re.findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], re.MULTILINE)
+			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64decode(i[1])+'[/rk:syntax]')
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		cbcdesc = Cbc.objects.all().order_by('tag')
-		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview})
+		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors})
 	else:
 		return render_to_response('wiki/noperm.html') # can't view page
 

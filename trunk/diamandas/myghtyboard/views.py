@@ -170,10 +170,10 @@ def add_topic(request, forum_id):
 				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'hash': imghash, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request), 'post_text': post_text})
 
 			page_data['topic_author'] = str(request.user)
-			import re
+			from re import findall, MULTILINE
 			import base64
 			from datetime import datetime
-			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], re.MULTILINE)
+			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], MULTILINE)
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
@@ -266,9 +266,9 @@ def add_post(request, topic_id, post_id = False):
 					else:
 						if len(profil.signature) > 3:
 							page_data['post_text'] = page_data['post_text'] + '<br /><br />-------------------------------------------------<br />' + profil.signature
-				import re
+				from re import findall, MULTILINE
 				import base64
-				tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
+				tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 				from datetime import datetime
 				for i in tags:
 					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
@@ -300,9 +300,9 @@ def add_post(request, topic_id, post_id = False):
 				if post_id:
 					quote = Post.objects.get(id=post_id)
 					# decode rk:source code
-					import re
+					from re import findall, MULTILINE
 					import base64
-					tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', quote.post_text, re.MULTILINE)
+					tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', quote.post_text, MULTILINE)
 					for i in tags:
 						quote.post_text = quote.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
 					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br /><cite>' + quote.post_text + '</cite></blockquote>\n'
@@ -334,9 +334,9 @@ def edit_post(request, post_id):
 		if request.POST and len(request.POST.copy()['post_text']) > 1:
 			page_data = request.POST.copy()
 			
-			import re
+			from re import findall, MULTILINE
 			import base64
-			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], re.MULTILINE)
+			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 			from datetime import datetime
 			for i in tags:
 				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
@@ -353,9 +353,9 @@ def edit_post(request, post_id):
 			return HttpResponseRedirect("/forum/topic/" + str(pmax) + "/" + str(post.post_topic.id) +"/")
 		else:
 			# decode rk:source code
-			import re
+			from re import findall, MULTILINE
 			import base64
-			tags = re.findall( r'(?xs)\[code\](.*?)\[/code\]''', post.post_text, re.MULTILINE)
+			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', post.post_text, MULTILINE)
 			for i in tags:
 				post.post_text = post.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
 			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'edit_post.html', {'post_text': post.post_text, 'lang': settings.MYGHTYBOARD_LANG})

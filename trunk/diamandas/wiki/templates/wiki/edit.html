@@ -15,6 +15,11 @@
 {% block content %}
 
 <h2 class="pageh">{% trans "Edit Page" %}</h2><br />
+
+{% if cbcerrors %}
+<h2 class="pageh" style="text-align:center;">{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+{% endif %}
+
 <form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
 <tr><td width="140"><p>
     {% trans "Title" %}:</td><td> {{ form.title }}

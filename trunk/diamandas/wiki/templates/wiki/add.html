@@ -4,7 +4,9 @@
 {% block content %}
 
 <h2 class="pageh">{% trans "Add a Page" %}</h2><br />
-
+{% if cbcerrors %}
+<h2 class="pageh" style="text-align:center;">{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+{% endif %}
 <form method="post" action="."><table width="100%" cellspacing="0" cellpadding="0" class="actiontable">
 <tr><td width="140"><p>
     {% trans "Title" %}:</td><td> {{ form.title }}
