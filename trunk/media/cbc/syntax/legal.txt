@@ -1,2 +1,0 @@
-This folder contains static files for dp.SyntaxHighlighter which is used by "syntax" CBC plugin
-Script page: http://www.dreamprojections.com/SyntaxHighlighter/

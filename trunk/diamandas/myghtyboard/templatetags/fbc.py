@@ -1,6 +1,9 @@
 from re import findall, MULTILINE
 import base64
 from django import template
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
 
 register = template.Library()
 
@@ -16,13 +19,9 @@ def fbc(value): # Only one argument.
 	value = value.replace(':grin:', '<img src="/site_media/wiki/smilies/icon_cheesygrin.gif" alt="" />')
 	value = value.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" alt="" />')
 	value = value.replace('\n', '<br />')
-	#dp.syntaxhighlighter 1.4.0 [code] tag
 	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value, MULTILINE)
 	for i in tags:
-		code = base64.b64decode(i).replace('</te', '</ te')
-		code = code.replace('</TE', '</ TE')
-		code = code.replace('</Te', '</ Te')
-		code = code.replace('</tE', '</ tE')
-		value = value.replace('[code]' + i + '[/code]', '<textarea name="code" class="xml" rows="15" cols="90">' + code + '</textarea>')
+		code = base64.b64decode(i)
+		value = value.replace('[code]' + i + '[/code]', highlight(code, PythonLexer(), HtmlFormatter(linenos=True)))
 	return value
 register.filter('fbc', fbc)

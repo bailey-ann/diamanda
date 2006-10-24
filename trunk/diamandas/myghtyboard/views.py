@@ -7,6 +7,30 @@ from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
 from django.db.models import Q
 
+class PMessage(forms.Manipulator):
+	def __init__(self):
+		self.fields = (forms.TextField(field_name="subject", length=30, maxlength=200, is_required=True),
+		forms.LargeTextField(field_name="contents", is_required=True),)
+
+def send_pmessage(request, target_user):
+	if request.user.is_authenticated() and str(request.user) != str(target_user) and len(str(target_user)) > 0 and str(target_user) != 'AnonymousUser':
+		manipulator = PMessage()
+		if request.POST:
+			new_data = request.POST.copy()
+			errors = manipulator.get_validation_errors(new_data)
+			if not errors:
+				manipulator.do_html2python(new_data)
+				from django.core.mail import send_mail
+				ruser = User.objects.get(username=str(request.user))
+				send_mail(new_data['subject'], new_data['contents'], request.user.email, [ruser.email], fail_silently=True)
+				return HttpResponseRedirect("/forum/")
+		else:
+			errors = new_data = {}
+		form = forms.FormWrapper(manipulator, new_data, errors)
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'pmessage.html', {'form': form})
+	else:
+		return HttpResponseRedirect('/forum/user/')
+
 # list permissions used in templates
 def list_perms(request):
 	perms = {}

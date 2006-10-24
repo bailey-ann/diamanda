@@ -2,7 +2,6 @@
 {% load fbc %}
 {% extends "myghtyboard/CrystalClear/body.html" %}
 {% block content %}
-<link type="text/css" rel="stylesheet" href="/site_media/cbc/syntax/Styles/SyntaxHighlighter.css"></link>
 
 <div class="linkst">
 	<div class="inbox">
@@ -42,11 +41,12 @@
 			<div class="postleft">
 				<dl>
 					<dt><strong><a href="/forum/show_profile/{{ i.post_author }}/">{{ i.post_author }}</a></strong></dt>
-					<dd>{{ i.post_date }}</dd>
+					<dd>{{ i.post_date|truncatewords:"1" }}</dd>
 					{% if perms.is_staff %}
 						<dd>{{ i.post_ip }}</dd>
 					{% endif %}
 					<dd><strong><a href="/forum/show_profile/{{ i.post_author }}/">{% trans "User Profile" %}</a></strong></dd>
+					<dd><strong><a href="/forum/pmessage/{{ i.post_author }}/">{% trans "Send Message" %}</a></strong></dd>
 				</dl>
 			</div>
 			<div class="postright">
@@ -195,8 +195,6 @@
 
 {% endif %}{% endif %}
 
-<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shCore.js"></script>
-<script type="text/javascript" src="/site_media/cbc/syntax/Scripts/shBrushXml.js"></script>
-<script type="text/javascript">dp.SyntaxHighlighter.HighlightAll('code');</script>
+
 </div>
 {% endblock %}

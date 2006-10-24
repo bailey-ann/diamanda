@@ -22,6 +22,7 @@ urlpatterns = patterns('myghtyboard',
 (r'^myptopics/$', 'views.my_posttopic_list'),
 (r'^profile/$', 'views.user_profile'),
 (r'^show_profile/(?P<show_user>.*)/$', 'views.show_profile'),
+(r'^pmessage/(?P<target_user>.*)/$', 'views.send_pmessage'),
 (r'^user/$', 'views.users'),
 (r'^register/$', 'views.register'),
 )
