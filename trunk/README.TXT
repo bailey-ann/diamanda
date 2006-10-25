@@ -1,14 +1,23 @@
-Diamanda Wiki SVN 19.09.2006
+Diamanda Wiki SVN 25.10.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
-This is a django powered wiki and a forum in developement
+English support: www.rkblog.rk.edu.pl
+Polish support: www.python.rk.edu.pl
+
+This is a django powered wiki and a forum
 
 Requirements:
-- install strip-o-gram from http://www.zope.org/Members/chrisw/StripOGram - it's a safeHTML filter which is used in Diamanda WikiPages :) python setup.py install will install it.
+- strip-o-gram (stripogram) from http://www.zope.org/Members/chrisw/StripOGram - it's a safeHTML filter which is used in Diamanda WikiPages :) python setup.py install will install it.
+- pygments from http://pygments.pocoo.org/ for code highlighting
+- PIL (python imaging library) for thumbnal and Captcha generation
+OPTIONAL:
+- pyGoogle if you want google search in your wiki
+- htmldoc (not python) if you want PDF generation from wiki pages
 
-Instalation:
+Instalation / Developement server:
 - edit urls.py and change the site_media path '/home/piotr/diamanda/media' to that on your computer:
+
 (r'^site_media/(.*)$', 'django.views.static.serve', {'document_root': '/path/here'}),
 
 - create tables (check DB in settings.py) and populate the data:
@@ -16,9 +25,9 @@ python manage.py syncdb
 python install.py
 
 - create a superuser when creating tables!
+- run the dev server:
 
-- run the dev server: python
-manage.py runserver 8080
+python manage.py runserver 8080
 
 - http://localhost:8080/ is the main wiki page
 - http://localhost:8080/forum/ is the main MyghtyBoard Forum page
@@ -28,8 +37,7 @@ manage.py runserver 8080
 
 MyghtyBoard
 ############################
-MyghtyBoard is the name of the forum script which is in heavy developement right now but all the "basic" features
-work nicely. Categories and Forums are managed by the Django Admin Panel. Staff members and superusers are forum moderators.
+MyghtyBoard is the name of the forum script. Categories and Forums are managed by the Django Admin Panel. Staff members and superusers are forum moderators.
 
 
 EXTRA SETTINGS in settings.py
@@ -66,7 +74,7 @@ SITE_IMAGES_SRC_PATH = '/site_media/images/'
 # Other
 USE_BANS = False # use WIkiBans to prevent baned from add/edit actions
 ----------
-- RSS settings are used when generating RSS Feeds, SITE_NEWS_LINK doesn't require any changes, the rest can be edited.
+- RSS settings are used when generating RSS Feeds
 - Anonymous Permissions: True/False
 - USE_BANS - if True the Wiki Ban module (see Admin Panel) will be used to Ban users from add/edit actions (add, edit, restore actions will be disabled for baned users)
 
@@ -94,7 +102,7 @@ http://localhost:8080/wiki/feeds/latestpages/ - latest pages
 
 Wiki Markup
 ################################
-Wiki uses HTML as a markup :) and some helpers. There are tree CSS styles for creating "boxes":
+Wiki uses safe HTML as a markup :) and some helpers. There are tree CSS styles for creating "boxes":
 <div class="note">text here</div>
 <div class="notice">text here</div>
 <div class="box">text here</div>
@@ -110,10 +118,4 @@ TODO
 ########################
 - Files/Images upload/handling on wikiPages - ideas welcomed
 - More CBC
-- A lot of work in MyghtyBoard...
-
-
-ToooooooDooooo
-########################
-- Fulltext search (SoC code)
-- Row level permission (SoC, I'll check this later when the wiki will be "finished")
+- Polishing the CBC system

@@ -36,19 +36,19 @@
 	<b>{% trans "Welcome" %} {{ user }}</b><br />
 	<br />
 	{% if current %}
-	- You can set pages as current<br />
+	{% trans "- You can set pages as current" %}<br />
 	{% else %}
-	- You can't set pages as current<br />
+	{% trans "- You can't set pages as current" %}<br />
 	{% endif %}
 	{% if add %}
-	- You can add pages<br />
+	{% trans "- You can add pages" %}<br />
 	{% else %}
-	- You can't add pages<br />
+	{% trans "- You can't add pages" %}<br />
 	{% endif %}
 	{% if edit %}
-	- You can edit pages<br />
+	{% trans "- You can edit pages" %}<br />
 	{% else %}
-	- You can't edit pages<br />
+	{% trans "- You can't edit pages" %}<br />
 	{% endif %}
 	
 	<div style="text-align:center;"><input type="button" value="{% trans "Log Out" %}" onclick="location.assign('/wiki/user/?log=out');" /></div>

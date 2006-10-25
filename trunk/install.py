@@ -12,7 +12,7 @@ c = Cbc(tag='h', tag_example='[rk:h id="1-4"]Title[/rk:h]', description='Will in
 c.save()
 c = Cbc(tag='link', tag_example='[rk:link href="URL" desc="DESCRIPTION"]TITLE[/rk:link]', description='Will insert a external link with nice icon. "desc" attribute is optional and if added will display a description text by the link.')
 c.save()
-c = Cbc(tag='syntax', tag_example='[rk:syntax lang="LANG"]CODE[/rk:syntax]', description='Will highlight the code using entered in the "lang" attribute scheme - python, css, csharp (C#), php, js, java, vb, sql, delphi and ruby')
+c = Cbc(tag='syntax', tag_example='[rk:syntax lang="LANG"]CODE[/rk:syntax]', description='Will highlight the code using entered in the "lang" attribute scheme - python, xml, html, ruby, perl, lua, cpp, delphi, java, php, makefile, diff, javascript, css, sql.')
 c.save()
 c = Cbc(tag='thumb', tag_example='[rk:thumb src="image.jpg"] [rk:thumb src="folder/image.jpg"]', description='Will insert a link to a local image using a thumb and a pop-up. The thumb will be created by PIL. Images can be in SITE_IMAGES_DIR_PATH subfolders')
 c.save()

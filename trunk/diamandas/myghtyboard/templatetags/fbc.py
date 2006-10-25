@@ -2,7 +2,7 @@ from re import findall, MULTILINE
 import base64
 from django import template
 from pygments import highlight
-from pygments.lexers import PythonLexer
+from pygments.lexers import HtmlLexer
 from pygments.formatters import HtmlFormatter
 
 register = template.Library()
@@ -22,6 +22,6 @@ def fbc(value): # Only one argument.
 	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value, MULTILINE)
 	for i in tags:
 		code = base64.b64decode(i)
-		value = value.replace('[code]' + i + '[/code]', highlight(code, PythonLexer(), HtmlFormatter(linenos=True)))
+		value = value.replace('[code]' + i + '[/code]', highlight(code, HtmlLexer(), HtmlFormatter()))
 	return value
 register.filter('fbc', fbc)

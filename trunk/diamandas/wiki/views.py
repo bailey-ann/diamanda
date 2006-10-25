@@ -431,12 +431,12 @@ def task_list(request, pagination_id):
 	from django.views.generic.list_detail import object_list
 	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority').order_by('-task_modification_date')
 	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
-	if len(tasks) == 0:
-		return render_to_response('wiki/task_list.html', {'proposals': proposals})
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_task'):
 		add_task = True
 	else:
 		add_task = False
+	if len(tasks) == 0:
+		return render_to_response('wiki/task_list.html', {'proposals': proposals})
 	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
 
 # show tasks
