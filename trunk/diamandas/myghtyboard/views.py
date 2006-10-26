@@ -199,7 +199,8 @@ def add_topic(request, forum_id):
 			from datetime import datetime
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
+				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.
+encodestring(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			text = page_data['text']
 			if request.user.is_authenticated():
@@ -295,7 +296,8 @@ def add_post(request, topic_id, post_id = False):
 				tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 				from datetime import datetime
 				for i in tags:
-					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
+					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.
+encodestring(i)+'[/code]')
 				page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 				
 				page_data['post_ip'] = request.META['REMOTE_ADDR']
@@ -363,7 +365,8 @@ def edit_post(request, post_id):
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 			from datetime import datetime
 			for i in tags:
-				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.b64encode(i)+'[/code]')
+				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.
+encodestring(i)+'[/code]')
 			page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			
 			post.post_text = page_data['post_text']

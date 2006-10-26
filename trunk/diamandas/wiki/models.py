@@ -17,19 +17,12 @@ class Cbc(models.Model):
 
 #Wiki Bans
 class Ban(models.Model):
-	BAN = (
-	('ip', 'IP'),
-	('dns', 'DNS'),
-	)
-	ban_type = models.CharField(maxlength=255, verbose_name=_('Ban Type'), help_text = _('Is it IP or hostname'), default='ip', choices=BAN)
 	ban_item = models.CharField(maxlength=255, verbose_name=_('Ban Item'), help_text = _('The IP, IP range or hostname to ban'), unique=True)
 	ban_comment = models.CharField(maxlength=255, verbose_name=_('Comments'), blank=True)
 	class Meta:
 		verbose_name = _('Wiki Ban')
 		verbose_name_plural = _('Wiki Bans')
 	class Admin:
-		list_display = ('ban_item', 'ban_type', 'ban_comment')
-		list_filter = ['ban_type']
 		search_fields = ['ban_item', 'ban_comment']
 	def __str__(self):
 		return self.ban_item

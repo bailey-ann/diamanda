@@ -6,6 +6,19 @@ from django.conf import settings
 from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
 from wiki.cbcparser import *
+from django.core import validators
+
+
+class LoginForm(forms.Manipulator):
+	def __init__(self):
+		self.fields = (forms.TextField(field_name="login", length=30, maxlength=200, is_required=True),
+		forms.PasswordField(field_name="password", length=30, maxlength=200, is_required=True),
+		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck]),
+		forms.TextField(field_name="imghash", is_required=True),)
+	def hashcheck(self, field_data, all_data):
+		import sha
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+			raise validators.ValidationError("Captcha Error.")
 
 def users(request):
 	from django.contrib.auth import authenticate, login
@@ -23,22 +36,26 @@ def users(request):
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
 		
+		manipulator = LoginForm()
 		# log in user
 		if request.POST:
 			data = request.POST.copy()
-			# does the captcha math
-			if data['imghash'] == sha.new(data['imgtext']).hexdigest():
+			errors = manipulator.get_validation_errors(data)
+			if not errors:
+				manipulator.do_html2python(data)
 				user = authenticate(username=data['login'], password=data['password'])
 				if user is not None:
 					login(request, user)
 					return HttpResponseRedirect('/wiki/user/')
 				else:
-					return render_to_response('wiki/users.html', {'loginform': True, 'error': True, 'hash': imghash})
-			else:
-					return render_to_response('wiki/users.html', {'loginform': True, 'error': True, 'hash': imghash})
+					data['imgtext'] = ''
+					form = forms.FormWrapper(manipulator, data, errors)
+					return render_to_response('wiki/users.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form})
 		# no post data, show the login forum
 		else:
-			return render_to_response('wiki/users.html', {'loginform': True, 'hash': imghash})
+			errors = data = {}
+		form = forms.FormWrapper(manipulator, data, errors)
+		return render_to_response('wiki/users.html', {'loginform': True, 'hash': imghash, 'form': form})
 	else:
 		# user authenticated, show his page with permissions
 		if request.GET:
@@ -229,9 +246,7 @@ def restore_page_from_archive(request, archive_id):
 	if settings.USE_BANS:
 		bans = Ban.objects.all()
 		for ban in bans:
-			if ban.ban_type == 'ip' and request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
-			if ban.ban_type == 'dns' and request.META['REMOTE_HOST'].find(ban.ban_item) != -1:
+			if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
 				return render_to_response('wiki/ban.html')
 	# can user set a page as current - can_set_current or anonymous "anonymous_can_set_current" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
@@ -300,11 +315,8 @@ def show_diff(request):
 def add_page(request, slug=''):
 	if settings.USE_BANS:
 		bans = Ban.objects.all()
-		for ban in bans:
-			if ban.ban_type == 'ip' and request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
-			if ban.ban_type == 'dns' and request.META['REMOTE_HOST'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
+		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
+			return render_to_response('wiki/ban.html')
 	# can user add the page (add_page) or anonymous "anonymous_can_add" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_page') or settings.ANONYMOUS_CAN_ADD and not request.user.is_authenticated():
 		# check if the page exist
@@ -324,7 +336,8 @@ def add_page(request, slug=''):
 				errors = manipulator.get_validation_errors(page_data)
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 				for i in tags:
-					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
+encodestring(i[1])+'[/rk:syntax]')
 				page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 				try:
 					parse_cbc_tags(page_data['text'])
@@ -339,7 +352,8 @@ def add_page(request, slug=''):
 					preview = page_data['text']
 					tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 					for i in tags:
-						preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+						preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
+encodestring(i[1])+'[/rk:syntax]')
 					preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 			else:
 				errors = {}
@@ -357,11 +371,8 @@ def add_page(request, slug=''):
 def edit_page(request, slug):
 	if settings.USE_BANS:
 		bans = Ban.objects.all()
-		for ban in bans:
-			if ban.ban_type == 'ip' and request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
-			if ban.ban_type == 'dns' and request.META['REMOTE_HOST'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
+		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
+			return render_to_response('wiki/ban.html')
 	# can user change the page (change_page) or anonymous "anonymous_can_edit" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.change_page') or settings.ANONYMOUS_CAN_EDIT and not request.user.is_authenticated():
 		from re import findall, MULTILINE
@@ -383,12 +394,19 @@ def edit_page(request, slug):
 			# encode rk:syntax code so we can stripp HTML etc. 
 			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
+encodestring(i[1])+'[/rk:syntax]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
+			import sys, traceback
 			try:
 				parse_cbc_tags(page_data['text'])
 			except:
-				cbcerrors = True
+				afile = AFile()
+				traceback.print_exc(file=afile)
+				cbcerrors = afile.read()
+				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
+				for i in tags:
+					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64decode(i[1])+'[/rk:syntax]')
 			errors = manipulator.get_validation_errors(page_data)
 			if not errors and not page_data.has_key('preview') and not cbcerrors:
 				# can user / anonymous set new changeset as current? wiki.can_set_current and settings.ANONYMOUS_CAN_SET_CURENT for anonymous
@@ -409,7 +427,8 @@ def edit_page(request, slug):
 				preview = page_data['text']
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 				for i in tags:
-					preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64encode(i[1])+'[/rk:syntax]')
+					preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
+encodestring(i[1])+'[/rk:syntax]')
 				preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 		else:
 			errors = {}
@@ -468,3 +487,11 @@ def com_task_add(request, task_id):
 		else:
 			return render_to_response('wiki/com_task_add.html')
 	return render_to_response('wiki/noperm.html') # can't view page
+
+# file like object (for storing cbc tracebacks)
+class AFile(object):
+	__content = '' 
+	def write(self, txt): 
+		self.__content += txt 
+	def read(self): 
+		return self.__content 

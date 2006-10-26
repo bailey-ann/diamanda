@@ -17,7 +17,9 @@
 <h2 class="pageh">{% trans "Edit Page" %}</h2><br />
 
 {% if cbcerrors %}
-<h2 class="pageh" style="text-align:center;">{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+<h2 class="pageh" style="text-align:center;">{% trans "CBC Tags Error Detected! Fix it!" %}</h2><pre>
+{{ cbcerrors }}
+</pre><br /><br />
 {% endif %}
 
 <form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
