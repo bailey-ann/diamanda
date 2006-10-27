@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User, Group
 from stripogram import html2safehtml
 from django.db.models import Q
+from django.core import validators
 
 class PMessage(forms.Manipulator):
 	def __init__(self):
@@ -199,8 +200,7 @@ def add_topic(request, forum_id):
 			from datetime import datetime
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.
-encodestring(i)+'[/code]')
+				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.encodestring(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			text = page_data['text']
 			if request.user.is_authenticated():
@@ -296,8 +296,7 @@ def add_post(request, topic_id, post_id = False):
 				tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 				from datetime import datetime
 				for i in tags:
-					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.
-encodestring(i)+'[/code]')
+					page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.encodestring(i)+'[/code]')
 				page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 				
 				page_data['post_ip'] = request.META['REMOTE_ADDR']
@@ -365,8 +364,7 @@ def edit_post(request, post_id):
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'], MULTILINE)
 			from datetime import datetime
 			for i in tags:
-				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.
-encodestring(i)+'[/code]')
+				page_data['post_text'] = page_data['post_text'].replace('[code]'+i+'[/code]', '[code]'+base64.encodestring(i)+'[/code]')
 			page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
 			
 			post.post_text = page_data['post_text']
@@ -509,6 +507,16 @@ def show_profile(request, show_user):
 	else:
 		return HttpResponseRedirect('/forum/user/')
 
+class LoginForm(forms.Manipulator):
+	def __init__(self):
+		self.fields = (forms.TextField(field_name="login", length=30, maxlength=200, is_required=True),
+		forms.PasswordField(field_name="password", length=30, maxlength=200, is_required=True),
+		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck]),
+		forms.TextField(field_name="imghash", is_required=True),)
+	def hashcheck(self, field_data, all_data):
+		import sha
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+			raise validators.ValidationError("Captcha Error.")
 
 def users(request):
 	from django.contrib.auth import authenticate, login
@@ -526,33 +534,58 @@ def users(request):
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
 		
+		manipulator = LoginForm()
 		# log in user
 		if request.POST:
 			data = request.POST.copy()
-			# does the captcha math
-			if data['imghash'] == sha.new(data['imgtext']).hexdigest():
+			errors = manipulator.get_validation_errors(data)
+			if not errors:
+				manipulator.do_html2python(data)
 				user = authenticate(username=data['login'], password=data['password'])
 				if user is not None:
 					login(request, user)
-					return HttpResponseRedirect('/forum/user/')
+					return HttpResponseRedirect('/forum/')
 				else:
-					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash})
-			else:
-					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash})
+					data['imgtext'] = ''
+					form = forms.FormWrapper(manipulator, data, errors)
+					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form})
 		# no post data, show the login forum
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'hash': imghash})
+			errors = data = {}
+		form = forms.FormWrapper(manipulator, data, errors)
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'hash': imghash, 'form': form})
 	else:
 		# user authenticated, show his page with permissions
 		if request.GET:
-			# if /forum/user/?log=out -> logout user
+			# if /wiki/user/?log=out -> logout user
 			data = request.GET.copy()
 			if data['log'] == 'out':
 				from django.contrib.auth import logout
 				logout(request)
 				return HttpResponseRedirect('/forum/user/')
 		# show the page
-		return HttpResponseRedirect('/forum/')
+		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'user': str(request.user), 'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page')})
+
+
+class RegisterForm(forms.Manipulator):
+	def __init__(self):
+		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size3]),
+		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
+		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
+		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
+		forms.TextField(field_name="imghash", is_required=True, length=20),
+		forms.EmailField(field_name="email", is_required=True, length=20),)
+	def hashcheck(self, field_data, all_data):
+		import sha
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+			raise validators.ValidationError(_("Captcha Error."))
+	def size3(self, field_data, all_data):
+		if len(field_data) < 4:
+			raise validators.ValidationError(_("Login to short"))
+	def size4(self, field_data, all_data):
+		if len(field_data) < 5:
+			raise validators.ValidationError(_("Password to short"))
+
 
 # register user
 def register(request):
@@ -569,15 +602,20 @@ def register(request):
 	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-
+	
+	manipulator = RegisterForm()
 	if request.POST:
+		#if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
 		data = request.POST.copy()
-		if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
+		errors = manipulator.get_validation_errors(data)
+		if not errors:
 			data['email'] = html2safehtml(data['email'] ,valid_tags=())
 			try:
 				user = User.objects.create_user(data['login'], data['email'], data['password1'])
 			except Exception:
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True})
+				data['imgtext'] = ''
+				form = forms.FormWrapper(manipulator, data, errors)
+				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'form': form})
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -586,6 +624,10 @@ def register(request):
 					user.groups.add(Group.objects.get(name='users'))
 				return HttpResponseRedirect('/forum/user/')
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'hash': imghash})
+			data['imgtext'] = ''
+			form = forms.FormWrapper(manipulator, data, errors)
+			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'hash': imghash, 'form': form})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'hash': imghash})
+		errors = data = {}
+	form = forms.FormWrapper(manipulator, data, errors)
+	return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'hash': imghash, 'form': form})

@@ -71,16 +71,22 @@ def users(request):
 
 class RegisterForm(forms.Manipulator):
 	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
-		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
-		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
+		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size3]),
+		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
+		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
 		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
 		forms.TextField(field_name="imghash", is_required=True, length=20),
 		forms.EmailField(field_name="email", is_required=True, length=20),)
 	def hashcheck(self, field_data, all_data):
 		import sha
 		if not all_data['imghash'] == sha.new(field_data).hexdigest():
-			raise validators.ValidationError("Captcha Error.")
+			raise validators.ValidationError(_("Captcha Error."))
+	def size3(self, field_data, all_data):
+		if len(field_data) < 4:
+			raise validators.ValidationError(_("Login to short"))
+	def size4(self, field_data, all_data):
+		if len(field_data) < 5:
+			raise validators.ValidationError(_("Password to short"))
 
 
 # register user
