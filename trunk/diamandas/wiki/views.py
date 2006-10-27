@@ -68,6 +68,21 @@ def users(request):
 		# show the page
 		return render_to_response('wiki/users.html', {'user': str(request.user), 'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page')})
 
+
+class RegisterForm(forms.Manipulator):
+	def __init__(self):
+		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
+		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
+		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric]),
+		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
+		forms.TextField(field_name="imghash", is_required=True, length=20),
+		forms.EmailField(field_name="email", is_required=True, length=20),)
+	def hashcheck(self, field_data, all_data):
+		import sha
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+			raise validators.ValidationError("Captcha Error.")
+
+
 # register user
 def register(request):
 	from django.contrib.auth import authenticate, login
@@ -83,15 +98,20 @@ def register(request):
 	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-
+	
+	manipulator = RegisterForm()
 	if request.POST:
+		#if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
 		data = request.POST.copy()
-		if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
+		errors = manipulator.get_validation_errors(data)
+		if not errors:
 			data['email'] = html2safehtml(data['email'] ,valid_tags=())
 			try:
 				user = User.objects.create_user(data['login'], data['email'], data['password1'])
 			except Exception:
-				return render_to_response('wiki/register.html', {'error': True})
+				data['imgtext'] = ''
+				form = forms.FormWrapper(manipulator, data, errors)
+				return render_to_response('wiki/register.html', {'error': True, 'form': form})
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -100,9 +120,13 @@ def register(request):
 					user.groups.add(Group.objects.get(name='users'))
 				return HttpResponseRedirect('/wiki/user/')
 		else:
-			return render_to_response('wiki/register.html', {'error': True, 'hash': imghash})
+			data['imgtext'] = ''
+			form = forms.FormWrapper(manipulator, data, errors)
+			return render_to_response('wiki/register.html', {'error': True, 'hash': imghash, 'form': form})
 	else:
-		return render_to_response('wiki/register.html', {'hash': imghash})
+		errors = data = {}
+	form = forms.FormWrapper(manipulator, data, errors)
+	return render_to_response('wiki/register.html', {'hash': imghash, 'form': form})
 
 # Search using LIKE and or google
 def search_pages(request):
