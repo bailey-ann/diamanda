@@ -3,136 +3,10 @@ from wiki.models import *
 from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from stripogram import html2safehtml
 from wiki.cbcparser import *
 from django.core import validators
-
-
-class LoginForm(forms.Manipulator):
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=30, maxlength=200, is_required=True),
-		forms.PasswordField(field_name="password", length=30, maxlength=200, is_required=True),
-		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck]),
-		forms.TextField(field_name="imghash", is_required=True),)
-	def hashcheck(self, field_data, all_data):
-		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
-			raise validators.ValidationError("Captcha Error.")
-
-def users(request):
-	from django.contrib.auth import authenticate, login
-	if not request.user.is_authenticated():
-		# captcha image creation
-		from random import choice
-		import Image, ImageDraw, ImageFont, sha
-		# create a 5 char random strin and sha hash it
-		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-		imghash = sha.new(imgtext).hexdigest()
-		# create an image with the string
-		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
-		draw=ImageDraw.Draw(im)
-		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
-		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-		
-		manipulator = LoginForm()
-		# log in user
-		if request.POST:
-			data = request.POST.copy()
-			errors = manipulator.get_validation_errors(data)
-			if not errors:
-				manipulator.do_html2python(data)
-				user = authenticate(username=data['login'], password=data['password'])
-				if user is not None:
-					login(request, user)
-					return HttpResponseRedirect('/wiki/user/')
-				else:
-					data['imgtext'] = ''
-					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response('wiki/users.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form})
-		# no post data, show the login forum
-		else:
-			errors = data = {}
-		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('wiki/users.html', {'loginform': True, 'hash': imghash, 'form': form})
-	else:
-		# user authenticated, show his page with permissions
-		if request.GET:
-			# if /wiki/user/?log=out -> logout user
-			data = request.GET.copy()
-			if data['log'] == 'out':
-				from django.contrib.auth import logout
-				logout(request)
-				return HttpResponseRedirect('/wiki/user/')
-		# show the page
-		return render_to_response('wiki/users.html', {'user': str(request.user), 'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page')})
-
-
-class RegisterForm(forms.Manipulator):
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size3]),
-		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
-		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
-		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
-		forms.TextField(field_name="imghash", is_required=True, length=20),
-		forms.EmailField(field_name="email", is_required=True, length=20),)
-	def hashcheck(self, field_data, all_data):
-		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
-			raise validators.ValidationError(_("Captcha Error."))
-	def size3(self, field_data, all_data):
-		if len(field_data) < 4:
-			raise validators.ValidationError(_("Login to short"))
-	def size4(self, field_data, all_data):
-		if len(field_data) < 5:
-			raise validators.ValidationError(_("Password to short"))
-
-
-# register user
-def register(request):
-	from django.contrib.auth import authenticate, login
-	# captcha image creation
-	from random import choice
-	import Image, ImageDraw, ImageFont, sha
-	# create a 5 char random strin and sha hash it
-	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-	imghash = sha.new(imgtext).hexdigest()
-	# create an image with the string
-	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
-	draw=ImageDraw.Draw(im)
-	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
-	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-	
-	manipulator = RegisterForm()
-	if request.POST:
-		#if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
-		data = request.POST.copy()
-		errors = manipulator.get_validation_errors(data)
-		if not errors:
-			data['email'] = html2safehtml(data['email'] ,valid_tags=())
-			try:
-				user = User.objects.create_user(data['login'], data['email'], data['password1'])
-			except Exception:
-				data['imgtext'] = ''
-				form = forms.FormWrapper(manipulator, data, errors)
-				return render_to_response('wiki/register.html', {'error': True, 'form': form})
-			else:
-				user.save()
-				user = authenticate(username=data['login'], password=data['password1'])
-				if user is not None:
-					login(request, user)
-					user.groups.add(Group.objects.get(name='users'))
-				return HttpResponseRedirect('/wiki/user/')
-		else:
-			data['imgtext'] = ''
-			form = forms.FormWrapper(manipulator, data, errors)
-			return render_to_response('wiki/register.html', {'error': True, 'hash': imghash, 'form': form})
-	else:
-		errors = data = {}
-	form = forms.FormWrapper(manipulator, data, errors)
-	return render_to_response('wiki/register.html', {'hash': imghash, 'form': form})
 
 # Search using LIKE and or google
 def search_pages(request):
@@ -366,8 +240,7 @@ def add_page(request, slug=''):
 				errors = manipulator.get_validation_errors(page_data)
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 				for i in tags:
-					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
-encodestring(i[1])+'[/rk:syntax]')
+					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
 				page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 				try:
 					parse_cbc_tags(page_data['text'])
@@ -382,8 +255,7 @@ encodestring(i[1])+'[/rk:syntax]')
 					preview = page_data['text']
 					tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 					for i in tags:
-						preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
-encodestring(i[1])+'[/rk:syntax]')
+						preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
 					preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 			else:
 				errors = {}
@@ -424,8 +296,7 @@ def edit_page(request, slug):
 			# encode rk:syntax code so we can stripp HTML etc. 
 			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
-encodestring(i[1])+'[/rk:syntax]')
+				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 			import sys, traceback
 			try:
@@ -436,7 +307,7 @@ encodestring(i[1])+'[/rk:syntax]')
 				cbcerrors = afile.read()
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 				for i in tags:
-					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64decode(i[1])+'[/rk:syntax]')
+					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.decodestring(i[1])+'[/rk:syntax]')
 			errors = manipulator.get_validation_errors(page_data)
 			if not errors and not page_data.has_key('preview') and not cbcerrors:
 				# can user / anonymous set new changeset as current? wiki.can_set_current and settings.ANONYMOUS_CAN_SET_CURENT for anonymous
@@ -457,8 +328,7 @@ encodestring(i[1])+'[/rk:syntax]')
 				preview = page_data['text']
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', preview, MULTILINE)
 				for i in tags:
-					preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.
-encodestring(i[1])+'[/rk:syntax]')
+					preview = preview.replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
 				preview = html2safehtml(preview ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'table', 'tr', 'td', 'tbody', 'pre', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'img', 'thead', 'th', 'li', 'ul', 'ol', 'label', 'acronym', 'abbr', 'center', 'cite', 'map', 'strong', 'sub', 'sup', 'tfoot', 'blockquote'))
 		else:
 			errors = {}
@@ -467,7 +337,7 @@ encodestring(i[1])+'[/rk:syntax]')
 			# decode rk:syntax code
 			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:
-				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.b64decode(i[1])+'[/rk:syntax]')
+				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.decodestring(i[1])+'[/rk:syntax]')
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		cbcdesc = Cbc.objects.all().order_by('tag')
 		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors})

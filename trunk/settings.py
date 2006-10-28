@@ -63,7 +63,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
 	   'diamandas/myghtyboard/templates',
-	     'diamandas/wiki/templates'
+	     'diamandas/wiki/templates',
+	       'diamandas/userpanel/templates'
 )
 
 import sys
@@ -76,8 +77,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'wiki',
 'myghtyboard',
+'userpanel',
 'django.contrib.admin',
 )
+
+CSS_THEME='CrystalClear' 
 
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'
@@ -100,8 +104,7 @@ WIKI_GOOGLE_SEARCH_API = False
 ANONYMOUS_CAN_ADD_TOPIC=True
 ANONYMOUS_CAN_ADD_POST=True
 FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
-MYGHTYBOARD_THEME='CrystalClear/' # theme = folder name in diamandas/myghtyboard/templates with ending slash
-MYGHTYBOARD_LANG='english' # pointless for CrystalClear
+MYGHTYBOARD_THEME='CrystalClear/'
 
 # thumb CBC
 SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'

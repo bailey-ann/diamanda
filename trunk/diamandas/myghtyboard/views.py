@@ -1,36 +1,13 @@
 from django.shortcuts import render_to_response
 from myghtyboard.models import *
+from userpanel.models import *
 from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from stripogram import html2safehtml
 from django.db.models import Q
 from django.core import validators
-
-class PMessage(forms.Manipulator):
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="subject", length=30, maxlength=200, is_required=True),
-		forms.LargeTextField(field_name="contents", is_required=True),)
-
-def send_pmessage(request, target_user):
-	if request.user.is_authenticated() and str(request.user) != str(target_user) and len(str(target_user)) > 0 and str(target_user) != 'AnonymousUser':
-		manipulator = PMessage()
-		if request.POST:
-			new_data = request.POST.copy()
-			errors = manipulator.get_validation_errors(new_data)
-			if not errors:
-				manipulator.do_html2python(new_data)
-				from django.core.mail import send_mail
-				ruser = User.objects.get(username=str(request.user))
-				send_mail(new_data['subject'], new_data['contents'], request.user.email, [ruser.email], fail_silently=True)
-				return HttpResponseRedirect("/forum/")
-		else:
-			errors = new_data = {}
-		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'pmessage.html', {'form': form})
-	else:
-		return HttpResponseRedirect('/forum/user/')
 
 # list permissions used in templates
 def list_perms(request):
@@ -53,6 +30,7 @@ def list_perms(request):
 		perms['is_staff'] = False
 	if request.user.is_authenticated():
 		perms['is_authenticated'] = True
+	perms['css_theme'] = settings.CSS_THEME
 	return perms
 
 # show all categories and their topics
@@ -61,11 +39,10 @@ def category_list(request):
 	for c in categories:
 		c.forums = c.forum_set.all().order_by('forum_order')
 	
-	return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'category_list.html', {'categories': categories, 'perms': list_perms(request), 'lang': settings.MYGHTYBOARD_LANG})
+	return render_to_response('myghtyboard/category_list.html', {'categories': categories, 'perms': list_perms(request)})
 
 # list of topics in a forum
 def topic_list(request, forum_id):
-	#topics = Topic.objects.order_by('-topic_modification_date').filter(topic_forum=forum_id)
 	topics = Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1'))
 	for i in topics:
 		pmax =  i.post_set.all().count()/10
@@ -76,7 +53,7 @@ def topic_list(request, forum_id):
 			i.pagination_max = pmax
 	forum_name = Forum.objects.get(id=forum_id)
 	forum_name = forum_name.forum_name
-	return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
+	return render_to_response('myghtyboard/topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name})
 
 
 # list my topics
@@ -93,9 +70,9 @@ def my_topic_list(request, show_user=False):
 			else:
 				i.pagination_max = pmax
 		forum_name = _('User Topics')
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
+		return render_to_response('myghtyboard/mytopics_list.html', {'topics': topics, 'forum_name': forum_name})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
 
 # list last active topics
@@ -110,9 +87,9 @@ def last_topic_list(request):
 			else:
 				i.pagination_max = pmax
 		forum_name = _('Last Active Topics')
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
+		return render_to_response('myghtyboard/mytopics_list.html', {'topics': topics, 'forum_name': forum_name})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
 
 # list topics with my posts
@@ -135,10 +112,10 @@ def my_posttopic_list(request, show_user=False):
 					i.pagination_max = pmax
 			forum_name = _('User Posts in Latest Topics')
 		except:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'lang': settings.MYGHTYBOARD_LANG})
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'lang': settings.MYGHTYBOARD_LANG})
+			return render_to_response('myghtyboard/mytopics_list.html', {'lang': settings.MYGHTYBOARD_LANG})
+		return render_to_response('myghtyboard/mytopics_list.html', {'topics': topics, 'forum_name': forum_name})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
 
 # list post in topic with a generic pagination view :)
@@ -162,9 +139,9 @@ def post_list(request, topic_id, pagination_id):
 		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/post_list.html')
 	else:
-		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'lang': settings.MYGHTYBOARD_LANG, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.MYGHTYBOARD_THEME + 'post_list.html')
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/post_list.html')
 
 # add topic
 def add_topic(request, forum_id):
@@ -192,7 +169,7 @@ def add_topic(request, forum_id):
 				page_data = {}
 				form = forms.FormWrapper(manipulator, page_data, errors)
 				post_text = html2safehtml(request.POST.copy()['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'hash': imghash, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request), 'post_text': post_text})
+				return render_to_response('myghtyboard/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request), 'post_text': post_text})
 
 			page_data['topic_author'] = str(request.user)
 			from re import findall, MULTILINE
@@ -231,11 +208,11 @@ def add_topic(request, forum_id):
 		
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		if settings.FORUMS_USE_CAPTCHA:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'hash': imghash, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request)})
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_topic.html', {'form': form, 'lang': settings.MYGHTYBOARD_LANG, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/add_topic.html', {'form': form, 'perms': list_perms(request)})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t add topics')}) # can't add topic
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You can\'t add topics')}) # can't add topic
 
 
 # add post
@@ -258,7 +235,7 @@ def add_post(request, topic_id, post_id = False):
 	if request.user.is_authenticated() and request.user.has_perm('myghtyboard.add_post') or settings.ANONYMOUS_CAN_ADD_POST and not request.user.is_authenticated():
 		topic = Topic.objects.values('is_locked').get(id=topic_id)
 		if topic['is_locked']:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('Topic is closed')}) # locked topic!
+			return render_to_response('myghtyboard/noperm.html', {'why': _('Topic is closed')}) # locked topic!
 		# check who made the last post.
 		lastpost = Post.objects.order_by('-post_date').filter(post_topic=topic_id)[:1]
 		if request.user.is_authenticated():
@@ -268,7 +245,7 @@ def add_post(request, topic_id, post_id = False):
 			is_staff = False
 		# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
 		if str(lastpost[0].post_author) == str(request.user) and not is_staff:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t post after your post')}) # can't post after post!
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You can\'t post after your post')}) # can't post after post!
 		else:
 			manipulator = Post.AddManipulator()
 			if request.POST and len(request.POST.copy()['post_text']) > 1:
@@ -279,7 +256,7 @@ def add_post(request, topic_id, post_id = False):
 					page_data = {}
 					form = forms.FormWrapper(manipulator, page_data, errors)
 					post_text = html2safehtml(request.POST.copy()['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
-					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost, 'hash': imghash, 'post_text': post_text})
+					return render_to_response('myghtyboard/add_post.html', {'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost, 'hash': imghash, 'post_text': post_text})
 
 				
 				page_data['post_author'] = str(request.user)
@@ -329,25 +306,25 @@ def add_post(request, topic_id, post_id = False):
 					import base64
 					tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', quote.post_text, MULTILINE)
 					for i in tags:
-						quote.post_text = quote.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
+						quote.post_text = quote.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.decodestring(i)+'[/code]')
 					quote_text = '<blockquote><b>' + quote.post_author + ' wrote:</b><br /><cite>' + quote.post_text + '</cite></blockquote>\n'
 				else:
 					quote_text = ''
 			# get 10 last posts from this topic
 			lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
 			if settings.FORUMS_USE_CAPTCHA:
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost, 'hash': imghash})
+				return render_to_response('myghtyboard/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost, 'hash': imghash})
 			else:
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'add_post.html', {'quote_text': quote_text, 'lang': settings.MYGHTYBOARD_LANG, 'lastpost': lastpost})
+				return render_to_response('myghtyboard/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t add posts')}) # can't add posts
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You can\'t add posts')}) # can't add posts
 
 #edit post
 def edit_post(request, post_id):
 	post = Post.objects.get(id=post_id)
 	topic = Topic.objects.values('is_locked').get(id=post.post_topic.id)
 	if topic['is_locked']:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('Topic is closed')}) # locked topic!
+		return render_to_response('myghtyboard/noperm.html', {'why': _('Topic is closed')}) # locked topic!
 	if request.user.is_authenticated():
 		user_data = User.objects.get(username=str(request.user))
 		is_staff = user_data.is_staff
@@ -382,10 +359,10 @@ def edit_post(request, post_id):
 			import base64
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', post.post_text, MULTILINE)
 			for i in tags:
-				post.post_text = post.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.b64decode(i)+'[/code]')
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'edit_post.html', {'post_text': post.post_text, 'lang': settings.MYGHTYBOARD_LANG})
+				post.post_text = post.post_text.replace('[code]'+i+'[/code]', '[code]'+base64.decodestring(i)+'[/code]')
+			return render_to_response('myghtyboard/edit_post.html', {'post_text': post.post_text})
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You can\'t edit this post')}) # can't edit post
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You can\'t edit this post')}) # can't edit post
 
 # delete a post
 def delete_post(request, post_id, topic_id):
@@ -398,9 +375,9 @@ def delete_post(request, post_id, topic_id):
 			topic.save()
 			return HttpResponseRedirect("/forum/topic/1/" + topic_id +"/")
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
 
 # delete a topic with all posts
 def delete_topic(request, topic_id, forum_id):
@@ -416,9 +393,9 @@ def delete_topic(request, topic_id, forum_id):
 			forum.save()
 			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator')}) # can't delete
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't delete
 
 # move topic
 def move_topic(request, topic_id, forum_id):
@@ -437,11 +414,11 @@ def move_topic(request, topic_id, forum_id):
 			else:
 				forums = Forum.objects.exclude(id=forum_id).exclude(is_redirect=True)
 				topic = Topic.objects.get(id=topic_id)
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'move_topic.html', {'forums': forums, 'topic': topic})
+				return render_to_response('myghtyboard/move_topic.html', {'forums': forums, 'topic': topic})
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't move
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator')}) # can't move
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't move
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't move
 
 # close topic
 def close_topic(request, topic_id, forum_id):
@@ -453,9 +430,9 @@ def close_topic(request, topic_id, forum_id):
 			topic.save()
 			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't close
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator')}) # can't close
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't close
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't close
 
 # open topic
 def open_topic(request, topic_id, forum_id):
@@ -467,167 +444,6 @@ def open_topic(request, topic_id, forum_id):
 			topic.save()
 			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 		else:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator')}) # can't open
+			return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator')}) # can't open
 	else:
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't open
-
-def user_profile(request):
-	if request.user.is_authenticated():
-		try:
-			profile = Profile.objects.get(username=request.user)
-			if request.POST:
-				data = request.POST.copy()
-				data['email'] = html2safehtml(data['email'] ,valid_tags=())
-				data['signature'] = html2safehtml(data['signature'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
-				data['avatar'] = html2safehtml(data['avatar'] ,valid_tags=())
-				#data['theme'] = html2safehtml(data['theme'] ,valid_tags=())
-				data['contacts'] = html2safehtml(data['contacts'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
-				profile.email = data['email']
-				profile.signature = data['signature']
-				profile.avatar = data['avatar']
-				#profile.theme = data['theme']
-				profile.contacts = data['contacts']
-				profile.save()
-		except Profile.DoesNotExist:
-			p = Profile(username=request.user)
-			p.save()
-			return HttpResponseRedirect('/forum/profile/')
-		from os import listdir
-		avatars = listdir(settings.SITE_IMAGES_DIR_PATH + '/avatars/')
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'profile.html', {'profile': profile, 'avatars': avatars})
-	else:
-		return HttpResponseRedirect('/forum/user/')
-def show_profile(request, show_user):
-	if request.user.is_authenticated():
-		try:
-			profile = Profile.objects.get(username=User.objects.get(username=show_user))
-		except:
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'noperm.html', {'why': _('No such profile')})
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'show_profile.html', {'profile': profile})
-	else:
-		return HttpResponseRedirect('/forum/user/')
-
-class LoginForm(forms.Manipulator):
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=30, maxlength=200, is_required=True),
-		forms.PasswordField(field_name="password", length=30, maxlength=200, is_required=True),
-		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck]),
-		forms.TextField(field_name="imghash", is_required=True),)
-	def hashcheck(self, field_data, all_data):
-		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
-			raise validators.ValidationError("Captcha Error.")
-
-def users(request):
-	from django.contrib.auth import authenticate, login
-	if not request.user.is_authenticated():
-		# captcha image creation
-		from random import choice
-		import Image, ImageDraw, ImageFont, sha
-		# create a 5 char random strin and sha hash it
-		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-		imghash = sha.new(imgtext).hexdigest()
-		# create an image with the string
-		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
-		draw=ImageDraw.Draw(im)
-		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
-		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-		
-		manipulator = LoginForm()
-		# log in user
-		if request.POST:
-			data = request.POST.copy()
-			errors = manipulator.get_validation_errors(data)
-			if not errors:
-				manipulator.do_html2python(data)
-				user = authenticate(username=data['login'], password=data['password'])
-				if user is not None:
-					login(request, user)
-					return HttpResponseRedirect('/forum/')
-				else:
-					data['imgtext'] = ''
-					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form})
-		# no post data, show the login forum
-		else:
-			errors = data = {}
-		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'loginform': True, 'hash': imghash, 'form': form})
-	else:
-		# user authenticated, show his page with permissions
-		if request.GET:
-			# if /wiki/user/?log=out -> logout user
-			data = request.GET.copy()
-			if data['log'] == 'out':
-				from django.contrib.auth import logout
-				logout(request)
-				return HttpResponseRedirect('/forum/user/')
-		# show the page
-		return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'login.html', {'user': str(request.user), 'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page')})
-
-
-class RegisterForm(forms.Manipulator):
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size3]),
-		forms.PasswordField(field_name="password1", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
-		forms.PasswordField(field_name="password2", length=20, maxlength=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
-		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
-		forms.TextField(field_name="imghash", is_required=True, length=20),
-		forms.EmailField(field_name="email", is_required=True, length=20),)
-	def hashcheck(self, field_data, all_data):
-		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
-			raise validators.ValidationError(_("Captcha Error."))
-	def size3(self, field_data, all_data):
-		if len(field_data) < 4:
-			raise validators.ValidationError(_("Login to short"))
-	def size4(self, field_data, all_data):
-		if len(field_data) < 5:
-			raise validators.ValidationError(_("Password to short"))
-
-
-# register user
-def register(request):
-	from django.contrib.auth import authenticate, login
-	# captcha image creation
-	from random import choice
-	import Image, ImageDraw, ImageFont, sha
-	# create a 5 char random strin and sha hash it
-	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-	imghash = sha.new(imgtext).hexdigest()
-	# create an image with the string
-	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
-	draw=ImageDraw.Draw(im)
-	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
-	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-	
-	manipulator = RegisterForm()
-	if request.POST:
-		#if data['password1'] == data['password2'] and len(data['password1']) > 4 and len(data['login']) > 3 and len(data['email']) >3 and data['password1'].isalnum() and data['login'].isalnum() and data['email'].find('@') != -1 and data['imghash'] == sha.new(data['imgtext']).hexdigest():
-		data = request.POST.copy()
-		errors = manipulator.get_validation_errors(data)
-		if not errors:
-			data['email'] = html2safehtml(data['email'] ,valid_tags=())
-			try:
-				user = User.objects.create_user(data['login'], data['email'], data['password1'])
-			except Exception:
-				data['imgtext'] = ''
-				form = forms.FormWrapper(manipulator, data, errors)
-				return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'form': form})
-			else:
-				user.save()
-				user = authenticate(username=data['login'], password=data['password1'])
-				if user is not None:
-					login(request, user)
-					user.groups.add(Group.objects.get(name='users'))
-				return HttpResponseRedirect('/forum/user/')
-		else:
-			data['imgtext'] = ''
-			form = forms.FormWrapper(manipulator, data, errors)
-			return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'error': True, 'hash': imghash, 'form': form})
-	else:
-		errors = data = {}
-	form = forms.FormWrapper(manipulator, data, errors)
-	return render_to_response('myghtyboard/' + settings.MYGHTYBOARD_THEME + 'register.html', {'hash': imghash, 'form': form})
+		return render_to_response('myghtyboard/noperm.html', {'why': _('You aren\'t a moderator and you aren\'t logged in')}) # can't open

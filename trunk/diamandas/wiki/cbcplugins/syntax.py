@@ -10,7 +10,7 @@ except:
 def render(dic, text):
 	langs = {}
 	for i in dic:
-		code = base64.b64decode(i['code'])
+		code = base64.decodestring(i['code'])
 		if i['attributes']['lang'] == 'python':
 			text = text.replace(i['tag'], highlight(code, PythonLexer(), HtmlFormatter()))
 		elif i['attributes']['lang'] == 'xml':

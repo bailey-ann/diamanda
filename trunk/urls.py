@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 (r'^forum/', include('myghtyboard.URLconf')), # forum
 (r'^/?$', 'wiki.views.show_page'), # wiki main page under /
 (r'^wiki/', include('wiki.URLconf')), # wiki
+(r'^user/', include('userpanel.URLconf')), # user profile
 (r'^wiki/feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}), # wiki feeds
 (r'^wiki/sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}), # wikiPages sitemap
 )

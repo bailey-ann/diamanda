@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/body.html" %}
+{% block content %}
+
+<p style="text-align:right;"><a href="/forum/mytopics/{{ profile.username }}/">{% trans "User Topics" %}</a> | <a href="/forum/myptopics/{{ profile.username }}/">{% trans "User Posts" %}</a></p>
+<h2><span>{% trans "User Profile" %}</span></h2>
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Public Email" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" style="width:75%;"><a href="mailto:{{ profile.email }}">{{ profile.email }}</a><br /><br />
+	<a href="/user/pmessage/{{ profile.username }}/"><b>{% trans "Send Message" %}</b></a></td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Signature" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.signature }}</td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Public Info" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.public_info }}</td>
+</tr>
+<tr>
+	<td class="tcl">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Contacts" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ profile.contacts }}</td>
+</tr>
+
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
