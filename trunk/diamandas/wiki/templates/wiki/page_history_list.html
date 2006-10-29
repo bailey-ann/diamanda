@@ -1,38 +1,38 @@
 {% load i18n %}
-{% extends "body.html" %}
+{% extends "wiki/body.html" %}
 {% block content %}
 <form method="post" action="/wiki/diff/">
-<table width="100%" class="historytable" cellspacing="0" cellpadding="0">
+<table width="100%" cellspacing="0" cellpadding="0">
 	<thead><tr>
-		<th class="title" width="40%"><div style="text-align:center;"><b>{% trans "Page Title" %}</b></div></th>
-		<th class="title"><div style="text-align:center;"><b>{% trans "See Old Version" %}</b></div></th>
-		<th width="130" class="title"><div style="text-align:center;"><b>{% trans "Modification Date" %}</b></div></th>
-		<th width="250" class="title"><div style="text-align:center;"><b>{% trans "Changes" %}</b></div></th>
-		<th width="80" class="title"><div style="text-align:center;"><b>{% trans "Compare" %}</b></div></th>
-		<th width="90" class="title"><div style="text-align:center;"><b>{% trans "Actions" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "Page Title" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "See Old Version" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "Modification Date" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "Changes" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "Compare" %}</b></div></th>
+		<th class="tcl"><div style="text-align:center;"><b>{% trans "Actions" %}</b></div></th>
 	</tr></thead>
-	<thead><tr>
-		<th><a href="/wiki/page/{{ page.slug }}/"><b>{{page.title}}</b></a></th>
-		<th> </th>
-		<th><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
+	<tbody><tr>
+		<td><a href="/wiki/page/{{ page.slug }}/"><b>{{page.title}}</b></a></td>
+		<td> </td>
+		<td><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
 		{% if is_staff %}
 			<br /><br />{{ page.modification_ip }}
 		{% endif %}
-		</div></th>
-		<th>{{ page.changes }}</th>
-		<th><div style="text-align:center;"><input type="radio" name="new" value="0" style="margin-right:25px;" checked="checked" /></div></th>
-		<th> </th>
-	</tr></thead>
+		</div></td>
+		<td>{{ page.changes }}</td>
+		<td><div style="text-align:center;"><input type="radio" name="new" value="0" style="margin-right:25px;" checked="checked" /></div></td>
+		<td> </td>
+	</tr>
 		{% for page in archive %}
 			<tr>
 				{% if page.is_proposal %}
 					<td style="background: #AFFFAC;">
 				{% else %}
-					<td>
+					<td class="tcl">
 				{% endif %}
 				{{page.title}}</td>
-				<td><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "See This Version" %}" onclick="location.assign('/wiki/oldpage/{{ page.id }}/');" /></td>
-				<td><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
+				<td class="tcl"><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "See This Version" %}" onclick="location.assign('/wiki/oldpage/{{ page.id }}/');" /></td>
+				<td class="tcl"><div style="text-align:center;">{{ page.modification_date }}<br />{{ page.modification_user }}
 				
 				{% if is_staff %}
 					<br /><br />{{ page.modification_ip }}<br />
@@ -44,18 +44,18 @@
 				{% if page.is_proposal %}
 					<td style="background: #AFFFAC;"><div style="text-align:center;"><b>{% trans "Changes Proposal" %}</b></div>
 				{% else %}
-					<td>
+					<td class="tcl">
 				{% endif %}
 				{{ page.changes }}</td>
-				<td><div style="text-align:center;"><input type="radio" name="new" value="{{ page.id }}" /><input type="radio" name="old" value="{{ page.id }}" /></div></td>
-				<td><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "Restore" %}" onclick="location.assign('/wiki/restore/{{ page.id }}/');" />
+				<td class="tcl"><div style="text-align:center;"><input type="radio" name="new" value="{{ page.id }}" /><input type="radio" name="old" value="{{ page.id }}" /></div></td>
+				<td class="tcl"><div style="text-align:center;"><input type="button" class="historyinput" value="{% trans "Restore" %}" onclick="location.assign('/wiki/restore/{{ page.id }}/');" />
 				{% if page.is_proposal %}
 					<br /><br /><input type="button" class="historyinput" value="{% trans "Unpropose" %}" onclick="location.assign('/wiki/unpropose/{{ page.id }}/');" />
 				{% endif %}
 				</div></td>
 			</tr>
 		{% endfor %}
-</table>
+</tbody></table>
 <div align="right"><input type="submit" value="{% trans "Compare Selected" %}" class="actiontable" /></div>
 </form>
 {% endblock %}

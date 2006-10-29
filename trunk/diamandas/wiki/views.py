@@ -19,7 +19,7 @@ def search_pages(request):
 		if len(data['string']) > 3:
 			if data.has_key('like'):
 				pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
-				return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google})
+				return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'css_theme': settings.CSS_THEME})
 			else:
 				try:
 					import google
@@ -27,20 +27,20 @@ def search_pages(request):
 					pages = google.doGoogleSearch(data['string'] + ' site:' + str(Site.objects.get_current()))
 					pages = pages.results
 				except Exception:
-					return render_to_response('wiki/search.html', {'pages': False, 'string': data['string'], 'google': google})
+					return render_to_response('wiki/search.html', {'pages': False, 'string': data['string'], 'google': google, 'css_theme': settings.CSS_THEME})
 				else:
-					return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'googleuse': True})
+					return render_to_response('wiki/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'googleuse': True, 'css_theme': settings.CSS_THEME})
 		else:
-			return render_to_response('wiki/search.html', {'google': google})
+			return render_to_response('wiki/search.html', {'google': google, 'css_theme': settings.CSS_THEME})
 	else:
-		return render_to_response('wiki/search.html', {'google': google})
+		return render_to_response('wiki/search.html', {'google': google, 'css_theme': settings.CSS_THEME})
 
 def index(request):
 	pages = Page.objects.all()
 	tree = ''
 	for page in pages:
 		tree = tree + '<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br />'
-	return render_to_response('wiki/main.html', {'tree': tree})
+	return render_to_response('wiki/main.html', {'tree': tree, 'css_theme': settings.CSS_THEME})
 
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
@@ -56,9 +56,9 @@ def unpropose(request, archive_id):
 				archive_entry.save()
 				return HttpResponseRedirect('/wiki/history/' + archive_entry.slug + '/')
 		else:
-			return render_to_response('wiki/noperm.html') # can't unpropose
+			return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't unpropose
 	else:
-		return render_to_response('wiki/noperm.html') # can't unpropose
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't unpropose
 
 # show the page by given slug
 def show_page(request, slug='index'):	
@@ -73,11 +73,11 @@ def show_page(request, slug='index'):
 		else:
 			pdf = False
 		if (slug == 'index'):
-			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated(), 'pdf': pdf})
+			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated(), 'pdf': pdf, 'css_theme': settings.CSS_THEME})
 		else:
-			return render_to_response('wiki/page.html', {'page': page, 'pdf': pdf})
+			return render_to_response('wiki/page.html', {'page': page, 'pdf': pdf, 'css_theme': settings.CSS_THEME})
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 
 # show the page by given slug - export it as PDF
@@ -111,7 +111,7 @@ def show_page_as_pdf(request, slug='index'):
 		response.write(pdf)
 		return response
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 # show achived page by given ID
 def show_old_page(request, archive_id):
@@ -121,9 +121,9 @@ def show_old_page(request, archive_id):
 			page = Archive.objects.get(id__exact=archive_id)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/') # show some error message
-		return render_to_response('wiki/oldPage.html', {'page': page})
+		return render_to_response('wiki/oldPage.html', {'page': page, 'css_theme': settings.CSS_THEME})
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 # show list of changes for a page by given slug
 def show_page_history_list(request, slug):
@@ -141,9 +141,9 @@ def show_page_history_list(request, slug):
 		else:
 			is_staff = False
 		
-		return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff})
+		return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, 'css_theme': settings.CSS_THEME})
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 # restores an old version of a page by archive ID entry
 def restore_page_from_archive(request, archive_id):
@@ -151,7 +151,7 @@ def restore_page_from_archive(request, archive_id):
 		bans = Ban.objects.all()
 		for ban in bans:
 			if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/ban.html')
+				return render_to_response('wiki/ban.html', {'css_theme': settings.CSS_THEME})
 	# can user set a page as current - can_set_current or anonymous "anonymous_can_set_current" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
 		try:
@@ -173,7 +173,7 @@ def restore_page_from_archive(request, archive_id):
 		page_new.save()
 		return HttpResponseRedirect('/wiki/history/'+page_new.slug +'/')
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 	
 
 # show diff between two entries. IF new = 0 then archive and current, if new !=0 - also archive
@@ -197,7 +197,7 @@ def show_diff(request):
 			html_result = ['<table class="diff" cellspacing="0" cellpadding="0">']
 			for i in raw_result:
 				if len(i) > 1 and i[0] == '+'  and i[1] != '+':
-					html_result.append('<tr><td>+</td><td class="diffadd">' + i[1:] + '</td></tr>')
+					html_result.append('<tr><td style="width:30px;">+</td><td class="diffadd">' + i[1:] + '</td></tr>')
 				elif len(i) > 1 and i[0] == '-' and i[1] != '-':
 					html_result.append('<tr><td>-</td><td class="diffdel">' + i[1:] + '</td></tr>')
 				elif len(i) > 0 and i[0] == '?':
@@ -209,9 +209,9 @@ def show_diff(request):
 				elif len(i) > 1 and i[0:2] != '++' and i[0:2] != '--':
 					html_result.append('<tr><td width="15"></td><td class="diffno">' + i + '</td></tr>')
 			html_result.append('</table>')
-			return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug})
+			return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, 'css_theme': settings.CSS_THEME})
 		else:
-			return render_to_response('wiki/noperm.html') # can't view page
+			return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 	else:
 		return HttpResponseRedirect('/') # no POST
 
@@ -220,7 +220,7 @@ def add_page(request, slug=''):
 	if settings.USE_BANS:
 		bans = Ban.objects.all()
 		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-			return render_to_response('wiki/ban.html')
+			return render_to_response('wiki/ban.html', {'css_theme': settings.CSS_THEME})
 	# can user add the page (add_page) or anonymous "anonymous_can_add" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_page') or settings.ANONYMOUS_CAN_ADD and not request.user.is_authenticated():
 		# check if the page exist
@@ -262,19 +262,19 @@ def add_page(request, slug=''):
 				page_data = {'slug': slug}
 			form = forms.FormWrapper(manipulator, page_data, errors)
 			cbcdesc = Cbc.objects.all().order_by('tag')
-			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors})
+			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'css_theme': settings.CSS_THEME})
 		# page exist
 		else:
 			return HttpResponseRedirect("/wiki/page/" + slug +"/")
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 # edit page by given slug
 def edit_page(request, slug):
 	if settings.USE_BANS:
 		bans = Ban.objects.all()
 		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-			return render_to_response('wiki/ban.html')
+			return render_to_response('wiki/ban.html', {'css_theme': settings.CSS_THEME})
 	# can user change the page (change_page) or anonymous "anonymous_can_edit" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.change_page') or settings.ANONYMOUS_CAN_EDIT and not request.user.is_authenticated():
 		from re import findall, MULTILINE
@@ -340,9 +340,9 @@ def edit_page(request, slug):
 				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.decodestring(i[1])+'[/rk:syntax]')
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		cbcdesc = Cbc.objects.all().order_by('tag')
-		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors})
+		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'css_theme': settings.CSS_THEME})
 	else:
-		return render_to_response('wiki/noperm.html') # can't view page
+		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 
 # list tasks
@@ -355,7 +355,7 @@ def task_list(request, pagination_id):
 	else:
 		add_task = False
 	if len(tasks) == 0:
-		return render_to_response('wiki/task_list.html', {'proposals': proposals})
+		return render_to_response('wiki/task_list.html', {'proposals': proposals, 'css_theme': settings.CSS_THEME})
 	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
 
 # show tasks
@@ -373,7 +373,7 @@ def task_show(request, task_id):
 		add_task = True
 	else:
 		add_task = False
-	return render_to_response('wiki/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'add_task': add_task ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
+	return render_to_response('wiki/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'add_task': add_task, 'css_theme': settings.CSS_THEME ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
 
 def com_task_add(request, task_id):
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_taskcomment'):
@@ -385,8 +385,8 @@ def com_task_add(request, task_id):
 			task.save()
 			return HttpResponseRedirect('/wiki/task_show/' + str(task_id) + '/')
 		else:
-			return render_to_response('wiki/com_task_add.html')
-	return render_to_response('wiki/noperm.html') # can't view page
+			return render_to_response('wiki/com_task_add.html', {'css_theme': settings.CSS_THEME})
+	return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
 
 # file like object (for storing cbc tracebacks)
 class AFile(object):
