@@ -1,95 +1,25 @@
-.actiontable
-	{
-	border-collapse:collapse;
-	font-weight:bold;
-	}
-.actiontable td
-	{
-	padding:10px;
-	margin:0px;
-	border: 1px solid #434659;
-	border-collapse:collapse;
-	text-align:left;
-	}
-.actiontable textarea, input, select
-	{
-	font-family: verdana, tahoma "Dejavu Sans";
-	margin:5px;
-	}
-.actiontitle
-	{
-	text-align:center;
-	font-weight:bold;
-	font-size:20px;
-	}
-.historytable th
-	{
-	padding:10px;
-	margin:0px;
-	border: 1px solid #434659;
-	border-collapse:collapse;
-	text-align:center;
-	font-weight:bold;
-	background-color: #EDE8FF;
-	}
-
-.historyinput
-	{
-	background-color:#CCD1FF;
-	font-size:12px;
-	font-weight:bold;
-	border:1px solid #6E6E6E;
-	margin:4px;
-	padding-bottom:4px;
-	}
-.historytable
-	{
-	border-collapse:collapse;
-	}
-.historytable td
-	{
-	padding:10px;
-	margin:0px;
-	border: 1px solid #434659;
-	border-collapse:collapse;
-	text-align:left;
-	}
 textarea
 {
 width:100%;
 }
-.diff
-	{
-	width:100%;
-	border-collapse:collapse;
-	border:grey solid 1px;
-	}
-.diffadd
+.dadd
 	{
 	background-color: #B9FFBA;
-	border: green solid 1px;
-	border-collapse:collapse;
-	}
-.diffdel
-	{
-	background-color: #FFC1C1;
 	border: red solid 1px;
-	border-collapse:collapse;
+	size:13px;
+	padding:3px;
 	}
-.diffchange
+.ddelete
 	{
-	background-color: #88f;
-	border: yellow solid 1px;
-	border-collapse:collapse;
+	background-color: #B9FFBA;
+	border:  red solid 1px;
+	size:13px;
+	padding:3px;
 	}
-.diffno
+.dreplace
 	{
-	font-size:11px;
-	border-collapse:collapse;
-	}
-.diffinfo
-	{
-	background-color: #D8DCFF;
-	border: #B3B3FF solid 1px;
-	border-collapse:collapse;
+	background-color: #B9FFBA;
+	border:  red solid 1px;
+	size:13px;
+	padding:3px;
 	}

@@ -46,5 +46,5 @@ def render(dic, text):
 			
 			
 			
-	text = text + '<style>' + HtmlFormatter().get_style_defs('.highlight') + '</style>'
+	text = text + '<style>' + HtmlFormatter(nowrap=True).get_style_defs('.highlight') + '</style>'
 	return text

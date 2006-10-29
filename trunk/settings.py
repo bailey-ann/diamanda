@@ -81,7 +81,7 @@ INSTALLED_APPS = (
 'django.contrib.admin',
 )
 
-CSS_THEME='CrystalClear' 
+CSS_THEME='GreenPun' 
 
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'
@@ -104,7 +104,6 @@ WIKI_GOOGLE_SEARCH_API = False
 ANONYMOUS_CAN_ADD_TOPIC=True
 ANONYMOUS_CAN_ADD_POST=True
 FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
-MYGHTYBOARD_THEME='CrystalClear/'
 
 # thumb CBC
 SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'

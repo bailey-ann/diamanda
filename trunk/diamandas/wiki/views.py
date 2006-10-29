@@ -133,14 +133,16 @@ def show_page_history_list(request, slug):
 			page = Page.objects.get(slug__exact=slug)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		
+		page.modification_date = str(page.modification_date)[:16]
 		archive = Archive.objects.order_by('-modification_date').filter(page_id__exact=page.id)
 		if request.user.is_authenticated():
 			user_data = User.objects.get(username=str(request.user))
 			is_staff = user_data.is_staff
 		else:
 			is_staff = False
-		
+		if len(archive) > 0:
+			for i in archive:
+				i.modification_date = str(i.modification_date)[:16]
 		return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, 'css_theme': settings.CSS_THEME})
 	else:
 		return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page
@@ -192,23 +194,25 @@ def show_diff(request):
 					page_new = Archive.objects.get(id__exact=new)
 			except Page.DoesNotExist:
 				return HttpResponseRedirect('/') # show some error message
-			from difflib import unified_diff
-			raw_result = list(unified_diff(page_old.text.split("\n"), page_new.text.split("\n")))
-			html_result = ['<table class="diff" cellspacing="0" cellpadding="0">']
-			for i in raw_result:
-				if len(i) > 1 and i[0] == '+'  and i[1] != '+':
-					html_result.append('<tr><td style="width:30px;">+</td><td class="diffadd">' + i[1:] + '</td></tr>')
-				elif len(i) > 1 and i[0] == '-' and i[1] != '-':
-					html_result.append('<tr><td>-</td><td class="diffdel">' + i[1:] + '</td></tr>')
-				elif len(i) > 0 and i[0] == '?':
-					html_result.append('<tr><td>?</td><td class="diffchange">' + i[1:] + '</td></tr>')
-				elif len(i) > 1 and i[0:2] == '@@':
-					i = i.replace('@@', '').strip().split(' ')
-					i = str(i[0]).split(',')
-					html_result.append('<tr><td></td><td class="diffno"><br /></td></tr><tr><td></td><td class="diffinfo"><B>' + _('Row') + '</B>: ' + str(i[0])[1:] + '</td></tr>')
-				elif len(i) > 1 and i[0:2] != '++' and i[0:2] != '--':
-					html_result.append('<tr><td width="15"></td><td class="diffno">' + i + '</td></tr>')
-			html_result.append('</table>')
+			#from difflib import unified_diff
+			#raw_result = list(unified_diff(page_old.text.split("\n"), page_new.text.split("\n")))
+			import diff
+			html_result = diff.textDiff(page_old.text, page_new.text)
+			
+			#html_result = []
+			#for i in raw_result:
+				#if len(i) > 1 and i[0] == '+'  and i[1] != '+':
+					#html_result.append('<div class="diffadd">' + i[1:] + '</div>')
+				#elif len(i) > 1 and i[0] == '-' and i[1] != '-':
+					#html_result.append('<div class="diffdel">' + i[1:] + '</div>')
+				#elif len(i) > 0 and i[0] == '?':
+					#html_result.append('<div class="diffchange">' + i[1:] + '</div>')
+				#elif len(i) > 1 and i[0:2] == '@@':
+					#i = i.replace('@@', '').strip().split(' ')
+					#i = str(i[0]).split(',')
+					#html_result.append('<br /><div class="diffinfo"><b>' + _('Row') + '</b>: ' + str(i[0])[1:] + '</div>')
+				#elif len(i) > 1 and i[0:2] != '++' and i[0:2] != '--':
+					#html_result.append('<div class="diffno">' + i + '</div>')
 			return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, 'css_theme': settings.CSS_THEME})
 		else:
 			return render_to_response('wiki/noperm.html', {'css_theme': settings.CSS_THEME}) # can't view page

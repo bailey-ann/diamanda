@@ -15,7 +15,7 @@
 </pre><br /><br />
 {% endif %}
 
-<form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2" class="actiontable">
+<form method="post" action="."><table width="100%" border="0" cellspacing="2" cellpadding="2">
 <tr><td width="140"><p>
     {% trans "Title" %}:</td><td> {{ form.title }}
     {% if form.title.errors %}<br />*** {{ form.title.errors|join:", " }}{% endif %}
@@ -54,8 +54,8 @@
     {% if form.changes.errors %}<br />*** {{ form.changes.errors|join:", " }}{% endif %}
 </p></td></tr>
 </table>
-<center><input type="submit" value="{% trans "Save Changes" %}" class="actiontable" /><br /><br />
-<input type="submit" value="{% trans "Preview" %}" name="preview" class="actiontable" /></center>
+<center><input type="submit" value="{% trans "Save Changes" %}" /><br /><br />
+<input type="submit" value="{% trans "Preview" %}" name="preview" /></center>
 </form><script>document.getElementById('id_text').rows='20';</script>
 <br /><br /><B>{% trans "Allowed HTML Tags" %}</B>:b, a, i, br, p, u, pre, div, span, h1, h2, h3, h4, img, li, ul, ol, acronym, abbr, center, cite, map, strong, sub, sup, table, tr, td, tbody, thead, th, tfoot, label<br /><br />
 
