@@ -360,7 +360,7 @@ def task_list(request, pagination_id):
 		add_task = False
 	if len(tasks) == 0:
 		return render_to_response('wiki/task_list.html', {'proposals': proposals, 'css_theme': settings.CSS_THEME})
-	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
+	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'css_theme': settings.CSS_THEME, 'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/task_list.html')
 
 # show tasks
 def task_show(request, task_id):
@@ -369,7 +369,7 @@ def task_show(request, task_id):
 	if len(users) > 0:
 		user_list = ''
 		for i in users:
-			user_list = user_list + str(i) + ' '
+			user_list = user_list + '<a href="/user/show_profile/' + str(i) + '/">' + str(i) + '</a> '
 	else:
 		user_list = _('None')
 	com = TaskComment.objects.filter(com_task_id = task_id)

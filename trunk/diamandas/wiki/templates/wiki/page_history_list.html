@@ -31,7 +31,7 @@
 					</div>
 				</td>
 				<td class="tc3"> </td>
-				<td class="tc2">{{ page.modification_date }}<br /><b>{{ page.modification_user }}</b>
+				<td class="tc2">{{ page.modification_date }}<br /><b><a href="/user/show_profile/{{ page.modification_user }}/">{{ page.modification_user }}</a></b>
 				{% if is_staff %}
 					<br />{{ page.modification_ip }}
 				{% endif %}
@@ -44,7 +44,6 @@
 			<tr>
 				<td class="tcl">
 					<div class="intd">
-						<div class="icon"><div class="nosize"><!-- --></div></div>
 						<div class="tclcon">
 							<h3>{{page.title}}</h3>
 							{{ page.changes }}
@@ -52,7 +51,7 @@
 					</div>
 				</td>
 				<td class="tc3"><a href="/wiki/oldpage/{{ page.id }}/"><b>{% trans "See This Version" %}</b></a></td>
-				<td class="tc2">{{ page.modification_date }}<br /><b>{{ page.modification_user }}</b>
+				<td class="tc2">{{ page.modification_date }}<br /><b><a href="/user/show_profile/{{ page.modification_user }}/">{{ page.modification_user }}</a></b>
 				{% if is_staff %}
 					<br />{{ page.modification_ip }}
 				{% endif %}

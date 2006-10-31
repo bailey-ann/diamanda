@@ -81,7 +81,7 @@ INSTALLED_APPS = (
 'django.contrib.admin',
 )
 
-CSS_THEME='GreenPun' 
+CSS_THEME='sibirsky'
 
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'

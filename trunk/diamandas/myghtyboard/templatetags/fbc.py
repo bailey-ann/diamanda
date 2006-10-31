@@ -42,11 +42,10 @@ def fbc(value): # Only one argument.
 			value = value.replace('[url='+ i[0] +']'+i[1]+'[/url]', '<a href="' + i[0] +'" target="_blank">' + i[1] +'</a>')
 	del tags
 	tags = findall( r'\[url\](.*?)\[/url\]', value)
-	print tags
 	for i in tags:
 		value = value.replace('[url]'+i+'[/url]', '<a href="' + i +'" target="_blank">' + i +'</a>')
 	del tags
-	tags = findall( r' http://([a-z_0-9\?.&/_\-]*)', value)
+	tags = findall( r'http://([a-z_0-9=\?.&/_\-]*) ', value)
 	for i in tags:
 		value = value.replace('http://' + i, '<a href="http://' + i +'" target="_blank">' + i +'</a>')
 	return value

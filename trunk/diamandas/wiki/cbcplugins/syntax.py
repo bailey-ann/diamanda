@@ -43,8 +43,6 @@ def render(dic, text):
 			text = text.replace(i['tag'], highlight(code, SqlLexer(), HtmlFormatter()))
 		else:
 			text = text.replace(i['tag'], highlight(code, HtmlLexer(), HtmlFormatter()))
-			
-			
-			
-	text = text + '<style>' + HtmlFormatter(nowrap=True).get_style_defs('.highlight') + '</style>'
+
+	text = text + '<style>' + HtmlFormatter().get_style_defs('.highlight') + '</style>'
 	return text
