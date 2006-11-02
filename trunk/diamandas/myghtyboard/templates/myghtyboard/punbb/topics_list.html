@@ -1,0 +1,86 @@
+{% load i18n %}
+{% extends "myghtyboard/punbb/body.html" %}
+{% block content %}
+<div class="box"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></div><br />
+<div class="blocktable">
+	<h2><span><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a></span></h2>
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<thead>
+				<tr>
+					<th class="tcl" scope="col">{% trans "Topic" %}</th>
+					<th class="tc2" scope="col">{% trans "Author" %}</th>
+					<th class="tc3" scope="col">{% trans "Posts" %}</th>
+					<th class="tcr" scope="col">{% trans "Last Post" %}</th>
+				</tr>
+			</thead>
+			<tbody>
+
+{% for topic in topics %}
+			<tr>
+				<td class="tcl">
+					<div class="intd">
+						{% if topic.is_locked %}
+							<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/lock.png" alt="*" /></div>
+						{% else %}
+							{% if topic.is_sticky %}
+							<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/stick.png" alt="*" /></div>
+							{% else %}
+								{% if topic.is_global %}
+									<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/glob.png" alt="*" /></div>
+								{% else %}
+									<div class="icon"><div class="nosize"><!-- --></div></div>
+								{% endif%}
+							{% endif%}
+						{% endif %}
+						
+						
+						<div class="tclcon">
+							<h3><a href="/forum/topic/{{ topic.pagination_max }}/{{ topic.id }}/">{{ topic.topic_name }}</a></h3>
+							{% if perms.is_staff %}
+								<br /><a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
+								{% if topic.is_locked %}
+									<a href="/forum/open_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock Topic" %}</a>
+								{% else %}
+									<a href="/forum/close_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock Topic" %}</a>
+								{% endif %}
+								{% ifnotequal topic.is_locked 1 %}
+								 | <a href="/forum/move_topic/{{ topic.id }}/{{ forum }}/">{% trans "Move Topic" %}</a>
+								 {% endifnotequal %}
+							{% endif %}
+						</div>
+					</div>
+				</td>
+				<td class="tc2"><a href="/user/show_profile/{{ topic.topic_author }}/">{{ topic.topic_author }}</a></td>
+				<td class="tc3">{{ topic.topic_posts }}</td>
+				<td class="tcr">{{ topic.topic_lastpost }}</td>
+			</tr>
+{% endfor %}
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<div class="box">
+{% if perms.add_topic %}
+	<p style="text-align:right;"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></p>
+{% endif %}
+<p style="text-align:right;">
+	{% if perms.add_topic %}
+		- {% trans "You can post new Topics" %}<br />
+	{% else %}
+		- {% trans "You can't post new Topics" %}<br />
+	{% endif %}
+	{% if perms.add_post %}
+		- {% trans "You can post new Posts" %}<br />
+	{% else %}
+		- {% trans "You can't post new Posts" %}<br />
+	{% endif %}
+	{% if perms.is_staff %}
+		- {% trans "You can moderate this Topics" %}<br />
+	{% else %}
+		-  {% trans "You can't moderate this Topics" %}<br />
+	{% endif %}
+</p></div>
+{% endblock %}

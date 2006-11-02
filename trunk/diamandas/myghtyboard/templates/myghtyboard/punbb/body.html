@@ -1,0 +1,26 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir="ltr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MyghtyBoard</title>
+<link rel="stylesheet" type="text/css" href="/site_media/themes/{{ perms.engine }}/{{ perms.theme }}/{{ perms.theme }}.css" />
+</head>
+<body>
+
+<div id="punwrap">
+<div id="punindex" class="pun">
+<h2><b>{% trans "Quick Links" %}</b>:
+<a href="/" style="text-decoration:underline;">{% trans "Main Page" %}</a> | <a href="/forum/" style="text-decoration:underline;">{% trans "Forum" %}</a>  | <a href="/user/" style="text-decoration:underline;">{% trans "My Profile" %}</a>
+</h2>
+
+
+{% block content %}{% endblock %}
+
+<div style="text-align:center; font-weight:bold;">MyghtyBoard ^_^ Diamanda Wiki</div>
+<div style="text-align:center;">Theme based on punBB Theme - {{ perms.theme }}</div>
+</div>
+</div>
+
+</body>
+</html>

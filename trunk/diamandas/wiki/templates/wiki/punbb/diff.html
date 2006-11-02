@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load cbc %}
+{% extends "wiki/punbb/body.html" %}
+{% block leftmenu %} <a href="/wiki/edit/{{ slug }}/">{% trans "Edit" %}</a> | <a href="/wiki/history/{{ slug }}/">{% trans "Page History" %}</a> | <a href="/wiki/add/">{% trans "Add a Page" %}</a>{% endblock %}
+
+
+{% block content %}
+{{ diffresult|cbc }}
+{% endblock %}

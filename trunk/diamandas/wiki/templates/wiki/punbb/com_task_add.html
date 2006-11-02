@@ -1,0 +1,21 @@
+{% load i18n %}
+{% extends "wiki/punbb/body.html" %}
+
+
+{% block content %}
+{% trans "Add a comment to this task" %}
+</div><br />
+<div class="blocktable">
+	<h2><span>{% trans "Add Task Comment" %}</span></h2>
+	<div class="box">
+		<div class="inbox" style="padding:5px;">
+<form method="post" action=".">
+<textarea name="text" rows="10" cols="70"></textarea>
+<br /><br /><div style="text-align:center;"><input type="submit" value="{% trans "Add Comment" %}" style="actiontable" /></div>
+</form>
+<br />
+</div></div></div><br />
+
+<div class="box"><br />
+<b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, pre, div, span, img, li, ul, ol, center, sub, sup, blockquote<br />
+{% endblock %}

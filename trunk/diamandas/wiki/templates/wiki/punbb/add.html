@@ -1,0 +1,126 @@
+{% load i18n %}
+{% load cbc %}
+{% extends "wiki/punbb/body.html" %}
+{% block content %}
+{% trans "Here you can add a new page to the wiki." %}<br />
+{% if cbcerrors %}
+<h2>{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+{% endif %}</div><br />
+<form method="post" action=".">
+<div class="blocktable">
+	<h2><span>{% trans "Add a Page" %}</span></h2>
+	<div class="box">
+		<div class="inbox">
+		<table cellspacing="0">
+			<tbody>
+			<tr>
+				<td class="tc3">{% trans "Title" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.title }}{% if form.title.errors %}<br />*** {{ form.title.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Slug" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.slug }}{% if form.slug.errors %}<br />*** {{ form.slug.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Description" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.description }}{% if form.description.errors %}<br />*** {{ form.description.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Content" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[rk:syntax lang=\"python\"][/rk:syntax]"'><img src="/site_media/wiki/editor/code.png" title="{% trans "Code" %}" alt="{% trans "Code" %}" border="0"></a>
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'><img src="/site_media/wiki/editor/bold.png" title="{% trans "Bold" %}" alt="{% trans "Bold" %}" border="0"></a>
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'><img src="/site_media/wiki/editor/italic.png" title="{% trans "Italic" %}" alt="{% trans "Italic" %}" border="0"></a> 
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'><img src="/site_media/wiki/editor/underline.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a> 
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'><img src="/site_media/wiki/editor/image.png" title="{% trans "Underline" %}" alt="{% trans "Underline" %}" border="0"></a>
+							<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'><img src="/site_media/wiki/editor/block.png" title="{% trans "Blockquote" %}" alt="{% trans "Blockquote" %}" border="0"></a>
+							
+							<br />
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/wiki/smilies/icon_eek.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/wiki/smilies/icon_biggrin.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':whatthe:' "><img src="/site_media/wiki/smilies/icon_neutral.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/wiki/smilies/icon_evil.gif" border="0" /></a>
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/wiki/smilies/icon_twisted.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':?:' "><img src="/site_media/wiki/smilies/icon_question.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':idea:' "><img src="/site_media/wiki/smilies/icon_idea.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':arrow:' "><img src="/site_media/wiki/smilies/icon_arrow.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/wiki/smilies/icon_cheesygrin.gif" border="0" /></a> 
+							<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/wiki/smilies/icon_cool.gif" border="0" /></a> 
+							<br />{{ form.text }}{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Changes summary" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.changes }}{% if form.changes.errors %}<br />*** {{ form.changes.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+
+
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<div class="box">
+<div style="text-align:center; margin:3px;"><input type="submit" value="{% trans "Save Page" %}" style="actiontable" /><br /><br />
+<input type="submit" value="{% trans "Preview" %}" name="preview" /></div>
+</form>
+<br /><br />
+<b>{% trans "Allowed HTML Tags" %}</b>:b, a, i, br, p, u, pre, div, span, h1, h2, h3, h4, img, li, ul, ol, acronym, abbr, center, cite, map, strong, sub, sup, table, tr, td, tbody, thead, th, tfoot, label<br /></div>
+
+<br />
+{% if preview %}
+<h2>Page Preview</h2>
+	<div class="box">{{ preview|cbc }}</div><br />
+<h2 class="pageh">End of Preview</h2>
+{% endif %}
+
+
+
+<h2>{% trans "ContentBBCode List" %}</h2>
+<div class="box">{% for i in cbcdesc %}
+<div class="tagdesc"><b>{{ i.tag }}</b></div>
+<b><pre>{{ i.tag_example }}</pre></b>
+{{ i.description }}<br /><br />
+{% endfor %}
+{% endblock %}
+{% block leftmenu %}
+<a href="/wiki/">Wiki</a>
+{% endblock %}

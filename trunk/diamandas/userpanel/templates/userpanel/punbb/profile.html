@@ -1,0 +1,68 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "myghtyboard/punbb/body.html" %}
+{% block content %}
+<br />
+<h2><span>{% trans "User Profile" %}</span></h2>
+<form action="." method="post">
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Public Email" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:25%;">{{ form.email }}{% if form.email.errors %}<br />*** {{ form.email.errors|join:", " }}{% endif %}</td>
+</tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Public Informations" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ form.public_info }}{% if form.public_info.errors %}<br />*** {{ form.public_info.errors|join:", " }}{% endif %}
+	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a
+	</td>
+</tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Signature" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ form.signature }}{% if form.signature.errors %}<br />*** {{ form.signature.errors|join:", " }}{% endif %}
+	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a</td></td>
+</tr>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Contacts" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2">{{ form.contacts }}{% if form.contacts.errors %}<br />*** {{ form.contacts.errors|join:", " }}{% endif %}
+	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a</td>
+</tr>
+
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+<div style="text-align:center;"><input type="submit" value="{% trans "Save Changes" %}" /><br /><br />
+<input type="button" value="{% trans "Log Out" %}" onclick="location.assign('/user/email/?log=out');" /></div>
+</form>
+
+{% endblock %}

@@ -75,13 +75,15 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'wiki',
-'myghtyboard',
-'userpanel',
-'django.contrib.admin',
+    'myghtyboard',
+    'userpanel',
+    'django.contrib.admin',
 )
 
-CSS_THEME='sibirsky'
+ENGINE='punbb' # engine - see media/themes for list
+THEME='sibirsky' # theme for current engine - see /media/themes/punbb for punBB based themes
 
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'

@@ -1,0 +1,46 @@
+{% load i18n %}
+{% extends "myghtyboard/punbb/body.html" %}
+{% block content %}
+<br />
+<h2><span>{% trans "Send a Private Message" %}</span></h2>
+
+<form action="." method="post">
+<div class="blocktable">
+	<div class="box">
+		<div class="inbox">
+			<table cellspacing="0">
+			<tbody>
+<tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Subject" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:25%;">
+	{{ form.subject }}
+    {% if form.subject.errors %}<br />*** {{ form.subject.errors|join:", " }}{% endif %}
+   
+	</td>
+</tr>
+	<td class="tc3">
+		<div class="intd">
+			<div class="tclcon">
+				<h3>{% trans "Text" %}</h3>
+			</div>
+		</div>
+	</td>
+	<td class="tc2" size="75%" style="width:25%;">
+    {{ form.contents }}
+    {% if form.contents.errors %}<br />*** {{ form.contents.errors|join:", " }}{% endif %}
+	</td>
+</tr>
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Send Message" %}" style="actiontable"></div><br /></div>
+</form>
+{% endblock %}
