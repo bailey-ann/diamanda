@@ -1,0 +1,225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: userpanel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"PO-Revision-Date: 2006-04-08 12:19+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: views.py:34
+msgid "Captcha Error."
+msgstr "Błąd Captcha."
+
+#: views.py:37
+msgid "Login to short"
+msgstr "Za krótki login"
+
+#: views.py:40
+msgid "Password to short"
+msgstr "Za krótkie hasło"
+
+#: views.py:212
+msgid "No such profile"
+msgstr "Brak profilu użytkownika"
+
+#: templates/userpanel/punbb/login.html:6
+#: templates/userpanel/punbb/panel.html:6
+#: templates/userpanel/punbb/profile.html:6
+#: templates/userpanel/punbb/register.html:6
+#: templates/userpanel/punbb/show_profile.html:7
+msgid "User Profile"
+msgstr "Profil Użytkownika"
+
+#: templates/userpanel/punbb/login.html:15
+msgid "Login Error - bad login and/or password"
+msgstr "Błąd Logowania - zły login i/lub hasło"
+
+#: templates/userpanel/punbb/login.html:23
+#: templates/userpanel/punbb/login.html:54
+#: templates/userpanel/punbb/register.html:25
+#: templates/userpanel/punbb/userlist.html:13
+msgid "Login"
+msgstr "Login"
+
+#: templates/userpanel/punbb/login.html:34
+#: templates/userpanel/punbb/register.html:30
+msgid "Password"
+msgstr "Hasło"
+
+#: templates/userpanel/punbb/login.html:45
+#: templates/userpanel/punbb/register.html:45
+msgid "Text from the image"
+msgstr "Tekst z grafiki"
+
+#: templates/userpanel/punbb/login.html:45
+#: templates/userpanel/punbb/register.html:45
+msgid "(Use CAPITAL letters)"
+msgstr "(Użyj DUŻYCH liter)"
+
+#: templates/userpanel/punbb/login.html:55
+msgid "Register"
+msgstr "Rejestracja"
+
+#: templates/userpanel/punbb/noperm.html:14
+msgid "Permission Denied"
+msgstr "Brak Dostępu"
+
+#: templates/userpanel/punbb/panel.html:10
+msgid "- You can set pages as current"
+msgstr "- Twoje zmiany będą od razu widoczne na stronie"
+
+#: templates/userpanel/punbb/panel.html:12
+msgid "- You can't set pages as current"
+msgstr "- Wprowadzone przez ciebie zmiany pojawią się na stronie po zatwierdzeniu przez administratora"
+
+#: templates/userpanel/punbb/panel.html:15
+msgid "- You can add pages"
+msgstr "- Możesz dodawać nowe strony"
+
+#: templates/userpanel/punbb/panel.html:17
+msgid "- You can't add pages"
+msgstr "- Nie możesz dodawać stron"
+
+#: templates/userpanel/punbb/panel.html:20
+msgid "- You can edit pages"
+msgstr "- Możesz edytować strony"
+
+#: templates/userpanel/punbb/panel.html:22
+msgid "- You can't edit pages"
+msgstr "- Nie możesz edytować stron"
+
+#: templates/userpanel/punbb/panel.html:25
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: templates/userpanel/punbb/panel.html:26
+msgid "Edit Profile"
+msgstr "Edytuj Profil"
+
+#: templates/userpanel/punbb/panel.html:27
+msgid "User List"
+msgstr "Lista Użytkowników"
+
+#: templates/userpanel/punbb/pmessage.html:5
+msgid "Send a Private Message"
+msgstr "Wyślij Wiadomość"
+
+#: templates/userpanel/punbb/pmessage.html:17
+msgid "Subject"
+msgstr "Temat"
+
+#: templates/userpanel/punbb/pmessage.html:30
+msgid "Text"
+msgstr "Treść"
+
+#: templates/userpanel/punbb/pmessage.html:44
+#: templates/userpanel/punbb/show_profile.html:22
+#: templates/userpanel/punbb/userlist.html:33
+msgid "Send Message"
+msgstr "Wyślij Wiadomość"
+
+#: templates/userpanel/punbb/profile.html:17
+#: templates/userpanel/punbb/show_profile.html:17
+msgid "Public Email"
+msgstr "Publiczny Email"
+
+#: templates/userpanel/punbb/profile.html:27
+msgid "Public Informations"
+msgstr "Publiczne Informacje"
+
+#: templates/userpanel/punbb/profile.html:32
+#: templates/userpanel/punbb/profile.html:44
+#: templates/userpanel/punbb/profile.html:55
+msgid "Allowed HTML Tags"
+msgstr "Dozwolone tagi HTML"
+
+#: templates/userpanel/punbb/profile.html:39
+#: templates/userpanel/punbb/show_profile.html:28
+msgid "Signature"
+msgstr "Podpis"
+
+#: templates/userpanel/punbb/profile.html:50
+#: templates/userpanel/punbb/show_profile.html:48
+msgid "Contacts"
+msgstr "Kontakty"
+
+#: templates/userpanel/punbb/profile.html:64
+msgid "Save Changes"
+msgstr "Zapisz Zmiany"
+
+#: templates/userpanel/punbb/profile.html:65
+msgid "Log Out"
+msgstr "Wyloguj"
+
+#: templates/userpanel/punbb/register.html:15
+msgid "Registration Error"
+msgstr "Błąd Rejestracji"
+
+#: templates/userpanel/punbb/register.html:21
+msgid "REGISTER FORM"
+msgstr "REJESTRACJA"
+
+#: templates/userpanel/punbb/register.html:25
+msgid "required, more than 3 chars<br />letters or numbers"
+msgstr "wymagane, więcej niż 3 znaki<br />litery lub liczby"
+
+#: templates/userpanel/punbb/register.html:30
+msgid "required, more than 4 chars<br />letters or numbers"
+msgstr "wymagane, więcej niż 4 znaki<br />litery lub liczby"
+
+#: templates/userpanel/punbb/register.html:35
+msgid "Password Again"
+msgstr "Hasło Ponownie"
+
+#: templates/userpanel/punbb/register.html:35
+msgid "required, enter the same password"
+msgstr "wymagane, wprowadź to samo hasło"
+
+#: templates/userpanel/punbb/register.html:40
+msgid "Email"
+msgstr "Email"
+
+#: templates/userpanel/punbb/register.html:40
+msgid "required, your email addres"
+msgstr "wymagane, podaj swój adres email"
+
+#: templates/userpanel/punbb/register.html:53
+msgid "Register My"
+msgstr "Zarejestruj Mnie"
+
+#: templates/userpanel/punbb/show_profile.html:6
+msgid "User Topics"
+msgstr "Tematy Użytkownika"
+
+#: templates/userpanel/punbb/show_profile.html:6
+msgid "User Posts"
+msgstr "Posty Użytkownika"
+
+#: templates/userpanel/punbb/show_profile.html:38
+msgid "Public Info"
+msgstr "Publiczne Informacje"
+
+#: templates/userpanel/punbb/userlist.html:7
+msgid "Users List"
+msgstr "Lista Użytkowników"
+
+#: templates/userpanel/punbb/userlist.html:14
+msgid "Actions"
+msgstr "Akcje"
+
+#: templates/userpanel/punbb/userlist.html:15
+msgid "Is Staff"
+msgstr "W Zespole"
+
+#: templates/userpanel/punbb/userlist.html:32
+msgid "Show Profile"
+msgstr "Pokaż Profil"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Diamanda Wiki\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-25 15:42+0000\n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -47,560 +47,490 @@ msgstr "Opis Tagów CBC"
 msgid "Wiki CBC Descriptions"
 msgstr "Opisy Tagów CBC"
 
-#: models.py:24
-msgid "Ban Type"
-msgstr "Typ Bana"
-
-#: models.py:24
-msgid "Is it IP or hostname"
-msgstr "Czy to jest IP czy host"
-
-#: models.py:25
-msgid "Ban Item"
-msgstr "Element banowany"
-
-#: models.py:25
-msgid "The IP, IP range or hostname to ban"
-msgstr "Adres IP, lub jego część lub nazwa serwera (hosta)"
-
-#: models.py:26
-msgid "Comments"
-msgstr "Komentarze"
-
-#: models.py:28
-msgid "Wiki Ban"
-msgstr "Wiki Ban"
-
-#: models.py:29
-msgid "Wiki Bans"
-msgstr "Wiki Bany"
-
-#: models.py:50
+#: models.py:31
 msgid "WikiPage"
 msgstr "WikiStrona"
 
-#: models.py:51
+#: models.py:32
 msgid "WikiPages"
 msgstr "WikiStrony"
 
-#: models.py:70
+#: models.py:51
 msgid "WikiPage Archive"
 msgstr "Archiwum"
 
-#: models.py:71
+#: models.py:52
 msgid "WikiPages Archive"
 msgstr "Archiwa"
 
-#: models.py:76
-msgid "Site Content"
-msgstr "Zawartość Serwisu"
-
-#: models.py:77
-msgid "Technical Issues"
-msgstr "Sprawy Techniczne"
-
-#: models.py:78
-msgid "Site in the Web"
-msgstr "Strona w Sieci"
-
-#: models.py:79
-msgid "Other"
-msgstr "Inne"
-
-#: models.py:82
-msgid "Unassigned"
-msgstr "Nieprzypisany"
-
-#: models.py:83
-msgid "Assigned"
-msgstr "Przypisany"
-
-#: models.py:84
-msgid "Closed"
-msgstr "Zamknięty"
-
-#: models.py:87
-msgid "Minor"
-msgstr "Niski"
-
-#: models.py:88
-msgid "Moderate"
-msgstr "Średni"
-
-#: models.py:89
-msgid "High"
-msgstr "Wysoki"
-
-#: models.py:90
-msgid "Critical"
-msgstr "Krytyczny"
-
-#: models.py:93
-msgid "Nothing Done Yet"
-msgstr "Nic nie zrobione"
-
-#: models.py:94
-msgid "25% Done"
-msgstr "Wykonano 25%"
-
-#: models.py:95
-msgid "50% Done"
-msgstr "Wykonano 50%"
-
-#: models.py:96
-msgid "75% Done"
-msgstr "Wykonano 75%"
-
-#: models.py:97
-msgid "Task Completed"
-msgstr "Zadanie Wykonane"
-
-#: models.py:99 templates/wiki/task_list.html:8
-msgid "Task Title"
-msgstr "Tytuł Zadania"
-
-#: models.py:100 templates/wiki/task_show.html:11
-msgid "Task Type"
-msgstr "Typ Zadania"
-
-#: models.py:101 templates/wiki/task_show.html:8
-msgid "Task Description"
-msgstr "Opis Zadania"
-
-#: models.py:102 templates/wiki/task_list.html:9
-#: templates/wiki/task_show.html:11
-msgid "Task Status"
-msgstr "Status Zadania"
-
-#: models.py:103 templates/wiki/task_list.html:10
-msgid "Task Priority"
-msgstr "Priorytet"
-
-#: models.py:104 templates/wiki/task_show.html:11
-msgid "Assigned To"
-msgstr "Przypisany Do"
-
-#: models.py:105 templates/wiki/task_show.html:12
-msgid "Creation Date"
-msgstr "Data Utworzenia"
-
-#: models.py:106 templates/wiki/page_history_list.html:9
-msgid "Modification Date"
-msgstr "Data Modyfikacji"
-
-#: models.py:107 templates/wiki/task_list.html:12
-#: templates/wiki/task_show.html:18
-msgid "Progress"
-msgstr "Postęp"
-
-#: models.py:109
-msgid "Task"
-msgstr "Zadanie"
-
-#: models.py:110
-msgid "Wiki Tasks"
-msgstr "Wiki Zadania"
-
-#: models.py:119
-msgid "Comment"
-msgstr "Komentarz"
-
-#: models.py:124
-msgid "Task Comment"
-msgstr "Komentarz do Zadania"
-
-#: models.py:125 templates/wiki/task_show.html:23
-msgid "Task Comments"
-msgstr "Komentarze do Zadań"
-
-#: views.py:250
+#: views.py:166
 msgid "Restored version "
 msgstr "Przywrócona wersja "
 
-#: views.py:250
+#: views.py:166
 msgid " from Archive. ("
 msgstr "z Archiwum. ("
 
-#: views.py:289
-msgid "Row"
-msgstr "Wiersz"
+#: templates/wiki/punbb/add.html:5
+msgid "Here you can add a new page to the wiki."
+msgstr "Tutaj możesz dodać nową stronę."
 
-#: views.py:451
-msgid "None"
-msgstr "Brak"
-
-#: templates/body.html:1
-msgid "Site Links"
-msgstr "Odnośniki"
-
-#: templates/body.html:1 templates/wiki/edit.html:8
-msgid "Main Page"
-msgstr "Strona Główna"
-
-#: templates/body.html:1 templates/wiki/edit.html:9
-msgid "Search"
-msgstr "Szukaj"
-
-#: templates/body.html:1 templates/wiki/edit.html:10
-#: templates/wiki/task_list.html:5
-msgid "Site Tasks"
-msgstr "Zadania"
-
-#: templates/body.html:1 templates/wiki/edit.html:11
-msgid "My Account"
-msgstr "Moje Konto"
-
-#: templates/body.html:1 templates/wiki/edit.html:12
-msgid "Forum"
-msgstr "Forum"
-
-#: templates/body.html:1
-msgid "Admin"
-msgstr "Admin"
-
-#: templates/body.html:1
-msgid "Action Links"
-msgstr "Akcje"
-
-#: templates/body.html:1
-msgid "Wiki"
-msgstr "Wiki"
-
-#: templates/body.html:1 templates/wiki/add.html:6 templates/wiki/page.html:7
-#: templates/wiki/indexPage.html:8 templates/wiki/oldPage.html:6
-#: templates/wiki/diff.html:6
-msgid "Add a Page"
-msgstr "Dodaj Stronę"
-
-#: templates/wiki/add.html:8 templates/wiki/edit.html:20
+#: templates/wiki/punbb/add.html:7 templates/wiki/punbb/edit.html:11
 msgid "CBC Tags Error Detected! Fix it!"
 msgstr "Błąd Tagów CBC! Popraw go!"
 
-#: templates/wiki/add.html:12 templates/wiki/edit.html:25
+#: templates/wiki/punbb/add.html:11 templates/wiki/punbb/body.html:1
+#: templates/wiki/punbb/diff.html:4 templates/wiki/punbb/indexPage.html:6
+#: templates/wiki/punbb/oldPage.html:5 templates/wiki/punbb/page.html:5
+msgid "Add a Page"
+msgstr "Dodaj Stronę"
+
+#: templates/wiki/punbb/add.html:17 templates/wiki/punbb/edit.html:21
 msgid "Title"
 msgstr "Tytuł"
 
-#: templates/wiki/add.html:16
+#: templates/wiki/punbb/add.html:29 templates/wiki/punbb/edit.html:33
 msgid "Slug"
 msgstr "Odnośnik"
 
-#: templates/wiki/add.html:20 templates/wiki/edit.html:30
+#: templates/wiki/punbb/add.html:41 templates/wiki/punbb/edit.html:45
 msgid "Description"
 msgstr "Opis"
 
-#: templates/wiki/add.html:24 templates/wiki/edit.html:35
+#: templates/wiki/punbb/add.html:53 templates/wiki/punbb/edit.html:57
 msgid "Content"
 msgstr "Treść"
 
-#: templates/wiki/add.html:25 templates/wiki/edit.html:36
+#: templates/wiki/punbb/add.html:58 templates/wiki/punbb/edit.html:62
 msgid "Code"
 msgstr "Kod"
 
-#: templates/wiki/add.html:26 templates/wiki/edit.html:37
+#: templates/wiki/punbb/add.html:59 templates/wiki/punbb/edit.html:63
 msgid "Bold"
 msgstr "Pogrubienie"
 
-#: templates/wiki/add.html:27 templates/wiki/edit.html:38
+#: templates/wiki/punbb/add.html:60 templates/wiki/punbb/edit.html:64
 msgid "Italic"
 msgstr "Kursywa"
 
-#: templates/wiki/add.html:28 templates/wiki/add.html.py:29
-#: templates/wiki/edit.html:39 templates/wiki/edit.html.py:40
+#: templates/wiki/punbb/add.html:61 templates/wiki/punbb/add.html.py:62
+#: templates/wiki/punbb/edit.html:65 templates/wiki/punbb/edit.html.py:66
 msgid "Underline"
 msgstr "Podkreślenie"
 
-#: templates/wiki/add.html:30 templates/wiki/edit.html:41
+#: templates/wiki/punbb/add.html:63 templates/wiki/punbb/edit.html:67
 msgid "Blockquote"
 msgstr "Wcięcie"
 
-#: templates/wiki/add.html:49
+#: templates/wiki/punbb/add.html:83 templates/wiki/punbb/edit.html:87
 msgid "Changes summary"
 msgstr "Opis Zmian"
 
-#: templates/wiki/add.html:53
+#: templates/wiki/punbb/add.html:102 templates/wiki/punbb/edit.html:106
 msgid "Save Page"
 msgstr "Zapisz Stronę"
 
-#: templates/wiki/add.html:54 templates/wiki/edit.html:63
+#: templates/wiki/punbb/add.html:103 templates/wiki/punbb/edit.html:107
+#: templates/wiki/punbb/page_history_list.html:14
 msgid "Preview"
 msgstr "Podgląd"
 
-#: templates/wiki/add.html:57 templates/wiki/edit.html:65
-#: templates/wiki/com_task_add.html:13
+#: templates/wiki/punbb/add.html:106 templates/wiki/punbb/edit.html:110
 msgid "Allowed HTML Tags"
 msgstr "Dozwolone tagi HTML"
 
-#: templates/wiki/add.html:68 templates/wiki/edit.html:76
+#: templates/wiki/punbb/add.html:117 templates/wiki/punbb/edit.html:121
 msgid "ContentBBCode List"
 msgstr "Lista tagów ContentBBCode"
 
-#: templates/wiki/edit.html:7
-msgid "Back to Page"
-msgstr "Powrót do strony"
+#: templates/wiki/punbb/body.html:1
+msgid "Site Links"
+msgstr "Odnośniki"
 
-#: templates/wiki/edit.html:17
-msgid "Edit Page"
-msgstr "Edytuj"
+#: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
+msgid "Main Page"
+msgstr "Strona Główna"
 
-#: templates/wiki/edit.html:58
-msgid "Summary of changes"
-msgstr "Opis zmian"
+#: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
+msgid "Search"
+msgstr "Szukaj"
 
-#: templates/wiki/edit.html:62
-msgid "Save Changes"
-msgstr "Zapisz Zmiany"
+#: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
+msgid "Site Tasks"
+msgstr "Zadania"
 
-#: templates/wiki/page.html:5 templates/wiki/indexPage.html:6
-#: templates/wiki/diff.html:4
+#: templates/wiki/punbb/body.html:1
+msgid "News"
+msgstr "Wiadomości"
+
+#: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
+msgid "Forum"
+msgstr "Forum"
+
+#: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
+msgid "My Account"
+msgstr "Moje Konto"
+
+#: templates/wiki/punbb/body.html:1
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/wiki/punbb/body.html:1
+msgid "Action Links"
+msgstr "Akcje"
+
+#: templates/wiki/punbb/body.html:1
+msgid "Wiki"
+msgstr "Wiki"
+
+#: templates/wiki/punbb/diff.html:4 templates/wiki/punbb/indexPage.html:6
+#: templates/wiki/punbb/page.html:5
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/wiki/page.html:6 templates/wiki/indexPage.html:7
-#: templates/wiki/oldPage.html:5 templates/wiki/diff.html:5
+#: templates/wiki/punbb/diff.html:4 templates/wiki/punbb/indexPage.html:6
+#: templates/wiki/punbb/oldPage.html:5
+#: templates/wiki/punbb/page_history_list.html:7
+#: templates/wiki/punbb/page.html:5
 msgid "Page History"
 msgstr "Historia"
 
-#: templates/wiki/page.html:9 templates/wiki/indexPage.html:10
-#: templates/wiki/oldPage.html:8
+#: templates/wiki/punbb/edit.html:5
+msgid "Back to Page"
+msgstr "Powrót do strony"
+
+#: templates/wiki/punbb/edit.html:8
+msgid "Here you can edit a wiki page"
+msgstr "Tutaj możesz edytować zawartość strony"
+
+#: templates/wiki/punbb/edit.html:15
+msgid "Edit Page"
+msgstr "Edytuj"
+
+#: templates/wiki/punbb/indexPage.html:8 templates/wiki/punbb/oldPage.html:7
+#: templates/wiki/punbb/page.html:7
 msgid "Save as PDF"
 msgstr "Zapisz jako PDF"
 
-#: templates/wiki/page.html:11 templates/wiki/indexPage.html:12
-#: templates/wiki/oldPage.html:10
+#: templates/wiki/punbb/indexPage.html:10 templates/wiki/punbb/oldPage.html:9
+#: templates/wiki/punbb/page.html:9
 msgid "Print Page"
 msgstr "Drukuj Stronę"
 
-#: templates/wiki/page.html:23 templates/wiki/oldPage.html:17
-#: templates/wiki/pdfpage.html:16
-msgid "Page Added"
-msgstr "Strona Dodana"
-
-#: templates/wiki/page.html:23 templates/wiki/oldPage.html:17
-#: templates/wiki/pdfpage.html:16
-msgid "Page Last Modification"
-msgstr "Ostatnia Modyfikacja"
-
-#: templates/wiki/page.html:23 templates/wiki/page_history_list.html:10
-#: templates/wiki/oldPage.html:17 templates/wiki/pdfpage.html:16
-msgid "Changes"
-msgstr "Zmiany"
-
-#: templates/wiki/indexPage.html:13
+#: templates/wiki/punbb/indexPage.html:10
 msgid "sitemap.xml"
 msgstr "sitemap.xml"
 
-#: templates/wiki/page_history_list.html:7 templates/wiki/task_list.html:55
-msgid "Page Title"
-msgstr "Tytuł"
-
-#: templates/wiki/page_history_list.html:8
-msgid "See Old Version"
-msgstr "Zobacz starą wersję"
-
-#: templates/wiki/page_history_list.html:11
-msgid "Compare"
-msgstr "Porównaj"
-
-#: templates/wiki/page_history_list.html:12
-msgid "Actions"
-msgstr "Akcje"
-
-#: templates/wiki/page_history_list.html:34
-msgid "See This Version"
-msgstr "Zobacz Tą Wersję"
-
-#: templates/wiki/page_history_list.html:45
-msgid "Changes Proposal"
-msgstr "Propozycja Zmian"
-
-#: templates/wiki/page_history_list.html:51
-msgid "Restore"
-msgstr "Przywróć"
-
-#: templates/wiki/page_history_list.html:53
-msgid "Unpropose"
-msgstr "Usuń Flagę Propozycji"
-
-#: templates/wiki/page_history_list.html:59
-msgid "Compare Selected"
-msgstr "Porównaj Zaznaczone"
-
-#: templates/wiki/noperm.html:9
+#: templates/wiki/punbb/noperm.html:9
 msgid "Permission Denied"
 msgstr "Brak Uprawnień"
 
-#: templates/wiki/users.html:5 templates/wiki/register.html:5
-msgid "User Page"
-msgstr "Strona Użytkownika"
+#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/pdfpage.html:16
+msgid "Page Added"
+msgstr "Strona Dodana"
 
-#: templates/wiki/users.html:11
-msgid "Login Error - bad login and/or password"
-msgstr "Błąd Logowania - zły login i/lub hasło"
+#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/pdfpage.html:16
+msgid "Page Last Modification"
+msgstr "Ostatnia Modyfikacja"
 
-#: templates/wiki/users.html:16
-msgid "LOGIN FORM"
-msgstr "LOGOWANIE"
+#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/pdfpage.html:16
+msgid "Changes"
+msgstr "Zmiany"
 
-#: templates/wiki/users.html:20 templates/wiki/users.html.py:32
-#: templates/wiki/register.html:20
-msgid "Login"
-msgstr "Login"
+#: templates/wiki/punbb/page_history_list.html:4
+msgid "This page shows list of all modifications made to"
+msgstr "Ta strona wyświetla listę wszystkich modyfikacji strony"
 
-#: templates/wiki/users.html:24 templates/wiki/register.html:24
-msgid "Password"
-msgstr "Hasło"
+#: templates/wiki/punbb/page_history_list.html:13
+msgid "Page Title"
+msgstr "Tytuł"
 
-#: templates/wiki/users.html:28 templates/wiki/register.html:36
-msgid "Text from the image"
-msgstr "Tekst z obrazka"
+#: templates/wiki/punbb/page_history_list.html:15
+msgid "Modification Date"
+msgstr "Data Modyfikacji"
 
-#: templates/wiki/users.html:28 templates/wiki/register.html:36
-msgid "(Use CAPITAL letters)"
-msgstr "(Użyj DUŻYCH liter)"
+#: templates/wiki/punbb/page_history_list.html:16
+msgid "Compare"
+msgstr "Porównaj"
 
-#: templates/wiki/users.html:34
-msgid "Register"
-msgstr "Rejestracja"
+#: templates/wiki/punbb/page_history_list.html:17
+msgid "Actions"
+msgstr "Akcje"
 
-#: templates/wiki/users.html:36
-msgid "Welcome"
-msgstr "Witaj"
+#: templates/wiki/punbb/page_history_list.html:53
+msgid "See This Version"
+msgstr "Zobacz Tą Wersję"
 
-#: templates/wiki/users.html:39
-msgid "- You can set pages as current"
-msgstr "- Twoje zmiany będą widoczne na stronie"
+#: templates/wiki/punbb/page_history_list.html:60
+msgid "Restore"
+msgstr "Przywróć"
 
-#: templates/wiki/users.html:41
-msgid "- You can't set pages as current"
-msgstr "- Twoje zmiany pojawią się na stronie po zatwierdzeniu przez moderatora"
+#: templates/wiki/punbb/page_history_list.html:62
+msgid "Unpropose"
+msgstr "Usuń Flagę Propozycji"
 
-#: templates/wiki/users.html:44
-msgid "- You can add pages"
-msgstr "- Możesz dodawać nowe Strony"
+#: templates/wiki/punbb/page_history_list.html:71
+msgid "Compare Selected"
+msgstr "Porównaj Zaznaczone"
 
-#: templates/wiki/users.html:46
-msgid "- You can't add pages"
-msgstr "- Nie możesz dodawać nowych Stron"
-
-#: templates/wiki/users.html:49
-msgid "- You can edit pages"
-msgstr "- Możesz edytować Strony"
-
-#: templates/wiki/users.html:51
-msgid "- You can't edit pages"
-msgstr "- Nie możesz edytować Stron"
-
-#: templates/wiki/users.html:54
-msgid "Log Out"
-msgstr "Wyloguj"
-
-#: templates/wiki/register.html:10
-msgid "Registration Error"
-msgstr "Błąd Rejestracji"
-
-#: templates/wiki/register.html:16
-msgid "REGISTER FORM"
-msgstr "REJESTRACJA"
-
-#: templates/wiki/register.html:20
-msgid "required, more than 3 chars<br />letters or numbers"
-msgstr "wymagane, więcej niż 3 znaki<br>liczby i litery"
-
-#: templates/wiki/register.html:24
-msgid "required, more than 4 chars<br />letters or numbers"
-msgstr "wymagane, więcej niż 4 znaki<br>liczby i litery"
-
-#: templates/wiki/register.html:28
-msgid "Password Again"
-msgstr "Hasło Ponownie"
-
-#: templates/wiki/register.html:28
-msgid "required, enter the same password"
-msgstr "wymagane, wprowadż hasło ponownie"
-
-#: templates/wiki/register.html:32
-msgid "Email"
-msgstr "Adres Email"
-
-#: templates/wiki/register.html:32
-msgid "required, your email addres"
-msgstr "wymagane, twój adres email"
-
-#: templates/wiki/register.html:40
-msgid "Register My"
-msgstr "Zarejestruj Mnie"
-
-#: templates/wiki/search.html:6
+#: templates/wiki/punbb/search.html:6
 msgid "Plain Search"
 msgstr "Proste wyszukiwanie"
 
-#: templates/wiki/search.html:8
+#: templates/wiki/punbb/search.html:8
 msgid "Search This Site with Google"
 msgstr "Szukaj z pomocą Google"
 
-#: templates/wiki/search.html:24
+#: templates/wiki/punbb/search.html:24
 msgid "Enter a word or a phrase to search"
 msgstr "Podaj słowo lub frazę do wyszukania"
 
-#: templates/wiki/task_list.html:11
-msgid "Last Update"
-msgstr "Ostatnia Aktualizacja"
+#~ msgid "Ban Type"
+#~ msgstr "Typ Bana"
 
-#: templates/wiki/task_list.html:38
-msgid "Previous Page"
-msgstr "Poprzednia Strona"
+#~ msgid "Is it IP or hostname"
+#~ msgstr "Czy to jest IP czy host"
 
-#: templates/wiki/task_list.html:41
-msgid "Next Page"
-msgstr "Następna Strona"
+#~ msgid "Ban Item"
+#~ msgstr "Element banowany"
 
-#: templates/wiki/task_list.html:46 templates/wiki/task_show.html:14
-msgid "Add new Task"
-msgstr "Dodaj nowe Zadanie"
+#~ msgid "The IP, IP range or hostname to ban"
+#~ msgstr "Adres IP, lub jego część lub nazwa serwera (hosta)"
 
-#: templates/wiki/task_list.html:51
-msgid "Edit Proposals"
-msgstr "Propozycje Zmian"
+#~ msgid "Comments"
+#~ msgstr "Komentarze"
 
-#: templates/wiki/task_list.html:56
-msgid "Modified by"
-msgstr "Zmodyfikowany przez"
+#~ msgid "Wiki Ban"
+#~ msgstr "Wiki Ban"
 
-#: templates/wiki/task_list.html:57 templates/wiki/task_show.html:28
-msgid "Date"
-msgstr "Data"
+#~ msgid "Wiki Bans"
+#~ msgstr "Wiki Bany"
 
-#: templates/wiki/task_list.html:58
-msgid "Changes Summary"
-msgstr "Opis Zmian"
+#~ msgid "Site Content"
+#~ msgstr "Zawartość Serwisu"
 
-#: templates/wiki/task_list.html:70
-msgid "No tasks"
-msgstr "Brak Zadań"
+#~ msgid "Technical Issues"
+#~ msgstr "Sprawy Techniczne"
 
-#: templates/wiki/task_show.html:12
-msgid "Last Modification Date"
-msgstr "Data Modyfikacji"
+#~ msgid "Site in the Web"
+#~ msgstr "Strona w Sieci"
 
-#: templates/wiki/task_show.html:14
-msgid "Edit Task"
-msgstr "Edytuj Zadanie"
+#~ msgid "Other"
+#~ msgstr "Inne"
 
-#: templates/wiki/task_show.html:26
-msgid "Author"
-msgstr "Autor"
+#~ msgid "Unassigned"
+#~ msgstr "Nieprzypisany"
 
-#: templates/wiki/task_show.html:27
-msgid "Text"
-msgstr "Tekst"
+#~ msgid "Assigned"
+#~ msgstr "Przypisany"
 
-#: templates/wiki/task_show.html:39 templates/wiki/com_task_add.html:11
-msgid "Add Comment"
-msgstr "Dodaj Komentarz"
+#~ msgid "Closed"
+#~ msgstr "Zamknięty"
 
-#: templates/wiki/com_task_add.html:7
-msgid "Add a Task Comment"
-msgstr "Dodaj Komentarz do zadania"
+#~ msgid "Minor"
+#~ msgstr "Niski"
+
+#~ msgid "Moderate"
+#~ msgstr "Średni"
+
+#~ msgid "High"
+#~ msgstr "Wysoki"
+
+#~ msgid "Critical"
+#~ msgstr "Krytyczny"
+
+#~ msgid "Nothing Done Yet"
+#~ msgstr "Nic nie zrobione"
+
+#~ msgid "25% Done"
+#~ msgstr "Wykonano 25%"
+
+#~ msgid "50% Done"
+#~ msgstr "Wykonano 50%"
+
+#~ msgid "75% Done"
+#~ msgstr "Wykonano 75%"
+
+#~ msgid "Task Completed"
+#~ msgstr "Zadanie Wykonane"
+
+#~ msgid "Task Title"
+#~ msgstr "Tytuł Zadania"
+
+#~ msgid "Task Type"
+#~ msgstr "Typ Zadania"
+
+#~ msgid "Task Description"
+#~ msgstr "Opis Zadania"
+
+#~ msgid "Task Status"
+#~ msgstr "Status Zadania"
+
+#~ msgid "Task Priority"
+#~ msgstr "Priorytet"
+
+#~ msgid "Assigned To"
+#~ msgstr "Przypisany Do"
+
+#~ msgid "Creation Date"
+#~ msgstr "Data Utworzenia"
+
+#~ msgid "Progress"
+#~ msgstr "Postęp"
+
+#~ msgid "Task"
+#~ msgstr "Zadanie"
+
+#~ msgid "Wiki Tasks"
+#~ msgstr "Wiki Zadania"
+
+#~ msgid "Comment"
+#~ msgstr "Komentarz"
+
+#~ msgid "Task Comment"
+#~ msgstr "Komentarz do Zadania"
+
+#~ msgid "Task Comments"
+#~ msgstr "Komentarze do Zadań"
+
+#~ msgid "Row"
+#~ msgstr "Wiersz"
+
+#~ msgid "None"
+#~ msgstr "Brak"
+
+#~ msgid "Summary of changes"
+#~ msgstr "Opis zmian"
+
+#~ msgid "Save Changes"
+#~ msgstr "Zapisz Zmiany"
+
+#~ msgid "See Old Version"
+#~ msgstr "Zobacz starą wersję"
+
+#~ msgid "Changes Proposal"
+#~ msgstr "Propozycja Zmian"
+
+#~ msgid "User Page"
+#~ msgstr "Strona Użytkownika"
+
+#~ msgid "Login Error - bad login and/or password"
+#~ msgstr "Błąd Logowania - zły login i/lub hasło"
+
+#~ msgid "LOGIN FORM"
+#~ msgstr "LOGOWANIE"
+
+#~ msgid "Login"
+#~ msgstr "Login"
+
+#~ msgid "Password"
+#~ msgstr "Hasło"
+
+#~ msgid "Text from the image"
+#~ msgstr "Tekst z obrazka"
+
+#~ msgid "(Use CAPITAL letters)"
+#~ msgstr "(Użyj DUŻYCH liter)"
+
+#~ msgid "Register"
+#~ msgstr "Rejestracja"
+
+#~ msgid "Welcome"
+#~ msgstr "Witaj"
+
+#~ msgid "- You can set pages as current"
+#~ msgstr "- Twoje zmiany będą widoczne na stronie"
+
+#~ msgid "- You can't set pages as current"
+#~ msgstr ""
+#~ "- Twoje zmiany pojawią się na stronie po zatwierdzeniu przez moderatora"
+
+#~ msgid "- You can add pages"
+#~ msgstr "- Możesz dodawać nowe Strony"
+
+#~ msgid "- You can't add pages"
+#~ msgstr "- Nie możesz dodawać nowych Stron"
+
+#~ msgid "- You can't edit pages"
+#~ msgstr "- Nie możesz edytować Stron"
+
+#~ msgid "Log Out"
+#~ msgstr "Wyloguj"
+
+#~ msgid "Registration Error"
+#~ msgstr "Błąd Rejestracji"
+
+#~ msgid "REGISTER FORM"
+#~ msgstr "REJESTRACJA"
+
+#~ msgid "required, more than 3 chars<br />letters or numbers"
+#~ msgstr "wymagane, więcej niż 3 znaki<br>liczby i litery"
+
+#~ msgid "required, more than 4 chars<br />letters or numbers"
+#~ msgstr "wymagane, więcej niż 4 znaki<br>liczby i litery"
+
+#~ msgid "Password Again"
+#~ msgstr "Hasło Ponownie"
+
+#~ msgid "required, enter the same password"
+#~ msgstr "wymagane, wprowadż hasło ponownie"
+
+#~ msgid "Email"
+#~ msgstr "Adres Email"
+
+#~ msgid "required, your email addres"
+#~ msgstr "wymagane, twój adres email"
+
+#~ msgid "Register My"
+#~ msgstr "Zarejestruj Mnie"
+
+#~ msgid "Last Update"
+#~ msgstr "Ostatnia Aktualizacja"
+
+#~ msgid "Previous Page"
+#~ msgstr "Poprzednia Strona"
+
+#~ msgid "Next Page"
+#~ msgstr "Następna Strona"
+
+#~ msgid "Add new Task"
+#~ msgstr "Dodaj nowe Zadanie"
+
+#~ msgid "Edit Proposals"
+#~ msgstr "Propozycje Zmian"
+
+#~ msgid "Modified by"
+#~ msgstr "Zmodyfikowany przez"
+
+#~ msgid "Date"
+#~ msgstr "Data"
+
+#~ msgid "Changes Summary"
+#~ msgstr "Opis Zmian"
+
+#~ msgid "No tasks"
+#~ msgstr "Brak Zadań"
+
+#~ msgid "Last Modification Date"
+#~ msgstr "Data Modyfikacji"
+
+#~ msgid "Edit Task"
+#~ msgstr "Edytuj Zadanie"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Text"
+#~ msgstr "Tekst"
+
+#~ msgid "Add Comment"
+#~ msgstr "Dodaj Komentarz"
+
+#~ msgid "Add a Task Comment"
+#~ msgstr "Dodaj Komentarz do zadania"
 
 #~ msgid "Sitemap"
 #~ msgstr "Mapa Serwisu"
@@ -633,6 +563,3 @@ msgstr "Dodaj Komentarz do zadania"
 
 #~ msgid "Added"
 #~ msgstr "Dodany"
-
-#~ msgid "News for"
-#~ msgstr "Nowości dla"

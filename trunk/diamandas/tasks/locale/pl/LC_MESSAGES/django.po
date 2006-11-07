@@ -1,0 +1,248 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Tasks\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"PO-Revision-Date: 2006-04-08 12:19+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: views.py:31
+msgid "None"
+msgstr "Brak"
+
+#: views.py:45 models.py:11
+msgid "Unassigned"
+msgstr "Nieprzypisany"
+
+#: models.py:5
+msgid "Site Content"
+msgstr "Zawartość Strony"
+
+#: models.py:6
+msgid "Technical Issues"
+msgstr "Sprawy Techniczne"
+
+#: models.py:7
+msgid "Site in the Web"
+msgstr "Strona w Sieci"
+
+#: models.py:8
+msgid "Other"
+msgstr "Inne"
+
+#: models.py:12
+msgid "Assigned"
+msgstr "Przypisany"
+
+#: models.py:13
+msgid "Closed"
+msgstr "Zamknięty"
+
+#: models.py:16
+msgid "Minor"
+msgstr "Niski"
+
+#: models.py:17
+msgid "Moderate"
+msgstr "Średni"
+
+#: models.py:18
+msgid "High"
+msgstr "Wysoki"
+
+#: models.py:19
+msgid "Critical"
+msgstr "Krytyczny"
+
+#: models.py:22
+msgid "Nothing Done Yet"
+msgstr "Brak Postępów"
+
+#: models.py:23
+msgid "25% Done"
+msgstr "25% Wykonane"
+
+#: models.py:24
+msgid "50% Done"
+msgstr "50% Wykonane"
+
+#: models.py:25
+msgid "75% Done"
+msgstr "75% Wykonane"
+
+#: models.py:26
+msgid "Task Completed"
+msgstr "Zadanie Ukończone"
+
+#: models.py:28 templates/tasks/punbb/task_list.html:14
+msgid "Task Title"
+msgstr "Tytuł Zadania"
+
+#: models.py:29 templates/tasks/punbb/task_show.html:31
+#: templates/tasks/punbb/task_add.html:28
+msgid "Task Type"
+msgstr "Typ Zadania"
+
+#: models.py:30 templates/tasks/punbb/task_show.html:11
+msgid "Task Description"
+msgstr "Opis Zadania"
+
+#: models.py:31 templates/tasks/punbb/task_list.html:15
+#: templates/tasks/punbb/task_show.html:41
+msgid "Task Status"
+msgstr "Status Zadania"
+
+#: models.py:32 templates/tasks/punbb/task_list.html:16
+msgid "Task Priority"
+msgstr "Priorytet"
+
+#: models.py:33 templates/tasks/punbb/task_show.html:51
+msgid "Assigned To"
+msgstr "Przypisany Do"
+
+#: models.py:34 templates/tasks/punbb/task_show.html:61
+msgid "Creation Date"
+msgstr "Data Utworzenia"
+
+#: models.py:35
+msgid "Modification Date"
+msgstr "Data Modyfikacji"
+
+#: models.py:36 templates/tasks/punbb/task_list.html:18
+msgid "Progress"
+msgstr "Postęp"
+
+#: models.py:38
+msgid "Task"
+msgstr "Zadanie"
+
+#: models.py:39 templates/tasks/punbb/task_list.html:8
+msgid "Site Tasks"
+msgstr "Zadania"
+
+#: models.py:48
+msgid "Comment"
+msgstr "Komentarz"
+
+#: models.py:53
+msgid "Task Comment"
+msgstr "Komentarz do Zadania"
+
+#: models.py:54 templates/tasks/punbb/task_show.html:100
+msgid "Task Comments"
+msgstr "Komentarze do Zadania"
+
+#: templates/tasks/punbb/com_task_add.html:6
+msgid "Add a comment to this task"
+msgstr "Dodaj komentarz do tego zadania"
+
+#: templates/tasks/punbb/com_task_add.html:9
+msgid "Add Task Comment"
+msgstr "Dodaj Komentarz"
+
+#: templates/tasks/punbb/com_task_add.html:14
+#: templates/tasks/punbb/task_show.html:125
+msgid "Add Comment"
+msgstr "Dodaj Komentarz"
+
+#: templates/tasks/punbb/com_task_add.html:20
+msgid "Allowed HTML Tags"
+msgstr "Dozwolone tagi HTML"
+
+#: templates/tasks/punbb/task_list.html:4
+msgid ""
+"This Page lists all tasks and edit proposals. You can post comments and help "
+"solving issues."
+msgstr "Ta strona prezentuje wszystkie zadania i propozycje zmian. Możesz pomóc "
+"w ich rozwiązywaniu."
+
+#: templates/tasks/punbb/task_list.html:17
+msgid "Last Update"
+msgstr "Ostatnia Aktualizacja"
+
+#: templates/tasks/punbb/task_list.html:58
+msgid "Previous Page"
+msgstr "Poprzednia Strona"
+
+#: templates/tasks/punbb/task_list.html:61
+msgid "Next Page"
+msgstr "Następna Strona"
+
+#: templates/tasks/punbb/task_list.html:66
+#: templates/tasks/punbb/task_show.html:94
+msgid "Add new Task"
+msgstr "Dodaj nowe Zadanie"
+
+#: templates/tasks/punbb/task_list.html:74
+msgid "Edit Proposals"
+msgstr "Propozycje Zmian"
+
+#: templates/tasks/punbb/task_list.html:80
+msgid "Page Title"
+msgstr "Tytuł Strony"
+
+#: templates/tasks/punbb/task_list.html:81
+msgid "Modified by"
+msgstr "Zmodyfikowane przez"
+
+#: templates/tasks/punbb/task_list.html:82
+msgid "Date"
+msgstr "Data"
+
+#: templates/tasks/punbb/task_list.html:83
+msgid "Changes Summary"
+msgstr "Zmiany"
+
+#: templates/tasks/punbb/task_list.html:109
+msgid "No proposals"
+msgstr "Brak Propozycji Zmian"
+
+#: templates/tasks/punbb/task_show.html:8
+msgid "This page describes a site task. You can post comments regarding it."
+msgstr "Ta strona opisuje Zadanie. Możesz pomóc je rozwiązać lub też dodać swój komentarz."
+
+#: templates/tasks/punbb/task_show.html:21
+msgid "Task Info"
+msgstr "Informacje o Zadaniu"
+
+#: templates/tasks/punbb/task_show.html:71
+msgid "Last Modification Date"
+msgstr "Data ostatniej Modyfikacji"
+
+#: templates/tasks/punbb/task_show.html:81
+msgid "Task Progress"
+msgstr "Postęp"
+
+#: templates/tasks/punbb/task_show.html:94
+msgid "Edit Task"
+msgstr "Edytuj Zadanie"
+
+#: templates/tasks/punbb/task_add.html:6
+msgid "Add a new task"
+msgstr "Dodaj nowe Zadanie"
+
+#: templates/tasks/punbb/task_add.html:10
+msgid "Add a Task"
+msgstr "Dodaj Zadanie"
+
+#: templates/tasks/punbb/task_add.html:16
+msgid "Task Name"
+msgstr "Nazwa Zadania"
+
+#: templates/tasks/punbb/task_add.html:40
+msgid "Text"
+msgstr "Tekst"
+
+#: templates/tasks/punbb/task_add.html:57
+msgid "Add Task"
+msgstr "Dodaj Zadanie"

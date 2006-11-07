@@ -1,5 +1,8 @@
 {% load i18n %}
 {% extends "myghtyboard/punbb/body.html" %}
+
+{% block title %}{% trans "Topics from" %} {{ forum_name }}{% endblock %}
+
 {% block content %}
 <div class="box"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></div><br />
 <div class="blocktable">

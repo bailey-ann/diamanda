@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: News\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"PO-Revision-Date: 2006-04-08 12:19+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:4
+msgid "Keyword Name"
+msgstr "Nazwa Słowa Kluczowego"
+
+#: models.py:6
+msgid "Keyword"
+msgstr "Słowo Kluczowe"
+
+#: models.py:7 models.py:18
+msgid "Keywords"
+msgstr "Słowa Kluczowe"
+
+#: models.py:14
+msgid "Title"
+msgstr "Tytuł"
+
+#: models.py:15
+msgid "Text"
+msgstr "Tekst"
+
+#: models.py:16 models.py:31
+msgid "Extended Text"
+msgstr "Rozszerzony Tekst"
+
+#: models.py:20 models.py:21
+msgid "News"
+msgstr "Wiadomość"
+
+#: templates/news/punbb/news_list.html:10
+#: templates/news/punbb/news_show.html:10
+#: templates/news/punbb/knews_list.html:10
+msgid "Added"
+msgstr "Dodany"
+
+#: templates/news/punbb/news_list.html:10
+#: templates/news/punbb/knews_list.html:10
+msgid "Read More"
+msgstr "Czytaj Dalej"
+
+#: templates/news/punbb/news_list.html:14
+#: templates/news/punbb/knews_list.html:14
+msgid "Previous News"
+msgstr "Poprzednie Wiadomości"
+
+#: templates/news/punbb/news_list.html:17
+#: templates/news/punbb/knews_list.html:17
+msgid "Older News"
+msgstr "Starsze Wiadomości"
+
+#: templates/news/punbb/news_list.html:21
+#: templates/news/punbb/news_show.html:12
+#: templates/news/punbb/knews_list.html:21
+msgid "No news"
+msgstr "Brak Wiadomości"
+
+#: templates/news/punbb/news_list.html:28
+#: templates/news/punbb/news_show.html:18
+#: templates/news/punbb/keywords_list.html:29
+#: templates/news/punbb/knews_list.html:28
+msgid "News Main Page"
+msgstr "Strona Główna Wiadomości"
+
+#: templates/news/punbb/news_list.html:28
+#: templates/news/punbb/news_show.html:18
+#: templates/news/punbb/keywords_list.html:29
+#: templates/news/punbb/knews_list.html:28
+msgid "News Keywords"
+msgstr "Słowa Kluczowe"
+
+#: templates/news/punbb/keywords_list.html:6
+msgid "List of news keywords"
+msgstr "Lista słów kluczowych wykorzystywanych przez wiadomości"
+
+#: templates/news/punbb/keywords_list.html:7
+msgid "Click on a keyword URL to see news for that keyword"
+msgstr "Kliknij na odnośnik słowa kluczowego by zobaczyć listę wiadomości używających go"
+
+#: templates/news/punbb/keywords_list.html:15
+msgid "Previous"
+msgstr "Poprzednia"
+
+#: templates/news/punbb/keywords_list.html:18
+msgid "Next"
+msgstr "Następna"
+
+#: templates/news/punbb/keywords_list.html:22
+msgid "No Keywords"
+msgstr "Brak Słów Kluczowych"

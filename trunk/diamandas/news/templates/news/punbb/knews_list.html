@@ -1,0 +1,34 @@
+{% load i18n %}
+{% extends "wiki/punbb/body.html" %}
+{% block content %}
+
+{% if object_list %}
+{% for new in object_list %}
+
+<h2>{{ new.news_title }}</h2>
+
+{% ifnotequal new.news_icon "-" %}
+<img src="{{ img_path }}icons/{{ new.news_icon }}" alt="" style="float:right; padding:10px;" />
+{% endifnotequal %}
+
+{{ new.news_text }}<br />
+<b>{% trans "Added" %}</b>: {{ new.news_date|truncatewords:"1" }} <a href="/news/more/{{ new.id }}/">{% trans "Read More" %}</a><br /><br />
+{% endfor %}
+
+{% if has_previous %}
+	<div style="text-align:center;"><a href="/news/k/{{ k_id }}/?page={{ previous }}"><b>{% trans "Previous News" %}</b></a></div>
+{% endif %}
+{% if has_next %}
+	<div style="text-align:center;"><a href="/news/k/{{ k_id }}/?page={{ next }}"><b>{% trans "Older News" %}</b></a></div>
+{% endif %}
+
+{% else %}
+{% trans "No news" %}
+{% endif %}
+
+{% endblock %}
+
+
+{% block leftmenu %}
+<a href="/news/">{% trans "News Main Page" %}</a> | <a href="/news/keywords/">{% trans "News Keywords" %}</a>
+{% endblock %}

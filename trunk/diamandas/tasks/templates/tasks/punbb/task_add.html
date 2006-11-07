@@ -1,0 +1,59 @@
+{% load i18n %}
+{% extends "wiki/punbb/body.html" %}
+
+
+{% block content %}
+{% trans "Add a new task" %}
+</div><br />
+<form method="post" action=".">
+<div class="blocktable">
+	<h2><span>{% trans "Add a Task" %}</span></h2>
+	<div class="box">
+		<div class="inbox">
+		<table cellspacing="0">
+			<tbody>
+			<tr>
+				<td class="tc3">{% trans "Task Name" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.task_name }}{% if form.task_name.errors %}<br />*** {{ form.task_name.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Task Type" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.task_type }}{% if form.task_type.errors %}<br />*** {{ form.task_type.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tc3">{% trans "Text" %}</td>
+				<td class="tcl">
+					<div class="intd">
+						
+						<div class="tclcon">
+							{{ form.task_text }}{% if form.task_text.errors %}<br />*** {{ form.task_text.errors|join:", " }}{% endif %}
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<div class="box">
+<div style="text-align:center; margin:3px;"><input type="submit" value="{% trans "Add Task" %}" style="actiontable" /><br /></form>
+<br /><br />
+{% endblock %}

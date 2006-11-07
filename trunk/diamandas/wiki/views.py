@@ -149,11 +149,6 @@ def show_page_history_list(request, slug):
 
 # restores an old version of a page by archive ID entry
 def restore_page_from_archive(request, archive_id):
-	if settings.USE_BANS:
-		bans = Ban.objects.all()
-		for ban in bans:
-			if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-				return render_to_response('wiki/' + settings.ENGINE + '/ban.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
 	# can user set a page as current - can_set_current or anonymous "anonymous_can_set_current" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
 		try:
@@ -221,10 +216,6 @@ def show_diff(request):
 
 # add a page
 def add_page(request, slug=''):
-	if settings.USE_BANS:
-		bans = Ban.objects.all()
-		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-			return render_to_response('wiki/' + settings.ENGINE + '/ban.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
 	# can user add the page (add_page) or anonymous "anonymous_can_add" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.add_page') or settings.ANONYMOUS_CAN_ADD and not request.user.is_authenticated():
 		# check if the page exist
@@ -281,10 +272,6 @@ def add_page(request, slug=''):
 
 # edit page by given slug
 def edit_page(request, slug):
-	if settings.USE_BANS:
-		bans = Ban.objects.all()
-		if request.META['REMOTE_ADDR'].find(ban.ban_item) != -1:
-			return render_to_response('wiki/' + settings.ENGINE + '/ban.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
 	# can user change the page (change_page) or anonymous "anonymous_can_edit" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.change_page') or settings.ANONYMOUS_CAN_EDIT and not request.user.is_authenticated():
 		from re import findall, MULTILINE
@@ -352,50 +339,6 @@ def edit_page(request, slug):
 		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
-
-
-# list tasks
-def task_list(request, pagination_id):
-	from django.views.generic.list_detail import object_list
-	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority').order_by('-task_modification_date')
-	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
-	if request.user.is_authenticated() and request.user.has_perm('wiki.add_task'):
-		add_task = True
-	else:
-		add_task = False
-	if len(tasks) == 0:
-		return render_to_response('wiki/' + settings.ENGINE + '/task_list.html', {'proposals': proposals, 'theme': settings.THEME, 'engine': settings.ENGINE})
-	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'theme': settings.THEME, 'engine': settings.ENGINE, 'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') } }, template_name = 'wiki/' + settings.ENGINE + '/task_list.html')
-
-# show tasks
-def task_show(request, task_id):
-	task = Task.objects.get(id=task_id)
-	users = task.task_assignedto.all()
-	if len(users) > 0:
-		user_list = ''
-		for i in users:
-			user_list = user_list + '<a href="/user/show_profile/' + str(i) + '/">' + str(i) + '</a> '
-	else:
-		user_list = _('None')
-	com = TaskComment.objects.filter(com_task_id = task_id)
-	if request.user.is_authenticated() and request.user.has_perm('wiki.add_task'):
-		add_task = True
-	else:
-		add_task = False
-	return render_to_response('wiki/' + settings.ENGINE + '/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'add_task': add_task, 'theme': settings.THEME, 'engine': settings.ENGINE ,'perms': {'add': request.user.has_perm('wiki.add_task'), 'change': request.user.has_perm('wiki.change_task'), 'delete' : request.user.has_perm('wiki.delete_task') }})
-
-def com_task_add(request, task_id):
-	if request.user.is_authenticated() and request.user.has_perm('wiki.add_taskcomment'):
-		if request.POST and len(request.POST['text']) > 0:
-			task = Task.objects.get(id=task_id)
-			text = html2safehtml(request.POST['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'pre', 'div', 'span', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'blockquote'))
-			co = TaskComment(com_task_id = task, com_text = text, com_author = str(request.user), com_ip = request.META['REMOTE_ADDR'])
-			co.save()
-			task.save()
-			return HttpResponseRedirect('/wiki/task_show/' + str(task_id) + '/')
-		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/com_task_add.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
-	return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
 
 # file like object (for storing cbc tracebacks)
 class AFile(object):

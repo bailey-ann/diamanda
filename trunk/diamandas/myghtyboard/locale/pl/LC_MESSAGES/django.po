@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MyghtyBoard\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-25 15:29+0000\n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,499 +15,456 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:94 templates/myghtyboard/CrystalClear/show_profile.html:6
+#: views.py:73
 msgid "User Topics"
 msgstr "Tematy Użytkownika"
 
-#: views.py:97 views.py:114 views.py:140
+#: views.py:76 views.py:93 views.py:119
 msgid "You aren't logged in"
 msgstr "Nie jesteś zalogowany"
 
-#: views.py:111 templates/myghtyboard/CrystalClear/category_list.html:8
+#: views.py:90 templates/myghtyboard/punbb/category_list.html:7
 msgid "Last Active Topics"
 msgstr "Ostatnie Aktywne Tematy"
 
-#: views.py:135
+#: views.py:114
 msgid "User Posts in Latest Topics"
 msgstr "Posty użytkownika w ostatnio aktywnych tematach"
 
-#: views.py:237
+#: views.py:219
 msgid "You can't add topics"
 msgstr "Nie możesz dodawać nowych tematów"
 
-#: views.py:260 views.py:349
+#: views.py:242 views.py:327
 msgid "Topic is closed"
 msgstr "Temat zamknięty"
 
-#: views.py:270
+#: views.py:252
 msgid "You can't post after your post"
 msgstr "Nie możesz dodawać postów po sobie"
 
-#: views.py:342
+#: views.py:320
 msgid "You can't add posts"
 msgstr "Nie możesz dodawać postów"
 
-#: views.py:387
+#: views.py:359
 msgid "You can't edit this post"
 msgstr "Nie możesz edytować tego posta"
 
-#: views.py:400 views.py:418 views.py:441 views.py:455 views.py:469
-#: templates/myghtyboard/CrystalClear/category_list.html:71
+#: views.py:372 views.py:390 views.py:413 views.py:427 views.py:441
+#: templates/myghtyboard/punbb/category_list.html:72
 msgid "You aren't a moderator"
 msgstr "Nie jesteś moderatorem"
 
-#: views.py:402 views.py:420 views.py:443 views.py:457 views.py:471
+#: views.py:374 views.py:392 views.py:415 views.py:429 views.py:443
 msgid "You aren't a moderator and you aren't logged in"
 msgstr "Nie jesteś moderatorem i nie jesteś zalogowany"
 
-#: views.py:431
+#: views.py:403
 msgid "Topic Moved"
 msgstr "Temat Przeniesiony"
 
-#: views.py:433
+#: views.py:405
 msgid "This topic has been moved to another forum. To see the topic follow"
 msgstr ""
 "Ten temat został przeniesiony do innego forum. By przejść do tematu kliknij"
 
-#: views.py:433
+#: views.py:405
 msgid "this link"
 msgstr "w ten link"
 
-#: views.py:433
+#: views.py:405
 msgid "Forum Staff"
 msgstr "Obsługa Forum"
 
-#: views.py:504
-msgid "No such profile"
-msgstr "Brak Profilu"
-
-#: templates/myghtyboard/CrystalClear/body.html:13
-msgid "Quick Links"
-msgstr "Nawigacja"
-
-#: templates/myghtyboard/CrystalClear/body.html:14
-msgid "Main Page"
-msgstr "Strona Główna"
-
-#: templates/myghtyboard/CrystalClear/body.html:14
-#: templates/myghtyboard/CrystalClear/category_list.html:19
-msgid "Forum"
-msgstr "Forum"
-
-#: templates/myghtyboard/CrystalClear/body.html:14
-msgid "My Profile"
-msgstr "Mój Profil"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:8
-msgid "My Topics"
-msgstr "Moje Tematy"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:8
-msgid "My Posts"
-msgstr "Moje Posty"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:20
-msgid "Topics"
-msgstr "Tematów"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:21
-#: templates/myghtyboard/CrystalClear/topics_list.html:14
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:14
-msgid "Posts"
-msgstr "Postów"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:22
-#: templates/myghtyboard/CrystalClear/topics_list.html:15
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:15
-msgid "Last Post"
-msgstr "Ostatni Post"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:59
-#: templates/myghtyboard/CrystalClear/topics_list.html:71
-#: templates/myghtyboard/CrystalClear/post_list.html:115
-msgid "You can post new Topics"
-msgstr "Możesz dodawać nowe Tematy"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:61
-#: templates/myghtyboard/CrystalClear/topics_list.html:73
-#: templates/myghtyboard/CrystalClear/post_list.html:117
-msgid "You can't post new Topics"
-msgstr "Nie możesz dodawać nowych Tematów"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:64
-#: templates/myghtyboard/CrystalClear/topics_list.html:76
-#: templates/myghtyboard/CrystalClear/post_list.html:121
-msgid "You can post new Posts"
-msgstr "Możesz dodawać nowe Posty"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:66
-#: templates/myghtyboard/CrystalClear/topics_list.html:78
-#: templates/myghtyboard/CrystalClear/post_list.html:123
-#: templates/myghtyboard/CrystalClear/post_list.html:126
-msgid "You can't post new Posts"
-msgstr "Nie możesz dodawać nowych postów"
-
-#: templates/myghtyboard/CrystalClear/category_list.html:69
-msgid "You are a Moderator"
-msgstr "Jesteś moderatorem"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:4
-#: templates/myghtyboard/CrystalClear/topics_list.html:67
-msgid "Add New Topic"
-msgstr "Dodaj Nowy Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:6
-#: templates/myghtyboard/CrystalClear/add_topic.html:6
-#: templates/myghtyboard/CrystalClear/post_list.html:38
-#: templates/myghtyboard/CrystalClear/add_post.html:5
-#: templates/myghtyboard/CrystalClear/edit_post.html:4
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:6
-#: templates/myghtyboard/CrystalClear/move_topic.html:6
-#: templates/myghtyboard/CrystalClear/pmessage.html:4
-msgid "Forum Index"
-msgstr "Indeks Forum"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:12
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:12
-msgid "Topic"
-msgstr "Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:13
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:13
-msgid "Author"
-msgstr "Autor"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:42
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:28
-msgid "Delete this Topic and all Posts?"
-msgstr "Skasować Temat i wszystkie jego posty?"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:42
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:28
-msgid "Delete Topic"
-msgstr "Skasuj Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:44
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:30
-msgid "Open This Topic?"
-msgstr "Otworzyć Temat?"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:44
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:30
-msgid "Unlock Topic"
-msgstr "Otwórz Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:46
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:32
-msgid "Close This Topic?"
-msgstr "Zamknąć Temat?"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:46
-#: templates/myghtyboard/CrystalClear/mytopics_list.html:32
-msgid "Lock Topic"
-msgstr "Zamknij Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:49
-#: templates/myghtyboard/CrystalClear/move_topic.html:7
-#: templates/myghtyboard/CrystalClear/move_topic.html:16
-msgid "Move Topic"
-msgstr "Przenieś Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:81
-msgid "You can moderate this Topics"
-msgstr "Możesz moderować ten Temat"
-
-#: templates/myghtyboard/CrystalClear/topics_list.html:83
-msgid "You can't moderate this Topics"
-msgstr "Nie możeszesz moderować tego Tematu"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:14
-#: templates/myghtyboard/CrystalClear/add_topic.html:103
-msgid "Add Topic"
-msgstr "Dodaj Temat"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:20
-msgid "Title"
-msgstr "Tytuł"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:30
-#: templates/myghtyboard/CrystalClear/post_list.html:147
-#: templates/myghtyboard/CrystalClear/add_post.html:18
-#: templates/myghtyboard/CrystalClear/pmessage.html:30
-msgid "Text"
-msgstr "Treść"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:34
-#: templates/myghtyboard/CrystalClear/post_list.html:151
-#: templates/myghtyboard/CrystalClear/add_post.html:22
-#: templates/myghtyboard/CrystalClear/edit_post.html:10
-msgid "Bold"
-msgstr "Pogrubienie"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:35
-#: templates/myghtyboard/CrystalClear/post_list.html:152
-#: templates/myghtyboard/CrystalClear/add_post.html:23
-#: templates/myghtyboard/CrystalClear/edit_post.html:11
-msgid "Italic"
-msgstr "Kursywa"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:36
-#: templates/myghtyboard/CrystalClear/add_topic.html:37
-#: templates/myghtyboard/CrystalClear/post_list.html:153
-#: templates/myghtyboard/CrystalClear/post_list.html:154
-#: templates/myghtyboard/CrystalClear/add_post.html:24
-#: templates/myghtyboard/CrystalClear/add_post.html:25
-#: templates/myghtyboard/CrystalClear/edit_post.html:12
-#: templates/myghtyboard/CrystalClear/edit_post.html:13
-msgid "Underline"
-msgstr "Podkreślenie"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:38
-#: templates/myghtyboard/CrystalClear/post_list.html:155
-#: templates/myghtyboard/CrystalClear/add_post.html:26
-#: templates/myghtyboard/CrystalClear/edit_post.html:14
-msgid "Blockquote"
-msgstr "Blok wcięcia"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:39
-#: templates/myghtyboard/CrystalClear/post_list.html:156
-#: templates/myghtyboard/CrystalClear/add_post.html:27
-#: templates/myghtyboard/CrystalClear/edit_post.html:15
-msgid "Code Here"
-msgstr "Tutaj Kod"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:39
-#: templates/myghtyboard/CrystalClear/post_list.html:156
-#: templates/myghtyboard/CrystalClear/add_post.html:27
-#: templates/myghtyboard/CrystalClear/edit_post.html:15
-msgid "Code"
-msgstr "Kod"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:62
-msgid "Sticky"
-msgstr "Przyklejony"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:73
-msgid "Global"
-msgstr "Globalny"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:85
-#: templates/myghtyboard/CrystalClear/post_list.html:176
-#: templates/myghtyboard/CrystalClear/add_post.html:47
-#: templates/myghtyboard/CrystalClear/register.html:40
-#: templates/myghtyboard/CrystalClear/login.html:43
-msgid "Text from the image"
-msgstr "Tekst z grafiki"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:85
-#: templates/myghtyboard/CrystalClear/post_list.html:176
-#: templates/myghtyboard/CrystalClear/add_post.html:47
-#: templates/myghtyboard/CrystalClear/register.html:40
-#: templates/myghtyboard/CrystalClear/login.html:43
-msgid "(Use CAPITAL letters)"
-msgstr "(Użyj DUŻYCH liter)"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:92
-#: templates/myghtyboard/CrystalClear/post_list.html:183
-#: templates/myghtyboard/CrystalClear/add_post.html:54
-msgid "Enter Correct Captcha Text"
-msgstr "Podaj poprawny tekst z grafiki"
-
-#: templates/myghtyboard/CrystalClear/add_topic.html:105
-#: templates/myghtyboard/CrystalClear/post_list.html:194
-#: templates/myghtyboard/CrystalClear/add_post.html:65
-#: templates/myghtyboard/CrystalClear/edit_post.html:32
-#: templates/myghtyboard/CrystalClear/profile.html:60
-#: templates/myghtyboard/CrystalClear/profile.html:71
-msgid "Allowed HTML Tags"
-msgstr "Dozwolone tagi HTML"
-
-#: templates/myghtyboard/CrystalClear/post_list.html:11
-#: templates/myghtyboard/CrystalClear/post_list.html:94
-msgid "First Page"
-msgstr "Pierwsza Główna"
-
-#: templates/myghtyboard/CrystalClear/post_list.html:16
-#: templates/myghtyboard/CrystalClear/post_list.html:99
-msgid "Previous Page"
-msgstr "Poprzednia strona"
-
-#: templates/myghtyboard/CrystalClear/post_list.html:20
-#: templates/myghtyboard/CrystalClear/post_list.html:103
-msgid "Next Page"
-msgstr "Następna Strona"
-
-#: templates/myghtyboard/CrystalClear/post_list.html:25
-#: templates/myghtyboard/CrystalClear/post_list.html:108
-msgid "Last Page"
-msgstr "Ostatnia Strona"
-
-#: templates/myghtyboard/CrystalClear/post_list.html:32
-#: templates/myghtyboard/CrystalClear/post_list.html:88
-#: templates/myghtyboard/CrystalClear/post_list.html:192
-#: templates/myghtyboard/CrystalClear/add_post.html:6
-#: templates/myghtyboard/CrystalClear/add_post.html:63
+#: templates/myghtyboard/punbb/add_post.html:5
+#: templates/myghtyboard/punbb/add_post.html:62
+#: templates/myghtyboard/punbb/post_list.html:33
+#: templates/myghtyboard/punbb/post_list.html:87
+#: templates/myghtyboard/punbb/post_list.html:192
 msgid "Add Post"
 msgstr "Dodaj Post"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:48
-#: templates/myghtyboard/CrystalClear/profile.html:5
-#: templates/myghtyboard/CrystalClear/show_profile.html:7
-#: templates/myghtyboard/CrystalClear/register.html:5
-#: templates/myghtyboard/CrystalClear/login.html:5
-msgid "User Profile"
-msgstr "Profil"
+#: templates/myghtyboard/punbb/add_post.html:17
+#: templates/myghtyboard/punbb/add_topic.html:28
+#: templates/myghtyboard/punbb/post_list.html:147
+msgid "Text"
+msgstr "Treść"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:49
-#: templates/myghtyboard/CrystalClear/show_profile.html:22
-#: templates/myghtyboard/CrystalClear/pmessage.html:44
-msgid "Send Message"
-msgstr "Wyślij Wiadomość"
+#: templates/myghtyboard/punbb/add_post.html:21
+#: templates/myghtyboard/punbb/add_topic.html:32
+#: templates/myghtyboard/punbb/edit_post.html:9
+#: templates/myghtyboard/punbb/post_list.html:151
+msgid "Bold"
+msgstr "Pogrubienie"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:60
-msgid "Reply with quote"
-msgstr "Cytuj"
+#: templates/myghtyboard/punbb/add_post.html:22
+#: templates/myghtyboard/punbb/add_topic.html:33
+#: templates/myghtyboard/punbb/edit_post.html:10
+#: templates/myghtyboard/punbb/post_list.html:152
+msgid "Italic"
+msgstr "Kursywa"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:66
-#: templates/myghtyboard/CrystalClear/post_list.html:71
-msgid "Edit this post"
-msgstr "Edytuj ten post"
+#: templates/myghtyboard/punbb/add_post.html:23
+#: templates/myghtyboard/punbb/add_post.html:24
+#: templates/myghtyboard/punbb/add_topic.html:34
+#: templates/myghtyboard/punbb/add_topic.html:35
+#: templates/myghtyboard/punbb/edit_post.html:11
+#: templates/myghtyboard/punbb/edit_post.html:12
+#: templates/myghtyboard/punbb/post_list.html:153
+#: templates/myghtyboard/punbb/post_list.html:154
+msgid "Underline"
+msgstr "Podkreślenie"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:75
-msgid "Delete This Post?"
-msgstr "Skasować ten post?"
+#: templates/myghtyboard/punbb/add_post.html:25
+#: templates/myghtyboard/punbb/add_topic.html:36
+#: templates/myghtyboard/punbb/edit_post.html:13
+#: templates/myghtyboard/punbb/post_list.html:155
+msgid "Blockquote"
+msgstr "Blok wcięcia"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:75
-msgid "Delete this post"
-msgstr "Skasować post"
+#: templates/myghtyboard/punbb/add_post.html:26
+#: templates/myghtyboard/punbb/add_topic.html:37
+#: templates/myghtyboard/punbb/edit_post.html:14
+#: templates/myghtyboard/punbb/post_list.html:156
+msgid "Code Here"
+msgstr "Tutaj Kod"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:129
-msgid "You can moderate this Topic"
-msgstr "Możesz moderować ten Temat"
+#: templates/myghtyboard/punbb/add_post.html:26
+#: templates/myghtyboard/punbb/add_topic.html:37
+#: templates/myghtyboard/punbb/edit_post.html:14
+#: templates/myghtyboard/punbb/post_list.html:156
+msgid "Code"
+msgstr "Kod"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:131
-msgid "You can't moderate this Topic"
-msgstr "Nie możesz moderować tego Tematu"
+#: templates/myghtyboard/punbb/add_post.html:46
+#: templates/myghtyboard/punbb/add_topic.html:83
+#: templates/myghtyboard/punbb/post_list.html:176
+msgid "Text from the image"
+msgstr "Tekst z grafiki"
 
-#: templates/myghtyboard/CrystalClear/post_list.html:136
-msgid "Quick Post"
-msgstr "Szybki Post"
+#: templates/myghtyboard/punbb/add_post.html:46
+#: templates/myghtyboard/punbb/add_topic.html:83
+#: templates/myghtyboard/punbb/post_list.html:176
+msgid "(Use CAPITAL letters)"
+msgstr "(Użyj DUŻYCH liter)"
 
-#: templates/myghtyboard/CrystalClear/add_post.html:67
+#: templates/myghtyboard/punbb/add_post.html:53
+#: templates/myghtyboard/punbb/add_topic.html:90
+#: templates/myghtyboard/punbb/post_list.html:183
+msgid "Enter Correct Captcha Text"
+msgstr "Podaj poprawny tekst z grafiki"
+
+#: templates/myghtyboard/punbb/add_post.html:64
+#: templates/myghtyboard/punbb/add_topic.html:103
+#: templates/myghtyboard/punbb/edit_post.html:31
+#: templates/myghtyboard/punbb/post_list.html:194
+msgid "Allowed HTML Tags"
+msgstr "Dozwolone tagi HTML"
+
+#: templates/myghtyboard/punbb/add_post.html:66
 msgid "Last 10 posts from topic"
 msgstr "Ostatnie 10 postów"
 
-#: templates/myghtyboard/CrystalClear/edit_post.html:5
+#: templates/myghtyboard/punbb/add_topic.html:12
+#: templates/myghtyboard/punbb/add_topic.html:101
+msgid "Add Topic"
+msgstr "Dodaj Temat"
+
+#: templates/myghtyboard/punbb/add_topic.html:18
+msgid "Title"
+msgstr "Tytuł"
+
+#: templates/myghtyboard/punbb/add_topic.html:60
+msgid "Sticky"
+msgstr "Przyklejony"
+
+#: templates/myghtyboard/punbb/add_topic.html:71
+msgid "Global"
+msgstr "Globalny"
+
+#: templates/myghtyboard/punbb/body.html:13
+msgid "Quick Links"
+msgstr "Nawigacja"
+
+#: templates/myghtyboard/punbb/body.html:14
+msgid "Main Page"
+msgstr "Strona Główna"
+
+#: templates/myghtyboard/punbb/body.html:14
+#: templates/myghtyboard/punbb/category_list.html:19
+msgid "Forum"
+msgstr "Forum"
+
+#: templates/myghtyboard/punbb/body.html:14
+msgid "News"
+msgstr "Wiadomości"
+
+#: templates/myghtyboard/punbb/body.html:14
+msgid "My Profile"
+msgstr "Mój Profil"
+
+#: templates/myghtyboard/punbb/category_list.html:7
+msgid "My Topics"
+msgstr "Moje Tematy"
+
+#: templates/myghtyboard/punbb/category_list.html:7
+msgid "My Posts"
+msgstr "Moje Posty"
+
+#: templates/myghtyboard/punbb/category_list.html:20
+msgid "Topics"
+msgstr "Tematów"
+
+#: templates/myghtyboard/punbb/category_list.html:21
+#: templates/myghtyboard/punbb/mytopics_list.html:14
+#: templates/myghtyboard/punbb/topics_list.html:17
+msgid "Posts"
+msgstr "Postów"
+
+#: templates/myghtyboard/punbb/category_list.html:22
+#: templates/myghtyboard/punbb/mytopics_list.html:15
+#: templates/myghtyboard/punbb/topics_list.html:18
+msgid "Last Post"
+msgstr "Ostatni Post"
+
+#: templates/myghtyboard/punbb/category_list.html:60
+#: templates/myghtyboard/punbb/post_list.html:114
+#: templates/myghtyboard/punbb/topics_list.html:74
+msgid "You can post new Topics"
+msgstr "Możesz dodawać nowe Tematy"
+
+#: templates/myghtyboard/punbb/category_list.html:62
+#: templates/myghtyboard/punbb/post_list.html:116
+#: templates/myghtyboard/punbb/topics_list.html:76
+msgid "You can't post new Topics"
+msgstr "Nie możesz dodawać nowych Tematów"
+
+#: templates/myghtyboard/punbb/category_list.html:65
+#: templates/myghtyboard/punbb/post_list.html:120
+#: templates/myghtyboard/punbb/topics_list.html:79
+msgid "You can post new Posts"
+msgstr "Możesz dodawać nowe Posty"
+
+#: templates/myghtyboard/punbb/category_list.html:67
+#: templates/myghtyboard/punbb/post_list.html:122
+#: templates/myghtyboard/punbb/post_list.html:125
+#: templates/myghtyboard/punbb/topics_list.html:81
+msgid "You can't post new Posts"
+msgstr "Nie możesz dodawać nowych postów"
+
+#: templates/myghtyboard/punbb/category_list.html:70
+msgid "You are a Moderator"
+msgstr "Jesteś moderatorem"
+
+#: templates/myghtyboard/punbb/edit_post.html:4
 msgid "Edit Post"
 msgstr "Edytuj Post"
 
-#: templates/myghtyboard/CrystalClear/noperm.html:14
-msgid "Permission Denied"
-msgstr "Brak Uprawnień"
+#: templates/myghtyboard/punbb/move_topic.html:6
+#: templates/myghtyboard/punbb/move_topic.html:15
+#: templates/myghtyboard/punbb/topics_list.html:52
+msgid "Move Topic"
+msgstr "Przenieś Temat"
 
-#: templates/myghtyboard/CrystalClear/move_topic.html:8
+#: templates/myghtyboard/punbb/move_topic.html:7
 msgid "Select a forum to which the topic "
 msgstr "Wybierz forum do którego temat "
 
-#: templates/myghtyboard/CrystalClear/move_topic.html:8
+#: templates/myghtyboard/punbb/move_topic.html:7
 msgid "should be moved"
 msgstr "powinien być przeniesiony"
 
-#: templates/myghtyboard/CrystalClear/profile.html:16
-#: templates/myghtyboard/CrystalClear/show_profile.html:17
-msgid "Public Email"
-msgstr "Publiczny email"
+#: templates/myghtyboard/punbb/mytopics_list.html:6
+#: templates/myghtyboard/punbb/post_list.html:39
+#: templates/myghtyboard/punbb/topics_list.html:9
+msgid "Forum Index"
+msgstr "Indeks Forum"
 
-#: templates/myghtyboard/CrystalClear/profile.html:26
-#: templates/myghtyboard/CrystalClear/show_profile.html:38
-msgid "Avatar"
-msgstr "Awatar"
+#: templates/myghtyboard/punbb/mytopics_list.html:12
+#: templates/myghtyboard/punbb/topics_list.html:15
+msgid "Topic"
+msgstr "Temat"
 
-#: templates/myghtyboard/CrystalClear/profile.html:45
-msgid "Theme"
-msgstr "Skórka"
+#: templates/myghtyboard/punbb/mytopics_list.html:13
+#: templates/myghtyboard/punbb/topics_list.html:16
+msgid "Author"
+msgstr "Autor"
 
-#: templates/myghtyboard/CrystalClear/profile.html:55
-#: templates/myghtyboard/CrystalClear/show_profile.html:28
-msgid "Signature"
-msgstr "Podpis"
+#: templates/myghtyboard/punbb/noperm.html:14
+msgid "Permission Denied"
+msgstr "Brak Uprawnień"
 
-#: templates/myghtyboard/CrystalClear/profile.html:66
-#: templates/myghtyboard/CrystalClear/show_profile.html:48
-msgid "Contacts"
-msgstr "Kontakt"
+#: templates/myghtyboard/punbb/post_list.html:4
+msgid "Posts from"
+msgstr "Posty z"
 
-#: templates/myghtyboard/CrystalClear/profile.html:80
-msgid "Save Changes"
-msgstr "Zapisz Zmiany"
+#: templates/myghtyboard/punbb/post_list.html:12
+#: templates/myghtyboard/punbb/post_list.html:93
+msgid "First Page"
+msgstr "Pierwsza Główna"
 
-#: templates/myghtyboard/CrystalClear/profile.html:81
-msgid "Log Out"
-msgstr "Wyloguj"
+#: templates/myghtyboard/punbb/post_list.html:17
+#: templates/myghtyboard/punbb/post_list.html:98
+msgid "Previous Page"
+msgstr "Poprzednia strona"
 
-#: templates/myghtyboard/CrystalClear/show_profile.html:6
-msgid "User Posts"
-msgstr "Posty Użytkownika"
+#: templates/myghtyboard/punbb/post_list.html:21
+#: templates/myghtyboard/punbb/post_list.html:102
+msgid "Next Page"
+msgstr "Następna Strona"
 
-#: templates/myghtyboard/CrystalClear/register.html:14
-msgid "Registration Error"
-msgstr "Błąd rejestracji"
+#: templates/myghtyboard/punbb/post_list.html:26
+#: templates/myghtyboard/punbb/post_list.html:107
+msgid "Last Page"
+msgstr "Ostatnia Strona"
 
-#: templates/myghtyboard/CrystalClear/register.html:20
-msgid "REGISTER FORM"
-msgstr "REJESTRACJA"
+#: templates/myghtyboard/punbb/post_list.html:49
+msgid "User Profile"
+msgstr "Profil"
 
-#: templates/myghtyboard/CrystalClear/register.html:24
-#: templates/myghtyboard/CrystalClear/login.html:23
-#: templates/myghtyboard/CrystalClear/login.html:51
-msgid "Login"
-msgstr "Login"
-
-#: templates/myghtyboard/CrystalClear/register.html:24
-msgid "required, more than 3 chars<br />letters or numbers"
-msgstr "wymagany, więcej niż 3 znaki. Dozwolone liczby i litery"
-
-#: templates/myghtyboard/CrystalClear/register.html:28
-#: templates/myghtyboard/CrystalClear/login.html:33
-msgid "Password"
-msgstr "Hasło"
-
-#: templates/myghtyboard/CrystalClear/register.html:28
-msgid "required, more than 4 chars<br />letters or numbers"
-msgstr "wymagane, więcej niż 4 znaki, liczby i litery"
-
-#: templates/myghtyboard/CrystalClear/register.html:32
-msgid "Password Again"
-msgstr "Hasło Ponownie"
-
-#: templates/myghtyboard/CrystalClear/register.html:32
-msgid "required, enter the same password"
-msgstr "wymagane, podaj to samo hasło"
-
-#: templates/myghtyboard/CrystalClear/register.html:36
-msgid "Email"
-msgstr "Email"
-
-#: templates/myghtyboard/CrystalClear/register.html:36
-msgid "required, your email addres"
-msgstr "wymagany"
-
-#: templates/myghtyboard/CrystalClear/register.html:47
-msgid "Register My"
-msgstr "Zarejestruj mnie"
-
-#: templates/myghtyboard/CrystalClear/login.html:15
-msgid "Login Error - bad login and/or password"
-msgstr "Błąd logowania - zły login i/lub hasło"
-
-#: templates/myghtyboard/CrystalClear/login.html:52
-msgid "Register"
-msgstr "Rejestruj"
-
-#: templates/myghtyboard/CrystalClear/pmessage.html:5
-msgid "Send a Private Message"
+#: templates/myghtyboard/punbb/post_list.html:50
+msgid "Send Message"
 msgstr "Wyślij Wiadomość"
 
-#: templates/myghtyboard/CrystalClear/pmessage.html:17
-msgid "Subject"
-msgstr "Temat"
+#: templates/myghtyboard/punbb/post_list.html:60
+msgid "Reply with quote"
+msgstr "Cytuj"
+
+#: templates/myghtyboard/punbb/post_list.html:66
+#: templates/myghtyboard/punbb/post_list.html:71
+msgid "Edit this post"
+msgstr "Edytuj ten post"
+
+#: templates/myghtyboard/punbb/post_list.html:75
+msgid "Delete This Post?"
+msgstr "Skasować ten post?"
+
+#: templates/myghtyboard/punbb/post_list.html:75
+msgid "Delete this post"
+msgstr "Skasować post"
+
+#: templates/myghtyboard/punbb/post_list.html:128
+msgid "You can moderate this Topic"
+msgstr "Możesz moderować ten Temat"
+
+#: templates/myghtyboard/punbb/post_list.html:130
+msgid "You can't moderate this Topic"
+msgstr "Nie możesz moderować tego Tematu"
+
+#: templates/myghtyboard/punbb/post_list.html:136
+msgid "Quick Post"
+msgstr "Szybki Post"
+
+#: templates/myghtyboard/punbb/topics_list.html:4
+msgid "Topics from"
+msgstr "Tematy z"
+
+#: templates/myghtyboard/punbb/topics_list.html:7
+#: templates/myghtyboard/punbb/topics_list.html:70
+msgid "Add New Topic"
+msgstr "Dodaj Nowy Temat"
+
+#: templates/myghtyboard/punbb/topics_list.html:45
+msgid "Delete this Topic and all Posts?"
+msgstr "Skasować Temat i wszystkie jego posty?"
+
+#: templates/myghtyboard/punbb/topics_list.html:45
+msgid "Delete Topic"
+msgstr "Skasuj Temat"
+
+#: templates/myghtyboard/punbb/topics_list.html:47
+msgid "Open This Topic?"
+msgstr "Otworzyć Temat?"
+
+#: templates/myghtyboard/punbb/topics_list.html:47
+msgid "Unlock Topic"
+msgstr "Otwórz Temat"
+
+#: templates/myghtyboard/punbb/topics_list.html:49
+msgid "Close This Topic?"
+msgstr "Zamknąć Temat?"
+
+#: templates/myghtyboard/punbb/topics_list.html:49
+msgid "Lock Topic"
+msgstr "Zamknij Temat"
+
+#: templates/myghtyboard/punbb/topics_list.html:84
+msgid "You can moderate this Topics"
+msgstr "Możesz moderować ten Temat"
+
+#: templates/myghtyboard/punbb/topics_list.html:86
+msgid "You can't moderate this Topics"
+msgstr "Nie możeszesz moderować tego Tematu"
+
+#~ msgid "No such profile"
+#~ msgstr "Brak Profilu"
+
+#~ msgid "Public Email"
+#~ msgstr "Publiczny email"
+
+#~ msgid "Avatar"
+#~ msgstr "Awatar"
+
+#~ msgid "Theme"
+#~ msgstr "Skórka"
+
+#~ msgid "Signature"
+#~ msgstr "Podpis"
+
+#~ msgid "Contacts"
+#~ msgstr "Kontakt"
+
+#~ msgid "Save Changes"
+#~ msgstr "Zapisz Zmiany"
+
+#~ msgid "Log Out"
+#~ msgstr "Wyloguj"
+
+#~ msgid "User Posts"
+#~ msgstr "Posty Użytkownika"
+
+#~ msgid "Registration Error"
+#~ msgstr "Błąd rejestracji"
+
+#~ msgid "REGISTER FORM"
+#~ msgstr "REJESTRACJA"
+
+#~ msgid "Login"
+#~ msgstr "Login"
+
+#~ msgid "required, more than 3 chars<br />letters or numbers"
+#~ msgstr "wymagany, więcej niż 3 znaki. Dozwolone liczby i litery"
+
+#~ msgid "Password"
+#~ msgstr "Hasło"
+
+#~ msgid "required, more than 4 chars<br />letters or numbers"
+#~ msgstr "wymagane, więcej niż 4 znaki, liczby i litery"
+
+#~ msgid "Password Again"
+#~ msgstr "Hasło Ponownie"
+
+#~ msgid "required, enter the same password"
+#~ msgstr "wymagane, podaj to samo hasło"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "required, your email addres"
+#~ msgstr "wymagany"
+
+#~ msgid "Register My"
+#~ msgstr "Zarejestruj mnie"
+
+#~ msgid "Login Error - bad login and/or password"
+#~ msgstr "Błąd logowania - zły login i/lub hasło"
+
+#~ msgid "Register"
+#~ msgstr "Rejestruj"
+
+#~ msgid "Send a Private Message"
+#~ msgstr "Wyślij Wiadomość"
+
+#~ msgid "Subject"
+#~ msgstr "Temat"

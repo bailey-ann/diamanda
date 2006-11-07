@@ -1,5 +1,4 @@
 from wiki.models import *
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.contrib.syndication.feeds import Feed
 from django.conf import settings
 try:
@@ -23,9 +22,3 @@ class Wiki(Sitemap):
 		return obj.modification_date
 	def changefreq(self, obj):
 		return 'monthly'
-	def priority(self, obj):
-		if obj.slug == 'index':
-			return '1.0'
-		else:
-			return '0.5'
-		

@@ -25,7 +25,7 @@
 				<td class="tcl">
 					<div class="intd">
 						<div class="tclcon">
-							<h3><a href="/wiki/task_show/{{ t.id }}/">{{ t.task_name }}</a></h3>
+							<h3><a href="/tasks/task_show/{{ t.id }}/">{{ t.task_name }}</a></h3>
 						</div>
 					</div>
 				</td>
@@ -55,15 +55,15 @@
 	</div><br />
 <div class="box"><br />
 {% if has_previous %}
-<a href="/wiki/task_list/{{ previous }}/"><b>{% trans "Previous Page" %}</b></a>
+<a href="/tasks/task_list/{{ previous }}/"><b>{% trans "Previous Page" %}</b></a>
 {% endif %}
 {% if has_next %}
-<a href="/wiki/task_list/{{ next }}/"><b>{% trans "Next Page" %}</b></a>
+<a href="/tasks/task_list/{{ next }}/"><b>{% trans "Next Page" %}</b></a>
 {% endif %}
 {% endif %}
 
 {% if add_task %}
-<div style="text-align:center; font-weight:bold;"><a href="/admin/wiki/task/add/">{% trans "Add new Task" %}</a></div>
+<div style="text-align:center; font-weight:bold;"><a href="/tasks/task_add/">{% trans "Add new Task" %}</a></div>
 {% endif %}
 </div><br />
 
@@ -91,7 +91,7 @@
 				<td class="tcl">
 					<div class="intd">
 						<div class="tclcon">
-							<h3><a href="/wiki/history/{{ page.slug }}/">{{page.title}}</a></h3>
+							<h3><a href="/tasks/history/{{ page.slug }}/">{{page.title}}</a></h3>
 						</div>
 					</div>
 				</td>

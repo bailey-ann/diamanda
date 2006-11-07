@@ -60,11 +60,12 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates".
-    # Always use forward slashes, even on Windows.
-	   'diamandas/myghtyboard/templates',
-	     'diamandas/wiki/templates',
-	       'diamandas/userpanel/templates'
+ 'diamandas/myghtyboard/templates',
+ 'diamandas/wiki/templates',
+ 'diamandas/userpanel/templates',
+ 'diamandas/news/templates',
+ 'diamandas/tasks/templates',
+ 'diamandas/stats/templates',
 )
 
 import sys
@@ -77,6 +78,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'wiki',
+    'stats',
+    'tasks',
+    'news',
     'myghtyboard',
     'userpanel',
     'django.contrib.admin',
@@ -110,6 +114,3 @@ FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
 # thumb CBC
 SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
-
-# Other
-USE_BANS = False # use WIkiBans to prevent baned from add/edit actions

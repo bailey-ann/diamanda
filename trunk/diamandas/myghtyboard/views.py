@@ -40,7 +40,7 @@ def category_list(request):
 	for c in categories:
 		c.forums = c.forum_set.all().order_by('forum_order')
 	
-	return render_to_response('myghtyboard/' + settings.ENGINE + '/category_list.html', {'categories': categories, 'perms': list_perms(request)})
+	return render_to_response('myghtyboard/' + settings.ENGINE + '/category_list.html', {'categories': categories, 'perms': list_perms(request), 'site_name':settings.SITE_NAME })
 
 # list of topics in a forum
 def topic_list(request, forum_id):
@@ -54,7 +54,7 @@ def topic_list(request, forum_id):
 			i.pagination_max = pmax
 	forum_name = Forum.objects.get(id=forum_id)
 	forum_name = forum_name.forum_name
-	return render_to_response('myghtyboard/' + settings.ENGINE + '/topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name})
+	return render_to_response('myghtyboard/' + settings.ENGINE + '/topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name, 'site_name':settings.SITE_NAME})
 
 
 # list my topics
@@ -71,7 +71,7 @@ def my_topic_list(request, show_user=False):
 			else:
 				i.pagination_max = pmax
 		forum_name = _('User Topics')
-		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)})
+		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
@@ -88,7 +88,7 @@ def last_topic_list(request):
 			else:
 				i.pagination_max = pmax
 		forum_name = _('Last Active Topics')
-		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)})
+		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
@@ -113,8 +113,8 @@ def my_posttopic_list(request, show_user=False):
 					i.pagination_max = pmax
 			forum_name = _('User Posts in Latest Topics')
 		except:
-			return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'perms': list_perms(request)})
-		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'perms': list_perms(request), 'site_name':settings.SITE_NAME})
+		return render_to_response('myghtyboard/' + settings.ENGINE + '/mytopics_list.html', {'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You aren\'t logged in')}) # can't add topic
 
@@ -140,9 +140,9 @@ def post_list(request, topic_id, pagination_id):
 		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
 		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
-		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/'+ settings.ENGINE + '/post_list.html')
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'hash': imghash, 'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user), 'site_name':settings.SITE_NAME}, template_name = 'myghtyboard/'+ settings.ENGINE + '/post_list.html')
 	else:
-		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user)}, template_name = 'myghtyboard/' + settings.ENGINE + '/post_list.html')
+		return object_list(request, topic.post_set.all().order_by('post_date'), paginate_by = 10, page = pagination_id, extra_context = {'topic_id':topic_id, 'opened': opened, 'topic': topic.topic_name, 'forum_id': topic.topic_forum.id, 'forum_name': topic.topic_forum, 'perms': list_perms(request), 'current_user': str(request.user), 'site_name':settings.SITE_NAME}, template_name = 'myghtyboard/' + settings.ENGINE + '/post_list.html')
 
 # add topic
 def add_topic(request, forum_id):
@@ -170,7 +170,7 @@ def add_topic(request, forum_id):
 				page_data = {}
 				form = forms.FormWrapper(manipulator, page_data, errors)
 				post_text = html2safehtml(request.POST.copy()['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
-				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request), 'post_text': post_text})
+				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request), 'post_text': post_text, 'site_name':settings.SITE_NAME})
 
 			page_data['topic_author'] = str(request.user)
 			from re import findall, MULTILINE
@@ -212,9 +212,9 @@ def add_topic(request, forum_id):
 		
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		if settings.FORUMS_USE_CAPTCHA:
-			return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'hash': imghash, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 		else:
-			return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/' + settings.ENGINE + '/add_topic.html', {'form': form, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You can\'t add topics')}) # can't add topic
 
@@ -260,7 +260,7 @@ def add_post(request, topic_id, post_id = False):
 					page_data = {}
 					form = forms.FormWrapper(manipulator, page_data, errors)
 					post_text = html2safehtml(request.POST.copy()['post_text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
-					return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'lastpost': lastpost, 'hash': imghash, 'post_text': post_text, 'perms': list_perms(request)})
+					return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'lastpost': lastpost, 'hash': imghash, 'post_text': post_text, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 				
 				page_data['post_author'] = str(request.user)
 				if request.user.is_authenticated():
@@ -313,9 +313,9 @@ def add_post(request, topic_id, post_id = False):
 			# get 10 last posts from this topic
 			lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
 			if settings.FORUMS_USE_CAPTCHA:
-				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost, 'hash': imghash, 'perms': list_perms(request)})
+				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost, 'hash': imghash, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 			else:
-				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost, 'perms': list_perms(request)})
+				return render_to_response('myghtyboard/' + settings.ENGINE + '/add_post.html', {'quote_text': quote_text, 'lastpost': lastpost, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You can\'t add posts')}) # can't add posts
 
@@ -354,7 +354,7 @@ def edit_post(request, post_id):
 				pmax = pmax+1
 			return HttpResponseRedirect("/forum/topic/" + str(pmax) + "/" + str(post.post_topic.id) +"/")
 		else:
-			return render_to_response('myghtyboard/' + settings.ENGINE + '/edit_post.html', {'post_text': post.post_text, 'perms': list_perms(request)})
+			return render_to_response('myghtyboard/' + settings.ENGINE + '/edit_post.html', {'post_text': post.post_text, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 	else:
 		return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You can\'t edit this post')}) # can't edit post
 
@@ -408,7 +408,7 @@ def move_topic(request, topic_id, forum_id):
 			else:
 				forums = Forum.objects.exclude(id=forum_id).exclude(is_redirect=True)
 				topic = Topic.objects.get(id=topic_id)
-				return render_to_response('myghtyboard/' + settings.ENGINE + '/move_topic.html', {'forums': forums, 'topic': topic, 'perms': list_perms(request)})
+				return render_to_response('myghtyboard/' + settings.ENGINE + '/move_topic.html', {'forums': forums, 'topic': topic, 'perms': list_perms(request), 'site_name':settings.SITE_NAME})
 		else:
 			return render_to_response('myghtyboard/' + settings.ENGINE + '/noperm.html', {'why': _('You aren\'t a moderator')}) # can't move
 	else:
