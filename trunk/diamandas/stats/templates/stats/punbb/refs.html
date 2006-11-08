@@ -1,0 +1,12 @@
+{% load i18n %}
+{% extends "wiki/punbb/body.html" %}
+{% block content %}
+<h2>{% trans "Last Referers" %}</h2><br />
+{% for r in refs %}
+<a href="{{ r.referer }}" target="_blank">{{ r.referer }}</a><br />
+{% endfor %}
+{% endblock %}
+
+
+{% block leftmenu %}
+<a href="/stats/entries/">{% trans "Unique Entries" %}</a> | <a href="/stats/refs/">{% trans "Last Referers" %}</a> | <a href="/stats/google/">{% trans "Google Keywords" %}</a> | <a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a>{% endblock %}

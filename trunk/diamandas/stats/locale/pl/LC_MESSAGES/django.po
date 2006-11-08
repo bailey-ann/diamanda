@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: stats\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"PO-Revision-Date: 2006-04-08 12:19+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: views.py:25
+msgid "Day of month"
+msgstr "Dzien miesiaca"
+
+#: views.py:26
+msgid "Number of entries"
+msgstr "Liczba wejsc"
+
+#: views.py:36 views.py:44
+msgid "You don't have the permissions to view this page"
+msgstr "Brak uprawnień do oglądania tej strony"
+
+#: models.py:8
+msgid "Stat"
+msgstr "Statystyki"
+
+#: models.py:9
+msgid "Stats"
+msgstr "Statystyki"
+
+#: templates/stats/punbb/entries.html:6
+msgid "Red Line shows number of entries per day. Blue Line shows linie trendu"
+msgstr ""
+
+#: templates/stats/punbb/entries.html:12 templates/stats/punbb/refs.html:12
+msgid "Unique Entries"
+msgstr "Unikalne Wejscia"
+
+#: templates/stats/punbb/entries.html:12 templates/stats/punbb/refs.html:4
+#: templates/stats/punbb/refs.html.py:12
+msgid "Last Referers"
+msgstr "Ostatnie Referery"
+
+#: templates/stats/punbb/entries.html:12 templates/stats/punbb/refs.html:12
+msgid "Delete all data ?"
+msgstr "Skasować wszystkie dane ?"
+
+#: templates/stats/punbb/entries.html:12 templates/stats/punbb/refs.html:12
+msgid "Delete Stat Data"
+msgstr "Kasowanie Danych Statystyk"
+
+#: templates/stats/punbb/noperm.html:14
+msgid "Permission Denied"
+msgstr "Brak Uprawnień"

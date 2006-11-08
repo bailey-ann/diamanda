@@ -3,7 +3,6 @@ from django.conf.urls.defaults import *
 # Wiki* URLs
 urlpatterns = patterns('wiki',
 (r'^/?$', 'views.show_page'),
-(r'^sitelist/$', 'views.index'),
 (r'^unpropose/(?P<archive_id>(\d+))/$', 'views.unpropose'),
 (r'^add/(?P<slug>[\w\-_]+)/$', 'views.add_page'),
 (r'^page/(?P<slug>[\w\-_]+)/$', 'views.show_page'),

@@ -35,13 +35,6 @@ def search_pages(request):
 	else:
 		return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
 
-def index(request):
-	pages = Page.objects.all()
-	tree = ''
-	for page in pages:
-		tree = tree + '<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/'+str(page.slug)+'/">' + str(page.title) + '</a> - ' + str(page.description) + '<br />'
-	return render_to_response('wiki/' + settings.ENGINE + '/main.html', {'tree': tree, 'theme': settings.THEME, 'engine': settings.ENGINE})
-
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
 	if request.user.is_authenticated():
@@ -61,7 +54,7 @@ def unpropose(request, archive_id):
 		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't unpropose
 
 # show the page by given slug
-def show_page(request, slug='index'):	
+def show_page(request, slug='index'):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
 		try:

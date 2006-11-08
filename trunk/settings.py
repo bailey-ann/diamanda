@@ -55,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'stats.statsMiddleware.statsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
