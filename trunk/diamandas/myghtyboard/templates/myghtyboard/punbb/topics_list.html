@@ -25,13 +25,13 @@
 				<td class="tcl">
 					<div class="intd">
 						{% if topic.is_locked %}
-							<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/lock.png" alt="*" /></div>
+							<div style="float:left;"><img src="/site_media/themes/{{ perms.engine }}/{{ perms.theme }}/lock.png" alt="*" /></div>
 						{% else %}
 							{% if topic.is_sticky %}
-							<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/stick.png" alt="*" /></div>
+							<div style="float:left;"><img src="/site_media/themes/{{ perms.engine }}/{{ perms.theme }}/stick.png" alt="*" /></div>
 							{% else %}
 								{% if topic.is_global %}
-									<div style="float:left;"><img src="/site_media/myghtyboard/{{ perms.css_theme }}/glob.png" alt="*" /></div>
+									<div style="float:left;"><img src="/site_media/themes/{{ perms.engine }}/{{ perms.theme }}/glob.png" alt="*" /></div>
 								{% else %}
 									<div class="icon"><div class="nosize"><!-- --></div></div>
 								{% endif%}

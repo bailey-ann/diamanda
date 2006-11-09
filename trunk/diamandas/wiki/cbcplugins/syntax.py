@@ -59,6 +59,7 @@ def render(dic, text):
 		else:
 			text = text.replace(i['tag'], '<div class="box" style="overflow:auto;font-size:10px;">' + highlight(i['code'], HtmlLexer(), HtmlFormatter(cssclass='highlight_html'))+ '</div>')
 			langs['<style>' + HtmlFormatter().get_style_defs('.highlight_html') + '</style>'] = True
-	text = text + str(langs.keys()).replace('\\n', '''
+	keys = str(langs.keys()).replace("['", '').replace("']", '')
+	text = text + keys.replace('\\n', '''
 ''')
 	return text

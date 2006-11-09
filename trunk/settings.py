@@ -69,9 +69,9 @@ TEMPLATE_DIRS = (
  'diamandas/stats/templates',
 )
 
-import sys
-sys.path.append('diamandas/')
-
+from sys import path
+path.append('diamandas/') # apps folder
+path.append('diamandas/wiki/cbcplugins/') # cbc definitions folder
 
 INSTALLED_APPS = (
     'django.contrib.auth',

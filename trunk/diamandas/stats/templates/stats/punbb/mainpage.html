@@ -1,16 +1,11 @@
 {% load i18n %}
 {% extends "wiki/punbb/body.html" %}
 {% block content %}
-
-{% if img_path %}
-<div style="text-align:center; font-weight:bold;"><img src="{{ img_path }}uniqueentries.png" alt="" /><br />
-{% trans "Red Line shows number of entries per day. Blue Line shows linie trendu" %}</div><br /><br /><br /><br />
-{% else %}
-	{% for i in results %}
-	- <b>{{ i.day }}</b>: {{ i.count }}<br />
-	{% endfor %}
-{% endif %}
-
+<h2>{% trans "Site Statistics" %}</h2><br />
+- <a href="/stats/entries/">{% trans "Unique Entries" %}</a><br />
+- <a href="/stats/refs/">{% trans "Last Referers" %}</a><br />
+- <a href="/stats/google/">{% trans "Google Keywords" %}</a><br />
+- <a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a>
 {% endblock %}
 
 

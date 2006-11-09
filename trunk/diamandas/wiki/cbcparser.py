@@ -1,8 +1,6 @@
  # -*- coding: utf-8 -*-
 from re import findall, MULTILINE
-from sys import path
 from os.path import isfile
-path.append('diamandas/wiki/cbcplugins/')
 
 def parse_cbc_tags(text):
 	# lolish basic emots parser

@@ -66,7 +66,8 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 - Task Manager: manage site tasks and helps coordinate users work<br />
 - News: simple news system with keywords<br />
 - Stats: Unique entries and referer stats and charts<br />
-- User Panel: User Profile, users list, sending messages (emails), login and register with Captcha
+- User Panel: User Profile, users list, sending messages (emails), login and register with Captcha<br />
+- Site Statistics (under /stats/ for admins): unique entries, referers, keywords from google
 </blockquote>
 
 <div class="box"><b>NOTE!</b><br />
@@ -78,6 +79,7 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 will install it.<br />
 - <b>pygments</b>: for code highlighting.<br />
 - <b>pyGoogle</b>: optional, if you want to use Google Search API as an extra site search<br />
+- <b>matplotlib</b>: optional for Site Statistics unique entries chart<br />
 - <b>PIL - Python Imaging Library</b>: makes thumbs and Captcha<br /><br />
 
 [rk:h id="2"]Instalation:[/rk:h]
