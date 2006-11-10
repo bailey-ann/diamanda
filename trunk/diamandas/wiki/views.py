@@ -4,9 +4,9 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
-from stripogram import html2safehtml
-from wiki.cbcparser import *
 from django.core import validators
+from wiki.cbcparser import *
+from stripogram import html2safehtml
 
 # Search using LIKE and or google
 def search_pages(request):
@@ -181,26 +181,9 @@ def show_diff(request):
 				else:
 					page_new = Archive.objects.get(id__exact=new)
 			except Page.DoesNotExist:
-				return HttpResponseRedirect('/') # show some error message
-			#from difflib import unified_diff
-			#raw_result = list(unified_diff(page_old.text.split("\n"), page_new.text.split("\n")))
+				return HttpResponseRedirect('/')
 			import diff
 			html_result = diff.textDiff(page_old.text, page_new.text)
-			
-			#html_result = []
-			#for i in raw_result:
-				#if len(i) > 1 and i[0] == '+'  and i[1] != '+':
-					#html_result.append('<div class="diffadd">' + i[1:] + '</div>')
-				#elif len(i) > 1 and i[0] == '-' and i[1] != '-':
-					#html_result.append('<div class="diffdel">' + i[1:] + '</div>')
-				#elif len(i) > 0 and i[0] == '?':
-					#html_result.append('<div class="diffchange">' + i[1:] + '</div>')
-				#elif len(i) > 1 and i[0:2] == '@@':
-					#i = i.replace('@@', '').strip().split(' ')
-					#i = str(i[0]).split(',')
-					#html_result.append('<br /><div class="diffinfo"><b>' + _('Row') + '</b>: ' + str(i[0])[1:] + '</div>')
-				#elif len(i) > 1 and i[0:2] != '++' and i[0:2] != '--':
-					#html_result.append('<div class="diffno">' + i + '</div>')
 			return render_to_response('wiki/' + settings.ENGINE + '/diff.html', {'diffresult': html_result, 'slug': page_new.slug, 'theme': settings.THEME, 'engine': settings.ENGINE})
 		else:
 			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
@@ -283,7 +266,7 @@ def edit_page(request, slug):
 			page_data['slug'] = page.slug
 			page_data['modification_user'] = str(request.user)
 			page_data['modification_ip'] = request.META['REMOTE_ADDR']
-			# encode rk:syntax code so we can stripp HTML etc. 
+			# encode rk:syntax code so we can stripp HTML etc.
 			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
@@ -333,10 +316,11 @@ def edit_page(request, slug):
 	else:
 		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
 
+
 # file like object (for storing cbc tracebacks)
 class AFile(object):
-	__content = '' 
-	def write(self, txt): 
-		self.__content += txt 
-	def read(self): 
-		return self.__content 
+	__content = ''
+	def write(self, txt):
+		self.__content += txt
+	def read(self):
+		return self.__content
