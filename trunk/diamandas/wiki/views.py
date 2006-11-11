@@ -5,7 +5,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import validators
-from wiki.cbcparser import *
+from cbcplugins import cbcparser
 from stripogram import html2safehtml
 
 # Search using LIKE and or google
@@ -217,7 +217,7 @@ def add_page(request, slug=''):
 				for i in tags:
 					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.decodestring(i[1])+'[/rk:syntax]')
 				try:
-					parse_cbc_tags(page_data['text'])
+					cbcparser.parse_cbc_tags(page_data['text'])
 				except:
 					cbcerrors = True
 				
@@ -238,7 +238,7 @@ def add_page(request, slug=''):
 				errors = {}
 				page_data = {'slug': slug}
 			form = forms.FormWrapper(manipulator, page_data, errors)
-			cbcdesc = Cbc.objects.all().order_by('tag')
+			cbcdesc = cbcparser.list_descriptions()
 			return render_to_response('wiki/' + settings.ENGINE + '/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
 		# page exist
 		else:
@@ -276,7 +276,7 @@ def edit_page(request, slug):
 				page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.decodestring(i[1])+'[/rk:syntax]')
 			import sys, traceback
 			try:
-				parse_cbc_tags(page_data['text'])
+				cbcparser.parse_cbc_tags(page_data['text'])
 			except:
 				afile = AFile()
 				traceback.print_exc(file=afile)
@@ -311,7 +311,7 @@ def edit_page(request, slug):
 			#page_data = page.__dict__
 			page_data['changes'] = ''
 		form = forms.FormWrapper(manipulator, page_data, errors)
-		cbcdesc = Cbc.objects.all().order_by('tag')
+		cbcdesc = cbcdesc = cbcparser.list_descriptions()
 		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page

@@ -63,3 +63,7 @@ def render(dic, text):
 	text = text + keys.replace('\\n', '''
 ''')
 	return text
+
+
+def describe():
+	return {'tag':'syntax', 'tag_example':_('[rk:syntax lang="LANG"]CODE[/rk:syntax]'), 'description':_('Will highlight the code using entered in the "lang" attribute scheme - python, xml, html, ruby, perl, lua, cpp, delphi, java, php, makefile, diff, javascript, css, sql.')}

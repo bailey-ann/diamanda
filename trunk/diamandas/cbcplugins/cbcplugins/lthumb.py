@@ -19,3 +19,6 @@ def render(dic, text):
 		text = text.replace(i['tag'], '<div style="text-align:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" rel="lightbox"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
 		text = '<script type="text/javascript" src="/site_media/cbc/lthumb/js/lightbox.js"></script><link rel="stylesheet" href="/site_media/cbc/lthumb/css/lightbox.css" type="text/css" media="screen" />' + text
 	return text
+
+def describe():
+	return {'tag':'lthumb', 'tag_example':_('[rk:lthumb src="image.jpg"] [rk:lthumb src="folder/image.jpg"]'), 'description':_('Will insert a link to a local image using a thumb and lightbox JS widget. The thumb will be created by PIL. Images can be in SITE_IMAGES_DIR_PATH subfolders')}

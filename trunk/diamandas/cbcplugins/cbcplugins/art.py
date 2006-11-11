@@ -16,3 +16,6 @@ def render(dic, text):
 		else:
 			text = text.replace(i['tag'], '<img src="/site_media/wiki/img/1.png" alt="" /> <a href="/wiki/page/' + page.slug + '/">' + page.title + '</a> - ' + page.description + '<br />')
 	return text
+
+def describe():
+	return {'tag':'art', 'tag_example':_('[rk:art slug="SLUG_NAME"]'), 'description':_('Will insert a link to a given page (by the given slug) using it title and description')}

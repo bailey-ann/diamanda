@@ -1,8 +1,22 @@
- # -*- coding: utf-8 -*-
 from re import findall, MULTILINE
 from os.path import isfile
+from os import listdir
+
+def list_descriptions():
+	plugins = listdir('diamandas/cbcplugins/cbcplugins')
+	plug = {}
+	for p in plugins:
+		plug[p.split('.')[0]] = True
+	plugins = plug.keys()
+	descriptions = []
+	for plugin in plugins:
+		if plugin.isalpha():
+			exec 'from ' + plugin + ' import *'
+			descriptions.append(describe())
+	return descriptions
 
 def parse_cbc_tags(text):
+	list_descriptions()
 	# lolish basic emots parser
 	text = text.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" />')
 	text = text.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" />')
@@ -39,7 +53,7 @@ def parse_cbc_tags(text):
 		parsed_double[k].append(vals)
 	
 	for plugin in parsed_double:
-		if isfile('diamandas/wiki/cbcplugins/' + plugin + '.py'):
+		if isfile('diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
 			exec 'from ' + plugin + ' import *'
 			text = render(parsed_double[plugin], text)
 			
@@ -75,7 +89,7 @@ def parse_cbc_tags(text):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		if isfile('diamandas/wiki/cbcplugins/' + plugin + '.py'):
+		if isfile('diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
 			exec 'from ' + plugin + ' import *'
 			text = render(parsed[plugin], text)
 	return text

@@ -14,3 +14,6 @@ def render(dic, text):
 		text = text.replace(i['tag'], tree)
 		del topics
 	return text
+
+def describe():
+	return {'tag':'topics', 'tag_example':_('[rk:topics forum="Forum_id"]'), 'description':_('Will insert a list of 10 latest active topics from selected forum or from all forums if "forum attribute is set to 0.')}
