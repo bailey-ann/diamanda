@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Tasks\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"POT-Creation-Date: 2006-11-12 15:39+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -163,8 +162,9 @@ msgstr "Dozwolone tagi HTML"
 msgid ""
 "This Page lists all tasks and edit proposals. You can post comments and help "
 "solving issues."
-msgstr "Ta strona prezentuje wszystkie zadania i propozycje zmian. Możesz pomóc "
-"w ich rozwiązywaniu."
+msgstr ""
+"Ta strona prezentuje wszystkie zadania i propozycje zmian. Możesz pomóc w "
+"ich rozwiązywaniu."
 
 #: templates/tasks/punbb/task_list.html:17
 msgid "Last Update"
@@ -209,7 +209,9 @@ msgstr "Brak Propozycji Zmian"
 
 #: templates/tasks/punbb/task_show.html:8
 msgid "This page describes a site task. You can post comments regarding it."
-msgstr "Ta strona opisuje Zadanie. Możesz pomóc je rozwiązać lub też dodać swój komentarz."
+msgstr ""
+"Ta strona opisuje Zadanie. Możesz pomóc je rozwiązać lub też dodać swój "
+"komentarz."
 
 #: templates/tasks/punbb/task_show.html:21
 msgid "Task Info"

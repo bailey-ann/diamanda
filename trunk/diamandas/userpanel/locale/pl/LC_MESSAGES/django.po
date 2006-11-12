@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: userpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"POT-Creation-Date: 2006-11-12 15:39+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -79,7 +79,9 @@ msgstr "- Twoje zmiany będą od razu widoczne na stronie"
 
 #: templates/userpanel/punbb/panel.html:12
 msgid "- You can't set pages as current"
-msgstr "- Wprowadzone przez ciebie zmiany pojawią się na stronie po zatwierdzeniu przez administratora"
+msgstr ""
+"- Wprowadzone przez ciebie zmiany pojawią się na stronie po zatwierdzeniu "
+"przez administratora"
 
 #: templates/userpanel/punbb/panel.html:15
 msgid "- You can add pages"

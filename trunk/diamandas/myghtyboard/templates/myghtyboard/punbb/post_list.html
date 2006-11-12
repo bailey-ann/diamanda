@@ -1,38 +1,34 @@
 {% load i18n %}
 {% load fbc %}
 {% extends "myghtyboard/punbb/body.html" %}
-{% block title %}{% trans "Posts from" %} {{ forum_name }}/{{ topic }}{% endblock %}
-{% block content %}
+{% block title %}{{ forum_name }}/{{ topic }}{% endblock %}
+{% block header %}{{ forum_name }}/{{ topic }}{% endblock %}
 
-<div class="box"><div class="linkst">
-	
-			<div style="text-align:center;">
-			{% ifnotequal pages 0 %}
+{% block leftmenu %}{% ifnotequal pages 0 %}
 			{% ifnotequal pages 1 %}
-			<a href="/forum/topic/1/{{ topic_id }}/"><b>{% trans "First Page" %}</b></a> | 
+			<a href="/forum/topic/1/{{ topic_id }}/">{% trans "First Page" %}</a> | 
 			{% endifnotequal %}
 			{% endifnotequal %}
 			
 			{% if has_previous %}
-				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %} </b></a>
+				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/">{% trans "Previous Page" %} </a>
 			{% endif %}
 			
 			{% if has_next %}
-			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b> {% trans "Next Page" %}</b></a>
+			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"> {% trans "Next Page" %}</a>
 			{% endif %}
 			
 			{% ifnotequal pages 0 %}
 			{% ifnotequal pages 1 %}
-			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/"><b>{% trans "Last Page" %}</b></a>
+			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/">{% trans "Last Page" %}</a>
 			{% endifnotequal %}
 			{% endifnotequal %}
-			</div>
-		</p>
-		
-	{% if opened %}
-	<a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a>
+			{% if opened %}
+	 | <a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a>
 	{% endif %}
-</div></div><br />
+{% endblock %}
+
+{% block content %}
 
 	{% for i in object_list %}
 	<div class="blockpost rowodd firstpost">

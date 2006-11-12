@@ -8,10 +8,14 @@
 {% endif %}
  | <a onclick="window.print();">{% trans "Print Page" %}</a>
 {% endblock %}
+
 {% block header %}
 {{ page.title }}
+{% endblock %}
+
+{% block descript %}
 {% if page.description %}
- - {{ page.description }}
+{{ page.description }}
 {% endif %}
 {% endblock %}
 

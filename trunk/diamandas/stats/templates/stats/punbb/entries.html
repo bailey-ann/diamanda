@@ -4,7 +4,7 @@
 
 {% if img_path %}
 <div style="text-align:center; font-weight:bold;"><img src="{{ img_path }}uniqueentries.png" alt="" /><br />
-{% trans "Red Line shows number of entries per day. Blue Line shows linie trendu" %}</div><br /><br /><br /><br />
+{% trans "Red Line shows number of entries per day. Blue Line shows linear regresion of entries" %}</div><br /><br /><br /><br />
 {% else %}
 	{% for i in results %}
 	- <b>{{ i.day }}</b>: {{ i.count }}<br />

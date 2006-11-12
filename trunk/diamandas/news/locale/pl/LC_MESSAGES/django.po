@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: News\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"POT-Creation-Date: 2006-11-12 15:36+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -16,72 +15,76 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:4
+#: models.py:6
 msgid "Keyword Name"
 msgstr "Nazwa Słowa Kluczowego"
 
-#: models.py:6
+#: models.py:8
 msgid "Keyword"
 msgstr "Słowo Kluczowe"
 
-#: models.py:7 models.py:18
+#: models.py:9 models.py:26
 msgid "Keywords"
 msgstr "Słowa Kluczowe"
 
-#: models.py:14
+#: models.py:22
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:15
+#: models.py:23
 msgid "Text"
 msgstr "Tekst"
 
-#: models.py:16 models.py:31
+#: models.py:24 models.py:40
 msgid "Extended Text"
 msgstr "Rozszerzony Tekst"
 
-#: models.py:20 models.py:21
+#: models.py:27
+msgid "Icon"
+msgstr "Ikona"
+
+#: models.py:29 models.py:30
 msgid "News"
 msgstr "Wiadomość"
 
-#: templates/news/punbb/news_list.html:10
+#: templates/news/punbb/news_list.html:14
 #: templates/news/punbb/news_show.html:10
-#: templates/news/punbb/knews_list.html:10
+#: templates/news/punbb/knews_list.html:15
 msgid "Added"
 msgstr "Dodany"
 
-#: templates/news/punbb/news_list.html:10
-#: templates/news/punbb/knews_list.html:10
+#: templates/news/punbb/news_list.html:14
+#: templates/news/punbb/knews_list.html:15
 msgid "Read More"
 msgstr "Czytaj Dalej"
 
-#: templates/news/punbb/news_list.html:14
-#: templates/news/punbb/knews_list.html:14
+#: templates/news/punbb/news_list.html:18
+#: templates/news/punbb/knews_list.html:19
 msgid "Previous News"
 msgstr "Poprzednie Wiadomości"
 
-#: templates/news/punbb/news_list.html:17
-#: templates/news/punbb/knews_list.html:17
+#: templates/news/punbb/news_list.html:21
+#: templates/news/punbb/knews_list.html:22
 msgid "Older News"
 msgstr "Starsze Wiadomości"
 
-#: templates/news/punbb/news_list.html:21
+#: templates/news/punbb/news_list.html:25
 #: templates/news/punbb/news_show.html:12
-#: templates/news/punbb/knews_list.html:21
+#: templates/news/punbb/knews_list.html:26
 msgid "No news"
 msgstr "Brak Wiadomości"
 
-#: templates/news/punbb/news_list.html:28
+#: templates/news/punbb/news_list.html:32
 #: templates/news/punbb/news_show.html:18
 #: templates/news/punbb/keywords_list.html:29
-#: templates/news/punbb/knews_list.html:28
+#: templates/news/punbb/knews_list.html:33
 msgid "News Main Page"
 msgstr "Strona Główna Wiadomości"
 
-#: templates/news/punbb/news_list.html:28
+#: templates/news/punbb/news_list.html:32
 #: templates/news/punbb/news_show.html:18
 #: templates/news/punbb/keywords_list.html:29
-#: templates/news/punbb/knews_list.html:28
+#: templates/news/punbb/knews_list.html:33
 msgid "News Keywords"
 msgstr "Słowa Kluczowe"
 
@@ -91,7 +94,9 @@ msgstr "Lista słów kluczowych wykorzystywanych przez wiadomości"
 
 #: templates/news/punbb/keywords_list.html:7
 msgid "Click on a keyword URL to see news for that keyword"
-msgstr "Kliknij na odnośnik słowa kluczowego by zobaczyć listę wiadomości używających go"
+msgstr ""
+"Kliknij na odnośnik słowa kluczowego by zobaczyć listę wiadomości "
+"używających go"
 
 #: templates/news/punbb/keywords_list.html:15
 msgid "Previous"

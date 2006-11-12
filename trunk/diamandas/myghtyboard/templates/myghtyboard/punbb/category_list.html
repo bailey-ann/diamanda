@@ -1,13 +1,12 @@
 {% load i18n %}
 {% extends "myghtyboard/punbb/body.html" %}
 
+
+{% block leftmenu %}{% if perms.is_authenticated %}
+<a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a> | <a href="/forum/mytopics/">{% trans "My Topics" %}</a> | <a href="/forum/myptopics/">{% trans "My Posts" %}</a>
+{% endif %}{% endblock %}
+
 {% block content %}
-{% if perms.is_authenticated %}
-<div class="box"><p style="text-align:right;">
-	<a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a> | <a href="/forum/mytopics/">{% trans "My Topics" %}</a> | <a href="/forum/myptopics/">{% trans "My Posts" %}</a>
-</p></div>
-{% endif %}
-<br />
 {% for cat in categories %}
 <div class="blocktable">
 	<h2><span>{{ cat.cat_name }}</span></h2>

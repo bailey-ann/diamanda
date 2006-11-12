@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Diamanda Wiki\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 20:58+0000\n"
+"POT-Creation-Date: 2006-11-12 15:52+0000\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,61 +15,49 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:6
-msgid "Tag Name"
-msgstr "Nazwa Taga"
-
-#: models.py:6
-msgid "The name of the ContentBBCode Tag ([rk:TAGNAME ****])"
-msgstr "Nazwa taga CBC ([rk:NAZWA ****]) "
-
-#: models.py:7
-msgid "Example Tag"
-msgstr "Przykład"
-
-#: models.py:7
-msgid "An example tag construct"
-msgstr "Przykładowa konstrukcja taga"
-
-#: models.py:8
-msgid "Tag Description"
-msgstr "Opis"
-
-#: models.py:8
-msgid "What this CBC does and how to use it"
-msgstr "Co ten tag CBC robi i jak go używać"
-
-#: models.py:13
-msgid "Wiki CBC Description"
-msgstr "Opis Tagów CBC"
-
-#: models.py:14
-msgid "Wiki CBC Descriptions"
-msgstr "Opisy Tagów CBC"
-
-#: models.py:31
+#: models.py:17
 msgid "WikiPage"
 msgstr "WikiStrona"
 
-#: models.py:32
+#: models.py:18
 msgid "WikiPages"
 msgstr "WikiStrony"
 
-#: models.py:51
+#: models.py:37
 msgid "WikiPage Archive"
 msgstr "Archiwum"
 
-#: models.py:52
+#: models.py:38
 msgid "WikiPages Archive"
 msgstr "Archiwa"
 
-#: views.py:166
+#: views.py:159
 msgid "Restored version "
 msgstr "Przywrócona wersja "
 
-#: views.py:166
+#: views.py:159
 msgid " from Archive. ("
 msgstr "z Archiwum. ("
+
+#: templates/404.html:8
+msgid "404 - Page Not Found!"
+msgstr "404 - Brak Strony!"
+
+#: templates/404.html:9
+msgid ""
+"The page you have requested does not exist. <a href='/'>Check the main page "
+"for changes</a>"
+msgstr "Strona nie istnieje. <a href=\"/\">Sprawdź główną stronę i umieszczone na niej odnośniki</a>"
+
+#: templates/500.html:8
+msgid "500 - Server Error!"
+msgstr "500 - Błąd Serwera!"
+
+#: templates/500.html:9
+msgid ""
+"A Bug have ocurred in django application. Site Admin have been emailed with "
+"full bug informations"
+msgstr "Wystąpił błąd w aplikacji django. Pełen raport został wysłany adminowi."
 
 #: templates/wiki/punbb/add.html:5
 msgid "Here you can add a new page to the wiki."
@@ -143,10 +131,6 @@ msgstr "Dozwolone tagi HTML"
 msgid "ContentBBCode List"
 msgstr "Lista tagów ContentBBCode"
 
-#: templates/wiki/punbb/body.html:1
-msgid "Site Links"
-msgstr "Odnośniki"
-
 #: templates/wiki/punbb/body.html:1 templates/wiki/punbb/edit.html:5
 msgid "Main Page"
 msgstr "Strona Główna"
@@ -174,10 +158,6 @@ msgstr "Moje Konto"
 #: templates/wiki/punbb/body.html:1
 msgid "Admin"
 msgstr "Admin"
-
-#: templates/wiki/punbb/body.html:1
-msgid "Action Links"
-msgstr "Akcje"
 
 #: templates/wiki/punbb/body.html:1
 msgid "Wiki"
@@ -225,17 +205,17 @@ msgstr "sitemap.xml"
 msgid "Permission Denied"
 msgstr "Brak Uprawnień"
 
-#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/oldPage.html:25 templates/wiki/punbb/page.html:25
 #: templates/wiki/punbb/pdfpage.html:16
 msgid "Page Added"
 msgstr "Strona Dodana"
 
-#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/oldPage.html:25 templates/wiki/punbb/page.html:25
 #: templates/wiki/punbb/pdfpage.html:16
 msgid "Page Last Modification"
 msgstr "Ostatnia Modyfikacja"
 
-#: templates/wiki/punbb/oldPage.html:16 templates/wiki/punbb/page.html:21
+#: templates/wiki/punbb/oldPage.html:25 templates/wiki/punbb/page.html:25
 #: templates/wiki/punbb/pdfpage.html:16
 msgid "Changes"
 msgstr "Zmiany"
@@ -287,6 +267,36 @@ msgstr "Szukaj z pomocą Google"
 #: templates/wiki/punbb/search.html:24
 msgid "Enter a word or a phrase to search"
 msgstr "Podaj słowo lub frazę do wyszukania"
+
+#~ msgid "Tag Name"
+#~ msgstr "Nazwa Taga"
+
+#~ msgid "The name of the ContentBBCode Tag ([rk:TAGNAME ****])"
+#~ msgstr "Nazwa taga CBC ([rk:NAZWA ****]) "
+
+#~ msgid "Example Tag"
+#~ msgstr "Przykład"
+
+#~ msgid "An example tag construct"
+#~ msgstr "Przykładowa konstrukcja taga"
+
+#~ msgid "Tag Description"
+#~ msgstr "Opis"
+
+#~ msgid "What this CBC does and how to use it"
+#~ msgstr "Co ten tag CBC robi i jak go używać"
+
+#~ msgid "Wiki CBC Description"
+#~ msgstr "Opis Tagów CBC"
+
+#~ msgid "Wiki CBC Descriptions"
+#~ msgstr "Opisy Tagów CBC"
+
+#~ msgid "Site Links"
+#~ msgstr "Odnośniki"
+
+#~ msgid "Action Links"
+#~ msgstr "Akcje"
 
 #~ msgid "Ban Type"
 #~ msgstr "Typ Bana"

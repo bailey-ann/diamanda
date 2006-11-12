@@ -12,8 +12,11 @@
 
 {% block header %}
 {{ page.title }}
+{% endblock %}
+
+{% block descript %}
 {% if page.description %}
- - {{ page.description }}
+{{ page.description }}
 {% endif %}
 {% endblock %}
 

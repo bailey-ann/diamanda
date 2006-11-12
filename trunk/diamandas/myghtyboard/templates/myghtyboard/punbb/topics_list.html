@@ -2,9 +2,11 @@
 {% extends "myghtyboard/punbb/body.html" %}
 
 {% block title %}{% trans "Topics from" %} {{ forum_name }}{% endblock %}
+{% block header %}{% trans "Topics from" %} {{ forum_name }}{% endblock %}
+
+{% block leftmenu %}<a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a>{% endblock %}
 
 {% block content %}
-<div class="box"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></div><br />
 <div class="blocktable">
 	<h2><span><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a></span></h2>
 	<div class="box">

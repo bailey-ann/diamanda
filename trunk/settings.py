@@ -56,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'stats.statsMiddleware.statsMiddleware',
+    #'banMiddleware.banMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -88,7 +89,7 @@ INSTALLED_APPS = (
 )
 
 ENGINE='punbb' # engine - see media/themes for list
-THEME='sibirsky' # theme for current engine - see /media/themes/punbb for punBB based themes
+THEME='oxygen' # theme for current engine - see /media/themes/punbb for punBB based themes
 
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'
