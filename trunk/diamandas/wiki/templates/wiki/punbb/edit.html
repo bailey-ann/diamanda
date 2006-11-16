@@ -9,6 +9,7 @@
 
 {% if cbcerrors %}
 <h2>{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+<pre>{{ cbcerrors }}</pre>
 {% endif %}</div><br />
 <form method="post" action=".">
 <div class="blocktable">
@@ -24,18 +25,6 @@
 						
 						<div class="tclcon">
 							{{ form.title }}{% if form.title.errors %}<br />*** {{ form.title.errors|join:", " }}{% endif %}
-						</div>
-					</div>
-				</td>
-				
-			</tr>
-			<tr>
-				<td class="tc3">{% trans "Slug" %}</td>
-				<td class="tcl">
-					<div class="intd">
-						
-						<div class="tclcon">
-							{{ form.slug }}{% if form.slug.errors %}<br />*** {{ form.slug.errors|join:", " }}{% endif %}
 						</div>
 					</div>
 				</td>

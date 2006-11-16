@@ -5,6 +5,7 @@
 {% trans "Here you can add a new page to the wiki." %}<br />
 {% if cbcerrors %}
 <h2>{% trans "CBC Tags Error Detected! Fix it!" %}</h2><br />
+<pre>{{ cbcerrors }}</pre>
 {% endif %}</div><br />
 <form method="post" action=".">
 <div class="blocktable">

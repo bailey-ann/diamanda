@@ -16,8 +16,8 @@ def render(dic, text):
 				im = Image.open(settings.SITE_IMAGES_DIR_PATH+i['attributes']['src'])
 				im.thumbnail((120, 120))
 				im.save(settings.SITE_IMAGES_DIR_PATH+thumb)
-		text = text.replace(i['tag'], '<div style="text-align:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" rel="lightbox"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
-		text = '<script type="text/javascript" src="/site_media/cbc/lthumb/js/lightbox.js"></script><link rel="stylesheet" href="/site_media/cbc/lthumb/css/lightbox.css" type="text/css" media="screen" />' + text
+			text = text.replace(i['tag'], '<div style="text-align:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" rel="lightbox"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
+			text = '<script type="text/javascript" src="/site_media/cbc/lthumb/js/lightbox.js"></script><link rel="stylesheet" href="/site_media/cbc/lthumb/css/lightbox.css" type="text/css" media="screen" />' + text
 	return text
 
 def describe():
