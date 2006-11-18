@@ -44,16 +44,19 @@ def category_list(request):
 
 # list of topics in a forum
 def topic_list(request, forum_id):
-	topics = Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1'))
-	for i in topics:
-		pmax =  i.post_set.all().count()/10
-		pmaxten =  i.post_set.all().count()%10
-		if pmaxten != 0:
-			i.pagination_max = pmax+1
-		else:
-			i.pagination_max = pmax
-	forum_name = Forum.objects.get(id=forum_id)
-	forum_name = forum_name.forum_name
+	try:
+		topics = Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1'))
+		for i in topics:
+			pmax =  i.post_set.all().count()/10
+			pmaxten =  i.post_set.all().count()%10
+			if pmaxten != 0:
+				i.pagination_max = pmax+1
+			else:
+				i.pagination_max = pmax
+		forum_name = Forum.objects.get(id=forum_id)
+		forum_name = forum_name.forum_name
+	except:
+		return HttpResponseRedirect('/forum/')
 	return render_to_response('myghtyboard/' + settings.ENGINE + '/topics_list.html', {'topics': topics, 'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name, 'site_name':settings.SITE_NAME})
 
 
@@ -122,7 +125,10 @@ def my_posttopic_list(request, show_user=False):
 # list post in topic with a generic pagination view :)
 def post_list(request, topic_id, pagination_id):
 	from django.views.generic.list_detail import object_list
-	topic = Topic.objects.get(id=topic_id)
+	try:
+		topic = Topic.objects.get(id=topic_id)
+	except Topic.DoesNotExist:
+		return HttpResponseRedirect('/forum/')
 	if  topic.is_locked:
 		opened = False
 	else:
