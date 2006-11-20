@@ -1,1 +1,2 @@
-{{ obj.description }}
+{% load cbc %}
+{{ obj.text|cbc|truncatewords:"100" }}

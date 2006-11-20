@@ -6,8 +6,6 @@ class LatestNews(Feed):
 	title = settings.SITE_NAME
 	link = settings.SITE_NEWS_LINK 
 	description = settings.SITE_DESCRIPTION
-	def item_link(self):
-		return ''
 	def items(self):
 		return News.objects.order_by('-id')[:10]
 
@@ -19,7 +17,5 @@ class LatestNewsByKeyword(Feed):
 	title = settings.SITE_NAME
 	link = settings.SITE_NEWS_LINK
 	description = settings.SITE_DESCRIPTION
-	def item_link(self):
-		return ''
 	def items(self, obj):
 		return Keywords.objects.get(id=obj).news_set.all().order_by('-id')[:10]

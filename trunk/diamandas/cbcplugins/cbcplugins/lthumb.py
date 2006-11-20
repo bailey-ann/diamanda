@@ -8,7 +8,6 @@ def render(dic, text):
 				img = i['attributes']['src'].split('/')
 				thumb = 'thumb_' + img[-1]
 				thumb = img[0] + '/thumb_' + img[-1]
-				print thumb
 			else:
 				thumb = 'thumb_' + i['attributes']['src']
 			if not isfile(settings.SITE_IMAGES_DIR_PATH+thumb):

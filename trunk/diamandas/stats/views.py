@@ -54,7 +54,7 @@ def entries(request):
 def referers(request):
 	if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
 		sitename = Site.objects.get(id=settings.SITE_ID)
-		refs = Stat.objects.order_by('-id').exclude(referer__icontains=sitename).exclude(referer__icontains='google').exclude(referer__icontains='msn.com').exclude(referer__icontains='onet.pl').exclude(referer__icontains='netsprint.pl').values('referer')[:100]
+		refs = Stat.objects.order_by('-id').exclude(referer__icontains=sitename).exclude(referer__icontains='google').exclude(referer__icontains='msn.com').exclude(referer__icontains='onet.pl').exclude(referer__icontains='netsprint.pl').filter(referer__icontains='http://').values('referer')[:100]
 		return render_to_response('stats/' + settings.ENGINE + '/refs.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': refs})
 	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
 

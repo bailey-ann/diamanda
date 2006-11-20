@@ -41,6 +41,8 @@ class News(models.Model):
 		'classes': 'collapse',
 		'fields' : ('news_more',)
 		}),)
+	def get_absolute_url(self):
+		return '/news/more/' + str(self.id) + '/'
 	def __str__(self):
 		return self.news_title
 
