@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 25.10.2006
+Diamanda Wiki SVN 21.11.2006
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
@@ -14,6 +14,7 @@ Requirements:
 OPTIONAL:
 - pyGoogle if you want google search in your wiki
 - htmldoc (not python) if you want PDF generation from wiki pages
+- matplotlib - for stats chart creation
 
 Instalation / Developement server:
 - edit urls.py and change the site_media path '/home/piotr/diamanda/media' to that on your computer:
@@ -71,14 +72,8 @@ MYGHTYBOARD_LANG='english' # language name for i18n graphics (theme must have im
 SITE_IMAGES_DIR_PATH = '/home/piotr/diamanda/media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
 
-# Other
-USE_BANS = False # use WIkiBans to prevent baned from add/edit actions
-----------
-- RSS settings are used when generating RSS Feeds
-- Anonymous Permissions: True/False
-- USE_BANS - if True the Wiki Ban module (see Admin Panel) will be used to Ban users from add/edit actions (add, edit, restore actions will be disabled for baned users)
 
-
+CHECK settings.py for current extra settings "list"
 
 Logged in users - Permissions
 ############################
@@ -100,22 +95,6 @@ RSS Feeds
 http://localhost:8080/wiki/feeds/latestpages/ - latest pages
 
 
-Wiki Markup
-################################
-Wiki uses safe HTML as a markup :) and some helpers. There are tree CSS styles for creating "boxes":
-<div class="note">text here</div>
-<div class="notice">text here</div>
-<div class="box">text here</div>
-Screenshot: http://www.fotosik.pl/showFullSize.php?id=37327c455862e363
-
-
 ContentBBCode
 ###############################
 Wiki CBC Descriptions module in the Admin Panel is designed to keep descriptions of all CBC plugins you have.
-
-
-TODO
-########################
-- Files/Images upload/handling on wikiPages - ideas welcomed
-- More CBC
-- Polishing the CBC system
