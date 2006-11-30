@@ -177,12 +177,11 @@ def send_pmessage(request, target_user):
 ##############################
 def edit_profile(request):
 	if request.user.is_authenticated():
-		try:
-			manipulator = Profile.ChangeManipulator(request.user.id)
+			p = Profile.objects.get(username=request.user)
 		except:
 			p = Profile(username=request.user)
 			p.save()
-			manipulator = Profile.ChangeManipulator(request.user.id)
+		manipulator = Profile.ChangeManipulator(p.id)
 		data = manipulator.flatten_data()
 		if request.POST:
 			data = request.POST.copy()

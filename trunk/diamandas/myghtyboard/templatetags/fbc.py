@@ -25,6 +25,8 @@ def fbc(value): # Only one argument.
 	value = value.replace('[/u]', '</u>')
 	value = value.replace('[quote]', '<blockquote>')
 	value = value.replace('[/quote]', '</blockquote>')
+	value = value.replace('[QUOTE]', '<blockquote>')
+	value = value.replace('[/QUOTE]', '</blockquote>')
 	
 	value = value.replace('\n', '<br />')
 	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value, MULTILINE)
@@ -36,6 +38,11 @@ def fbc(value): # Only one argument.
 	for i in tags:
 		if len(i) == 2:
 			value = value.replace('[url='+ i[0] +']'+i[1]+'[/url]', '<a href="' + i[0] +'" target="_blank">' + i[1] +'</a>')
+	del tags
+	tags = findall( r'\[URL=(.*?)\](.*?)\[/URL\]', value)
+	for i in tags:
+		if len(i) == 2:
+			value = value.replace('[URL='+ i[0] +']'+i[1]+'[/URL]', '<a href="' + i[0] +'" target="_blank">' + i[1] +'</a>')
 	del tags
 	tags = findall( r'\[url\](.*?)\[/url\]', value)
 	for i in tags:
