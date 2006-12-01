@@ -11,12 +11,12 @@ from django.contrib.auth.models import User, Group
 def user_panel(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/user/login/")
-	return render_to_response('userpanel/' + settings.ENGINE + '/panel.html', {'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page'), 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+	return render_to_response('userpanel/' + settings.ENGINE + '/panel.html', {'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
 
 # list of users
 def userlist(request):
 	users = User.objects.all()
-	return render_to_response('userpanel/' + settings.ENGINE + '/userlist.html', {'users': users, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+	return render_to_response('userpanel/' + settings.ENGINE + '/userlist.html', {'users': users, 'theme': settings.THEME, 'engine': settings.ENGINE})
 ##################################
 # Register a user and add it to default user group
 ##################################
@@ -67,7 +67,7 @@ def register(request):
 			except Exception:
 				data['imgtext'] = ''
 				form = forms.FormWrapper(manipulator, data, errors)
-				return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+				return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -78,11 +78,11 @@ def register(request):
 		else:
 			data['imgtext'] = ''
 			form = forms.FormWrapper(manipulator, data, errors)
-			return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'hash': imghash, 'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+			return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
-	return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'hash': imghash, 'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+	return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 
 ##############################################
 # Login / logout user
@@ -128,12 +128,12 @@ def loginlogout(request):
 				else:
 					data['imgtext'] = ''
 					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+					return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 		# no post data, show the login forum
 		else:
 			errors = data = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+		return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		# user authenticated
 		if request.GET:
@@ -168,7 +168,7 @@ def send_pmessage(request, target_user):
 		else:
 			errors = new_data = {}
 		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/pmessage.html', {'form': form, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+		return render_to_response('userpanel/' + settings.ENGINE + '/pmessage.html', {'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		return HttpResponseRedirect("/user/")
 
@@ -177,6 +177,7 @@ def send_pmessage(request, target_user):
 ##############################
 def edit_profile(request):
 	if request.user.is_authenticated():
+		try:
 			p = Profile.objects.get(username=request.user)
 		except:
 			p = Profile(username=request.user)
@@ -198,7 +199,7 @@ def edit_profile(request):
 		else:
 			errors = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/profile.html', {'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}, 'form': form})
+		return render_to_response('userpanel/' + settings.ENGINE + '/profile.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'form': form})
 	else:
 		return HttpResponseRedirect("/user/login/")
 
@@ -209,6 +210,6 @@ def show_profile(request, show_user):
 			profile = Profile.objects.get(username=User.objects.get(username=show_user))
 		except:
 			return render_to_response('userpanel/' + settings.ENGINE + '/noperm.html', {'why': _('No such profile'), 'theme': settings.THEME, 'engine': settings.ENGINE})
-		return render_to_response('userpanel/' + settings.ENGINE + '/show_profile.html', {'profile': profile, 'perms': {'theme': settings.THEME, 'engine': settings.ENGINE}})
+		return render_to_response('userpanel/' + settings.ENGINE + '/show_profile.html', {'profile': profile, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		return HttpResponseRedirect("/user/")
