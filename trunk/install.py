@@ -114,36 +114,6 @@ tags system (CBC for short). A CBC plugin can be a JS widget wrapper or perform 
 ''', changes='Page Creation', creation_date='2006-09-04 15:42:46', modification_date='2006-09-04 15:42:46', modification_user='piotr', modification_ip='666.69.69.69')
 p.save()
 
-Category.objects.all().delete()
-mc = Category(cat_name='First Category', cat_order='0')
-mc.save()
-mc = Category(cat_name='Second Category', cat_order='1')
-mc.save()
-
-Forum.objects.all().delete()
-mf = Forum(forum_category = Category.objects.get(id=1), forum_name = 'First Forum', forum_description ='A Forum', forum_order='0', forum_posts='4', forum_lastpost = 'piotr<br />2006-09-04 15:56:29<br /><a href="/forum/topic/1/2/">Frugalware Topic</a>')
-mf.save()
-mf = Forum(forum_category = Category.objects.get(id=1), forum_name = 'Second Forum', forum_description ='A description', forum_order='1')
-mf.save()
-mf = Forum(forum_category = Category.objects.get(id=2), forum_name = 'Bla bla bla', forum_description ='Extra Forum', forum_order='0')
-mf.save()
-
-Topic.objects.all().delete()
-mt = Topic(topic_forum = Forum.objects.get(id=1), topic_name = 'A Test Topic', topic_author = 'piotr', topic_posts = '2', topic_lastpost = 'piotr<br />2006-09-04 15:55:11', topic_modification_date = '2006-09-04 15:55:11')
-mt.save()
-mt = Topic(topic_forum = Forum.objects.get(id=1), topic_name = 'Frugalware Topic', topic_author = 'piotr', topic_posts = '2', topic_lastpost = 'piotr<br />2006-09-04 15:56:29', topic_modification_date = '2006-09-04 15:56:29')
-mt.save()
-
-Post.objects.all().delete()
-mp = Post(post_topic = Topic.objects.get(id=1), post_text = 'This is a test topic\r\n\r\n:twisted::grin:', post_author = 'piotr', post_date = '2006-09-04 15:55:00', post_ip = '127.0.0.1')
-mp.save()
-mp = Post(post_topic = Topic.objects.get(id=1), post_text = 'and a test reply', post_author = 'piotr', post_date = '2006-09-04 15:55:11', post_ip = '1.2.3.4')
-mp.save()
-mp = Post(post_topic = Topic.objects.get(id=2), post_text = 'Miklos Vajna has announced the second release candidate of Frugalware Linux 0.5, the last development build before the stable release, expected at the end of September: "The Frugalware Developer Team is pleased to announce the immediate availability of Frugalware 0.5rc2, the second release candidate of the upcoming 0.5 stable release. A short and incomplete list of changes since 0.5rc1: updated GNOME to 2.16 Release Candidate (2.15.92); ~300 bugfixes; updated KDE and GRUB artwork; more than 30 new packages: ntfs-3g, avifile, gnome-sharp and many more!" Here is the brief release announcement. Download (SHA1): frugalware-0.5rc2-i686-dvd1.iso (4,264MB).', post_author = 'piotr', post_date = '2006-09-04 15:56:12', post_ip = '1.2.3.4')
-mp.save()
-mp = Post(post_topic = Topic.objects.get(id=2), post_text = '<blockquote><b>piotr wrote:</b><br /><cite>Mikos Vajna has announced the second release candidate of Frugalware Linux 0.5, the last development build before the stable release, expected at the end of September: "The Frugalware Developer Team is pleased to announce the immediate availability of Frugalware 0.5rc2, the second release candidate of the upcoming 0.5 stable release. A short and incomplete list of changes since 0.5rc1: updated GNOME to 2.16 Release Candidate (2.15.92); ~300 bugfixes; updated KDE and GRUB artwork; more than 30 new packages: ntfs-3g, avifile, gnome-sharp and many more!" Here is the brief release announcement. Download (SHA1): frugalware-0.5rc2-i686-dvd1.iso (4,264MB).</cite></blockquote>\r\nTollef Fog Heen has announced the second alpha release (also known as "Knot") of Ubuntu 6.10, code name "Edgy Eft": "Welcome to Edgy Eft Knot 2, which will in time become Ubuntu 6.10. The primary changes from Knot 1 have been implementations of feature goals as listed on this page. Common to all variants, we have upgraded X.Org to the 7.1 release. In Ubuntu, GNOME has been updated to 2.16.0 Release Candidate 1. Other notable changes are listed here. KDE has been updated to 3.5.4. Other notable Kubuntu changes are listed here." Read the full release announcement for further information and a list of up-to-date download mirrors. As always, the full range of live and installation CDs for various architectures is available for download from the project''s main server; here is a quick link to the i386 Desktop CD: edgy-desktop-i386.iso (666MB, MD5). Kubuntu 6.10 Knot 2 CDs have also been released.', post_author = 'piotr', post_date = '2006-09-04 15:56:29', post_ip = '1.2.3.4')
-mp.save()
-
 from django.contrib.auth.models import Group, Permission
 Group.objects.all().delete()
 g = Group(name='users')
