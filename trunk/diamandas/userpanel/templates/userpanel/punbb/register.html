@@ -43,7 +43,7 @@
 	<tr>
 		<td><b>{% trans "Text from the image" %}</b><br />{% trans "(Use CAPITAL letters)" %}</td>
 		<td><div style="text-align:center;">{{ form.imgtext }}
-    {% if form.imgtext.errors %}<br />*** {{ form.imgtext.errors|join:", " }}{% endif %}<br /><img src="/site_media/bg2.jpg" alt=""></div></td>
+    {% if form.imgtext.errors %}<br />*** {{ form.imgtext.errors|join:", " }}{% endif %}<br /><img src="/site_media/images/{{ temp }}" alt=""></div></td>
 	</tr></table>
 
 </tbody>

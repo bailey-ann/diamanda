@@ -9,6 +9,19 @@ from cbcplugins import cbcparser
 from stripogram import html2safehtml
 
 # Search using LIKE and or google
+##lupy
+	#from lupy.indexer import Index
+	#index = Index('foobar', create=False)
+	
+	##pages = Page.objects.all()
+	##for p in pages:
+		##index.index(text=p.text, __title=p.title, _slug=p.slug)
+	
+	##index.optimize()
+	
+	#hits = index.find('python')
+	#for h in hits:
+		#print 'Found in', h.get('slug')
 def search_pages(request):
 	if settings.WIKI_GOOGLE_SEARCH_API:
 		google = True
@@ -315,7 +328,6 @@ def edit_page(request, slug):
 		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
 		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
-
 
 # file like object (for storing cbc tracebacks)
 class AFile(object):

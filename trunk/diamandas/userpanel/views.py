@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from stripogram import html2safehtml
 from django.contrib.auth.models import User, Group
+from tempfile import mkstemp
+
+
 
 # main user panel
 def user_panel(request):
@@ -46,6 +49,8 @@ def register(request):
 	# captcha image creation
 	from random import choice
 	import Image, ImageDraw, ImageFont, sha
+	temp = mkstemp(dir=settings.SITE_IMAGES_DIR_PATH)[1]
+	tempname = temp.split('/')[-1]
 	# create a 5 char random strin and sha hash it
 	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
 	imghash = sha.new(imgtext).hexdigest()
@@ -54,7 +59,7 @@ def register(request):
 	draw=ImageDraw.Draw(im)
 	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-	im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+	im.save(temp,"JPEG")
 	
 	manipulator = RegisterForm()
 	if request.POST:
@@ -67,7 +72,7 @@ def register(request):
 			except Exception:
 				data['imgtext'] = ''
 				form = forms.FormWrapper(manipulator, data, errors)
-				return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+				return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -78,11 +83,11 @@ def register(request):
 		else:
 			data['imgtext'] = ''
 			form = forms.FormWrapper(manipulator, data, errors)
-			return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
-	return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+	return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
 
 ##############################################
 # Login / logout user
@@ -101,6 +106,8 @@ class LoginForm(forms.Manipulator):
 def loginlogout(request):
 	from django.contrib.auth import authenticate, login
 	if not request.user.is_authenticated():
+		temp = mkstemp(dir=settings.SITE_IMAGES_DIR_PATH)[1]
+		tempname = temp.split('/')[-1]
 		# captcha image creation
 		from random import choice
 		import Image, ImageDraw, ImageFont, sha
@@ -112,7 +119,7 @@ def loginlogout(request):
 		draw=ImageDraw.Draw(im)
 		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-		im.save(settings.SITE_IMAGES_DIR_PATH + '../bg2.jpg',"JPEG")
+		im.save(temp,"JPEG")
 		
 		manipulator = LoginForm()
 		# log in user
@@ -128,12 +135,12 @@ def loginlogout(request):
 				else:
 					data['imgtext'] = ''
 					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+					return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
 		# no post data, show the login forum
 		else:
 			errors = data = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
 	else:
 		# user authenticated
 		if request.GET:
