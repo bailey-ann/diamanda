@@ -37,18 +37,17 @@ def search_pages(request):
 				from lupy.search.indexsearcher import IndexSearcher
 				from lupy.search.term import TermQuery
 				from lupy.search.boolean import BooleanQuery
-				from lupy.search.phrase import PhraseQuery
 				
 				index =  IndexSearcher('diamandaSearchCache')
 				query = data['string'].split(' ')
 				q = BooleanQuery()
 				if len(query) > 1:
 					for a in query:
-						t = Term('text', a)
+						t = Term('text', a.decode("utf-8"))
 						tq = TermQuery(t)
 						q.add(tq, False, False)
 				else:
-					t = Term('text', query[0])
+					t = Term('text', query[0].decode("utf-8"))
 					tq = TermQuery(t)
 					q.add(tq, True, False)
 				hits = index.search(q)
@@ -252,17 +251,14 @@ def add_page(request, slug=''):
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
 					if settings.WIKI_SEARCH_WITH_LUPY:
-						try:
-							from lupy.indexer import Index
-							from os.path import isdir
-							if isdir('diamandaSearchCache'):
-								index = Index('diamandaSearchCache', create=False)
-							else:
-								index = Index('diamandaSearchCache', create=True)
-							index.index(text=page_data['text'], __title=page_data['title'], __description=page_data['description'], _slug=page_data['slug'])
-							index.optimize()
-						except:
-							pass
+						from lupy.indexer import Index
+						from os.path import isdir
+						if isdir('diamandaSearchCache'):
+							index = Index('diamandaSearchCache', create=False)
+						else:
+							index = Index('diamandaSearchCache', create=True)
+						index.index(text=page_data['text'].decode("utf-8"), __title=page_data['title'].decode("utf-8"), __description=page_data['description'].decode("utf-8"), _slug=page_data['slug'])
+						index.optimize()
 					
 					return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
 				elif page_data.has_key('preview') and not cbcerrors:
@@ -332,18 +328,15 @@ def edit_page(request, slug):
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
 					# lupy update
-					if settings.WIKI_SEARCH_WITH_LUPY:
-						try:
-							from lupy.indexer import Index
-							from os.path import isdir
-							if isdir('diamandaSearchCache'):
-								index = Index('diamandaSearchCache', create=False)
-							else:
-								index = Index('diamandaSearchCache', create=True)
-							index.index(text=page_data['text'], __title=page_data['title'], __description=page_data['description'], _slug=page_data['slug'])
-							index.optimize()
-						except:
-							pass
+					#if settings.WIKI_SEARCH_WITH_LUPY:
+						#from lupy.indexer import Index
+						#from os.path import isdir
+						#if isdir('diamandaSearchCache'):
+							#index = Index('diamandaSearchCache', create=False)
+						#else:
+							#index = Index('diamandaSearchCache', create=True)
+						#index.index(text=page_data['text'].decode("utf-8"), __title=page_data['title'].decode("utf-8"), __description=page_data['description'].decode("utf-8"), _slug=page_data['slug'])
+						#index.optimize()
 				else:
 					# can't save as current - save as a "old" revision with...
 					from datetime import datetime
