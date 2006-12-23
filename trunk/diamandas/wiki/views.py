@@ -8,45 +8,59 @@ from django.core import validators
 from cbcplugins import cbcparser
 from stripogram import html2safehtml
 
-# Search using LIKE and or google
-##lupy
-	#from lupy.indexer import Index
-	#index = Index('foobar', create=False)
-	
-	##pages = Page.objects.all()
-	##for p in pages:
-		##index.index(text=p.text, __title=p.title, _slug=p.slug)
-	
-	##index.optimize()
-	
-	#hits = index.find('python')
-	#for h in hits:
-		#print 'Found in', h.get('slug')
 def search_pages(request):
+	google = False
+	lupy = False
 	if settings.WIKI_GOOGLE_SEARCH_API:
 		google = True
-	else:
-		google = False
+	if settings.WIKI_SEARCH_WITH_LUPY:
+		lupy = True
 	if request.POST:
 		data = request.POST.copy()
 		if len(data['string']) > 3:
+			#like - simple LIKE search
 			if data.has_key('like'):
 				pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
-				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
-			else:
-				try:
-					import google
-					google.setLicense(settings.WIKI_GOOGLE_SEARCH_API)
-					pages = google.doGoogleSearch(data['string'] + ' site:' + str(Site.objects.get_current()))
-					pages = pages.results
-				except Exception:
-					return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': False, 'string': data['string'], 'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
+				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'likeuse': True, 'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			# google API search
+			elif data.has_key('google'):
+				import google
+				from django.contrib.sites.models import Site
+				google.setLicense(settings.WIKI_GOOGLE_SEARCH_API)
+				domain = str(Site.objects.get_current()).replace('www.', '').replace('http://', '')
+				pages = google.doGoogleSearch(data['string'] + ' site:' + domain)
+				pages = pages.results
+				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'google': google, 'googleuse': True, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			# lupy search
+			if data.has_key('lupy'):
+				from lupy.index.term import Term
+				from lupy.search.indexsearcher import IndexSearcher
+				from lupy.search.term import TermQuery
+				from lupy.search.boolean import BooleanQuery
+				from lupy.search.phrase import PhraseQuery
+				
+				index =  IndexSearcher('diamandaSearchCache')
+				query = data['string'].split(' ')
+				q = BooleanQuery()
+				if len(query) > 1:
+					for a in query:
+						t = Term('text', a)
+						tq = TermQuery(t)
+						q.add(tq, False, False)
 				else:
-					return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'string': data['string'], 'google': google, 'googleuse': True, 'theme': settings.THEME, 'engine': settings.ENGINE})
+					t = Term('text', query[0])
+					tq = TermQuery(t)
+					q.add(tq, True, False)
+				hits = index.search(q)
+				pages = []
+				for h in hits:
+					pages.append({'title': h.get('title'),'description': h.get('description'),'slug': h.get('slug')})
+				pages.reverse()
+				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'google': google, 'lupyuse': True, 'theme': settings.THEME, 'engine': settings.ENGINE})
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'lupy': lupy, 'theme': settings.THEME, 'engine': settings.ENGINE})
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'lupy': lupy, 'theme': settings.THEME, 'engine': settings.ENGINE})
 
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
@@ -233,10 +247,23 @@ def add_page(request, slug=''):
 					cbcparser.parse_cbc_tags(page_data['text'])
 				except:
 					cbcerrors = True
-				
+				# all ok, save it
 				if not errors and not page_data.has_key('preview') and not cbcerrors:
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
+					if settings.WIKI_SEARCH_WITH_LUPY:
+						try:
+							from lupy.indexer import Index
+							from os.path import isdir
+							if isdir('diamandaSearchCache'):
+								index = Index('diamandaSearchCache', create=False)
+							else:
+								index = Index('diamandaSearchCache', create=True)
+							index.index(text=page_data['text'], __title=page_data['title'], __description=page_data['description'], _slug=page_data['slug'])
+							index.optimize()
+						except:
+							pass
+					
 					return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
 				elif page_data.has_key('preview') and not cbcerrors:
 					preview = page_data['text']
@@ -304,6 +331,19 @@ def edit_page(request, slug):
 					#set edit as current content
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
+					# lupy update
+					if settings.WIKI_SEARCH_WITH_LUPY:
+						try:
+							from lupy.indexer import Index
+							from os.path import isdir
+							if isdir('diamandaSearchCache'):
+								index = Index('diamandaSearchCache', create=False)
+							else:
+								index = Index('diamandaSearchCache', create=True)
+							index.index(text=page_data['text'], __title=page_data['title'], __description=page_data['description'], _slug=page_data['slug'])
+							index.optimize()
+						except:
+							pass
 				else:
 					# can't save as current - save as a "old" revision with...
 					from datetime import datetime

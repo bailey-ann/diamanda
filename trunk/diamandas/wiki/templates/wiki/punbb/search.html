@@ -7,6 +7,9 @@
 {% if google %}
  <input type="submit" value="{% trans "Search This Site with Google" %}" name="google" />
 {% endif %}
+{% if lupy %}
+ <input type="submit" value="{% trans "boolean OR search" %}" name="lupy" />
+{% endif %}
 </form>
 </div>
 
@@ -15,7 +18,13 @@
 		{% for page in pages %}
 		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="{{ page.URL }}">{{ page.title }}</a><br />
 		{% endfor %}
-	{% else %}
+	{% endif %}
+	{% if likeuse %}
+		{% for page in pages %}
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
+		{% endfor %}
+	{% endif %}
+	{% if lupyuse %}
 		{% for page in pages %}
 		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
 		{% endfor %}

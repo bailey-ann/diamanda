@@ -7,8 +7,7 @@ from django.conf import settings
 from stripogram import html2safehtml
 from django.contrib.auth.models import User, Group
 from tempfile import mkstemp
-
-
+from os import remove
 
 # main user panel
 def user_panel(request):
@@ -49,8 +48,8 @@ def register(request):
 	# captcha image creation
 	from random import choice
 	import Image, ImageDraw, ImageFont, sha
-	temp = mkstemp(dir=settings.SITE_IMAGES_DIR_PATH)[1]
-	tempname = temp.split('/')[-1]
+	temp = settings.SITE_IMAGES_DIR_PATH + request.META['REMOTE_ADDR'] + '.jpg'
+	tempname = request.META['REMOTE_ADDR'] + '.jpg'
 	# create a 5 char random strin and sha hash it
 	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
 	imghash = sha.new(imgtext).hexdigest()
@@ -79,6 +78,7 @@ def register(request):
 				if user is not None:
 					login(request, user)
 					user.groups.add(Group.objects.get(name='users'))
+				remove(temp)
 				return HttpResponseRedirect("/user/")
 		else:
 			data['imgtext'] = ''
@@ -106,8 +106,8 @@ class LoginForm(forms.Manipulator):
 def loginlogout(request):
 	from django.contrib.auth import authenticate, login
 	if not request.user.is_authenticated():
-		temp = mkstemp(dir=settings.SITE_IMAGES_DIR_PATH)[1]
-		tempname = temp.split('/')[-1]
+		temp = settings.SITE_IMAGES_DIR_PATH + request.META['REMOTE_ADDR'] + '.jpg'
+		tempname = request.META['REMOTE_ADDR'] + '.jpg'
 		# captcha image creation
 		from random import choice
 		import Image, ImageDraw, ImageFont, sha
@@ -131,6 +131,8 @@ def loginlogout(request):
 				user = authenticate(username=data['login'], password=data['password'])
 				if user is not None:
 					login(request, user)
+					remove(temp)
+					#remove(settings.SITE_IMAGES_DIR_PATH + '/' + tempname)
 					return HttpResponseRedirect("/user/")
 				else:
 					data['imgtext'] = ''
