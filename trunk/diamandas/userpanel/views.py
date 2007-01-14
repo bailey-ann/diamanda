@@ -32,7 +32,8 @@ class RegisterForm(forms.Manipulator):
 		forms.EmailField(field_name="email", is_required=True, length=20),)
 	def hashcheck(self, field_data, all_data):
 		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+		SALT = settings.SECRET_KEY[:20]
+		if not all_data['imghash'] == sha.new(SALT+field_data).hexdigest():
 			raise validators.ValidationError(_("Captcha Error."))
 	def size3(self, field_data, all_data):
 		if len(field_data) < 4:
@@ -48,11 +49,12 @@ def register(request):
 	# captcha image creation
 	from random import choice
 	import Image, ImageDraw, ImageFont, sha
+	SALT = settings.SECRET_KEY[:20]
 	temp = settings.SITE_IMAGES_DIR_PATH + request.META['REMOTE_ADDR'] + '.jpg'
 	tempname = request.META['REMOTE_ADDR'] + '.jpg'
 	# create a 5 char random strin and sha hash it
-	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-	imghash = sha.new(imgtext).hexdigest()
+	imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
+	imghash = sha.new(SALT+imgtext).hexdigest()
 	# create an image with the string
 	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
 	draw=ImageDraw.Draw(im)
@@ -100,7 +102,8 @@ class LoginForm(forms.Manipulator):
 		forms.TextField(field_name="imghash", is_required=True),)
 	def hashcheck(self, field_data, all_data):
 		import sha
-		if not all_data['imghash'] == sha.new(field_data).hexdigest():
+		SALT = settings.SECRET_KEY[:20]
+		if not all_data['imghash'] == sha.new(SALT+field_data).hexdigest():
 			raise validators.ValidationError("Captcha Error.")
 
 def loginlogout(request):
@@ -112,8 +115,9 @@ def loginlogout(request):
 		from random import choice
 		import Image, ImageDraw, ImageFont, sha
 		# create a 5 char random strin and sha hash it
-		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
-		imghash = sha.new(imgtext).hexdigest()
+		SALT = settings.SECRET_KEY[:20]
+		imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
+		imghash = sha.new(SALT+imgtext).hexdigest()
 		# create an image with the string
 		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
 		draw=ImageDraw.Draw(im)

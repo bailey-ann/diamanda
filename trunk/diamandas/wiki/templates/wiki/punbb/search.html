@@ -16,17 +16,17 @@
 {% if pages %}
 	{% if googleuse %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="{{ page.URL }}">{{ page.title }}</a><br />
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="{{ page.URL }}">{{ page.title|escape }}</a><br />
 		{% endfor %}
 	{% endif %}
 	{% if likeuse %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title|escape }}</a> - {{ page.description|escape }}<br />
 		{% endfor %}
 	{% endif %}
 	{% if lupyuse %}
 		{% for page in pages %}
-		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title }}</a> - {{ page.description }}<br />
+		<img src="/site_media/wiki/img/2.png" alt="" /> <a href="/wiki/page/{{ page.slug }}/">{{ page.title|escape }}</a> - {{ page.description|escape }}<br />
 		{% endfor %}
 	{% endif %}
 {% else %}

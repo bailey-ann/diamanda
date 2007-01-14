@@ -22,6 +22,7 @@ urlpatterns = patterns('',
 (r'^tasks/', include('tasks.URLconf')), # wiki
 (r'^stats/', include('stats.URLconf')), # wiki
 (r'^user/', include('userpanel.URLconf')), # user profile
+#(r'^drcsm/', include('drcsm.URLconf')), # drcsm
 (r'^wiki/feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}), # wiki feeds
 (r'^news/krss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}), # wiki feeds
 (r'^wiki/sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}), # wikiPages sitemap

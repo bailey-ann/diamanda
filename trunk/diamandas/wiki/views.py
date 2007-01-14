@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core import validators
 from cbcplugins import cbcparser
 from stripogram import html2safehtml
+from django.http import HttpResponse
 
 def search_pages(request):
 	google = False
@@ -235,6 +236,11 @@ def add_page(request, slug=''):
 				page_data['modification_user'] = str(request.user)
 				page_data['modification_ip'] = request.META['REMOTE_ADDR']
 				errors = manipulator.get_validation_errors(page_data)
+				
+				page_data['title'] = html2safehtml(page_data['title'] ,valid_tags=())
+				page_data['description'] = html2safehtml(page_data['description'] ,valid_tags=())
+				page_data['changes'] = html2safehtml(page_data['changes'] ,valid_tags=())
+				
 				tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 				for i in tags:
 					page_data['text'] = page_data['text'].replace('[rk:syntax '+i[0]+']'+i[1]+'[/rk:syntax]', '[rk:syntax '+i[0]+']'+base64.encodestring(i[1])+'[/rk:syntax]')
@@ -302,6 +308,9 @@ def edit_page(request, slug):
 			page_data['slug'] = page.slug
 			page_data['modification_user'] = str(request.user)
 			page_data['modification_ip'] = request.META['REMOTE_ADDR']
+			page_data['title'] = html2safehtml(page_data['title'] ,valid_tags=())
+			page_data['description'] = html2safehtml(page_data['description'] ,valid_tags=())
+			page_data['changes'] = html2safehtml(page_data['changes'] ,valid_tags=())
 			# encode rk:syntax code so we can stripp HTML etc.
 			tags = findall( r'(?xs)\[\s*rk:syntax\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:syntax\]''', page_data['text'], MULTILINE)
 			for i in tags:

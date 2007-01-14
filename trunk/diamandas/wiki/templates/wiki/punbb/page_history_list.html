@@ -25,8 +25,8 @@
 					<div class="intd">
 						<div class="icon"><div class="nosize"><!-- --></div></div>
 						<div class="tclcon">
-							<h3><a href="/wiki/page/{{ page.slug }}/">{{page.title}}</a></h3>
-							{{ page.changes }}
+							<h3><a href="/wiki/page/{{ page.slug }}/">{{ page.title|escape }}</a></h3>
+							{{ page.changes|escape }}
 						</div>
 					</div>
 				</td>
@@ -45,8 +45,8 @@
 				<td class="tcl">
 					<div class="intd">
 						<div class="tclcon">
-							<h3>{{page.title}}</h3>
-							{{ page.changes }}
+							<h3>{{ page.title|escape }}</h3>
+							{{ page.changes|escape }}
 						</div>
 					</div>
 				</td>

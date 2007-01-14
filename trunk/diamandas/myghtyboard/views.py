@@ -186,6 +186,7 @@ def add_topic(request, forum_id):
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.encodestring(i)+'[/code]')
 			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote'))
+			page_data['topic_name'] = html2safehtml(page_data['topic_name'] ,valid_tags=())
 			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'], MULTILINE)
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.decodestring(i)+'[/code]')

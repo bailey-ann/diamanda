@@ -68,11 +68,14 @@ TEMPLATE_DIRS = (
  'diamandas/news/templates',
  'diamandas/tasks/templates',
  'diamandas/stats/templates',
+ #'diamandas/drcsm/templates',
 )
 
 from sys import path
 path.append('diamandas/') # apps folder
 path.append('diamandas/cbcplugins/cbcplugins/') # cbc definitions folder
+path.append('diamandas/drcsm/io_slaves/') # drcsm
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -85,6 +88,7 @@ INSTALLED_APPS = (
     'news',
     'myghtyboard',
     'userpanel',
+    #'drcsm',
     'django.contrib.admin',
 )
 
@@ -119,3 +123,12 @@ FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
 # thumb CBC
 SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
+
+
+#RCS_ROOT = '/home/piotr/svn/diamanda/rcs'
+#RCS_SETTINGS = {
+			#'dev': {'name': 'FooBar', 'description': 'A FooBar repo', 'rcs': 'svn'},
+			#}
+
+
+
