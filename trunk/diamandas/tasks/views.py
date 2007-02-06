@@ -9,10 +9,8 @@ from django.db.models import Q
 
 # list tasks
 def task_list(request, pagination_id):
-	from django.contrib.sites.models import Site
-	domain = str(Site.objects.get_current()).replace('www.', '').replace('http://', '')
 	from django.views.generic.list_detail import object_list
-	tasks = Task.objects.filter(Q(task_site = domain) | Q(task_site = 'rk.edu.pl')).values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority', 'task_site', 'is_sticky').order_by('-is_sticky', '-task_modification_date')
+	tasks = Task.objects.all().values('id', 'task_status', 'task_name', 'task_modification_date', 'is_sticky').order_by('-is_sticky', '-task_modification_date')
 	if len(tasks) == 0:
 		return render_to_response('tasks/task_list.html', {'sid': settings.SITE_ID})
 	return object_list(request, tasks, paginate_by = 30, page = pagination_id, template_name = 'tasks/task_list.html', extra_context={'sid': settings.SITE_ID})

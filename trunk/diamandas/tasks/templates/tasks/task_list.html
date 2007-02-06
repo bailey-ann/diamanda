@@ -1,5 +1,5 @@
 {% load i18n %}
-{% extends "rcs/body.html" %}
+{% extends "wiki/body.html" %}
 {% block content %}
 {% trans "This Page lists all tasks. You can post comments and help solving issues." %}<br /><br />
 <h2>{% trans "Site Tasks" %}</h2>
@@ -19,31 +19,31 @@
             <tr class="{% cycle rowA,rowB %}"> 
               <td class="first">
               {% if t.is_sticky %}
-		<img src="/site_media/biblioteka/stick.png" alt="" />
+		<img src="/site_media/static/stick.png" alt="" />
               {% else %}
 			{% ifequal t.task_status "Nieprzypisany" %}
-			<img src="/site_media/biblioteka/none.png" alt="" />
+			<img src="/site_media/static/none.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_status "Przypisany" %}
-			<img src="/site_media/biblioteka/normal.png" alt="" />
+			<img src="/site_media/static/normal.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_status "Zamknięty" %}
-			<img src="/site_media/biblioteka/lock.png" alt="" />
+			<img src="/site_media/static/lock.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_progress "100" %}
-			<img src="/site_media/biblioteka/100.png" alt="" />
+			<img src="/site_media/static/100.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_progress "75" %}
-			<img src="/site_media/biblioteka/75.png" alt="" />
+			<img src="/site_media/static/75.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_progress "50" %}
-			<img src="/site_media/biblioteka/50.png" alt="" />
+			<img src="/site_media/static/50.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_progress "25" %}
-			<img src="/site_media/biblioteka/25.png" alt="" />
+			<img src="/site_media/static/25.png" alt="" />
 			{% endifequal %}
 			{% ifequal t.task_progress "0" %}
-			<img src="/site_media/biblioteka/0.png" alt="" />
+			<img src="/site_media/static/0.png" alt="" />
 			{% endifequal %}
 		{% endif %}
               </td>
@@ -68,18 +68,17 @@
 </div>
 {% endif %}
 <div class="box">
-<div style="text-align:center;">{% trans "If you have any propositions and suggestion about the site post them on the forums or contact me <a href='mailto:riklaunim@gmail.com'>by email - riklaunim@gmail.com</a>." %}</div>
 <br /><b>
-<div style="float:left;"><img src="/site_media/biblioteka/none.png" alt="" /> - {% trans "Not Assigned" %}<br />
-<img src="/site_media/biblioteka/normal.png" alt="" /> - {% trans "Assigned" %}<br />
-<img src="/site_media/biblioteka/lock.png" alt="" /> - {% trans "Locked" %}<br />
-<img src="/site_media/biblioteka/stick.png" alt="" /> - {% trans "Sticky" %}</div>
+<div style="float:left;"><img src="/site_media/static/none.png" alt="" /> - {% trans "Not Assigned" %}<br />
+<img src="/site_media/static/normal.png" alt="" /> - {% trans "Assigned" %}<br />
+<img src="/site_media/static/lock.png" alt="" /> - {% trans "Locked" %}<br />
+<img src="/site_media/static/stick.png" alt="" /> - {% trans "Sticky" %}</div>
 <div style="float:right; margin-right:10px;">
-<img src="/site_media/biblioteka/100.png" alt="" /> - {% trans "Task Compleated" %}<br />
-<img src="/site_media/biblioteka/75.png" alt="" /> - 75% {% trans "Done" %}<br />
-<img src="/site_media/biblioteka/50.png" alt="" /> - 50% {% trans "Done" %}<br />
-<img src="/site_media/biblioteka/25.png" alt="" /> - 25% {% trans "Done" %}<br />
-<img src="/site_media/biblioteka/0.png" alt="" /> - 0% {% trans "Done" %}</div>
+<img src="/site_media/static/100.png" alt="" /> - {% trans "Task Compleated" %}<br />
+<img src="/site_media/static/75.png" alt="" /> - 75% {% trans "Done" %}<br />
+<img src="/site_media/static/50.png" alt="" /> - 50% {% trans "Done" %}<br />
+<img src="/site_media/static/25.png" alt="" /> - 25% {% trans "Done" %}<br />
+<img src="/site_media/static/0.png" alt="" /> - 0% {% trans "Done" %}</div>
 </b>
 </div><br />
 {% endblock %}

@@ -1,5 +1,5 @@
 {% load i18n %}
-{% extends "rcs/body.html" %}
+{% extends "wiki/body.html" %}
 
 {% block title %}{% trans "Topics from" %} - {{ forum_name }}{% endblock %}
 {% block header %}{% trans "Topics from" %} - {{ forum_name }}{% endblock %}
@@ -22,15 +22,15 @@
             <tr class="{% cycle rowA,rowB %}">
            <td class="first">
 {% if topic.is_locked %}
-	<img src="/site_media/biblioteka/lock.png" alt="*" />
+	<img src="/site_media/static/lock.png" alt="*" />
 {% else %}
 	{% if topic.is_sticky %}
-		<img src="/site_media/biblioteka/stick.png" alt="*" />
+		<img src="/site_media/static/stick.png" alt="*" />
 	{% else %}
 		{% if topic.is_global %}
-			<img src="/site_media/biblioteka/glob.png" alt="*" />
+			<img src="/site_media/static/glob.png" alt="*" />
 		{% else %}
-			<img src="/site_media/biblioteka/normal.png" alt="*" />
+			<img src="/site_media/static/normal.png" alt="*" />
 		{% endif%}
 	{% endif%}
 {% endif %}</td>

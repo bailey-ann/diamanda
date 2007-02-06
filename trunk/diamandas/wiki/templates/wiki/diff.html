@@ -1,0 +1,8 @@
+{% load i18n %}
+{% load cbc %}
+{% extends "wiki/body.html" %}
+{% block leftmenu %}<li><a href="/wiki/edit/{{ slug }}/">{% trans "Edit" %}</a></li><li><a href="/wiki/history/{{ slug }}/">{% trans "Page History" %}</a></li><li><a href="/wiki/add/">{% trans "Add a Page" %}</a></li>{% endblock %}
+
+{% block content %}
+{{ diffresult|cbc }}
+{% endblock %}

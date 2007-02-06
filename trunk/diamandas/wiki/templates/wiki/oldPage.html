@@ -1,13 +1,7 @@
 {% load i18n %}
 {% load cbc %}
-{% extends "wiki/punbb/body.html" %}
-{% block leftmenu %}
- <a href="/wiki/history/{{ page.slug }}/">{% trans "Page History" %}</a> | <a href="/wiki/add/">{% trans "Add a Page" %}</a>
- {% if pdf %}
- | <a href="/wiki/pdf/{{ page.slug }}/">{% trans "Save as PDF" %}</a>
-{% endif %}
- | <a onclick="window.print();">{% trans "Print Page" %}</a>
-{% endblock %}
+{% extends "wiki/body.html" %}
+{% block leftmenu %}<li><a href="/wiki/history/{{ page.slug }}/">{% trans "Page History" %}</a></li><li><a href="/wiki/add/">{% trans "Add a Page" %}</a></li><li><a onclick="window.print();">{% trans "Print Page" %}</a></li>{% endblock %}
 
 {% block descript %}
 {% if page.description %}

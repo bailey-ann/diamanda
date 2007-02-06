@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load cbc %}
-{% extends "wiki/punbb/body.html" %}
+{% extends "wiki/body.html" %}
 {% block content %}
 {% trans "Here you can add a new page to the wiki." %}<br />
 {% if cbcerrors %}
@@ -123,5 +123,5 @@
 {% endfor %}
 {% endblock %}
 {% block leftmenu %}
-<a href="/wiki/">Wiki</a>
+<li><a href="/wiki/">Wiki</a></li>
 {% endblock %}

@@ -23,9 +23,9 @@ def unpropose(request, archive_id):
 				archive_entry.save()
 				return HttpResponseRedirect('/wiki/history/' + archive_entry.slug + '/')
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't unpropose
+			return render_to_response('wiki/noperm.html', {}) # can't unpropose
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't unpropose
+		return render_to_response('wiki/noperm.html', {}) # can't unpropose
 
 # show the page by given slug
 def show_page(request, slug='index'):
@@ -36,11 +36,11 @@ def show_page(request, slug='index'):
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/wiki/add/'+slug+'/')
 		if (slug == 'index'):
-			return render_to_response('wiki/' + settings.ENGINE + '/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated()})
+			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated()})
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/page.html', {'page': page})
+			return render_to_response('wiki/page.html', {'page': page})
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 
 # show achived page by given ID
 def show_old_page(request, archive_id):
@@ -50,9 +50,9 @@ def show_old_page(request, archive_id):
 			page = Archive.objects.get(id__exact=archive_id)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/') # show some error message
-		return render_to_response('wiki/' + settings.ENGINE + '/oldPage.html', {'page': page, })
+		return render_to_response('wiki/oldPage.html', {'page': page, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 
 # show list of changes for a page by given slug
 def show_page_history_list(request, slug):
@@ -72,9 +72,9 @@ def show_page_history_list(request, slug):
 		if len(archive) > 0:
 			for i in archive:
 				i.modification_date = str(i.modification_date)[:16]
-		return render_to_response('wiki/' + settings.ENGINE + '/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, })
+		return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 
 # restores an old version of a page by archive ID entry
 def restore_page_from_archive(request, archive_id):
@@ -99,7 +99,7 @@ def restore_page_from_archive(request, archive_id):
 		page_new.save()
 		return HttpResponseRedirect('/wiki/history/'+page_new.slug +'/')
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 	
 
 # show diff between two entries. IF new = 0 then archive and current, if new !=0 - also archive
@@ -120,9 +120,9 @@ def show_diff(request):
 				return HttpResponseRedirect('/')
 			import diff
 			html_result = diff.textDiff(page_old.text, page_new.text)
-			return render_to_response('wiki/' + settings.ENGINE + '/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
+			return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+			return render_to_response('wiki/noperm.html', {}) # can't view page
 	else:
 		return HttpResponseRedirect('/') # no POST
 
@@ -180,12 +180,12 @@ def add_page(request, slug=''):
 				page_data = {'slug': slug}
 			form = forms.FormWrapper(manipulator, page_data, errors)
 			cbcdesc = cbcparser.list_descriptions()
-			return render_to_response('wiki/' + settings.ENGINE + '/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
+			return render_to_response('wiki/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
 		# page exist
 		else:
 			return HttpResponseRedirect("/wiki/page/" + slug +"/")
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 
 # edit page by given slug
 def edit_page(request, slug):
@@ -252,9 +252,9 @@ def edit_page(request, slug):
 			page_data['changes'] = ''
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		cbcdesc = cbcdesc = cbcparser.list_descriptions()
-		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
+		return render_to_response('wiki/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
+		return render_to_response('wiki/noperm.html', {}) # can't view page
 
 # file like object (for storing cbc tracebacks)
 class AFile(object):

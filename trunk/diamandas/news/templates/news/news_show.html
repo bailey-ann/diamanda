@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load cbc %}
+{% extends "wiki/body.html" %}
+{% block title %}{{ object.news_title }}{% endblock %}
+{% block content %}
+
+{% if object %}
+<h2>{{ object.news_title }}</h2>
+<p>{{ object.news_text|cbc }}</p>
+<b>{% trans "Added" %}</b>: {{ object.news_date }} | [<a href="/forum/">Komentuj na Forum</a>]<br /><br />
+{% else %}
+{% trans "No news" %}
+{% endif %}
+
+{% endblock %}
+
+{% block leftmenu %}
+<ul>
+<li><a href="/news/">{% trans "News Main Page" %}</a></li>
+</ul>
+{% endblock %}

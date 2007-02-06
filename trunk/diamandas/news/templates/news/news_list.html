@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load cbc %}
+{% extends "wiki/body.html" %}
+{% block content %}
+
+{% if object_list %}
+{% for new in object_list %}
+
+<h2>{{ new.news_title }}</h2>
+{{ new.news_text|cbc }}<br />
+<b>{% trans "Added" %}</b>: {{ new.news_date|truncatewords:"1" }} <a href="/news/more/{{ new.news_slug }}/">{% trans "Read More" %}</a> | [<a href="/forum/">Komentuj na Forum</a>]<br /><br />
+{% endfor %}
+
+{% if has_previous %}
+	<div style="text-align:center;"><a href="/news/?page={{ previous }}"><b>{% trans "Previous News" %}</b></a></div>
+{% endif %}
+{% if has_next %}
+	<div style="text-align:center;"><a href="/news/?page={{ next }}"><b>{% trans "Older News" %}</b></a></div>
+{% endif %}
+<br /><div style="text-align:center; font-weight:bold;"><a href="/news/rss/">{% trans "RSS Feed - Latest News" %}</a></div>
+{% else %}
+{% trans "No news" %}
+{% endif %}
+
+{% endblock %}
+
+
+{% block leftmenu %}
+<ul>
+<li><a href="/news/">{% trans "News Main Page" %}</a></li>
+</ul>
+{% endblock %}

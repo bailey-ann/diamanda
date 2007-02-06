@@ -1,8 +1,8 @@
 {% load i18n %}
 {% load cbc %}
-{% extends "wiki/punbb/body.html" %}
+{% extends "wiki/body.html" %}
 
-{% block upmenu %}<a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a> | <a href="/">{% trans "Main Page" %}</a> | <a href="/wiki/search/">{% trans "Search" %}</a> | <a href="/wiki/task_list/1/">{% trans "Site Tasks" %}</a> | <a href="/wiki/user/">{% trans "My Account" %}</a> | <a href="/forum/">{% trans "Forum" %}</a>{% endblock %}
+{% block upmenu %}<li><a href="/wiki/page/{{ page.slug }}/">{% trans "Back to Page" %}</a></li><li><a href="/">{% trans "Main Page" %}</a></li><li><a href="/wiki/search/">{% trans "Search" %}</a></li><li><a href="/wiki/task_list/1/">{% trans "Site Tasks" %}</a></li><li><a href="/wiki/user/">{% trans "My Account" %}</a></li><li><a href="/forum/">{% trans "Forum" %}</a></li>{% endblock %}
 
 {% block content %}
 {% trans "Here you can edit a wiki page" %}<br />
