@@ -1,0 +1,25 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+
+
+{% block content %}
+<h3 class="pageh">{% trans "Add a comment to this task" %}</h3>
+<br />
+<h2>{% trans "Add Task Comment" %}</h2>
+<div class="content">
+         <form method="post" action="."> <table>
+            <tr class="rowA">
+              <td class="first" style="width:25%;"><b>{% trans "Comment" %}</b></td>
+              <td><textarea name="text" rows="10" cols="70"></textarea></td>
+            </tr>
+             <tr class="rowB">
+              <td></td>
+              <td><div style="text-align:center;"><input type="submit" value="{% trans "Add Comment" %}" style="actiontable" /></div></td>
+            </tr>
+          </table></form>
+</div>
+<br />
+
+<div class="box"><br />
+<b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, pre, div, span, img, li, ul, ol, center, sub, sup, blockquote<br />
+{% endblock %}

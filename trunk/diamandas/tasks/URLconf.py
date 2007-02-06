@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import *
 
-# Wiki* URLs
 urlpatterns = patterns('tasks',
 (r'^task_show/(?P<task_id>(\d+))/$', 'views.task_show'),
 (r'^task_add/$', 'views.task_add'),

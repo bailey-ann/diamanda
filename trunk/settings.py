@@ -68,13 +68,11 @@ TEMPLATE_DIRS = (
  'diamandas/news/templates',
  'diamandas/tasks/templates',
  'diamandas/stats/templates',
- #'diamandas/drcsm/templates',
 )
 
 from sys import path
 path.append('diamandas/') # apps folder
 path.append('diamandas/cbcplugins/cbcplugins/') # cbc definitions folder
-path.append('diamandas/drcsm/io_slaves/') # drcsm
 
 
 INSTALLED_APPS = (
@@ -88,7 +86,6 @@ INSTALLED_APPS = (
     'news',
     'myghtyboard',
     'userpanel',
-    #'drcsm',
     'django.contrib.admin',
 )
 
@@ -103,32 +100,8 @@ SITE_NEWS_LINK = '/' # where links of the RSS feeds should point
 # Anonymous perms Settings
 ANONYMOUS_CAN_EDIT=True
 ANONYMOUS_CAN_ADD=True
-ANONYMOUS_CAN_VIEW=True
 ANONYMOUS_CAN_SET_CURENT=False
 
-# wiki config
-WIKI_USE_PDF = False # 'htmldoc' - uses htmldoc , False - no PDF generation
-# if set to nonFalse API KEY "search" will allow also "Search this site with google"
-# requires pyGoogle, uses current SITE_ID domain name !!! example.com by default, change it to yours!
-WIKI_GOOGLE_SEARCH_API = False
-# should we use Lupy fulltext search engine ?
-# NOTE: diamanda folder needs to be writable or create "diamandaSearchCache" folder and make it writable
-WIKI_SEARCH_WITH_LUPY = False
-
-# myghtyboard config
-ANONYMOUS_CAN_ADD_TOPIC=True
-ANONYMOUS_CAN_ADD_POST=True
-FORUMS_USE_CAPTCHA = False # should add topic/post use captcha image
-
 # thumb CBC
-SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/media/images/'
+SITE_IMAGES_DIR_PATH = '/home/piotr/svn/diamanda/site_media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
-
-
-#RCS_ROOT = '/home/piotr/svn/diamanda/rcs'
-#RCS_SETTINGS = {
-			#'dev': {'name': 'FooBar', 'description': 'A FooBar repo', 'rcs': 'svn'},
-			#}
-
-
-

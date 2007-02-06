@@ -1,0 +1,67 @@
+{% load i18n %}
+{% load fbc %}
+{% extends "rcs/body.html" %}
+{% block title %}{{ task.task_name }}{% endblock %}
+{% block header %}
+{{ task.task_name }}
+{% endblock %}
+{% block content %}
+<h3 class="pageh">{% trans "This page describes a site task. You can post comments regarding it." %}</h3>
+<br />
+<h2>{% trans "Task Description" %}</h2>
+<div class="box"><div class="inbox" style="padding:5px;">
+{{ task.task_text|fbc }} [<a href="/admin/tasks/task/{{ task.id }}/">*</a>]
+<br /></div></div>
+<br />
+<h2>{% trans "Task Info" %}</h2>
+<div class="content">
+          <table>
+            <tr class="rowA">
+              <td class="first" style="width:25%;"><b>{% trans "Task Type" %}</b></td>
+              <td>{{ task.task_type }}</td>
+            </tr>
+             <tr class="rowB">
+              <td><b>{% trans "Task Status" %}</b></td>
+              <td>{{ task.task_status }}</td>
+            </tr>
+             <tr class="rowA">
+              <td><b>{% trans "Assigned To" %}</b></td>
+              <td>{{ user_list }}</td>
+            </tr>
+             <tr class="rowB">
+              <td><b>{% trans "Creation Date" %}</b></td>
+              <td>{{ task.task_creation_date }}</td>
+            </tr>
+             <tr class="rowA">
+              <td><b>{% trans "Last Modification Date" %}</b></td>
+              <td>{{ task.task_modification_date }}</td>
+            </tr>
+            <tr class="rowB">
+              <td><b>{% trans "Task Progress" %}</b></td>
+              <td>{{ task.task_progress }}%</td>
+            </tr>
+            <tr class="rowA">
+              <td><b>{% trans "Task Site" %}</b></td>
+              <td>{{ task.task_site }}</td>
+            </tr>
+          </table>
+</div>
+<br />
+
+{% if com %}
+<h2>{% trans "Task Comments" %}</h2>
+<div class="content">
+          <table>
+           {% for c in com %}
+            <tr class="{% cycle rowA,rowB %}"> 
+              <td class="first">{{ c.com_text }}</td>
+              <td style="width:20%;">{{ c.com_date|truncatewords:"1" }}<br /><b><a href="/user/show_profile/{{ c.com_author }}/">{{ c.com_author }}</a></b> - {{ c.com_ip }}</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+{% endif %}
+<div class="box"><br />
+<div style="text-align:center;"><input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/tasks/task_com_add/{{ task.id }}/');" /></div>
+<br />
+{% endblock %}

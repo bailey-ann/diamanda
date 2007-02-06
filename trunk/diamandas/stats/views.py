@@ -7,54 +7,24 @@ from django.contrib.sites.models import Site
 
 # unique entries
 def entries(request):
-	# can we use matplotlib
-	try:
-		from pylab import *
-		if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
-			today = str(datetime.today())[:10]
-			tday = int(today[8:10])
-			x = []
-			y = []
-			while tday > 0:
-				if tday < 10:
-					txday = today[0:7] + '-0' + str(tday)
-				else:
-					txday = today[0:7] + '-' + str(tday)
-				x.append(int(tday))
-				y.append(int(Stat.objects.filter(date = txday).count()))
-				tday = tday -1
-			xlabel(_('Day of month'))
-			ylabel(_('Number of entries'))
-			title('Unique Entries in this month')
-			
-			a, b = polyfit(x, y, 1)
-			y2 = []
-			for i in x:
-				y2.append(a*i+b)
-			plot(x, y, 'r', x, y2, 'b')
-			savefig(settings.SITE_IMAGES_DIR_PATH  + 'uniqueentries.png')
-			return render_to_response('stats/' + settings.ENGINE + '/entries.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'img_path': settings.SITE_IMAGES_SRC_PATH})
-	#use plain
-	except:
-		if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
-			today = str(datetime.today())[:10]
-			tday = int(today[8:10])
-			results = []
-			while tday > 0:
-				if tday < 10:
-					txday = today[0:7] + '-0' + str(tday)
-				else:
-					txday = today[0:7] + '-' + str(tday)
-				results.append({'day':txday, 'count':Stat.objects.filter(date = txday).count()})
-				tday = tday -1
-			return render_to_response('stats/' + settings.ENGINE + '/entries.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'results': results})
+	if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
+		today = str(datetime.today())[:10]
+		tday = int(today[8:10])
+		results = []
+		while tday > 0:
+			if tday < 10:
+				txday = today[0:7] + '-0' + str(tday)
+			else:
+				txday = today[0:7] + '-' + str(tday)
+			results.append({'day':txday, 'count':Stat.objects.filter(date = txday).count()})
+			tday = tday -1
+		return render_to_response('stats/' + settings.ENGINE + '/entries.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'results': results})
 	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
 
 # non google/se referers
 def referers(request):
 	if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
-		sitename = Site.objects.get(id=settings.SITE_ID)
-		refs = Stat.objects.order_by('-id').exclude(referer__icontains=sitename).exclude(referer__icontains='google').exclude(referer__icontains='msn.com').exclude(referer__icontains='onet.pl').exclude(referer__icontains='netsprint.pl').filter(referer__icontains='http://').values('referer')[:100]
+		refs = Stat.objects.order_by('-id').exclude(referer__icontains='rk.edu.pl').exclude(referer__icontains='kibice.net').exclude(referer__icontains='insuran').exclude(referer__icontains='medic').exclude(referer__icontains='casino').exclude(referer__icontains='google').exclude(referer__icontains='msn.com').exclude(referer__icontains='onet.pl').exclude(referer__icontains='netsprint.pl').filter(referer__icontains='http://').values('referer')[:100]
 		return render_to_response('stats/' + settings.ENGINE + '/refs.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': refs})
 	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
 
@@ -77,8 +47,22 @@ def google(request):
 			cnt = words.count(w)
 			if cnt > 5 and len(w) > 2:
 				results.append({'word': w, 'count':cnt})
-		results.sort(reverse=True)
-		return render_to_response('stats/' + settings.ENGINE + '/google.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': results})
+		results.sort()
+		
+		google_links = float(len(refs))
+		all_links = refs = float(Stat.objects.all().count())
+		google_pr = str((google_links/all_links)*100)[0:5]
+		
+		jaki = refs = float(Stat.objects.filter(referer__icontains='jakilinux').count())
+		jaki_pr = str((jaki/all_links)*100)[0:5]
+		
+		wykop = refs = float(Stat.objects.filter(referer__icontains='wykop').count())
+		wykop_pr = str((wykop/all_links)*100)[0:5]
+		
+		wiki = refs = float(Stat.objects.filter(referer__icontains='wikipedia').count())
+		wiki_pr = str((wiki/all_links)*100)[0:5]
+		
+		return render_to_response('stats/' + settings.ENGINE + '/google.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': results, 'google': google_pr, 'jaki': jaki_pr, 'wykop': wykop_pr, 'wiki': wiki_pr})
 	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
 
 # main page

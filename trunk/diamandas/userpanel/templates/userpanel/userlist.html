@@ -1,0 +1,19 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<h2>{% trans "Users List" %}</h2>
+<div class="content">
+          <table>
+            <tr>
+              <th class="first"><strong>{% trans "Login" %}</strong></th>
+              <th><strong>{% trans "Actions" %}</strong></th>
+            </tr>
+            {% for u in users %}
+            <tr class="{% cycle rowA,rowB %}"> 
+              <td class="first"><strong>{{ u.username }}</strong>{{ u.first_name }} {{ u.last_name }}</td>
+              <td><a href="/user/show_profile/{{ u.username }}/">{% trans "Show Profile" %}</a><br /><a href="/user/pmessage/{{ u.username }}/">{% trans "Send Message" %}</a></td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+{% endblock %}

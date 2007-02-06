@@ -6,19 +6,17 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from stripogram import html2safehtml
 from django.contrib.auth.models import User, Group
-from tempfile import mkstemp
-from os import remove
 
 # main user panel
 def user_panel(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/user/login/")
-	return render_to_response('userpanel/' + settings.ENGINE + '/panel.html', {'current': request.user.has_perm('wiki.can_set_current'), 'add': request.user.has_perm('wiki.add_page'), 'edit': request.user.has_perm('wiki.change_page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
+	return render_to_response('userpanel/panel.html', {'sid': settings.SITE_ID})
 
 # list of users
 def userlist(request):
 	users = User.objects.all()
-	return render_to_response('userpanel/' + settings.ENGINE + '/userlist.html', {'users': users, 'theme': settings.THEME, 'engine': settings.ENGINE})
+	return render_to_response('userpanel/userlist.html', {'users': users, 'sid': settings.SITE_ID})
 ##################################
 # Register a user and add it to default user group
 ##################################
@@ -32,8 +30,7 @@ class RegisterForm(forms.Manipulator):
 		forms.EmailField(field_name="email", is_required=True, length=20),)
 	def hashcheck(self, field_data, all_data):
 		import sha
-		SALT = settings.SECRET_KEY[:20]
-		if not all_data['imghash'] == sha.new(SALT+field_data).hexdigest():
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
 			raise validators.ValidationError(_("Captcha Error."))
 	def size3(self, field_data, all_data):
 		if len(field_data) < 4:
@@ -49,18 +46,15 @@ def register(request):
 	# captcha image creation
 	from random import choice
 	import Image, ImageDraw, ImageFont, sha
-	SALT = settings.SECRET_KEY[:20]
-	temp = settings.SITE_IMAGES_DIR_PATH + request.META['REMOTE_ADDR'] + '.jpg'
-	tempname = request.META['REMOTE_ADDR'] + '.jpg'
 	# create a 5 char random strin and sha hash it
-	imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
-	imghash = sha.new(SALT+imgtext).hexdigest()
+	imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+	imghash = sha.new(imgtext).hexdigest()
 	# create an image with the string
-	im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+	im=Image.open(settings.MEDIA_ROOT + '/bg.jpg')
 	draw=ImageDraw.Draw(im)
-	font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+	font=ImageFont.truetype(settings.MEDIA_ROOT + '/SHERWOOD.TTF', 18)
 	draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-	im.save(temp,"JPEG")
+	im.save(settings.MEDIA_ROOT + '/bg2.jpg',"JPEG")
 	
 	manipulator = RegisterForm()
 	if request.POST:
@@ -73,23 +67,22 @@ def register(request):
 			except Exception:
 				data['imgtext'] = ''
 				form = forms.FormWrapper(manipulator, data, errors)
-				return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
+				return render_to_response('userpanel/register.html', {'error': True, 'form': form, 'sid': settings.SITE_ID})
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
 				if user is not None:
 					login(request, user)
 					user.groups.add(Group.objects.get(name='users'))
-				remove(temp)
 				return HttpResponseRedirect("/user/")
 		else:
 			data['imgtext'] = ''
 			form = forms.FormWrapper(manipulator, data, errors)
-			return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
+			return render_to_response('userpanel/register.html', {'error': True, 'hash': imghash, 'form': form, 'sid': settings.SITE_ID})
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
-	return render_to_response('userpanel/' + settings.ENGINE + '/register.html', {'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
+	return render_to_response('userpanel/register.html', {'hash': imghash, 'form': form, 'sid': settings.SITE_ID})
 
 ##############################################
 # Login / logout user
@@ -102,28 +95,24 @@ class LoginForm(forms.Manipulator):
 		forms.TextField(field_name="imghash", is_required=True),)
 	def hashcheck(self, field_data, all_data):
 		import sha
-		SALT = settings.SECRET_KEY[:20]
-		if not all_data['imghash'] == sha.new(SALT+field_data).hexdigest():
+		if not all_data['imghash'] == sha.new(field_data).hexdigest():
 			raise validators.ValidationError("Captcha Error.")
 
 def loginlogout(request):
 	from django.contrib.auth import authenticate, login
 	if not request.user.is_authenticated():
-		temp = settings.SITE_IMAGES_DIR_PATH + request.META['REMOTE_ADDR'] + '.jpg'
-		tempname = request.META['REMOTE_ADDR'] + '.jpg'
 		# captcha image creation
 		from random import choice
 		import Image, ImageDraw, ImageFont, sha
 		# create a 5 char random strin and sha hash it
-		SALT = settings.SECRET_KEY[:20]
-		imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
-		imghash = sha.new(SALT+imgtext).hexdigest()
+		imgtext = choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')+choice('QWERTYUOPASDFGHJKLZXCVBNM')
+		imghash = sha.new(imgtext).hexdigest()
 		# create an image with the string
-		im=Image.open(settings.SITE_IMAGES_DIR_PATH + '../bg.jpg')
+		im=Image.open(settings.MEDIA_ROOT + '/bg.jpg')
 		draw=ImageDraw.Draw(im)
-		font=ImageFont.truetype(settings.SITE_IMAGES_DIR_PATH + '../SHERWOOD.TTF', 18)
+		font=ImageFont.truetype(settings.MEDIA_ROOT + '/SHERWOOD.TTF', 18)
 		draw.text((10,10),imgtext, font=font, fill=(100,100,50))
-		im.save(temp,"JPEG")
+		im.save(settings.MEDIA_ROOT + '/bg2.jpg',"JPEG")
 		
 		manipulator = LoginForm()
 		# log in user
@@ -135,18 +124,16 @@ def loginlogout(request):
 				user = authenticate(username=data['login'], password=data['password'])
 				if user is not None:
 					login(request, user)
-					remove(temp)
-					#remove(settings.SITE_IMAGES_DIR_PATH + '/' + tempname)
 					return HttpResponseRedirect("/user/")
 				else:
 					data['imgtext'] = ''
 					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
+					return render_to_response('userpanel/login.html', {'loginform': True, 'error': True, 'hash': imghash, 'form': form, 'sid': settings.SITE_ID})
 		# no post data, show the login forum
 		else:
 			errors = data = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE, 'temp':tempname})
+		return render_to_response('userpanel/login.html', {'loginform': True, 'hash': imghash, 'form': form, 'sid': settings.SITE_ID})
 	else:
 		# user authenticated
 		if request.GET:
@@ -181,7 +168,7 @@ def send_pmessage(request, target_user):
 		else:
 			errors = new_data = {}
 		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/pmessage.html', {'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('userpanel/pmessage.html', {'form': form, 'sid': settings.SITE_ID})
 	else:
 		return HttpResponseRedirect("/user/")
 
@@ -212,7 +199,7 @@ def edit_profile(request):
 		else:
 			errors = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/' + settings.ENGINE + '/profile.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'form': form})
+		return render_to_response('userpanel/profile.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'form': form, 'sid': settings.SITE_ID})
 	else:
 		return HttpResponseRedirect("/user/login/")
 
@@ -222,7 +209,7 @@ def show_profile(request, show_user):
 		try:
 			profile = Profile.objects.get(username=User.objects.get(username=show_user))
 		except:
-			return render_to_response('userpanel/' + settings.ENGINE + '/noperm.html', {'why': _('No such profile'), 'theme': settings.THEME, 'engine': settings.ENGINE})
-		return render_to_response('userpanel/' + settings.ENGINE + '/show_profile.html', {'profile': profile, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('userpanel/noperm.html', {'why': _('No such profile'), 'sid': settings.SITE_ID})
+		return render_to_response('userpanel/show_profile.html', {'profile': profile, 'sid': settings.SITE_ID})
 	else:
 		return HttpResponseRedirect("/user/")

@@ -1,0 +1,85 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+{% trans "This Page lists all tasks. You can post comments and help solving issues." %}<br /><br />
+<h2>{% trans "Site Tasks" %}</h2>
+{% if object_list %}
+<div class="content">
+          <table>
+            <tr>
+              <th class="first"></td>
+              <th><strong>{% trans "Task Title" %}</strong></th>
+              <th><strong>{% trans "Task Site" %}</strong></th>
+              <th><strong>{% trans "Task Status" %}</strong></th>
+              <th><strong>{% trans "Task Priority" %}</strong></th>
+              <th><strong>{% trans "Last Update" %}</strong></th>
+               <th><strong>{% trans "Progress" %}</strong></th>
+            </tr>
+           {% for t in object_list %}
+            <tr class="{% cycle rowA,rowB %}"> 
+              <td class="first">
+              {% if t.is_sticky %}
+		<img src="/site_media/biblioteka/stick.png" alt="" />
+              {% else %}
+			{% ifequal t.task_status "Nieprzypisany" %}
+			<img src="/site_media/biblioteka/none.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_status "Przypisany" %}
+			<img src="/site_media/biblioteka/normal.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_status "Zamknięty" %}
+			<img src="/site_media/biblioteka/lock.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_progress "100" %}
+			<img src="/site_media/biblioteka/100.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_progress "75" %}
+			<img src="/site_media/biblioteka/75.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_progress "50" %}
+			<img src="/site_media/biblioteka/50.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_progress "25" %}
+			<img src="/site_media/biblioteka/25.png" alt="" />
+			{% endifequal %}
+			{% ifequal t.task_progress "0" %}
+			<img src="/site_media/biblioteka/0.png" alt="" />
+			{% endifequal %}
+		{% endif %}
+              </td>
+              <td><a href="/tasks/task_show/{{ t.id }}/">{{ t.task_name }}</a></td>
+              <td>{{ t.task_site }}</td>
+              <td>{{ t.task_status }}</td>
+              <td>{% trans t.task_priority %}</td>
+              <td>{{ t.task_modification_date|truncatewords:"1" }}</td>
+              <td>{{ t.task_progress }}%</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+<br />
+<div class="box"><br />
+{% if has_previous %}
+	<a href="/tasks/task_list/{{ previous }}/"><b>{% trans "Previous Page" %}</b></a>
+{% endif %}
+{% if has_next %}
+	<a href="/tasks/task_list/{{ next }}/"><b>{% trans "Next Page" %}</b></a>
+{% endif %}
+</div>
+{% endif %}
+<div class="box">
+<div style="text-align:center;">{% trans "If you have any propositions and suggestion about the site post them on the forums or contact me <a href='mailto:riklaunim@gmail.com'>by email - riklaunim@gmail.com</a>." %}</div>
+<br /><b>
+<div style="float:left;"><img src="/site_media/biblioteka/none.png" alt="" /> - {% trans "Not Assigned" %}<br />
+<img src="/site_media/biblioteka/normal.png" alt="" /> - {% trans "Assigned" %}<br />
+<img src="/site_media/biblioteka/lock.png" alt="" /> - {% trans "Locked" %}<br />
+<img src="/site_media/biblioteka/stick.png" alt="" /> - {% trans "Sticky" %}</div>
+<div style="float:right; margin-right:10px;">
+<img src="/site_media/biblioteka/100.png" alt="" /> - {% trans "Task Compleated" %}<br />
+<img src="/site_media/biblioteka/75.png" alt="" /> - 75% {% trans "Done" %}<br />
+<img src="/site_media/biblioteka/50.png" alt="" /> - 50% {% trans "Done" %}<br />
+<img src="/site_media/biblioteka/25.png" alt="" /> - 25% {% trans "Done" %}<br />
+<img src="/site_media/biblioteka/0.png" alt="" /> - 0% {% trans "Done" %}</div>
+</b>
+</div><br />
+{% endblock %}

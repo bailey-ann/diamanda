@@ -1,0 +1,38 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<h2><a href="/forum/">{% trans "Forum Index" %}</a></h2>
+<div class="content">
+          <table>
+            <tr>
+              <th class="first"></th>
+              <th><strong>{% trans "Topic" %}</strong></th>
+              <th><strong>{% trans "Author" %}</strong></th>
+              <th><strong>{% trans "Posts" %}</strong></th>
+              <th><strong>{% trans "Last Post" %}</strong></th>
+            </tr>
+           {% for topic in topics %}
+            <tr class="{% cycle rowA,rowB %}">
+           <td class="first">
+{% if topic.is_locked %}
+	<img src="/site_media/biblioteka/lock.png" alt="*" />
+{% else %}
+	{% if topic.is_sticky %}
+		<img src="/site_media/biblioteka/stick.png" alt="*" />
+	{% else %}
+		{% if topic.is_global %}
+			<img src="/site_media/biblioteka/glob.png" alt="*" />
+		{% else %}
+			<img src="/site_media/biblioteka/normal.png" alt="*" />
+		{% endif%}
+	{% endif%}
+{% endif %}</td>
+              <td><a href="/forum/topic/{{ topic.pagination_max }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
+              <td><a href="/user/show_profile/{{ topic.topic_author }}/">{{ topic.topic_author }}</a></td>
+              <td>{{ topic.topic_posts }}</td>
+              <td>{{ topic.topic_lastpost }}</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+
+{% if img_path %}
+<div style="text-align:center; font-weight:bold;"><img src="{{ img_path }}uniqueentries.png" alt="" /><br />
+{% trans "Red Line shows number of entries per day. Blue Line shows linear regresion of entries" %}</div><br /><br /><br /><br />
+{% else %}
+	{% for i in results %}
+	- <b>{{ i.day }}</b>: {{ i.count }}<br />
+	{% endfor %}
+{% endif %}
+
+{% endblock %}
+{% block leftmenu %}
+<ul><li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li><li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li><li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li><li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li></ul>{% endblock %}

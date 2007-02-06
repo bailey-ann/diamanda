@@ -1,0 +1,35 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<h2>{% trans "Log in" %}</h2><form action="." method="post"><input type="hidden" value="{{ hash }}" name="imghash" />
+{% if error %}
+	<div style="text-align:center;" class="box"><b>{% trans "Login Error - bad login and/or password" %}</b></div>
+{% endif %}
+<div class="content">
+          <table>
+            <tr class="rowA">
+              <td class="first" style="width:35%;"><b>{% trans "Login" %}</b></td>
+              <td>{{ form.login }}{% if form.login.errors %}<br />*** {{ form.login.errors|join:", " }}{% endif %}</td>
+            </tr>
+            <tr class="rowB">
+              <td><b>{% trans "Password" %}</b></td>
+              <td>{{ form.password }}{% if form.password.errors %}<br />*** {{ form.password.errors|join:", " }}{% endif %}</td>
+            </tr>
+            <tr class="rowA">
+              <td><b>{% trans "Text from the image" %}</b><br />{% trans "(Use CAPITAL letters)" %}</td>
+              <td>{{ form.imgtext }}{% if form.imgtext.errors %}<br />*** {{ form.imgtext.errors|join:", " }}{% endif %}<br /><img src="/site_media/bg2.jpg" alt="" style="padding:4px;" /></td>
+            </tr>
+          </table>
+</div>
+	<br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}" class="actiontable" /><br /><br />
+	<input type="button" value="{% trans "Register" %}" onclick="location.assign('/user/register/');" /><br />
+	</div><br />
+	</form></div>
+
+{% endblock %}
+
+
+
+
+
+

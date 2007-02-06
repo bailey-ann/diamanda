@@ -1,0 +1,11 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<br />
+<h2>{% trans "User Profile" %}</h2>
+	<div class="box">
+	- <a href="/user/login/?log=out"><b>{% trans "Logout" %}</b></a><br />
+	- <a href="/user/edit_profile/"><b>{% trans "Edit Profile" %}</b></a><br />
+	- <a href="/user/userlist/"><b>{% trans "User List" %}</b></a><br />
+</div>
+{% endblock %}

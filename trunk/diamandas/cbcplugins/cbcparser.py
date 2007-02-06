@@ -1,9 +1,9 @@
-from re import findall, MULTILINE
+from re import findall
 from os.path import isfile
 from os import listdir
 
 def list_descriptions():
-	plugins = listdir('diamandas/cbcplugins/cbcplugins')
+	plugins = listdir('/home/piotr/svn/bib/diamandas/cbcplugins/cbcplugins')
 	plug = {}
 	for p in plugins:
 		plug[p.split('.')[0]] = True
@@ -18,19 +18,19 @@ def list_descriptions():
 def parse_cbc_tags(text):
 	list_descriptions()
 	# lolish basic emots parser
-	text = text.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" />')
-	text = text.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" />')
-	text = text.replace(':whatthe:', '<img src="/site_media/wiki/smilies/icon_neutral.gif" />')
-	text = text.replace(':evil:', '<img src="/site_media/wiki/smilies/icon_evil.gif" />')
-	text = text.replace(':twisted:', '<img src="/site_media/wiki/smilies/icon_twisted.gif" />')
-	text = text.replace(':?:', '<img src="/site_media/wiki/smilies/icon_question.gif" />')
-	text = text.replace(':idea:', '<img src="/site_media/wiki/smilies/icon_idea.gif" />')
-	text = text.replace(':arrow:', '<img src="/site_media/wiki/smilies/icon_arrow.gif" />')
-	text = text.replace(':grin:', '<img src="/site_media/wiki/smilies/icon_cheesygrin.gif" />')
-	text = text.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" />')
+	text = text.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" alt="" />')
+	text = text.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" alt="" />')
+	text = text.replace(':whatthe:', '<img src="/site_media/wiki/smilies/icon_neutral.gif" alt="" />')
+	text = text.replace(':evil:', '<img src="/site_media/wiki/smilies/icon_evil.gif" alt="" />')
+	text = text.replace(':twisted:', '<img src="/site_media/wiki/smilies/icon_twisted.gif" alt="" />')
+	text = text.replace(':?:', '<img src="/site_media/wiki/smilies/icon_question.gif" alt="" />')
+	text = text.replace(':idea:', '<img src="/site_media/wiki/smilies/icon_idea.gif" alt="" />')
+	text = text.replace(':arrow:', '<img src="/site_media/wiki/smilies/icon_arrow.gif" alt="" />')
+	text = text.replace(':grin:', '<img src="/site_media/wiki/smilies/icon_cheesygrin.gif" alt="" />')
+	text = text.replace(':cool:', '<img src="/site_media/wiki/smilies/icon_cool.gif" alt="" />')
 	
 	# double: [tag]something here[/tag]
-	tags = findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text, MULTILINE)
+	tags = findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text)
 	parsed_double = {}
 	for tag in tags:
 		k = str(tag[0]).strip()
@@ -53,9 +53,12 @@ def parse_cbc_tags(text):
 		parsed_double[k].append(vals)
 	
 	for plugin in parsed_double:
-		if isfile('diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
+		if isfile('/home/piotr/svn/bib/diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
+			#try:
 			exec 'from ' + plugin + ' import *'
 			text = render(parsed_double[plugin], text)
+			#except:
+			#print 'CBC Error: ' + str(plugin)
 			
 	if text.find('[toc]') != -1:
 		tags = findall('<a name="([0-9]*)" href="([0-9]*)" title="(.*?)"></a>', text)
@@ -89,7 +92,10 @@ def parse_cbc_tags(text):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		if isfile('diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
+		if isfile('/home/piotr/svn/bib/diamandas/cbcplugins/cbcplugins/' + plugin + '.py'):
+			#try:
 			exec 'from ' + plugin + ' import *'
 			text = render(parsed[plugin], text)
+			#except:
+			#print 'CBC Error: ' + str(plugin)
 	return text

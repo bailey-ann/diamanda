@@ -1,23 +1,21 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from tasks.models import *
-from wiki.models import Archive
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from stripogram import html2safehtml
 from django import forms
+from django.db.models import Q
 
 # list tasks
 def task_list(request, pagination_id):
+	from django.contrib.sites.models import Site
+	domain = str(Site.objects.get_current()).replace('www.', '').replace('http://', '')
 	from django.views.generic.list_detail import object_list
-	tasks = Task.objects.values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority').order_by('-task_modification_date')
-	proposals = Archive.objects.values('slug', 'title', 'modification_user', 'modification_date', 'changes').order_by('-modification_date').filter(is_proposal__exact=True)
-	if request.user.is_authenticated() and request.user.has_perm('tasks.add_task'):
-		add_task = True
-	else:
-		add_task = False
+	tasks = Task.objects.filter(Q(task_site = domain) | Q(task_site = 'rk.edu.pl')).values('id', 'task_status', 'task_name', 'task_modification_date', 'task_progress', 'task_priority', 'task_site', 'is_sticky').order_by('-is_sticky', '-task_modification_date')
 	if len(tasks) == 0:
-		return render_to_response('tasks/' + settings.ENGINE + '/task_list.html', {'proposals': proposals, 'theme': settings.THEME, 'engine': settings.ENGINE})
-	return object_list(request, tasks, paginate_by = 30, page = pagination_id, extra_context = {'theme': settings.THEME, 'engine': settings.ENGINE, 'proposals': proposals, 'add_task': add_task, 'perms': { 'add': request.user.has_perm('tasks.add_task'), 'change': request.user.has_perm('tasks.change_task'), 'delete' : request.user.has_perm('tasks.delete_task') } }, template_name = 'tasks/' + settings.ENGINE + '/task_list.html')
+		return render_to_response('tasks/task_list.html', {'sid': settings.SITE_ID})
+	return object_list(request, tasks, paginate_by = 30, page = pagination_id, template_name = 'tasks/task_list.html', extra_context={'sid': settings.SITE_ID})
 
 # show tasks
 def task_show(request, task_id):
@@ -30,45 +28,21 @@ def task_show(request, task_id):
 	else:
 		user_list = _('None')
 	com = TaskComment.objects.filter(com_task_id = task_id)
-	if request.user.is_authenticated() and request.user.has_perm('tasks.add_task'):
-		add_task = True
-	else:
-		add_task = False
-	return render_to_response('tasks/' + settings.ENGINE + '/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'add_task': add_task, 'theme': settings.THEME, 'engine': settings.ENGINE ,'perms': {'add': request.user.has_perm('tasks.add_task'), 'change': request.user.has_perm('tasks.change_task'), 'delete' : request.user.has_perm('tasks.delete_task') }})
-
-# add task
-def task_add(request):
-	if request.user.is_authenticated() and request.user.has_perm('tasks.add_task'):
-		manipulator = Task.AddManipulator()
-		if request.POST:
-			data = request.POST.copy()
-			data['task_status'] = _('Unassigned')
-			data['task_priority'] = 'Minor'
-			data['task_progress'] = '0'
-			errors = manipulator.get_validation_errors(data)
-			if not errors:
-				manipulator.do_html2python(data)
-				data['task_name'] = html2safehtml(data['task_name'] ,valid_tags=())
-				data['task_text'] = html2safehtml(data['task_text'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
-				data['task_type'] = html2safehtml(data['task_type'] ,valid_tags=())
-				manipulator.save(data)
-				return HttpResponseRedirect('/tasks/task_list/1')
-		else:
-			errors = {}
-		data = {}
-		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('tasks/' + settings.ENGINE + '/task_add.html', {'form': form, 'theme': settings.THEME, 'engine': settings.ENGINE})
-	return render_to_response('tasks/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+	return render_to_response('tasks/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'sid': settings.SITE_ID})
 
 def com_task_add(request, task_id):
-	if request.user.is_authenticated() and request.user.has_perm('tasks.add_taskcomment'):
+	if request.user.is_authenticated():
 		if request.POST and len(request.POST['text']) > 0:
 			task = Task.objects.get(id=task_id)
 			text = html2safehtml(request.POST['text'] ,valid_tags=('b', 'a', 'i', 'br', 'p', 'u', 'pre', 'div', 'span', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'blockquote'))
 			co = TaskComment(com_task_id = task, com_text = text, com_author = str(request.user), com_ip = request.META['REMOTE_ADDR'])
 			co.save()
 			task.save()
+			from django.contrib.sites.models import Site
+			from django.core.mail import mail_admins
+			s = Site.objects.get(id=settings.SITE_ID)
+			mail_admins('Komentarz Dodany', "Dodano komentarz: http://www." + str(s) + "/tasks/task_show/" + str(task_id) + '/', fail_silently=True)
 			return HttpResponseRedirect('/tasks/task_show/' + str(task_id) + '/')
 		else:
-			return render_to_response('tasks/' + settings.ENGINE + '/com_task_add.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
-	return render_to_response('tasks/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+			return render_to_response('tasks/com_task_add.html', {'sid': settings.SITE_ID})
+	return render_to_response('tasks/noperm.html', {'sid': settings.SITE_ID, 'why': _('You don\'t have the permissions to add coments. Are you logged in?')}) # can't view page

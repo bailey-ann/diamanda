@@ -1,0 +1,26 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<p style="text-align:right;"><a href="/forum/mytopics/{{ profile.username }}/">{% trans "User Topics" %}</a> | <a href="/forum/myptopics/{{ profile.username }}/">{% trans "User Posts" %}</a></p>
+<h2>{% trans "User Profile" %}</h2>
+<div class="content">
+          <table>
+            <tr class="rowA">
+              <td class="first" style="width:25%;"><b>{% trans "Public Email" %}</b></td>
+              <td><a href="mailto:{{ profile.email }}">{{ profile.email }}</a><br /><br /><a href="/user/pmessage/{{ profile.username }}/"><b>{% trans "Send Message" %}</b></a></td>
+            </tr>
+            <tr class="rowB">
+              <td><b>{% trans "Signature" %}</b></td>
+              <td>{{ profile.signature }}</td>
+            </tr>
+            <tr class="rowA">
+              <td><b>{% trans "Public Info" %}</b></td>
+              <td>{{ profile.public_info }}</td>
+            </tr>
+            <tr class="rowB">
+              <td><b>{% trans "Contacts" %}</b></td>
+              <td>{{ profile.contacts }}</td>
+            </tr>
+          </table>
+</div>
+{% endblock %}

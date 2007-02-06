@@ -9,59 +9,6 @@ from cbcplugins import cbcparser
 from stripogram import html2safehtml
 from django.http import HttpResponse
 
-def search_pages(request):
-	google = False
-	lupy = False
-	if settings.WIKI_GOOGLE_SEARCH_API:
-		google = True
-	if settings.WIKI_SEARCH_WITH_LUPY:
-		lupy = True
-	if request.POST:
-		data = request.POST.copy()
-		if len(data['string']) > 3:
-			#like - simple LIKE search
-			if data.has_key('like'):
-				pages = Page.objects.filter(text__icontains=data['string']).values('slug', 'title', 'description')
-				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'likeuse': True, 'google': google, 'theme': settings.THEME, 'engine': settings.ENGINE})
-			# google API search
-			elif data.has_key('google'):
-				import google
-				from django.contrib.sites.models import Site
-				google.setLicense(settings.WIKI_GOOGLE_SEARCH_API)
-				domain = str(Site.objects.get_current()).replace('www.', '').replace('http://', '')
-				pages = google.doGoogleSearch(data['string'] + ' site:' + domain)
-				pages = pages.results
-				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'google': google, 'googleuse': True, 'theme': settings.THEME, 'engine': settings.ENGINE})
-			# lupy search
-			if data.has_key('lupy'):
-				from lupy.index.term import Term
-				from lupy.search.indexsearcher import IndexSearcher
-				from lupy.search.term import TermQuery
-				from lupy.search.boolean import BooleanQuery
-				
-				index =  IndexSearcher('diamandaSearchCache')
-				query = data['string'].split(' ')
-				q = BooleanQuery()
-				if len(query) > 1:
-					for a in query:
-						t = Term('text', a.decode("utf-8"))
-						tq = TermQuery(t)
-						q.add(tq, False, False)
-				else:
-					t = Term('text', query[0].decode("utf-8"))
-					tq = TermQuery(t)
-					q.add(tq, True, False)
-				hits = index.search(q)
-				pages = []
-				for h in hits:
-					pages.append({'title': h.get('title'),'description': h.get('description'),'slug': h.get('slug')})
-				pages.reverse()
-				return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'pages': pages, 'lupy': lupy, 'string': data['string'], 'google': google, 'lupyuse': True, 'theme': settings.THEME, 'engine': settings.ENGINE})
-		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'lupy': lupy, 'theme': settings.THEME, 'engine': settings.ENGINE})
-	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/search.html', {'google': google, 'lupy': lupy, 'theme': settings.THEME, 'engine': settings.ENGINE})
-
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
 	if request.user.is_authenticated():
@@ -76,79 +23,41 @@ def unpropose(request, archive_id):
 				archive_entry.save()
 				return HttpResponseRedirect('/wiki/history/' + archive_entry.slug + '/')
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't unpropose
+			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't unpropose
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't unpropose
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't unpropose
 
 # show the page by given slug
 def show_page(request, slug='index'):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
+	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
 		try:
 			page = Page.objects.get(slug__exact=slug)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		if settings.WIKI_USE_PDF:
-			pdf = True
-		else:
-			pdf = False
 		if (slug == 'index'):
-			return render_to_response('wiki/' + settings.ENGINE + '/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated(), 'pdf': pdf, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('wiki/' + settings.ENGINE + '/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated()})
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/page.html', {'page': page, 'pdf': pdf, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('wiki/' + settings.ENGINE + '/page.html', {'page': page})
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
-
-
-# show the page by given slug - export it as PDF
-# using htmldoc
-def show_page_as_pdf(request, slug='index'):
-	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') and settings.WIKI_USE_PDF == 'htmldoc' or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated() and settings.WIKI_USE_PDF == 'htmldoc':
-		try:
-			page = Page.objects.get(slug__exact=slug)
-		except Page.DoesNotExist:
-			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		import os
-		from django.template import Context, loader
-		t = loader.get_template('wiki/' + settings.ENGINE + '/pdfpage.html')
-		c = Context({
-			'page': page,
-		})
-		
-		(stin,stout) = os.popen2('htmldoc --webpage -t pdf --jpeg -')
-		stin.write(t.render(c))
-		stin.close()
-		pdf = stout.read()
-		stout.close()
-		response = HttpResponse()
-		response['Pragma'] = 'public'
-		response['Content-Disposition'] = 'attachment; filename="' +str(page.title)+'"'
-		response['Content-Type'] = 'application/pdf'
-		response['Content-Transfer-Encoding'] = 'binary'
-		response['Cache-Control'] = 'private'
-		response['Content-Length'] = str(len(pdf))
-		response.write(pdf)
-		return response
-	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 
 # show achived page by given ID
 def show_old_page(request, archive_id):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
+	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
 		try:
 			page = Archive.objects.get(id__exact=archive_id)
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/') # show some error message
-		return render_to_response('wiki/' + settings.ENGINE + '/oldPage.html', {'page': page, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('wiki/' + settings.ENGINE + '/oldPage.html', {'page': page, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 
 # show list of changes for a page by given slug
 def show_page_history_list(request, slug):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
+	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
 		try:
 			page = Page.objects.get(slug__exact=slug)
 		except Page.DoesNotExist:
@@ -163,9 +72,9 @@ def show_page_history_list(request, slug):
 		if len(archive) > 0:
 			for i in archive:
 				i.modification_date = str(i.modification_date)[:16]
-		return render_to_response('wiki/' + settings.ENGINE + '/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('wiki/' + settings.ENGINE + '/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 
 # restores an old version of a page by archive ID entry
 def restore_page_from_archive(request, archive_id):
@@ -190,14 +99,14 @@ def restore_page_from_archive(request, archive_id):
 		page_new.save()
 		return HttpResponseRedirect('/wiki/history/'+page_new.slug +'/')
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 	
 
 # show diff between two entries. IF new = 0 then archive and current, if new !=0 - also archive
 def show_diff(request):
 	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
 	if request.POST and request.POST.has_key('old') and request.POST.has_key('new'):
-		if request.user.is_authenticated() and request.user.has_perm('wiki.can_view') or settings.ANONYMOUS_CAN_VIEW and not request.user.is_authenticated():
+		if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
 			old = int(request.POST['old'])
 			new = int(request.POST['new'])
 			try:
@@ -211,9 +120,9 @@ def show_diff(request):
 				return HttpResponseRedirect('/')
 			import diff
 			html_result = diff.textDiff(page_old.text, page_new.text)
-			return render_to_response('wiki/' + settings.ENGINE + '/diff.html', {'diffresult': html_result, 'slug': page_new.slug, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('wiki/' + settings.ENGINE + '/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
 		else:
-			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+			return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 	else:
 		return HttpResponseRedirect('/') # no POST
 
@@ -256,16 +165,6 @@ def add_page(request, slug=''):
 				if not errors and not page_data.has_key('preview') and not cbcerrors:
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
-					if settings.WIKI_SEARCH_WITH_LUPY:
-						from lupy.indexer import Index
-						from os.path import isdir
-						if isdir('diamandaSearchCache'):
-							index = Index('diamandaSearchCache', create=False)
-						else:
-							index = Index('diamandaSearchCache', create=True)
-						index.index(text=page_data['text'].decode("utf-8"), __title=page_data['title'].decode("utf-8"), __description=page_data['description'].decode("utf-8"), _slug=page_data['slug'])
-						index.optimize()
-					
 					return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
 				elif page_data.has_key('preview') and not cbcerrors:
 					preview = page_data['text']
@@ -281,12 +180,12 @@ def add_page(request, slug=''):
 				page_data = {'slug': slug}
 			form = forms.FormWrapper(manipulator, page_data, errors)
 			cbcdesc = cbcparser.list_descriptions()
-			return render_to_response('wiki/' + settings.ENGINE + '/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
+			return render_to_response('wiki/' + settings.ENGINE + '/add.html', {'form': form, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
 		# page exist
 		else:
 			return HttpResponseRedirect("/wiki/page/" + slug +"/")
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 
 # edit page by given slug
 def edit_page(request, slug):
@@ -330,22 +229,8 @@ def edit_page(request, slug):
 			if not errors and not page_data.has_key('preview') and not cbcerrors:
 				# can user / anonymous set new changeset as current? wiki.can_set_current and settings.ANONYMOUS_CAN_SET_CURENT for anonymous
 				if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
-					#save old version to Archive
-					old = Archive(page_id = page, title=page.title, slug = page.slug, description = page.description, text=page.text, changes = page.changes, modification_date = page.modification_date, modification_user = page.modification_user, modification_ip = page.modification_ip)
-					old.save()
-					#set edit as current content
 					manipulator.do_html2python(page_data)
 					new_place = manipulator.save(page_data)
-					# lupy update
-					#if settings.WIKI_SEARCH_WITH_LUPY:
-						#from lupy.indexer import Index
-						#from os.path import isdir
-						#if isdir('diamandaSearchCache'):
-							#index = Index('diamandaSearchCache', create=False)
-						#else:
-							#index = Index('diamandaSearchCache', create=True)
-						#index.index(text=page_data['text'].decode("utf-8"), __title=page_data['title'].decode("utf-8"), __description=page_data['description'].decode("utf-8"), _slug=page_data['slug'])
-						#index.optimize()
 				else:
 					# can't save as current - save as a "old" revision with...
 					from datetime import datetime
@@ -367,9 +252,9 @@ def edit_page(request, slug):
 			page_data['changes'] = ''
 		form = forms.FormWrapper(manipulator, page_data, errors)
 		cbcdesc = cbcdesc = cbcparser.list_descriptions()
-		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('wiki/' + settings.ENGINE + '/edit.html', {'form': form, 'page': page, 'cbcdesc': cbcdesc, 'preview': preview, 'cbcerrors': cbcerrors, })
 	else:
-		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {'theme': settings.THEME, 'engine': settings.ENGINE}) # can't view page
+		return render_to_response('wiki/' + settings.ENGINE + '/noperm.html', {}) # can't view page
 
 # file like object (for storing cbc tracebacks)
 class AFile(object):

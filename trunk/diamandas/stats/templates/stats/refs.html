@@ -1,0 +1,12 @@
+{% load i18n %}
+{% extends "rcs/body.html" %}
+{% block content %}
+<h2>{% trans "Last Referers" %}</h2><br />
+{% for r in refs %}
+<a href="{{ r.referer }}" target="_blank">{{ r.referer }}</a><br />
+{% endfor %}
+{% endblock %}
+
+
+{% block leftmenu %}
+<ul><li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li><li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li><li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li><li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li></ul>{% endblock %}

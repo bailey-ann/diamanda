@@ -3,10 +3,14 @@ from django import template
 from pygments import highlight
 from pygments.lexers import HtmlLexer
 from pygments.formatters import HtmlFormatter
+from os.path import isfile
+from django.contrib.sites.models import Site
+from django.conf import settings
 
 register = template.Library()
 
 def fbc(value): # Only one argument.
+	value = value.decode('utf-8')
 	value = value.replace(':omg:', '<img src="/site_media/wiki/smilies/icon_eek.gif" alt="" />')
 	value = value.replace(':nice:', '<img src="/site_media/wiki/smilies/icon_biggrin.gif" alt="" />')
 	value = value.replace(':whatthe:', '<img src="/site_media/wiki/smilies/icon_neutral.gif" alt="" />')
@@ -26,30 +30,15 @@ def fbc(value): # Only one argument.
 	value = value.replace('[quote]', '<blockquote>')
 	value = value.replace('[/quote]', '</blockquote>')
 	value = value.replace('[QUOTE]', '<blockquote>')
-	value = value.replace('[/QUOTE]', '</blockquote>')
+	value = value.replace('[url]', '')
+	value = value.replace('[/url]', '')
+	value = value.replace('[/URL]', '')
+	value = value.replace('[URL]', '')
 	
 	value = value.replace('\n', '<br />')
 	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value, MULTILINE)
 	for i in tags:
 		j = i.replace('<br />', '')
-		value = value.replace('[code]' + i + '[/code]', highlight(j, HtmlLexer(), HtmlFormatter()))
-	del tags
-	tags = findall( r'\[url=(.*?)\](.*?)\[/url\]', value)
-	for i in tags:
-		if len(i) == 2:
-			value = value.replace('[url='+ i[0] +']'+i[1]+'[/url]', '<a href="' + i[0] +'" target="_blank">' + i[1] +'</a>')
-	del tags
-	tags = findall( r'\[URL=(.*?)\](.*?)\[/URL\]', value)
-	for i in tags:
-		if len(i) == 2:
-			value = value.replace('[URL='+ i[0] +']'+i[1]+'[/URL]', '<a href="' + i[0] +'" target="_blank">' + i[1] +'</a>')
-	del tags
-	tags = findall( r'\[url\](.*?)\[/url\]', value)
-	for i in tags:
-		value = value.replace('[url]'+i+'[/url]', '<a href="' + i +'" target="_blank">' + i +'</a>')
-	del tags
-	tags = findall( r'http://([a-z_0-9=\?.&/_\-]*) ', value)
-	for i in tags:
-		value = value.replace('http://' + i, '<a href="http://' + i +'" target="_blank">' + i +'</a>')
+		value = value.replace('[code]' + i + '[/code]', '<div class="box" style="overflow:auto;font-size:10px;background-color:#EEEEEE;">' + highlight(j, HtmlLexer(), HtmlFormatter()) + '</div><style>' + HtmlFormatter().get_style_defs('.highlight') + '</style>')
 	return value
 register.filter('fbc', fbc)
