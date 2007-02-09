@@ -18,15 +18,8 @@ def task_list(request, pagination_id):
 # show tasks
 def task_show(request, task_id):
 	task = Task.objects.get(id=task_id)
-	users = task.task_assignedto.all()
-	if len(users) > 0:
-		user_list = ''
-		for i in users:
-			user_list = user_list + '<a href="/user/show_profile/' + str(i) + '/">' + str(i) + '</a> '
-	else:
-		user_list = _('None')
 	com = TaskComment.objects.filter(com_task_id = task_id)
-	return render_to_response('tasks/task_show.html', {'task': task, 'com': com, 'user_list': user_list, 'sid': settings.SITE_ID})
+	return render_to_response('tasks/task_show.html', {'task': task, 'com': com, 'sid': settings.SITE_ID})
 
 def com_task_add(request, task_id):
 	if request.user.is_authenticated():

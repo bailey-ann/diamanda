@@ -1,11 +1,11 @@
 {% load i18n %}
 {% extends "wiki/body.html" %}
 {% block leftmenu %}{% if perms.is_authenticated %}
-<ul>
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 <li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
-</ul>
+{% else %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 {% endif %}{% endblock %}
 
 {% block content %}

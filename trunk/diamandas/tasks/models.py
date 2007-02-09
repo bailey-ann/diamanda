@@ -18,13 +18,12 @@ class Task(models.Model):
 	task_status = models.CharField(maxlength=255, choices=STATUSS, verbose_name=_('Task Status'))
 	task_creation_date = models.DateTimeField(auto_now_add = True, verbose_name=_('Creation Date'), blank=True)
 	task_modification_date = models.DateTimeField(auto_now = True, verbose_name=_('Modification Date'), blank=True)
-	task_progress = models.CharField(maxlength=255, choices=PROGRESS, verbose_name=_('Progress'), default='0')
 	is_sticky = models.BooleanField(blank=True, default=False, verbose_name=_('Sticky'))
 	class Meta:
 		verbose_name = _('Task')
 		verbose_name_plural = _('Site Tasks')
 	class Admin:
-		list_display = ('task_name', 'task_status', 'task_progress')
+		list_display = ('task_name', 'task_status')
 		search_fields = ['task_name', 'task_text']
 	def __str__(self):
 		return self.task_name

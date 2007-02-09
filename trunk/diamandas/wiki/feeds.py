@@ -10,7 +10,7 @@ except:
 
 class LatestPages(Feed):
 	title = settings.SITE_NAME
-	link = settings.SITE_NEWS_LINK 
+	link = settings.SITE_NEWS_LINK
 	description = settings.SITE_DESCRIPTION
 	def items(self):
 		return Page.objects.order_by('-creation_date')[:10]

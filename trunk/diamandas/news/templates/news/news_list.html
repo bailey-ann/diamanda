@@ -8,7 +8,7 @@
 
 <h2>{{ new.news_title }}</h2>
 {{ new.news_text|cbc }}<br />
-<b>{% trans "Added" %}</b>: {{ new.news_date|truncatewords:"1" }} <a href="/news/more/{{ new.news_slug }}/">{% trans "Read More" %}</a> | [<a href="/forum/">Komentuj na Forum</a>]<br /><br />
+<b>{% trans "Added" %}</b>: {{ new.news_date|truncatewords:"1" }} <a href="/news/more/{{ new.news_slug }}/">{% trans "Read More" %}</a><br /><br />
 {% endfor %}
 
 {% if has_previous %}
@@ -26,7 +26,6 @@
 
 
 {% block leftmenu %}
-<ul>
 <li><a href="/news/">{% trans "News Main Page" %}</a></li>
-</ul>
+<li><a href="/">{% trans "Wiki Main Page" %}</a></li>
 {% endblock %}

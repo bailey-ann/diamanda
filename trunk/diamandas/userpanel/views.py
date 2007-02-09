@@ -191,15 +191,13 @@ def edit_profile(request):
 			if not errors:
 				manipulator.do_html2python(data)
 				data['email'] = html2safehtml(data['email'] ,valid_tags=())
-				data['signature'] = html2safehtml(data['signature'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
 				data['public_info'] = html2safehtml(data['public_info'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
-				data['contacts'] = html2safehtml(data['contacts'] ,valid_tags=('br', 'b', 'u', 'i', 'a'))
 				manipulator.save(data)
 				return HttpResponseRedirect("/user/")
 		else:
 			errors = {}
 		form = forms.FormWrapper(manipulator, data, errors)
-		return render_to_response('userpanel/profile.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'form': form, 'sid': settings.SITE_ID})
+		return render_to_response('userpanel/profile.html', {'form': form, 'sid': settings.SITE_ID})
 	else:
 		return HttpResponseRedirect("/user/login/")
 

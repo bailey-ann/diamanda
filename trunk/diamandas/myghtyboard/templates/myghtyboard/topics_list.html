@@ -4,7 +4,16 @@
 {% block title %}{% trans "Topics from" %} - {{ forum_name }}{% endblock %}
 {% block header %}{% trans "Topics from" %} - {{ forum_name }}{% endblock %}
 
-{% block leftmenu %}<ul><li><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></li></ul>{% endblock %}
+{% block leftmenu %}
+<li><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></li>
+<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
+{% if perms.is_authenticated %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+{% else %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+{% endif %}{% endblock %}
 
 {% block content %}
 <h2><a href="/forum/">{% trans "Forum Index" %}</a> >> <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a></h2>

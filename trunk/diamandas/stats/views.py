@@ -18,15 +18,15 @@ def entries(request):
 				txday = today[0:7] + '-' + str(tday)
 			results.append({'day':txday, 'count':Stat.objects.filter(date = txday).count()})
 			tday = tday -1
-		return render_to_response('stats/' + settings.ENGINE + '/entries.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'results': results})
-	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('stats/entries.html', {'results': results})
+	return render_to_response('stats/noperm.html', {'why': _('You don\'t have the permissions to view this page')})
 
 # non google/se referers
 def referers(request):
 	if request.user.is_authenticated() and request.user.has_perm('stats.add_stat'):
 		refs = Stat.objects.order_by('-id').exclude(referer__icontains='rk.edu.pl').exclude(referer__icontains='kibice.net').exclude(referer__icontains='insuran').exclude(referer__icontains='medic').exclude(referer__icontains='casino').exclude(referer__icontains='google').exclude(referer__icontains='msn.com').exclude(referer__icontains='onet.pl').exclude(referer__icontains='netsprint.pl').filter(referer__icontains='http://').values('referer')[:100]
-		return render_to_response('stats/' + settings.ENGINE + '/refs.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': refs})
-	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('stats/refs.html', {'refs': refs})
+	return render_to_response('stats/noperm.html', {'why': _('You don\'t have the permissions to view this page')})
 
 # google keywords
 def google(request):
@@ -53,21 +53,12 @@ def google(request):
 		all_links = refs = float(Stat.objects.all().count())
 		google_pr = str((google_links/all_links)*100)[0:5]
 		
-		jaki = refs = float(Stat.objects.filter(referer__icontains='jakilinux').count())
-		jaki_pr = str((jaki/all_links)*100)[0:5]
-		
-		wykop = refs = float(Stat.objects.filter(referer__icontains='wykop').count())
-		wykop_pr = str((wykop/all_links)*100)[0:5]
-		
-		wiki = refs = float(Stat.objects.filter(referer__icontains='wikipedia').count())
-		wiki_pr = str((wiki/all_links)*100)[0:5]
-		
-		return render_to_response('stats/' + settings.ENGINE + '/google.html', {'theme': settings.THEME, 'engine': settings.ENGINE, 'refs': results, 'google': google_pr, 'jaki': jaki_pr, 'wykop': wykop_pr, 'wiki': wiki_pr})
-	return render_to_response('stats/' + settings.ENGINE + '/noperm.html', {'why': _('You don\'t have the permissions to view this page'), 'theme': settings.THEME, 'engine': settings.ENGINE})
+		return render_to_response('stats/google.html', {'refs': results, 'google': google_pr})
+	return render_to_response('stats/noperm.html', {'why': _('You don\'t have the permissions to view this page')})
 
 # main page
 def mainpage(request):
-	return render_to_response('stats/' + settings.ENGINE + '/mainpage.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
+	return render_to_response('stats/mainpage.html', {'theme': settings.THEME, 'engine': settings.ENGINE})
 #delete all data
 def delete_all(request):
 	Stat.objects.all().delete()

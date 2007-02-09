@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from myghtyboard.models import *
-from userpanel.models import *
 from django.http import HttpResponseRedirect
 from django import forms
 from django.conf import settings
@@ -155,14 +154,6 @@ def add_topic(request, forum_id):
 			for i in tags:
 				page_data['text'] = page_data['text'].replace('[code]'+i+'[/code]', '[code]'+base64.decodestring(i)+'[/code]')
 			text = page_data['text']
-			if request.user.is_authenticated():
-				try:
-					profil = Profile.objects.get(username=request.user)
-				except Profile.DoesNotExist:
-					pass
-				else:
-					if len(profil.signature) > 1:
-						text = text + '<br /><br />-------------------------------------------------<br />' + profil.signature
 			del page_data['text']
 			page_data['topic_forum'] = forum_id
 			page_data['topic_posts'] = 1
@@ -215,14 +206,6 @@ def add_post(request, topic_id, post_id = False):
 			if request.POST and len(request.POST.copy()['post_text']) > 1:
 				page_data = request.POST.copy()
 				page_data['post_author'] = str(request.user)
-				if request.user.is_authenticated():
-					try:
-						profil = Profile.objects.get(username=request.user)
-					except Profile.DoesNotExist:
-						pass
-					else:
-						if len(profil.signature) > 3:
-							page_data['post_text'] = page_data['post_text'] + '<br /><br />-------------------------------------------------<br />' + profil.signature
 				from re import findall, MULTILINE
 				import base64
 				from datetime import datetime

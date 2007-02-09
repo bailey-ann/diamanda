@@ -4,29 +4,14 @@
 {% block title %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block header %}{{ forum_name }} - {{ topic }}{% endblock %}
 
-{% block leftmenu %}{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			<a href="/forum/topic/1/{{ topic_id }}/">{% trans "First Page" %}</a> | 
-			{% endifnotequal %}
-			{% endifnotequal %}
-			
-			{% if has_previous %}
-				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/">{% trans "Previous Page" %} </a>
-			{% endif %}
-			
-			{% if has_next %}
-			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"> {% trans "Next Page" %}</a>
-			{% endif %}
-			
-			{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/">{% trans "Last Page" %}</a>
-			{% endifnotequal %}
-			{% endifnotequal %}
-			{% if opened %}
-	 | <a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a>
-	{% endif %}
-{% endblock %}
+{% block leftmenu %}<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
+{% if perms.is_authenticated %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+{% else %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+{% endif %}{% endblock %}
 
 {% block content %}
 

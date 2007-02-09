@@ -31,7 +31,7 @@ class Forum(models.Model):
 		list_display = ('forum_name', 'forum_description', 'forum_category', 'forum_order')
 		fields = (
 		(None, {
-		'fields': ('forum_category', 'forum_name', 'forum_description', 'forum_order', 'forum_topics', 'forum_posts')
+		'fields': ('forum_category', 'forum_name', 'forum_description', 'forum_order')
 		}),)
 	def __str__(self):
 		return self.forum_name
@@ -44,9 +44,9 @@ class Topic(models.Model):
 	topic_posts = models.PositiveIntegerField(default=0, blank=True, verbose_name="Posts") # number of posts
 	topic_lastpost = models.CharField(maxlength=255, verbose_name="Last Post") # last poster etc.
 	topic_modification_date = models.DateTimeField(auto_now = True) # last post date :)
-	is_sticky = models.BooleanField(blank=True, default=False) # is a changeset a proposal - when user can't set it as a current ver.
-	is_locked = models.BooleanField(blank=True, default=False) # is a changeset a proposal - when user can't set it as a current ver.
-	is_global = models.BooleanField(blank=True, default=False) # is a changeset a proposal - when user can't set it as a current ver.
+	is_sticky = models.BooleanField(blank=True, default=False)
+	is_locked = models.BooleanField(blank=True, default=False)
+	is_global = models.BooleanField(blank=True, default=False)
 	class Meta:
 		verbose_name = "Topic"
 		verbose_name_plural = "Topics"
@@ -55,7 +55,7 @@ class Topic(models.Model):
 		return self.topic_name
 
 class Post(models.Model):
-	post_topic = models.ForeignKey(Topic, verbose_name="Post") # parent category if any
+	post_topic = models.ForeignKey(Topic, verbose_name="Post")
 	post_text = models.TextField() # the post text
 	post_author = models.CharField(maxlength=255, verbose_name="Author", blank=True) # topic author
 	post_date = models.DateTimeField(auto_now_add = True) # post add date

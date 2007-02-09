@@ -31,29 +31,6 @@
 	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a
 	</td>
 </tr>
-<tr>
-	<td class="tc3">
-		<div class="intd">
-			<div class="tclcon">
-				<h3>{% trans "Signature" %}</h3>
-			</div>
-		</div>
-	</td>
-	<td class="tc2">{{ form.signature }}{% if form.signature.errors %}<br />*** {{ form.signature.errors|join:", " }}{% endif %}
-	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a</td></td>
-</tr>
-<tr>
-	<td class="tc3">
-		<div class="intd">
-			<div class="tclcon">
-				<h3>{% trans "Contacts" %}</h3>
-			</div>
-		</div>
-	</td>
-	<td class="tc2">{{ form.contacts }}{% if form.contacts.errors %}<br />*** {{ form.contacts.errors|join:", " }}{% endif %}
-	<br /><b>{% trans "Allowed HTML Tags" %}</b>: br, b, i, u, a</td>
-</tr>
-
 </tbody>
 				</table>
 			</div>
@@ -64,4 +41,8 @@
 <input type="button" value="{% trans "Log Out" %}" onclick="location.assign('/user/email/?log=out');" /></div>
 </form>
 
+{% endblock %}
+{% block leftmenu %}
+<li><a href="/">{% trans "Wiki Main Page" %}</a></li>
+<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
 {% endblock %}

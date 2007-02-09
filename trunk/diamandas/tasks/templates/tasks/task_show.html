@@ -9,24 +9,16 @@
 <h3 class="pageh">{% trans "This page describes a site task. You can post comments regarding it." %}</h3>
 <br />
 <h2>{% trans "Task Description" %}</h2>
-<div class="box"><div class="inbox" style="padding:5px;">
+
 {{ task.task_text|fbc }} [<a href="/admin/tasks/task/{{ task.id }}/">*</a>]
-<br /></div></div>
+<br />
 <br />
 <h2>{% trans "Task Info" %}</h2>
 <div class="content">
           <table>
-            <tr class="rowA">
-              <td class="first" style="width:25%;"><b>{% trans "Task Type" %}</b></td>
-              <td>{{ task.task_type }}</td>
-            </tr>
-             <tr class="rowB">
+             <tr class="rowA">
               <td><b>{% trans "Task Status" %}</b></td>
               <td>{{ task.task_status }}</td>
-            </tr>
-             <tr class="rowA">
-              <td><b>{% trans "Assigned To" %}</b></td>
-              <td>{{ user_list }}</td>
             </tr>
              <tr class="rowB">
               <td><b>{% trans "Creation Date" %}</b></td>
@@ -35,14 +27,6 @@
              <tr class="rowA">
               <td><b>{% trans "Last Modification Date" %}</b></td>
               <td>{{ task.task_modification_date }}</td>
-            </tr>
-            <tr class="rowB">
-              <td><b>{% trans "Task Progress" %}</b></td>
-              <td>{{ task.task_progress }}%</td>
-            </tr>
-            <tr class="rowA">
-              <td><b>{% trans "Task Site" %}</b></td>
-              <td>{{ task.task_site }}</td>
             </tr>
           </table>
 </div>
@@ -61,7 +45,12 @@
           </table>
 </div>
 {% endif %}
+
 <div class="box"><br />
 <div style="text-align:center;"><input type="button" value="{% trans "Add Comment" %}" onclick="location.assign('/tasks/task_com_add/{{ task.id }}/');" /></div>
-<br />
+</div>
+{% endblock %}
+{% block leftmenu %}
+<li><a href="/">{% trans "Wiki Main Page" %}</a></li>
+<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
 {% endblock %}

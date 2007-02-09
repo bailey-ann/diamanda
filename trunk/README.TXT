@@ -1,4 +1,4 @@
-Diamanda Wiki SVN 21.11.2006
+Diamanda Wiki SVN 09.02.2007
 Released under GPL License
 Piotr Malinski - riklaunim@gmail.com
 
@@ -11,10 +11,6 @@ Requirements:
 - strip-o-gram (stripogram) from http://www.zope.org/Members/chrisw/StripOGram - it's a safeHTML filter which is used in Diamanda WikiPages :) python setup.py install will install it.
 - pygments from http://pygments.pocoo.org/ for code highlighting
 - PIL (python imaging library) for thumbnal and Captcha generation
-OPTIONAL:
-- pyGoogle if you want google search in your wiki
-- htmldoc (not python) if you want PDF generation from wiki pages
-- matplotlib - for stats chart creation
 
 Instalation / Developement server:
 - edit urls.py and change the site_media path '/home/piotr/diamanda/media' to that on your computer:

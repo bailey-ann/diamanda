@@ -36,3 +36,11 @@
           </table>
 </div>
 {% endblock %}
+
+{% block leftmenu %}<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>{% if perms.is_authenticated %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+{% else %}
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+{% endif %}{% endblock %}

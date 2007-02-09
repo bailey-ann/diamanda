@@ -9,11 +9,8 @@
             <tr>
               <th class="first"></td>
               <th><strong>{% trans "Task Title" %}</strong></th>
-              <th><strong>{% trans "Task Site" %}</strong></th>
               <th><strong>{% trans "Task Status" %}</strong></th>
-              <th><strong>{% trans "Task Priority" %}</strong></th>
               <th><strong>{% trans "Last Update" %}</strong></th>
-               <th><strong>{% trans "Progress" %}</strong></th>
             </tr>
            {% for t in object_list %}
             <tr class="{% cycle rowA,rowB %}"> 
@@ -21,38 +18,17 @@
               {% if t.is_sticky %}
 		<img src="/site_media/static/stick.png" alt="" />
               {% else %}
-			{% ifequal t.task_status "Nieprzypisany" %}
-			<img src="/site_media/static/none.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_status "Przypisany" %}
+			{% ifequal t.task_status "Open" %}
 			<img src="/site_media/static/normal.png" alt="" />
 			{% endifequal %}
-			{% ifequal t.task_status "Zamknięty" %}
+			{% ifequal t.task_status "Closed" %}
 			<img src="/site_media/static/lock.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_progress "100" %}
-			<img src="/site_media/static/100.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_progress "75" %}
-			<img src="/site_media/static/75.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_progress "50" %}
-			<img src="/site_media/static/50.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_progress "25" %}
-			<img src="/site_media/static/25.png" alt="" />
-			{% endifequal %}
-			{% ifequal t.task_progress "0" %}
-			<img src="/site_media/static/0.png" alt="" />
 			{% endifequal %}
 		{% endif %}
               </td>
               <td><a href="/tasks/task_show/{{ t.id }}/">{{ t.task_name }}</a></td>
-              <td>{{ t.task_site }}</td>
               <td>{{ t.task_status }}</td>
-              <td>{% trans t.task_priority %}</td>
               <td>{{ t.task_modification_date|truncatewords:"1" }}</td>
-              <td>{{ t.task_progress }}%</td>
             </tr>
 	    {% endfor %}
           </table>
@@ -69,16 +45,15 @@
 {% endif %}
 <div class="box">
 <br /><b>
-<div style="float:left;"><img src="/site_media/static/none.png" alt="" /> - {% trans "Not Assigned" %}<br />
+<div style="float:left;">
 <img src="/site_media/static/normal.png" alt="" /> - {% trans "Assigned" %}<br />
 <img src="/site_media/static/lock.png" alt="" /> - {% trans "Locked" %}<br />
 <img src="/site_media/static/stick.png" alt="" /> - {% trans "Sticky" %}</div>
-<div style="float:right; margin-right:10px;">
-<img src="/site_media/static/100.png" alt="" /> - {% trans "Task Compleated" %}<br />
-<img src="/site_media/static/75.png" alt="" /> - 75% {% trans "Done" %}<br />
-<img src="/site_media/static/50.png" alt="" /> - 50% {% trans "Done" %}<br />
-<img src="/site_media/static/25.png" alt="" /> - 25% {% trans "Done" %}<br />
-<img src="/site_media/static/0.png" alt="" /> - 0% {% trans "Done" %}</div>
 </b>
 </div><br />
+{% endblock %}
+
+{% block leftmenu %}
+<li><a href="/">{% trans "Wiki Main Page" %}</a></li>
+<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
 {% endblock %}

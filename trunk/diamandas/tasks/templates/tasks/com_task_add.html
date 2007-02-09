@@ -21,5 +21,10 @@
 <br />
 
 <div class="box"><br />
-<b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, pre, div, span, img, li, ul, ol, center, sub, sup, blockquote<br />
+<b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, pre, div, span, img, li, ul, ol, center, sub, sup, blockquote<br /></div>
+{% endblock %}
+
+{% block leftmenu %}
+<li><a href="/">{% trans "Wiki Main Page" %}</a></li>
+<li><a href="/forum/">{% trans "Forum Main Page" %}</a></li>
 {% endblock %}
