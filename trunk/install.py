@@ -16,7 +16,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 <div class="box">This applications is in developement and currently is in Quasi-Stable stage.</div>
 <br />
 [rk:h id="2"]Features[/rk:h]
-- multilingual interface (pl/en currently)<br /><br />
 <b>WIKI</b>
 <blockquote>
 - add, Edit Pages with permission controll<br />
@@ -31,7 +30,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 - Edit my posts<br />
 - Permission controll, user cant post a new post after his post<br />
 - IP saved<br />
-- Nice themes :)<br />
 - Lock/Open topics, sticky/global topics<br />
 - Topics with my posts, My Topics, Last active Topics lists<br />
 - Move Topics
@@ -45,7 +43,7 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 </blockquote>
 
 <div class="box"><b>NOTE!</b><br />
-- All applications can be rather easily used alone (requires some small changes) See support site for more details.</div><br />
+- All applications can be rather easily used alone (requires some small changes) See support sites for more details.</div><br />
 
 [rk:h id="2"]Requirements:[/rk:h]
 - install <b>strip-o-gram</b> from <a href="http://www.zope.org/Members/chrisw/StripOGram" target="_blank">here</a> - its a safe HTML filter which is used in Diamanda WikiPages and forums.
@@ -71,7 +69,7 @@ python install.py</div>
 <br /><br />
 
 [rk:h id="2"]MyghtyBoard[/rk:h]
-MyghtyBoard is the name of the forum script  - it doesn't require myghty (the template framework) but I very old times "MyghtyBoard" was a mygty based forum skeleton app ;) so I've kept the name.<br />
+MyghtyBoard is the name of the forum script  - it doesn't require myghty (the template framework) but in very old times "MyghtyBoard" was a mygty based forum skeleton app ;) so I've kept the name.<br />
 Categories and Forums are managed by the Django Admin Panel. Staff members and superusers are forum moderators.
 <br /><br />
 
@@ -81,8 +79,7 @@ There is some extra settings variables in <b>settings.py</b>.<br />
 - Anonymous Permissions: True/False<br /><br />
 
 [rk:h id="2"]Logged in users - Permissions[/rk:h]
-- add, edit perms are used on Wiki Pages to check if user can add or edit pages. There are also two extra options:<br />
-"Can view Page" - can see pages<br />
+- add, edit perms are used on Wiki Pages to check if user can add or edit pages. Extra permission:<br />
 "Can set Page as current" - can set edited page as current<br /><br />
 
 [rk:h id="3"]CAN_SET_CURENT and Edit Proposals[/rk:h]
@@ -92,20 +89,17 @@ restore it / and if needed - edit it.<br />
 - A list of all Edit Proposals can be found on /wiki/proposals/<br /><br />
 
 [rk:h id="2"]RSS Feeds[/rk:h]
-<div class="box">http://localhost:8080/wiki/feeds/latestpages/ - latest pages</div>
+<div class="box">http://localhost:8080/rss/latestpages/ - latest pages<br />
+http://localhost:8080/rss/latestnews/ - latest pages</div>
+<br />
+
+[rk:h id="2"]Sitemap[/rk:h]
+<div class="box">http://localhost:8080/sitemap.xml</div>
 <br />
 
 [rk:h id="2"]ContentBBCode[/rk:h]
 Wiki CBC Descriptions module in the Admin Panel is designed to keep descriptions of all CBC plugins you have. ContentBBcode is a pluggable 
-tags system (CBC for short). A CBC plugin can be a JS widget wrapper or perform other dynamic operations like display latest changes on the wiki.<br /><br />
-
-
-[rk:h id="1"]TODO[/rk:h]
-- Themes/Engines improvements and fixes<br />
-- Polish all the features<br />
-- If full history will get diffs and will be finished and merged to django + the same for full text search then those contribs could be used<br />
-- ReST support ? :)<br />
-- Suggestions welcomed...
+tags system (CBC for short). A CBC plugin can be a JS widget wrapper or perform other dynamic operations like display latest changes on the wiki.
 ''', changes='Page Creation', creation_date='2006-09-04 15:42:46', modification_date='2006-09-04 15:42:46', modification_user='piotr', modification_ip='666.69.69.69')
 p.save()
 
@@ -113,4 +107,4 @@ from django.contrib.auth.models import Group, Permission
 Group.objects.all().delete()
 g = Group(name='users')
 g.save()
-g.permissions.add(Permission.objects.get(codename='can_view'), Permission.objects.get(codename='can_set_current'), Permission.objects.get(codename='add_page'), Permission.objects.get(codename='add_taskcomment'), Permission.objects.get(codename='change_page'), Permission.objects.get(codename='add_topic'), Permission.objects.get(codename='add_post'))
+g.permissions.add(Permission.objects.get(codename='can_set_current'), Permission.objects.get(codename='add_page'), Permission.objects.get(codename='add_taskcomment'), Permission.objects.get(codename='change_page'), Permission.objects.get(codename='add_topic'), Permission.objects.get(codename='add_post'))

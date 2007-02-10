@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 # sets proposal as a normal archive entry
 def unpropose(request, archive_id):
-	if request.user.is_authenticated():
+	if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current'):
 		user_data = User.objects.get(username=str(request.user))
 		if user_data.is_staff:
 			try:
@@ -29,53 +29,41 @@ def unpropose(request, archive_id):
 
 # show the page by given slug
 def show_page(request, slug='index'):
-	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
-		try:
-			page = Page.objects.get(slug__exact=slug)
-		except Page.DoesNotExist:
-			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		if (slug == 'index'):
-			return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated()})
-		else:
-			return render_to_response('wiki/page.html', {'page': page})
+	try:
+		page = Page.objects.get(slug__exact=slug)
+	except Page.DoesNotExist:
+		return HttpResponseRedirect('/wiki/add/'+slug+'/')
+	if (slug == 'index'):
+		return render_to_response('wiki/indexPage.html', {'page': page, 'is_authenticated': request.user.is_authenticated()})
 	else:
-		return render_to_response('wiki/noperm.html', {}) # can't view page
+		return render_to_response('wiki/page.html', {'page': page})
 
 # show achived page by given ID
 def show_old_page(request, archive_id):
-	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
-		try:
-			page = Archive.objects.get(id__exact=archive_id)
-		except Page.DoesNotExist:
-			return HttpResponseRedirect('/') # show some error message
-		return render_to_response('wiki/oldPage.html', {'page': page, })
-	else:
-		return render_to_response('wiki/noperm.html', {}) # can't view page
+	try:
+		page = Archive.objects.get(id__exact=archive_id)
+	except Page.DoesNotExist:
+		return HttpResponseRedirect('/') # show some error message
+	return render_to_response('wiki/oldPage.html', {'page': page})
 
 # show list of changes for a page by given slug
 def show_page_history_list(request, slug):
-	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
-	if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
-		try:
-			page = Page.objects.get(slug__exact=slug)
-		except Page.DoesNotExist:
-			return HttpResponseRedirect('/wiki/add/'+slug+'/')
-		page.modification_date = str(page.modification_date)[:16]
-		archive = Archive.objects.order_by('-modification_date').filter(page_id__exact=page.id)
-		if request.user.is_authenticated():
-			user_data = User.objects.get(username=str(request.user))
-			is_staff = user_data.is_staff
-		else:
-			is_staff = False
-		if len(archive) > 0:
-			for i in archive:
-				i.modification_date = str(i.modification_date)[:16]
-		return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, })
+	try:
+		page = Page.objects.get(slug__exact=slug)
+	except Page.DoesNotExist:
+		return HttpResponseRedirect('/wiki/add/'+slug+'/')
+	page.modification_date = str(page.modification_date)[:16]
+	archive = Archive.objects.order_by('-modification_date').filter(page_id__exact=page.id)
+	if request.user.is_authenticated():
+		user_data = User.objects.get(username=str(request.user))
+		is_staff = user_data.is_staff
 	else:
-		return render_to_response('wiki/noperm.html', {}) # can't view page
-
+		is_staff = False
+	if len(archive) > 0:
+		for i in archive:
+			i.modification_date = str(i.modification_date)[:16]
+	return render_to_response('wiki/page_history_list.html', {'page': page, 'archive': archive, 'is_staff': is_staff, })
+	
 # restores an old version of a page by archive ID entry
 def restore_page_from_archive(request, archive_id):
 	# can user set a page as current - can_set_current or anonymous "anonymous_can_set_current" in the settings.py
@@ -104,25 +92,21 @@ def restore_page_from_archive(request, archive_id):
 
 # show diff between two entries. IF new = 0 then archive and current, if new !=0 - also archive
 def show_diff(request):
-	# can user see the page (can_view) or anonymous "anonymous_can_view" in the settings.py
 	if request.POST and request.POST.has_key('old') and request.POST.has_key('new'):
-		if request.user.is_authenticated() and request.user.has_perm('wiki.can_view'):
-			old = int(request.POST['old'])
-			new = int(request.POST['new'])
-			try:
-				page_old = Archive.objects.get(id__exact=old)
-				pid = str(page_old.page_id)
-				if new == 0:
-					page_new = Page.objects.get(id__exact=pid)
-				else:
-					page_new = Archive.objects.get(id__exact=new)
-			except Page.DoesNotExist:
-				return HttpResponseRedirect('/')
-			import diff
-			html_result = diff.textDiff(page_old.text, page_new.text)
-			return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
-		else:
-			return render_to_response('wiki/noperm.html', {}) # can't view page
+		old = int(request.POST['old'])
+		new = int(request.POST['new'])
+		try:
+			page_old = Archive.objects.get(id__exact=old)
+			pid = str(page_old.page_id)
+			if new == 0:
+				page_new = Page.objects.get(id__exact=pid)
+			else:
+				page_new = Archive.objects.get(id__exact=new)
+		except Page.DoesNotExist:
+			return HttpResponseRedirect('/')
+		import diff
+		html_result = diff.textDiff(page_old.text, page_new.text)
+		return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
 	else:
 		return HttpResponseRedirect('/') # no POST
 

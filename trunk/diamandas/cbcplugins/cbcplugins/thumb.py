@@ -3,17 +3,19 @@ from django.conf import settings
 
 def render(dic, text):
 	for i in dic:
-		img = i['attributes']['src'].split('/')
-		thumb = 'thumb_' + img[-1]
-		im = img[-1]
-		domain = img[0]
-		if isfile(settings.MEDIA_ROOT + 'resources/' + domain + '.rk.edu.pl/images/' + im):
-			if not isfile(settings.MEDIA_ROOT + 'resources/' + domain + '.rk.edu.pl/images/' + thumb):
+		if isfile(settings.SITE_IMAGES_DIR_PATH+i['attributes']['src']):
+			if i['attributes']['src'].find('/') != -1:
+				img = i['attributes']['src'].split('/')
+				thumb = 'thumb_' + img[-1]
+				thumb = img[0] + '/thumb_' + img[-1]
+			else:
+				thumb = 'thumb_' + i['attributes']['src']
+			if not isfile(settings.SITE_IMAGES_DIR_PATH+thumb):
 				import Image
-				imi = Image.open(settings.MEDIA_ROOT + 'resources/' + domain + '.rk.edu.pl/images/' + im)
-				imi.thumbnail((120, 120))
-				imi.save(settings.MEDIA_ROOT + 'resources/' + domain + '.rk.edu.pl/images/' + thumb)
-			text = text.replace(i['tag'], '<div style="text-align:center;"><a href="/site_media/resources/' + domain + '.rk.edu.pl/images/' + im + '" onClick="return enlarge(\'/site_media/resources/' + domain + '.rk.edu.pl/images/' + im + '\',event, \'center\', 520, 520)"><img src="/site_media/resources/' + domain + '.rk.edu.pl/images/' + thumb + '" alt="' + im + '" /></a></div>')
+				im = Image.open(settings.SITE_IMAGES_DIR_PATH+i['attributes']['src'])
+				im.thumbnail((120, 120))
+				im.save(settings.SITE_IMAGES_DIR_PATH+thumb)
+			text = text.replace(i['tag'], '<div style="text-align:center;"><a href="' + settings.SITE_IMAGES_SRC_PATH + i['attributes']['src'] + '" onClick="window.open(\'\',\'popup\', \'height=auto, width=auto, scrollbars=yes, location=no, statusbar=no, resizable=no toolbar=no, menubar=no\')" target="popup"><img src="' + settings.SITE_IMAGES_SRC_PATH + thumb + '" alt="' + i['attributes']['src'] + '" /></a></div>')
 	return text
 
 def describe():

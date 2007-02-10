@@ -88,9 +88,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 )
 
-ENGINE='punbb' # engine - see media/themes for list
-THEME='oxygen' # theme for current engine - see /media/themes/punbb for punBB based themes
-
 # RSS Settings
 SITE_NAME = 'Diamanda Wiki !'
 SITE_DESCRIPTION = 'A Diamanda Wiki Script'

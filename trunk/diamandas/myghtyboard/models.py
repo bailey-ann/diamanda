@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings
+#from django.conf import settings
 
 # Forum Categories
 class Category(models.Model):
@@ -8,7 +8,7 @@ class Category(models.Model):
 	class Meta:
 		verbose_name = "Category"
 		verbose_name_plural = "Categories"
-		db_table = 'rk_category' + str(settings.SITE_ID)
+		#db_table = 'rk_category' + str(settings.SITE_ID)
 	class Admin:
 		list_display = ('cat_name','cat_order')
 	def __str__(self):
@@ -26,7 +26,7 @@ class Forum(models.Model):
 	class Meta:
 		verbose_name = "Forum"
 		verbose_name_plural = "Forums"
-		db_table = 'rk_forum' + str(settings.SITE_ID)
+		#db_table = 'rk_forum' + str(settings.SITE_ID)
 	class Admin:
 		list_display = ('forum_name', 'forum_description', 'forum_category', 'forum_order')
 		fields = (
@@ -50,7 +50,7 @@ class Topic(models.Model):
 	class Meta:
 		verbose_name = "Topic"
 		verbose_name_plural = "Topics"
-		db_table = 'rk_topic' + str(settings.SITE_ID)
+		#db_table = 'rk_topic' + str(settings.SITE_ID)
 	def __str__(self):
 		return self.topic_name
 
@@ -63,6 +63,6 @@ class Post(models.Model):
 	class Meta:
 		verbose_name = "Post"
 		verbose_name_plural = "Posts"
-		db_table = 'rk_post' + str(settings.SITE_ID)
+		#db_table = 'rk_post' + str(settings.SITE_ID)
 	def __str__(self):
 		return str(self.id)

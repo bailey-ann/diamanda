@@ -1,9 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 # WikiPages
 class Page(models.Model):
-	title = models.CharField(maxlength=255) # page real title (for title tag and h1 in templates)
+	title = models.CharField(maxlength=255) # page real title
 	slug = models.SlugField(maxlength=255, unique=True) # the wiki URL "title"
 	description = models.CharField(maxlength=255) # short description (meta description, some link generation)
 	text = models.TextField() # the page text
@@ -13,7 +12,7 @@ class Page(models.Model):
 	modification_user = models.CharField(maxlength=30)
 	modification_ip = models.CharField(maxlength=20, blank=True)
 	class Meta:
-		permissions = (("can_view", "Can view Page"), ("can_set_current", "Can set Page as current"))
+		permissions =(("can_set_current", "Can set Page as current"), )
 		verbose_name = _('WikiPage')
 		verbose_name_plural = _('WikiPages')
 	def get_absolute_url(self):

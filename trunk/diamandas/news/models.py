@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings
+#from django.conf import settings
 
 class News(models.Model):
 	news_title = models.CharField(maxlength=255, verbose_name=_('Title'))
@@ -9,7 +9,7 @@ class News(models.Model):
 	class Meta:
 		verbose_name = _('News')
 		verbose_name_plural = _('News')
-		db_table = 'rk_news' + str(settings.SITE_ID)
+		#db_table = 'rk_news' + str(settings.SITE_ID)
 	class Admin:
 		list_display = ('news_title', 'news_date')
 		list_filter = ['news_date']
