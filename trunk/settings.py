@@ -1,5 +1,4 @@
 # Django settings for diamanda project.
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

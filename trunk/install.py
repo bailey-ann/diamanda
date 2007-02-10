@@ -16,7 +16,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 <div class="box">This applications is in developement and currently is in Quasi-Stable stage.</div>
 <br />
 [rk:h id="2"]Features[/rk:h]
-- Engines and themes (engine - set of X/HTML templates, themes - sets of CSS stylesheets)<br />
 - multilingual interface (pl/en currently)<br /><br />
 <b>WIKI</b>
 <blockquote>
@@ -25,7 +24,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 - diffs between all versions of a wikiPage<br />
 - safe HTML markup and plugable ContentBBcode tags<br />
 - google sitemap generation<br />
-- PDF export with htmldoc<br />
 </blockquote><br />
 <b>MyghtyBoard Forum</b>
 <blockquote>
@@ -42,7 +40,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 <blockquote>
 - Task Manager: manage site tasks and helps coordinate users work<br />
 - News: simple news system with keywords<br />
-- Stats: Unique entries and referer stats and charts<br />
 - User Panel: User Profile, users list, sending messages (emails), login and register with Captcha<br />
 - Site Statistics (under /stats/ for admins): unique entries, referers, keywords from google
 </blockquote>
@@ -55,8 +52,6 @@ Diamanda (wiki, forum and other apps) is released under GPL License<br />
 <div class="box">python setup.py install</div>
 will install it.<br />
 - <b>pygments</b>: for code highlighting.<br />
-- <b>pyGoogle</b>: optional, if you want to use Google Search API as an extra site search<br />
-- <b>matplotlib</b>: optional for Site Statistics unique entries chart<br />
 - <b>PIL - Python Imaging Library</b>: makes thumbs and Captcha<br /><br />
 
 [rk:h id="2"]Instalation:[/rk:h]
@@ -118,7 +113,4 @@ from django.contrib.auth.models import Group, Permission
 Group.objects.all().delete()
 g = Group(name='users')
 g.save()
-#a = Permission.objects.all()
-#for i in a:
-	#print str(i.name) + ' - ' + str(i.codename)
 g.permissions.add(Permission.objects.get(codename='can_view'), Permission.objects.get(codename='can_set_current'), Permission.objects.get(codename='add_page'), Permission.objects.get(codename='add_taskcomment'), Permission.objects.get(codename='change_page'), Permission.objects.get(codename='add_topic'), Permission.objects.get(codename='add_post'))
