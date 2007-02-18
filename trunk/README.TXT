@@ -49,34 +49,13 @@ SITE_NEWS_LINK = '/' # where links of the RSS feeds should point
 # Anonymous perms Settings
 ANONYMOUS_CAN_EDIT=True
 ANONYMOUS_CAN_ADD=True
-ANONYMOUS_CAN_VIEW=True
 ANONYMOUS_CAN_SET_CURENT=False
-
-# wiki config
-WIKI_USE_PDF = False # 'htmldoc' - uses htmldoc , False - no PDF generation
-# if set to nonFalse API KEY "search" will allow also "Search this site with google"
-# requires pyGoogle, uses current SITE_ID domain name !!! example.com by default, change it to yours!
-WIKI_GOOGLE_SEARCH_API = False # set a string with the google search api to enable it
-
-# myghtyboard config
-ANONYMOUS_CAN_ADD_TOPIC=True
-ANONYMOUS_CAN_ADD_POST=True
-MYGHTYBOARD_THEME='aeolus' # theme name, curren "wow" and "aeolus"
-MYGHTYBOARD_LANG='english' # language name for i18n graphics (theme must have images for selected language
 
 # thumb CBC
 SITE_IMAGES_DIR_PATH = '/home/piotr/diamanda/media/images/'
 SITE_IMAGES_SRC_PATH = '/site_media/images/'
 
-
 CHECK settings.py for current extra settings "list"
-
-Logged in users - Permissions
-############################
-- add, edit perms are used on Wiki Pages to check if user can add or edit pages. There are also two extra options:
-"Can view Page" - can see pages
-"Can set Page as current" - can set edited page as current
-
 
 CAN_SET_CURENT and Edit Proposals
 ############################
@@ -84,13 +63,3 @@ If someone can't set edited page as current it will be saved as a one of older v
 and on the history list will be highlighted in green. Staff members can "unpropose" it (becomes normal "old version") or anyone who CAN_SET_CURENT and edit can
 restore it / and if needed - edit it.
 - A list of all Edit Proposals can be found on /wiki/proposals/
-
-
-RSS Feeds
-############################
-http://localhost:8080/wiki/feeds/latestpages/ - latest pages
-
-
-ContentBBCode
-###############################
-Wiki CBC Descriptions module in the Admin Panel is designed to keep descriptions of all CBC plugins you have.

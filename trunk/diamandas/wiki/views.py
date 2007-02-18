@@ -21,7 +21,7 @@ def unpropose(request, archive_id):
 			else:
 				archive_entry.is_proposal = False
 				archive_entry.save()
-				return HttpResponseRedirect('/wiki/history/' + archive_entry.slug + '/')
+				return HttpResponseRedirect('/wiki/history/' + str(archive_entry.page_id) + '/')
 		else:
 			return render_to_response('wiki/noperm.html', {}) # can't unpropose
 	else:
@@ -69,13 +69,13 @@ def restore_page_from_archive(request, archive_id):
 	# can user set a page as current - can_set_current or anonymous "anonymous_can_set_current" in the settings.py
 	if request.user.is_authenticated() and request.user.has_perm('wiki.can_set_current') or settings.ANONYMOUS_CAN_SET_CURENT and not request.user.is_authenticated():
 		try:
-			page_old = Archive.objects.get(id__exact=archive_id)
+			page_old = Archive.objects.get(id=archive_id)
 			pid = str(page_old.page_id)
-			page_new = Page.objects.get(id__exact=pid)
+			page_new = Page.objects.get(slug=str(pid))
 		except Page.DoesNotExist:
 			return HttpResponseRedirect('/') # no page, display error msg!
 		# save old version as new, move current version to the archive
-		old = Archive(page_id = page_new, title=page_new.title, slug = page_new.slug, description = page_new.description, text=page_new.text, changes = 'Moved to Archive. ('+ page_new.changes +')', modification_date = page_new.modification_date, modification_user = page_new.modification_user, modification_ip = page_new.modification_ip)
+		old = Archive(page_id = page_new, title=page_new.title, description = page_new.description, text=page_new.text, changes = 'Moved to Archive. ('+ page_new.changes +')', modification_date = page_new.modification_date, modification_user = page_new.modification_user, modification_ip = page_new.modification_ip)
 		old.save()
 		page_new.title = page_old.title
 		page_new.description = page_old.description
@@ -95,18 +95,19 @@ def show_diff(request):
 	if request.POST and request.POST.has_key('old') and request.POST.has_key('new'):
 		old = int(request.POST['old'])
 		new = int(request.POST['new'])
-		try:
-			page_old = Archive.objects.get(id__exact=old)
-			pid = str(page_old.page_id)
-			if new == 0:
-				page_new = Page.objects.get(id__exact=pid)
-			else:
-				page_new = Archive.objects.get(id__exact=new)
-		except Page.DoesNotExist:
-			return HttpResponseRedirect('/')
+		#try:
+		page_old = Archive.objects.get(id__exact=old)
+		if new == 0:
+			page_new = Page.objects.get(slug=str(page_old.page_id))
+		else:
+			page_new = Archive.objects.get(id=new)
+			slug = Page.objects.get(slug=str(page_new.page_id))
+			slug = slug.slug
+		#except Page.DoesNotExist:
+			#return HttpResponseRedirect('/')
 		import diff
 		html_result = diff.textDiff(page_old.text, page_new.text)
-		return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': page_new.slug, })
+		return render_to_response('wiki/diff.html', {'diffresult': html_result, 'slug': slug})
 	else:
 		return HttpResponseRedirect('/') # no POST
 
@@ -218,7 +219,7 @@ def edit_page(request, slug):
 				else:
 					# can't save as current - save as a "old" revision with...
 					from datetime import datetime
-					old = Archive(page_id = page, title=page_data['title'], slug = page_data['slug'], description = page_data['description'], text=page_data['text'], changes = page_data['changes'], modification_date = datetime.today(), modification_user = page_data['modification_user'], modification_ip = page_data['modification_ip'], is_proposal=True)
+					old = Archive(page_id = page, title=page_data['title'], description = page_data['description'], text=page_data['text'], changes = page_data['changes'], modification_date = datetime.today(), modification_user = page_data['modification_user'], modification_ip = page_data['modification_ip'], is_proposal=True)
 					old.save()
 				return HttpResponseRedirect("/wiki/page/" + page_data['slug'] +"/")
 			elif page_data.has_key('preview') and not cbcerrors:
