@@ -1,6 +1,0 @@
-This folder contains JS/CSS files for the table CBC plugin.
-This plugin uses two JavaScripts from dhtmlgoodies.com
-See: http://www.dhtmlgoodies.com/index.html?page=tableWidgets
-Used scripts:
-- Unobtrusive sortable table script
-- Highlight table rows
