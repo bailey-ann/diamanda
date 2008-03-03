@@ -1,0 +1,24 @@
+{% extends "pages/body.html" %}
+{% block leftmenu %}<ul>
+<li><a href="/">Strona Główna</a></li>
+{% if user.is_authenticated %}<li><a href="/user/">Moje Konto</a> ({{ user }})</li>
+<li><a href="/submit/">Dodaj materiał</a></li>{% else %}<li><a href="/user/login/">Zaloguj lub zarejestruj</a></li>{% endif %}
+</ul>{% endblock %}
+{% block header %}Lista ankiet{% endblock %}
+{% block title %}Lista ankiet{% endblock %}
+{% block description %}Lista ankiet{% endblock %}
+{% block crumb %}<a href="/">Biblioteka</a>{% endblock %}
+
+{% block content %}
+
+{% for j in object_list %}<div class="category"><h1><a href="/p/{{ j.id }}/">{{ j.question }}</a></h1></div>{% endfor %}
+
+<br /><br />
+{% if has_previous %}
+	<a href="/p/?page={{ previous }}"><h2>Wcześniejsze ankiety</h2></a>
+{% endif %}
+
+{% if has_next %}
+	<a href="/p/?page={{ next }}"><h2>Kolejne ankiety</h2></a>
+{% endif %}
+{% endblock %}

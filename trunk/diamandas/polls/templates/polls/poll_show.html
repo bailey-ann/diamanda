@@ -1,0 +1,63 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block leftmenu %}<ul>
+<li><a href="/">Strona Główna</a></li>
+<li><a onclick="window.print();">Drukuj</a></li>
+</ul>{% endblock %}
+{% block header %}Ankieta "{{ p.question }}"{% endblock %}
+{% block title %}Ankieta "{{ p.question }}"{% endblock %}
+{% block description %}Ankieta "{{ p.question }}"{% endblock %}
+{% block crumb %}<a href="/">Home</a> > <a href="/p/">Ankiety</a> > <a href="/p/{{ p.id }}/">{{ p.question }}</a>{% endblock %}
+
+{% block content %}
+<h4 class="pageh">Ankieta</h4>{% if vcheck %}
+{% if user.is_authenticated %}<form method="post" action=".">{% endif %}
+<b>{{ p.question }}</b><br />
+{% for q in p.choice_set.all %}
+<input type="radio" name="vote" value="{{ q.id }}">{{ q.choice }} ({{ q.votes }})<br />
+{% endfor %}
+{% if user.is_authenticated %}<input type="submit" value="Głosuj" /></form>{% else %}<b>Nie jesteś zalogowany</b>{% endif %}{% endif %}
+<br />
+
+{% if choices %}
+<div class="content">
+          <table>
+            <tr>
+              <th class="first" style="width:180px;"><strong>Opcja</strong></th>
+              <th><strong>Udział głosów</strong></th>
+            </tr>
+            {% for c in choices %}
+            <tr class="{% cycle rowA,rowB %}">
+              <td class="first">{{ c.1 }}</td>
+              <td><hr style="width:{{ c.0 }}%;float:left; border-color:blue;" />{{ c.0 }}%</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>{% endif %}
+
+
+<br />
+{% if page %}
+{% for i in page %}
+<h4 style="margin-bottom:0px;">{{ i.author }} ({{ i.date|truncatewords:"1" }})</h4>
+<div class="box" style="margin-top:0px;"><div id="com{{ i.id }}">{{ i.text|safe }}</div> [<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value +"\n<blockquote><b>@{{ i.author }}</b>\n"+document.getElementById("com{{ i.id }}").textContent+"</blockquote>\n"'>Cytuj</a>]</div>
+{% endfor %}{% else %}<b>Brak Komentarzy</b>{% endif %}
+{% if user.is_authenticated %}
+<br />{% if add %}<h2>Dodaj Komentarz</h2>
+<div class="content">
+         <form method="post" action="."> <table>
+            <tr class="rowA">
+              <td class="first" style="width:25%;"><b>Treść</b></td>
+              <td><a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'>{% trans "Bold" %}</a>
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'>{% trans "Italic" %}</a> 
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'>{% trans "Underline" %}</a> 
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'>{% trans "Blockquote" %}</a>
+              <br /><textarea id="id_text" name="text" rows="10" cols="70"></textarea><br /><b>Dozwolone tagi</b>: b, u, i, br, blockquote</td>
+            </tr>
+             <tr class="rowB">
+              <td></td>
+              <td><div style="text-align:center;"><input type="submit" value="Dodaj" /></div></td>
+            </tr>
+          </table></form>
+</div>{% else %}<h2>Nie możesz dodawać komentarzy jeden po drugim</h2>{% endif %}{% else %}<h2>Nie jesteś zalogowany</h2>{% endif %}
+{% endblock %}
