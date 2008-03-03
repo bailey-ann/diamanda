@@ -1,0 +1,35 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
+
+{% block content %}
+<br /><h2><span>{% trans "Edit Post" %}</span></h2>
+<div class="box" style="text-align:center;">
+<form method="post" action=".">
+<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'>{% trans "Bold" %}</a>,
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'>{% trans "Italic" %}</a>, 
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'>{% trans "Underline" %}</a>, 
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'>{% trans "Image" %}</a>,
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'>{% trans "Blockquote" %}</a>,
+			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'>{% trans "Code" %}</a> 
+				<br />
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/layout/forum/smilies/icon_eek.gif" alt="" /></a> 
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/layout/forum/smilies/icon_biggrin.gif" alt="" /></a> 
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/layout/forum/smilies/icon_evil.gif" alt="" /></a>
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/layout/forum/smilies/icon_twisted.gif" alt="" /></a> 
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/layout/forum/smilies/icon_cheesygrin.gif" alt="" /></a> 
+				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/layout/forum/smilies/icon_cool.gif" alt="" /></a> 
+				
+
+<br><textarea rows="10" cols="100" name="post_text" id="id_text">{{ post_text }}</textarea>
+<center><input type="submit" value="{% trans "Save Changes" %}" style="actiontable"></center>
+</form>
+<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote</div>
+{% endblock %}
+{% block right %}{% if perms.is_authenticated %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+</ul>
+{% endif %}{% endblock %}

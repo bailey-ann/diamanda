@@ -1,0 +1,64 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block title %}{{ tra.name }}{% endblock %}
+{% block header %}
+{{ tra.name }}
+{% endblock %}
+{% block content %}
+<h2>{% trans "Translation Description" %}</h2>
+<div class="content">
+          <table>
+             <tr class="rowA">
+              <td style="width:220px;"><b>{% trans "Application" %}</b></td>
+              <td><b>{{ tra.name }}</b><br />{{ tra.description }} <a href="/tra/get_po/{{ tra.id }}/"><img src="/site_media/layout/translator/download.png" alt="" /></a></td>
+            </tr>
+            <tr class="rowB">
+              <td style="width:220px;"><b>{% trans "Translator" %}</b></td>
+              <td>{% if tra.translator %}<a href="/user/pmessage/{{ tra.translator }}/">{{ tra.translator }}</a>{% else %}
+              <b>{% trans "None" %}!</b><br />{% if user.is_authenticated %}<a href="/tra/apply/{{ tra.id }}/" onclick="return confirm('{% trans "Do you want to translate this file?" %}');">{% trans "apply now" %}</a>{% else %}<a href="/user/login/">{% trans "Login to apply" %}</a>{% endif %}{% endif %}</td>
+            </tr>
+             <tr class="rowA">
+              <td><b>{% trans "Percent Translated" %}</b></td>
+              <td>{{ tra.percent_translated }}%</td>
+            </tr>
+             <tr class="rowB">
+              <td><b>{% trans "Untranslated Entries" %}</b></td>
+              <td>{{ tra.untrans_entries }}</td>
+            </tr>
+            <tr class="rowA">
+              <td><b>{% trans "Fuzzy Entries" %}</b></td>
+              <td>{{ tra.fuzzy_entries }}</td>
+            </tr>
+            <tr class="rowB">
+              <td><b>{% trans "Translated Entries" %}</b></td>
+              <td>{{ tra.trans_entries }}</td>
+            </tr>
+          </table>
+</div>
+<br />
+
+{% if untrans %}
+<h3>{% trans "Untranslated Entries" %}</h3>
+{% for i in untrans %}
+<div class="box"><pre>{{ i|escape }}</pre></div>
+{% endfor %}
+{% endif %}
+
+{% if fuzzy %}
+<h3>{% trans "Fuzzy Entries" %}</h3>
+{% for i in fuzzy %}
+<div class="box"><pre>{{ i|escape }}</pre></div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block right %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/com/{{ tra.id }}/4/">{% trans "Comments" %} ({{ com }})</a></li>
+<li><a href="/">{% trans "Main Page" %}</a></li>
+<li><a href="/forum/forum/4/">{% trans "Translations Forum" %}</a></li>
+<li><a href="/tra/list/">{% trans "Translations Main Page" %}</a></li>
+</ul>
+{% endblock %}
+
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/tra/">{% trans "Translations" %}</a> > <a href="/tra/list/">{% trans "Translations List" %}</a>{% endblock %}

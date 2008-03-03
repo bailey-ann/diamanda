@@ -1,0 +1,54 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block content %}
+{% trans "This Page lists all translations. You can apply as a translator of files that doesn't have assigned other translators. <b>Do not translate files that have translator already!</b>" %}
+<h2>{% trans "Translations" %}</h2>
+<div class="content">
+          <table>
+            <tr>
+              <th class="first" style="width:20px;"></td>
+              <th><strong>{% trans "Application" %}</strong></th>
+              <th style="width:60px;"><strong>{% trans "Translator" %}</strong></th>
+              <th style="width:60px;"><strong>{% trans "Language" %}</strong></th>
+              <th style="width:90px;"><strong>{% trans "Percent Translated" %}</strong></th>
+              <th style="width:90px;"><strong>{% trans "Untranslated Entries" %}</strong></th>
+              <th style="width:90px;"><strong>{% trans "Fuzzy Entries" %}</strong></th>
+              <th style="width:90px;"><strong>{% trans "Translated Entries" %}</strong></th>
+            </tr>
+           {% for t in tra %}
+            <tr class="{% cycle rowA,rowB %}">
+              <td class="first">
+			{% ifnotequal t.percent_translated 100 %}
+			<img src="/site_media/layout/translator/normal.png" alt="" />
+			{% else %}
+			<img src="/site_media/layout/translator/lock.png" alt="" />
+			{% endifnotequal %}
+              </td>
+              <td><a href="/tra/show/{{ t.id }}/"><b>{{ t.name }}</b></a><br />{{ t.description }} <a href="/tra/get_po/{{ t.id }}/"><img src="/site_media/layout/translator/download.png" alt="" /></a></td>
+              <td>{% if t.translator %}<a href="/user/pmessage/{{ t.translator }}/">{{ t.translator }}</a>{% else %}<b>{% trans "None" %}!</b><br /><a href="/tra/show/{{ t.id }}/">{% trans "apply now" %}</a>{% endif %}</td>
+              <td><img src="/site_media/layout/translator/{{ t.lang }}.png" alt="" /><br />{{ t.lang }}</td>
+              <td>{{ t.percent_translated }}%</td>
+              <td>{{ t.untrans_entries }}</td>
+              <td>{{ t.fuzzy_entries }}</td>
+              <td>{{ t.trans_entries }}</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+<br />
+<div class="box">
+<br /><b>
+<div style="float:left;">
+<img src="/site_media/layout/translator/normal.png" alt="" /> {% trans "Not Fully Transtated" %}<br />
+<img src="/site_media/layout/translator/lock.png" alt="" /> {% trans "Full Translation" %}<br />
+</b>
+</div></div><br />
+{% endblock %}
+
+{% block right %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/">{% trans "Main Page" %}</a></li>
+<li><a href="/tra/">{% trans "What are Translations ?" %}</a></li>
+</ul>
+{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/tra/">{% trans "Translations" %}</a> > <a href="/tra/list/">{% trans "Translations List" %}</a>{% endblock %}

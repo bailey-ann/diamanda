@@ -1,0 +1,17 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block content %}
+<h2>{% trans "Google Keywords" %}</h2><br />
+<b>Wejścia z Google</b>: {{ google }} %<br />
+<b>Wejścia z jakilinux.org</b>: {{ jaki }} %<br />
+<b>Wejścia z wykop.pl</b>: {{ wykop }} %<br />
+<b>Wejścia z wikipedii</b>: {{ wiki }} %<br /><br />
+
+{% for r in refs %}
+<b>{{ r.word|escape }}</b>: {{ r.count }}<br />
+{% endfor %}
+{% endblock %}
+
+
+{% block leftmenu %}
+<ul><li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li><li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li><li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li><li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li></ul>{% endblock %}

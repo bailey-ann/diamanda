@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: stats\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-29 15:41+0200\n"
+"PO-Revision-Date: 2006-04-08 12:19+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:7
+msgid "Stat"
+msgstr "Statystyki"
+
+#: models.py:8
+msgid "Stats"
+msgstr "Statystyki"
+
+#: views.py:23 views.py:30 views.py:67
+msgid "You don't have the permissions to view this page"
+msgstr "Brak uprawnień do oglądania tej strony"
+
+#: templates/stats/entries.html:13 templates/stats/google.html:17
+#: templates/stats/mainpage.html:5 templates/stats/mainpage.html.py:13
+#: templates/stats/refs.html:12
+msgid "Unique Entries"
+msgstr "Unikalne Wejscia"
+
+#: templates/stats/entries.html:13 templates/stats/google.html:17
+#: templates/stats/mainpage.html:6 templates/stats/mainpage.html.py:13
+#: templates/stats/refs.html:4 templates/stats/refs.html.py:12
+msgid "Last Referers"
+msgstr "Ostatnie Referery"
+
+#: templates/stats/entries.html:13 templates/stats/google.html:4
+#: templates/stats/google.html.py:17 templates/stats/mainpage.html:7
+#: templates/stats/mainpage.html.py:13 templates/stats/refs.html:12
+msgid "Google Keywords"
+msgstr "Słowa Kluczowe Google"
+
+#: templates/stats/entries.html:13 templates/stats/google.html:17
+#: templates/stats/mainpage.html:8 templates/stats/mainpage.html.py:13
+#: templates/stats/refs.html:12
+msgid "Delete all data ?"
+msgstr "Skasować wszystkie dane ?"
+
+#: templates/stats/entries.html:13 templates/stats/google.html:17
+#: templates/stats/mainpage.html:8 templates/stats/mainpage.html.py:13
+#: templates/stats/refs.html:12
+msgid "Delete Stat Data"
+msgstr "Kasowanie Danych Statystyk"
+
+#: templates/stats/mainpage.html:4
+msgid "Site Statistics"
+msgstr "Statystyki Wejść"
+
+#: templates/stats/noperm.html:14
+msgid "Permission Denied"
+msgstr "Brak Uprawnień"
+
+#~ msgid "Day of month"
+#~ msgstr "Dzien miesiaca"
+
+#~ msgid "Number of entries"
+#~ msgstr "Liczba wejsc"
+
+#~ msgid ""
+#~ "Red Line shows number of entries per day. Blue Line shows linear "
+#~ "regresion of entries"
+#~ msgstr ""
+#~ "Czerwona Linia pokazuje liczbę unikalnych wejść dziennie. Niebieska Linia "
+#~ "pokauje regresję liniową wejść"

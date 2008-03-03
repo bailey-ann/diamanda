@@ -1,0 +1,46 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
+{% block content %}
+<h2><a href="/forum/">{% trans "Forum Index" %}</a></h2>
+<div class="content">
+          <table>
+            <tr>
+              <th class="first"></th>
+              <th><strong>{% trans "Topic" %}</strong></th>
+              <th><strong>{% trans "Author" %}</strong></th>
+              <th><strong>{% trans "Posts" %}</strong></th>
+              <th><strong>{% trans "Last Post" %}</strong></th>
+            </tr>
+           {% for topic in topics %}
+            <tr class="{% cycle rowA,rowB %}">
+           <td class="first">
+{% if topic.is_locked %}
+	<img src="/site_media/layout/forum/lock.png" alt="*" />
+{% else %}
+	{% if topic.is_sticky %}
+		<img src="/site_media/layout/forum/stick.png" alt="*" />
+	{% else %}
+		{% if topic.is_global %}
+			<img src="/site_media/layout/forum/glob.png" alt="*" />
+		{% else %}
+			<img src="/site_media/layout/forum/normal.png" alt="*" />
+		{% endif%}
+	{% endif%}
+{% endif %}</td>
+              <td><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
+              <td>{{ topic.topic_author }}</td>
+              <td>{{ topic.topic_posts }}</td>
+              <td>{{ topic.topic_lastpost }}</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+{% endblock %}
+{% block right %}{% if perms.is_authenticated %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+</ul>
+{% endif %}{% endblock %}

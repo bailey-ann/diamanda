@@ -1,0 +1,27 @@
+{% extends "pages/body.html" %}
+{% load i18n %}
+{% block content %}
+<div id="searchcontrol"></div>
+{% endblock %}
+
+{% block meta %}<link href="http://www.google.com/uds/css/gsearch.css" type="text/css" rel="stylesheet"/>
+    <script src="http://www.google.com/uds/api?file=uds.js&amp;v=1.0&amp;key={{ key }}" type="text/javascript"></script>
+    <script language="Javascript" type="text/javascript">
+    //<![CDATA[
+
+    function OnLoad() {
+    
+    var options = new GsearcherOptions();
+    options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+      var searchControl = new GSearchControl();
+      var siteSearch = new GwebSearch();
+siteSearch.setUserDefinedLabel("www.{{ domain }}");
+siteSearch.setUserDefinedClassSuffix("siteSearch");
+siteSearch.setSiteRestriction("www.{{ domain }}");
+searchControl.addSearcher(siteSearch, options);
+searchControl.draw(document.getElementById("searchcontrol"));
+{% if term %}searchControl.execute("{{ term }}");{% endif %}
+    }
+    GSearch.setOnLoadCallback(OnLoad);
+    //]]>
+</script>{% endblock %}

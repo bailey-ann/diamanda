@@ -1,0 +1,226 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-09-08 22:19+0200\n"
+"PO-Revision-Date: 2005-09-28 12:52+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:16
+msgid "Title"
+msgstr "Tytuł"
+
+#: models.py:17
+msgid "Slug"
+msgstr "Odnośnik"
+
+#: models.py:18
+msgid "Description"
+msgstr "Opis"
+
+#: models.py:19
+msgid "Markdown Text"
+msgstr "Markdown"
+
+#: models.py:20
+msgid "Use Markdown Text"
+msgstr "Używaj Tekstu Markdown"
+
+#: models.py:21
+msgid "Text"
+msgstr "Tekst"
+
+#: models.py:22
+msgid "Right Menu"
+msgstr "Prawe Menu"
+
+#: models.py:23
+msgid "Type"
+msgstr "Typ"
+
+#: models.py:23 templates/pages/news_list.html:3
+#: templates/pages/news_list.html.py:4 templates/pages/news_list.html:5
+#: templates/pages/news_list.html.py:7 templates/pages/news_list.html:29
+msgid "News"
+msgstr "News"
+
+#: models.py:23
+msgid "Article"
+msgstr "Artykuł"
+
+#: models.py:23
+msgid "Book"
+msgstr "Księga"
+
+#: models.py:24
+msgid "Place in"
+msgstr "Umieść w"
+
+#: models.py:31
+msgid "Changes summary"
+msgstr "Podsumowanie zmian"
+
+#: models.py:33 models.py:34
+msgid "Content"
+msgstr "Treść"
+
+#: models.py:45
+msgid "Other"
+msgstr "Inne"
+
+#: models.py:47
+msgid "Markdown"
+msgstr "Markdown"
+
+#: views.py:48 templates/404.html:4
+msgid "Page does not exist"
+msgstr "Strona nie istnieje"
+
+#: templates/500.html:4
+msgid "Site Error"
+msgstr "Błąd Serwisu"
+
+#: templates/500.html:5
+msgid ""
+"A full report have been send to the admin. The problem will be fixed as soon "
+"as possible. Please go to the main page."
+msgstr ""
+"Pełna informacja o zaistniałym błędzie została wysłana administratorowi. "
+"Problem zostanie rozwiązany najszybciej jak to możliwe ;)"
+
+#: templates/500.html:7 templates/404.html:6 templates/pages/bug.html:6
+msgid "Main Page"
+msgstr "Strona Główna"
+
+#: templates/pages/body.html:21
+msgid "My Account"
+msgstr "Moje Konto"
+
+#: templates/pages/body.html:21
+msgid "Login or Register"
+msgstr "Zaloguj lub Zarejestruj"
+
+#: templates/pages/body.html:22
+msgid "Forum"
+msgstr "Forum"
+
+#: templates/pages/body.html:23
+msgid "Translations"
+msgstr "Tłumaczenia"
+
+#: templates/pages/body.html:24
+msgid "Baldurs Gate Characters"
+msgstr "Postacie Baldurs Gate"
+
+#: templates/pages/body.html:27 templates/pages/show.html:5
+#: templates/pages/show_news.html:5 templates/pages/news_list.html:26
+#: templates/pages/news_list.html.py:29
+msgid "Home"
+msgstr "Biblioteka"
+
+#: templates/pages/body.html:73
+msgid "Links"
+msgstr "Dodatkowe Menu"
+
+#: templates/pages/body.html:75 templates/pages/show.html:20
+#: templates/pages/show_news.html:18
+msgid "Browse news"
+msgstr "Przeglądaj newsy"
+
+#: templates/pages/body.html:77
+msgid "RSS - Latest Publications"
+msgstr "RSS - Ostatnie Publikacje"
+
+#: templates/pages/body.html:80
+msgid "About Me"
+msgstr "O Mnie"
+
+#: templates/pages/body.html:81
+msgid "About My Sites"
+msgstr "O Bibliotekach"
+
+#: templates/pages/body.html:85
+msgid "Change theme"
+msgstr "Zmień wygląd"
+
+#: templates/pages/show.html:15 templates/pages/show_news.html:15
+#: templates/pages/news_list.html:24
+msgid "Options"
+msgstr "Opcje"
+
+#: templates/pages/show.html:17 templates/pages/show_index.html:37
+#: templates/pages/show_news.html:17
+msgid "Comments"
+msgstr "Komentarze"
+
+#: templates/pages/show.html:18 templates/pages/show.html.py:19
+#: templates/pages/show_news.html:19
+msgid "RSS Feed for"
+msgstr "Kanał RSS dla"
+
+#: templates/pages/show.html:20
+msgid "Browse book news"
+msgstr "Przeglądaj newsy z księgi"
+
+#: templates/pages/show.html:21 templates/pages/show_news.html:20
+msgid "Edit"
+msgstr "Edytuj"
+
+#: templates/pages/show_index.html:37
+msgid "Added:"
+msgstr "Dodane:"
+
+#: templates/pages/show_index.html:37
+msgid "Read"
+msgstr "Czytaj"
+
+#: templates/pages/show_index.html:37
+msgid "Update!"
+msgstr "Aktualizacja!"
+
+#: templates/pages/show_index.html:37
+msgid "Book:"
+msgstr "Księga:"
+
+#: templates/pages/show_index.html:43
+msgid "Latest Topics"
+msgstr "Na Forum"
+
+#: templates/pages/show_index.html:45
+msgid "Latests Comments"
+msgstr "Ostatnie Komentarze"
+
+#: templates/pages/show_index.html:47
+msgid "Latest Characters"
+msgstr "Ostatnie Postacie"
+
+#: templates/pages/show_index.html:50
+msgid "Latest Translations"
+msgstr "Ostatnie Tłumaczenia"
+
+#: templates/pages/show_index.html:53
+msgid "Users online"
+msgstr "Użytkownicy online"
+
+#: templates/pages/news_list.html:16
+msgid "Previous Page"
+msgstr "Poprzednia Strona"
+
+#: templates/pages/news_list.html:19
+msgid "Next Page"
+msgstr "Następna Strona"
+
+#~ msgid "Infinity Engie Mods"
+#~ msgstr "Mody Infinity"
+
+#~ msgid "RSS - Latest News and Articles"
+#~ msgstr "RSS - ostatnie wiadomości i artykuły"

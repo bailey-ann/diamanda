@@ -1,0 +1,164 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-09-02 15:58+0200\n"
+"PO-Revision-Date: 2005-09-28 12:52+0900\n"
+"Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:7
+msgid "PO file for translation"
+msgstr "Plik PO tłumaczenia"
+
+#: models.py:8
+msgid "Application name"
+msgstr "Nazwa Aplikacji"
+
+#: models.py:9
+msgid "Description"
+msgstr "Opis"
+
+#: models.py:10
+msgid "Language of Translation"
+msgstr "Język Tłumaczenia"
+
+#: models.py:15 templates/translator/tra_list.html:11
+#: templates/translator/tra_show.html:16
+msgid "Translator"
+msgstr "Tłumacz"
+
+#: models.py:17
+msgid "Translation"
+msgstr "Tłumaczenie"
+
+#: models.py:18 templates/translator/tra_list.html:5
+#: templates/translator/tra_list.html:54 templates/translator/tra_show.html:64
+#: templates/translator/tra.html:37
+msgid "Translations"
+msgstr "Tłumaczenia"
+
+#: models.py:24
+msgid "Gettext Translation File Informations"
+msgstr "Informacje o pliku tłumaczeń Gettexta"
+
+#: templates/translator/tra_list.html:4
+msgid ""
+"This Page lists all translations. You can apply as a translator of files "
+"that doesn't have assigned other translators. <b>Do not translate files that "
+"have translator already!</b>"
+msgstr ""
+"Na tej stronie wylistowane są wszystkie tłumaczenia. Możesz zapisać się jako "
+"tłumacz niektórych z nich i przetłumaczyć załączone pliki. <b>NIE tłumacz "
+"plików mających już wybranego tłumacza!</b>. Przetłumaczone pliki wysyłaj na "
+"adres <a href=\"mailto:riklaunim@gmail.com\">riklaunim@gmail.com</a>."
+
+#: templates/translator/tra_list.html:10 templates/translator/tra_show.html:12
+msgid "Application"
+msgstr "Aplikacja"
+
+#: templates/translator/tra_list.html:12
+msgid "Language"
+msgstr "Język"
+
+#: templates/translator/tra_list.html:13 templates/translator/tra_show.html:21
+msgid "Percent Translated"
+msgstr "Postęp Tłumaczenia"
+
+#: templates/translator/tra_list.html:14 templates/translator/tra_show.html:25
+#: templates/translator/tra_show.html:41
+msgid "Untranslated Entries"
+msgstr "Nieprzetłumaczone frazy"
+
+#: templates/translator/tra_list.html:15 templates/translator/tra_show.html:29
+#: templates/translator/tra_show.html:48
+msgid "Fuzzy Entries"
+msgstr "Fuzzy Frazy"
+
+#: templates/translator/tra_list.html:16 templates/translator/tra_show.html:33
+msgid "Translated Entries"
+msgstr "Przetłumaczone Frazy"
+
+#: templates/translator/tra_list.html:28 templates/translator/tra_show.html:18
+msgid "None"
+msgstr "Brak"
+
+#: templates/translator/tra_list.html:28 templates/translator/tra_show.html:18
+msgid "apply now"
+msgstr "zapisz się"
+
+#: templates/translator/tra_list.html:42
+msgid "Not Fully Transtated"
+msgstr "Nie przetłumaczony do końca"
+
+#: templates/translator/tra_list.html:43
+msgid "Full Translation"
+msgstr "Pełne tłumaczenie"
+
+#: templates/translator/tra_list.html:48 templates/translator/tra_show.html:55
+#: templates/translator/tra.html:29
+msgid "Options"
+msgstr "Opcje"
+
+#: templates/translator/tra_list.html:50 templates/translator/tra_show.html:58
+#: templates/translator/tra.html:31
+msgid "Main Page"
+msgstr "Strona Główna"
+
+#: templates/translator/tra_list.html:51
+msgid "What are Translations ?"
+msgstr "Co to są Tłumaczenia ?"
+
+#: templates/translator/tra_list.html:54 templates/translator/tra_show.html:64
+#: templates/translator/tra.html:37
+msgid "Home"
+msgstr "Strona Główna"
+
+#: templates/translator/tra_list.html:54 templates/translator/tra_show.html:64
+#: templates/translator/tra.html:37
+msgid "Translations List"
+msgstr "Lista Tłumaczeń"
+
+#: templates/translator/tra_show.html:8
+msgid "Translation Description"
+msgstr "Opis Tłumaczenia"
+
+#: templates/translator/tra_show.html:18
+msgid "Do you want to translate this file?"
+msgstr "Czy chcesz tłumaczyć ten plik?"
+
+#: templates/translator/tra_show.html:18
+msgid "Login to apply"
+msgstr "Musisz się zalogować"
+
+#: templates/translator/tra_show.html:57
+msgid "Comments"
+msgstr "Komentarze"
+
+#: templates/translator/tra_show.html:59 templates/translator/tra.html:32
+msgid "Translations Forum"
+msgstr "Forum Tłumaczeń"
+
+#: templates/translator/tra_show.html:60 templates/translator/tra.html:33
+msgid "Translations Main Page"
+msgstr "Tłumaczenia"
+
+#: templates/translator/tra.html:3
+msgid "Gettext Translations Manager"
+msgstr "Tłumaczenia Gettext"
+
+#~ msgid "Language Icon/Flag"
+#~ msgstr "Ikona Języka"
+
+#~ msgid "Translation Language"
+#~ msgstr "Język Tłumaczenia"
+
+#~ msgid "Translation Languages"
+#~ msgstr "Języki Tłumaczeń"
+
+#~ msgid "This Page lists all translations."
+#~ msgstr "Poniżej znajduje się lista wszystkich tłumaczeń."

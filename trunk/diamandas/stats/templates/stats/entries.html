@@ -1,0 +1,13 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+{% block content %}
+
+<ul>
+{% for i in results %}
+<li><b>{{ i.day }}</b>: {{ i.count }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+{% block leftmenu %}
+<ul><li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li><li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li><li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li><li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li></ul>{% endblock %}

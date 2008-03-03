@@ -1,0 +1,56 @@
+{% load i18n %}
+{% extends "pages/body.html" %}
+
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
+{% block right %}{% if perms.is_authenticated %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+</ul>
+{% endif %}{% endblock %}
+
+{% block content %}
+{% for cat in categories %}
+<h2>{{ cat.cat_name }}</h2>
+<div class="content">
+          <table>
+            <tr>
+            <th class="first" style="width:20px;"></th>
+              <th class="first"><strong>{% trans "Forum" %}</strong></th>
+              <th style="width:30px;"><strong>{% trans "Topics" %}</strong></th>
+              <th style="width:30px;"><strong>{% trans "Posts" %}</strong></th>
+              <th style="width:200px;"><strong>{% trans "Last Post" %}</strong></th>
+            </tr>
+            {% for forum in cat.forums %}
+            <tr class="{% cycle rowA,rowB %}">
+              <td class="first"><img src="/site_media/layout/forum/normal.png" alt="*" /></td>
+              <td><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.forum_name }}</b></a><br />{{ forum.forum_description }}</td>
+              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
+              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_posts }}{% endif %}</td>
+              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_lastpost|safe }}{% endif %}</td>
+            </tr>
+	    {% endfor %}
+          </table>
+</div>
+<br /><br />
+	{% endfor %}
+	<div class="box">
+	<p style="text-align:right;">
+	{% if perms.add_topic %}
+		- {% trans "You can post new Topics" %}<br />
+	{% else %}
+		- {% trans "You can't post new Topics" %}<br />
+	{% endif %}
+	{% if perms.add_post %}
+		- {% trans "You can post new Posts" %}<br />
+	{% else %}
+		- {% trans "You can't post new Posts" %}<br />
+	{% endif %}
+	{% if perms.is_staff %}
+		- {% trans "You are a Moderator" %}<br />
+	{% else %}
+		-  {% trans "You aren't a moderator" %}<br />
+	{% endif %}
+	</p></div>
+{% endblock %}

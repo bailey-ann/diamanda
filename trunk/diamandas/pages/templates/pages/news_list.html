@@ -1,0 +1,29 @@
+{% extends "pages/body.html" %}
+{% load i18n %}{% load cbc %}
+{% block header %}{% if book %}{% trans "News" %}: {{ bk.title }}{% else %}{% trans "News" %}{% endif %}{% endblock %}
+{% block title %}{% trans "News" %}{% endblock %}
+{% block description %}{% trans "News" %}{% endblock %}
+{% block content %}
+<h2>{% if book %}{% trans "News" %}: {{ bk.title }}{% else %}{% trans "News" %}{% endif %}</h2>
+<ul>
+{% for t in object_list %}
+<li><a href="/w/p/{{ t.slug }}/" style="text-decoration:none;"><strong>{{ t.title }}</strong></a> - {{ t.date|date:"d.m.Y" }}</li>
+{% endfor %}
+</ul>
+
+<div class="box" style="text-align:center;">
+{% if has_previous %}
+<h3><a href="/w/n/{% if book %}{{ book }}/{% endif %}?page={{ previous }}">{% trans "Previous Page" %}</a></h3>
+{% endif %}
+{% if has_next %}
+<h3><a href="/w/n/{% if book %}{{ book }}/{% endif %}?page={{ next }}">{% trans "Next Page" %}</a></h3>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block right %}<h4>{% trans "Options" %}</h4>
+<ul>
+<li><a href="/">{% trans "Home" %}</a></li>
+</ul>
+{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/w/n/">{% trans "News" %}</a>{% endblock %}

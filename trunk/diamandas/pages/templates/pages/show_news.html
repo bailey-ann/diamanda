@@ -1,0 +1,21 @@
+{% extends "pages/body.html" %}
+{% load i18n %}{% load cbc %}
+{% block header %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.title }}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% if crumb %} > {{ crumb|safe }}{% endif %}{% endblock %}
+
+{% block content %}{{ page.description|cbc|safe }}<br /><br />{{ page.text|cbc|safe }}
+
+{% ifequal sid 6 %}<div class="box" style="text-align:center;" id="barfoo"><b>Propagate this article</b>: {% if page.digg %}<a href="{{ page.digg }}" target="_blank">Vote on Digg</a>{% else %}<a href="http://digg.com/submit?phase=2&amp;url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">Digg.com</a>{% endif %} | 
+<a href="http://del.icio.us/post?url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">del.icio.us</a> | 
+{% if page.reddit %}<a href="{{ page.reddit }}" target="_blank">Vote on Reddit</a>{% else %}<a href="http://reddit.com/submit?url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">reddit.com</a>{% endif %}</div>{% else %}<div class="box" style="text-align:center;" id="barfoo"><b>Poleć artykuł innym</b> : {% if page.wykop %}<a href="{{ page.wykop }}" target="_blank">Głosuj na tą stronę na Wykopie</a>{% else %}<a href="http://www.wykop.pl/dodaj?url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">Wykop.pl</a>{% endif %}
+{% if page.jakilinux %} | <a href="{{ page.jakilinux }}" target="_blank">Głosuj na osnews.pl</a>{% else %} | <a href="http://osnews.pl/dodaj-niusa/?external=True&amp;title={{ page.title }}&amp;url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">OSnews.pl</a>{% endif %} | 
+<a href="http://del.icio.us/post?url=http://www.{{ domain }}/w/p/{{ page.slug }}/" target="_blank">del.icio.us</a></div>{% endifequal %}{% endblock %}
+{% block right %}<h4>{% trans "Options" %}</h4>
+<ul>
+	<li><a href="/com/{{ page.id }}/1/">{% trans "Comments" %} ({{ com }})</a></li>
+	<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+	{% if page.place %}<li><a href="/w/r/{{ page.place.slug }}/">{% trans "RSS Feed for" %} {{ page.place }}</a></li>{% endif %}
+	{% if user.staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Edit" %}</a></li>{% endif %}
+</ul>{% endblock %}
