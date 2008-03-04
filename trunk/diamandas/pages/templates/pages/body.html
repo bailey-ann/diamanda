@@ -25,9 +25,9 @@
 
 <div id="modernbricksmenu2">
 <ul>
-
-<!-- TUTAJ KNIGI -->
-
+{% for b in books %}
+	<li><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
+{% endfor %}
 </ul>
 <form id="myform" action="/w/search/" method="post">
 <input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="Szukaj" />
@@ -39,6 +39,7 @@
 		{% block content %}{% endblock %}
 	</div>
 	<div id="right">
+		{% block right %}{% endblock %}
 		<h4>{% trans "Links" %}</h4>
 		<ul>
 		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>

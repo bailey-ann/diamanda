@@ -36,11 +36,8 @@ class Content(models.Model):
 	place = ForeignCategoryContent('self', verbose_name=_('Place in'), blank=True, null=True)
 	date = models.DateTimeField(blank=True, null=True)
 	is_update = models.BooleanField(blank=True, default=False)
-	wykop = models.CharField(max_length=255, verbose_name='Wykop', blank=True)
-	jakilinux = models.CharField(max_length=255, verbose_name='Jakilinux', blank=True)
-	digg = models.CharField(max_length=255, verbose_name='Digg', blank=True)
-	reddit = models.CharField(max_length=255, verbose_name='Reddit', blank=True)
 	changes = models.CharField(max_length=255, verbose_name=_('Changes summary'), blank=True)
+	book_order = models.PositiveSmallIntegerField(default=0, verbose_name=_('Book order'), blank=True, help_text=_('If you add a book and want to display a link to it in the menu enter 1 or greater value'))
 	class Meta:
 		verbose_name = _('Content')
 		verbose_name_plural = _('Content')
@@ -52,10 +49,10 @@ class Content(models.Model):
 		fields = (
 		(None, 
 			{
-			'fields': ('title', 'slug', 'description', 'text', 'content_type', 'place')
+			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'book_order')
 			}),
 		(_('Other'),
-			{'fields': ('is_update', 'changes', 'wykop', 'jakilinux', 'digg', 'reddit'), 'classes': 'collapse'}),
+			{'fields': ('is_update', 'changes'), 'classes': 'collapse'}),
 		)
 	def get_absolute_url(self):
 		return '/w/p/' + self.slug + '/'
