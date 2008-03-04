@@ -16,9 +16,7 @@ from django.core.mail import mail_admins
 
 from boxcomments.models import *
 from pages.models import Content
-from baldur.models import Mods
 from translator.models import Translation
-from baldur.models import Character
 
 
 class CommentForm(forms.Form):
@@ -58,14 +56,8 @@ def comments(request, apptype, appid, quoteid=False):
 		if apptype == '1':
 			a = Content.objects.get(id = appid)
 			title = a.title
-		if apptype == '2':
-			a = Mods.objects.get(id = appid)
-			title = a.name
 		elif apptype == '4':
 			a = Translation.objects.get(id = appid)
-			title = a.name
-		elif apptype == '5':
-			a = Character.objects.get(id = appid)
 			title = a.name
 	except:
 		return render_to_response('pages/bug.html', {'bug': _('No such entry')}, context_instance=RequestContext(request))

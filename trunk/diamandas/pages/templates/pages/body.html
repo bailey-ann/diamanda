@@ -4,7 +4,6 @@
 <title>{% block title %}{% if site_name %}{{ site_name }}{% else %}Biblioteka Riklaunima{% endif %}{% endblock %}</title>
 <meta name="description" content="{% block description %}{% endblock %}" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="verify-v1" content="fhlKRlzd+gZRsZdvrUsbnYHCxsDrxuSiGZIcTKltiTs=" />
 <meta name="Robots" content="index,follow" />
 <link rel="stylesheet" href="/site_media/layout/style.css" type="text/css" />
 <link rel="shortcut icon" href="/site_media/layout/favicon.ico" />
@@ -17,8 +16,8 @@
 		{% block leftmenu %}<ul>
 		<li><a href="/user/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
 		<li><a href="/forum/">{% trans "Forum" %}</a></li>
-		{% ifequal sid 2 %}<li><a href="/tra/list/"><b>{% trans "Translations" %}</b></a></li>{% endifequal %}
-		{% ifequal sid 5 %}<li><a href="/bgate/list/"><b>{% trans "Baldurs Gate Characters" %}</b></a></li>{% endifequal %}
+		<li><a href="/tra/list/">{% trans "Translations" %}</a></li>
+		<li><a href="/p/">{% trans "Polls" %}</a></li>
 		</ul>{% endblock %}
 	</div>
 	<h1>{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</h1>
@@ -26,40 +25,9 @@
 
 <div id="modernbricksmenu2">
 <ul>
-{% ifequal sid 1 %}<li><a href="/w/p/podstawy/">Podstawy</a></li>
-<li><a href="/w/p/cms/">CMSy</a></li>
-<li><a href="/w/p/fora/">Fora Dyskusyjne</a></li>
-<li><a href="/w/p/galerie/">Galerie</a></li>
-<li><a href="/w/p/wiki/">Wiki</a></li>
-<li><a href="/w/p/inne/">Pozostałe Skrypty</a></li>
-<li><a href="/gcodesearch/">Wyszukiwarka Kodu</a></li>{% endifequal %}{% ifequal sid 2 %}<li><a href="/w/p/polish-friendly-linux/">Polski Linux</a></li>
-<li><a href="/w/p/podstawy/">O Linuksie</a></li>
-<li><a href="/w/p/gui/">Środowiska Graficzne</a></li>
-<li><a href="/w/p/dystrybucje/">Dystrybucje Linuksa</a></li>
-<li><a href="/w/p/cjava/">Java i C++</a></li>
-<li><a href="/gcodesearch/">Wyszukiwarka Kodu</a></li>{% endifequal %}{% ifequal sid 3 %}<li><a href="/w/p/podstawy/">Podstawy</a></li>
-<li><a href="/w/p/www/">Sieć i WWW</a></li>
-<li><a href="/w/p/djangoindex/">Django</a></li>
-<li><a href="/w/p/diamanda-i-myghtyboard/">Diamanda</a></li>
-<li><a href="/w/p/pylonsindex/">Pylons</a></li>
-<li><a href="/w/p/gui/">Interfejsy Graficzne</a></li>
-<li><a href="/w/p/gry/">Gry</a></li>
-<li><a href="/gcodesearch/">Wyszukiwarka Kodu</a></li>{% endifequal %}{% ifequal sid 4 %}<li><a href="/w/p/podstawy-php/">Podstawy</a></li>
-<li><a href="/w/p/php-w-akcji/">PHP w Akcji</a></li>
-<li><a href="/w/p/kurs-ci/">Kurs Code Igniter</a></li>
-<li><a href="/w/p/kurs-punframework/">Kurs punFramework</a></li>
-<li><a href="/gcodesearch/">Wyszukiwarka Kodu</a></li>{% endifequal %}{% ifequal sid 5 %}<li><a href="/w/p/baldurs-gate/">Baldurs Gate</a></li>
-<li><a href="/w/p/icewind-dale/">Icewind Dale</a></li>
-<li><a href="/w/p/mody-baldurs-gate-icewind-dale/">Mody</a></li>
-<li><a href="/w/p/modowanie-silnika-infinity/">Silnik Infinity</a></li>
-<li><a href="/w/p/wesnoth/">Battle for Wesnoth</a></li>
-<li><a href="/w/p/albion/">Arena Albionu</a></li>
-<li><a href="/w/p/dungeons-and-draogons-forgotten-realms/">Dungeons and Dragons</a></li>{% endifequal %}{% ifequal sid 6 %}<li><a href="/w/p/diamanda-wiki-and-myghtyboard-forum/">Diamanda and MyghtyBoard</a></li>
-<li><a href="/w/p/python/">Python</a></li>
-<li><a href="/w/p/django/">Django</a></li>
-<li><a href="/w/p/php/">PHP</a></li>
-<li><a href="/w/p/linux/">Linux and Others</a></li>
-<li><a href="/gcodesearch/">Code Search</a></li>{% endifequal %}{% ifequal sid 7 %}<li><a href="/w/p/opracowania/">Opracowania</a></li>{% endifequal %}
+
+<!-- TUTAJ KNIGI -->
+
 </ul>
 <form id="myform" action="/w/search/" method="post">
 <input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="Szukaj" />
@@ -71,75 +39,23 @@
 		{% block content %}{% endblock %}
 	</div>
 	<div id="right">
-		{% block right %}{% endblock %}
 		<h4>{% trans "Links" %}</h4>
 		<ul>
 		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-		<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>{% ifequal sid 6 %}
-		<li><a href="mailto:riklaunim@gmail.com">Contact - riklaunim@gmail.com</a></li>
-		{% else %}
-		<li><a href="/w/autor/">{% trans "About Me" %}</a></li>
-		<li><a href="/w/biblioteki/">{% trans "About My Sites" %}</a></li>
-		{% endifequal %}
-		<li><a href="http://www.arena-albionu.pl/?idpartner=264730" target="_blank"><b>Arena Albionu</b></a></li>
-		<li><a href="http://s12.gladiatus.onet.pl/game/c.php?uid=25157" target="_blank"><b>Gladiatus</b></a></li>
+		<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
 		</ul>
 		{% if user.is_authenticated %}
 		<h4>{% trans "Change theme" %}</h4>
 		<form id="switchform" style="text-align:center;margin-top:5px;">
 		<select name="switchcontrol" size="1" onChange="chooseStyle(this.options[this.selectedIndex].value, 60)">
-		<option value="none" selected="selected">Domyślny</option>
-		<option value="green-theme">Zielony</option>
+		<option value="none" selected="selected">{% trans "Default" %}</option>
+		<option value="green-theme">{% trans "Green" %}</option>
 		</select>
 		</form>{% endif %}
 	</div>
 </div>
 <div class="footer">
-	<ul>
-	<li><a href="http://www.php.rk.edu.pl">Kurs PHP</a></li>
-	<li><a href="http://www.cms.rk.edu.pl">CMS</a></li>
-	<li><a href="http://www.python.rk.edu.pl">Python i Django</a></li>
-	<li><a href="http://www.linux.rk.edu.pl">Linux</a></li>
-	<li><a href="http://www.crpg.rk.edu.pl">cRPG Baldurs Gate</a></li>
-	<li><a href="http://www.rkblog.rk.edu.pl">English Tech Blog</a></li>
-	<li><a href="http://www.nauka.rk.edu.pl">Nauka</a></li>
-	</ul>
-{% ifequal sid 6 %}<b>Hosting <a href="http://nrcfosshelpline.in/web/" target="_blank">NRC-FOSS</a> at AU-KBC.</b>. <b>Django/Python</b> powered.{% else %}Biblioteka Riklaunima. Hosting <a href="http://nrcfosshelpline.in/web/">NRC-FOSS</a> na AU-KBC. Serwis oparty o <b>Django/Python</b>.{% endifequal %}
+<b><a href="{% trans "http://www.rkblog.rk.edu.pl" %}">{% trans "Diamanda Application Set" %}</a></b>
 </div>
-{% ifequal sid 1 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-2";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 2 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-4";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 3 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-5";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 4 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-3";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 5 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-6";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 6 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-7";
-urchinTracker();
-</script>{% endifequal %}{% ifequal sid 7 %}<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-166391-8";
-urchinTracker();
-</script>{% endifequal %}</body>
+</body>
 </html>

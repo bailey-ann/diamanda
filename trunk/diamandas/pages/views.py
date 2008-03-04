@@ -14,7 +14,6 @@ from django import newforms as forms
 
 from boxcomments.models import Comment
 from pages.models import *
-from baldur.models import Character
 from userpanel.models import Profile
 from myghtyboard.models import Topic
 from translator.models import Translation
@@ -28,26 +27,15 @@ def show_index(request):
 		lastposter = str(t['topic_lastpost'])
 		br = lastposter.find('<br />')
 		t['last'] = lastposter[:br]
-	entries = Content.objects.filter(date__gt=datetime(2007, 9, 4)).order_by('-date')[:5]
+	entries = Content.objects.all().order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:5]
 	now = datetime.now()
 	check_time = now - timedelta(hours=1)
 	onsite = Profile.objects.filter(onsitedata__gt=check_time).order_by('-onsitedata')[:5]
-	if settings.SITE_ID == 5:
-		characters = Character.objects.order_by('-id').values('id', 'name', 'main_class')[:4]
-		return render_to_response(
-			'pages/show_index.html',
-			{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'characters':characters},
-			context_instance=RequestContext(request))
-	if settings.SITE_ID == 2:
-		tra = Translation.objects.order_by('-id').values('id', 'name')[:4]
-		return render_to_response(
-			'pages/show_index.html',
-			{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'tra':tra},
-			context_instance=RequestContext(request))
+	tra = Translation.objects.order_by('-id').values('id', 'name')[:4]
 	return render_to_response(
 		'pages/show_index.html',
-		{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite},
+		{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'tra':tra},
 		context_instance=RequestContext(request))
 
 def list_news(request, book=False):
@@ -117,7 +105,7 @@ def full_rss(request):
 	"""
 	RSS channel
 	"""
-	pages = Content.objects.filter(date__gt=datetime(2007, 9, 4)).values('slug', 'title', 'description', 'date', 'content_type').order_by('-id')[:10]
+	pages = Content.objects.all().values('slug', 'title', 'description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss2.html', {'pages': pages}, context_instance=RequestContext(request))
 
 def book_rss(request, slug):
@@ -127,34 +115,15 @@ def book_rss(request, slug):
 	* book - slug of a Content entry (book content_type)
 	"""
 	book = Content.objects.get(slug=slug)
-	pages = Content.objects.filter(date__gt=datetime(2007, 9, 4)).filter(place=book).values('slug', 'title', 'description', 'date', 'content_type').order_by('-id')[:10]
+	pages = Content.objects.all().filter(place=book).values('slug', 'title', 'description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
 
 def search_pages(request):
 	"""
 	Search view
 	"""
-	if settings.SITE_KEY == 'cms.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThTTNwzEY5ktC1JpTfQelgHNGbHNQBRPEs-Ztp4SZoNu_PUjXwLRZcaVIg'
-	if settings.SITE_KEY == 'php.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThSTesvkfYMT_DK2_I4I-OttsMHFyhSgKAYXuBcgT9jmBAd4K7BN_-cy9Q'
-	if settings.SITE_KEY == 'python.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThQbVSSygg9VTuY-qqBF4Y6MY853hBR91dgEaAM5tPcaSeSWa_WDsN-5Hw'
-	if settings.SITE_KEY == 'linux.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThQ1b32Be5SkZdHFcOv59zP4iam53BTw0SPshKm05CepDVVdeCut9yojow'
-	if settings.SITE_KEY == 'crpg.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThQipdOVaYfEIprYDmZDEV4LWaaXYhS0hPVRgOeuIAiHGwrEc-5P2YaMIw'
-	if settings.SITE_KEY == 'rkblog.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThTo08JhkXu7ICI_copdBixacLumIhQ2SSZvquBBfbXcRPeKgMqDCma4Mg'
-	if settings.SITE_KEY == 'nauka.rk.edu.pl':
-		key = 'ABQIAAAAd5Vbx_5LfHRdA-LJaPPSThRXyTRsVZx6tSbpf_My6hiAsAdWcxSjTPd6JgiVljo48NI_b1m0jc7PXw'
 	if request.POST:
 		data = request.POST.copy()
-		return render_to_response('pages/search.html', {'term': data['term'], 'key': key}, context_instance=RequestContext(request))
+		return render_to_response('pages/search.html', {'term': data['term'], 'key': settings.GOOGLE_AJAX_SEARCH_API_KEY}, context_instance=RequestContext(request))
 	else:
 		return render_to_response('pages/search.html', {'key': key}, context_instance=RequestContext(request))
-
-def biblioteki(request):
-	return render_to_response('pages/biblioteki.html', context_instance=RequestContext(request))
-def autor(request):
-	return render_to_response('pages/autor.html', context_instance=RequestContext(request))

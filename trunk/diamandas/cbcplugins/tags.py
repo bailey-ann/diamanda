@@ -13,7 +13,6 @@ from pygments.formatters import HtmlFormatter
 from django.conf import settings
 
 from pages.models import Content
-from albion.models import AlbionNews
 
 def thumb(dic, text):
 	"""
@@ -56,20 +55,6 @@ def art(dic, text):
 			text = text.replace('[rk:art slug="' + i.slug + '"]', '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + ' <img src="/site_media/layout/cbc/new_7.gif" alt="" / alt="" /><br />')
 		else:
 			text = text.replace('[rk:art slug="' + i.slug + '"]', '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + '<br />')
-	return text
-
-def alb(dic, text):
-	"""
-	display a list of latest Albion news
-	"""
-	news = AlbionNews.objects.all().order_by('-data')[:10]
-	ret = '<ul>'
-	for i in news:
-		ret = ret + '<li><a href="/albion/news/%s/">%s</a></li>' % (i.slug, i.title)
-	
-	ret = ret + '<li><a href="/albion/news/rss/"><b>** RSS **</b></a></li></ul>'
-	for i in dic:
-		text = text.replace(i['tag'], ret)
 	return text
 
 def h(dic, text):

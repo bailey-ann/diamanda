@@ -1,13 +1,9 @@
 {% extends "pages/body.html" %}
-{% block leftmenu %}<ul>
-<li><a href="/">Strona Główna</a></li>
-{% if user.is_authenticated %}<li><a href="/user/">Moje Konto</a> ({{ user }})</li>
-<li><a href="/submit/">Dodaj materiał</a></li>{% else %}<li><a href="/user/login/">Zaloguj lub zarejestruj</a></li>{% endif %}
-</ul>{% endblock %}
-{% block header %}Lista ankiet{% endblock %}
-{% block title %}Lista ankiet{% endblock %}
-{% block description %}Lista ankiet{% endblock %}
-{% block crumb %}<a href="/">Biblioteka</a>{% endblock %}
+{% load i18n %}
+{% block header %}{% trans "Polls" %}{% endblock %}
+{% block title %}{% trans "Polls" %}{% endblock %}
+{% block description %}{% trans "Polls" %}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}
 
 {% block content %}
 
@@ -15,10 +11,10 @@
 
 <br /><br />
 {% if has_previous %}
-	<a href="/p/?page={{ previous }}"><h2>Wcześniejsze ankiety</h2></a>
+	<a href="/p/?page={{ previous }}"><h2>{% trans "Previous Polls" %}</h2></a>
 {% endif %}
 
 {% if has_next %}
-	<a href="/p/?page={{ next }}"><h2>Kolejne ankiety</h2></a>
+	<a href="/p/?page={{ next }}"><h2>{% trans "Next Polls" %}</h2></a>
 {% endif %}
 {% endblock %}

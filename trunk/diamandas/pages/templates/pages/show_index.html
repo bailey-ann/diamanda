@@ -1,37 +1,13 @@
 {% extends "pages/body.html" %}
 {% load i18n %}{% load cbc %}
 
-{% block title %}{% ifequal sid 1 %}Biblioteka CMS - Tworzenie stron www{% endifequal %}{% ifequal sid 2 %}Biblioteka Linuksa{% endifequal %}{% ifequal sid 3 %}Biblioteka Pythona{% endifequal %}{% ifequal sid 4 %}Biblioteka PHP - Kurs PHP{% endifequal %}{% ifequal sid 5 %}Biblioteka Baldurs Gate Icewind Dale i Dungeons and Dragons RPG{% endifequal %}{% ifequal sid 6 %}Riklaunims TechBlog{% endifequal %}{% ifequal sid 7 %}Biblioteka Nauki{% endifequal %}{% endblock %}
-{% block description %}{% ifequal sid 1 %}Przegląd skryptów CMS, For dyskusyjnych, galerii - tworzenie stron www{% endifequal %}{% ifequal sid 2 %}Biblioteka Linuksa{% endifequal %}{% ifequal sid 3 %}Serwis poświęcony Pythonowi - językowi programistycznemu{% endifequal %}{% ifequal sid 4 %}Biblioteka PHP{% endifequal %}{% ifequal sid 5 %}Biblioteka cRPG - Baldurs Gate, Icewind Dale i Dungeons and Dragons RPG{% endifequal %}{% ifequal sid 6 %}Riklaunim's TechBlog - Python, Django and others{% endifequal %}{% ifequal sid 7 %}Biblioteka Nauki{% endifequal %}{% endblock %}
-{% block header %}Biblioteka{% endblock %}
-{% block crumb %}{% ifequal sid 1 %}Biblioteka CMS{% endifequal %}{% ifequal sid 2 %}Biblioteka Linuksa{% endifequal %}{% ifequal sid 3 %}Biblioteka Pythona{% endifequal %}{% ifequal sid 4 %}Programowanie w PHP, Bazy Danych i tworzenia aplikacji www{% endifequal %}{% ifequal sid 5 %}Biblioteka cRPG - Baldurs Gate  Icewind Dale i Dungeons and Dragons{% endifequal %}{% ifequal sid 6 %}Riklaunim's TechBlog - Python, Django and others{% endifequal %}{% ifequal sid 7 %}Biblioteka Nauki{% endifequal %}{% endblock %}
+{% block title %}Diamanda{% endblock %}
+{% block description %}Diamanda{% endblock %}
+{% block header %}Diamanda{% endblock %}
+{% block crumb %}Diamanda{% endblock %}
 
-{% block content %}<div style="overflow:auto;">
-{% ifequal sid 1 %}<div class="important"><h3 style="margin-top:0px;">Ważne</h3>
-<ul><li><a href="http://www.python.rk.edu.pl/w/p/hosting-django/">Dla firm hostingowych - Wspieraj Django</a></li>
-<li><a href="http://www.php.rk.edu.pl">Kurs PHP</a></li></ul></div>{% endifequal %}
-{% ifequal sid 2 %}<div class="important"><h3 style="margin-top:0px;">Ważne</h3>
-<ul><li><a href="/w/p/polish-friendly-linux/">Polski Linux - Testy Sprzętu</a></li>
-<li><a href="/w/p/pardus/">Pardus</a></li>
-<li><a href="/w/p/arch/">ArchLinux</a></li>
-<li><a href="/w/p/gentoo/">Gentoo</a></li>
-<li><a href="http://www.jakilinux.org" title="Linux">Jaki Linux dla mnie ?</a></li>
-<li><a href="http://linuksowo.pl">Linuksowo.pl</a></li>
-</ul></div>{% endifequal %}
-{% ifequal sid 4 %}<div class="important"><h3 style="margin-top:0px;">Ważne</h3>
-<ul><li><a href="http://www.cms.rk.edu.pl">CMSy i Skrypty</a></li>
-<li><a href="http://www.python.rk.edu.pl">Tworzenie stron w Pythonie</a></li></ul></div>{% endifequal %}
-{% ifequal sid 3 %}<div class="important"><h3 style="margin-top:0px;">Ważne</h3>
-<ul><li><a href="/w/p/hosting-django/">Firmy hostingowe - Wspierajcie Django</a></li></ul></div>{% endifequal %}
-
-{% ifequal sid 1 %}<b>Biblioteka CMS</b> poświęcona jest gotowym skryptom umożliwiającym prowadzenie własnego serwisu. Owe skrypty to CMSy - systemy zarządzania treścią, fora dyskusyjne, galerie, wiki i wszelaka maść pozostałych rozwiązań.<br />
-W Bibliotece znajdziesz porównania i zestawienia różnych skryptów ułatwiających pojęcie decyzji co do wyboru skryptu. Znajdziesz tutaj także materiały dotyczące niektórych ciekawych skryptów takich jak punBB, Postnuke czy PHP-Fusion.{% endifequal %}{% ifequal sid 2 %}<p>Linux to otwarty ("<i>darmowy</i>") system operacyjny dla komputerów. Ze względu na powstanie i rozwój dystrybucji o łatwej instalacji, graficznym wyglądzie i bogactwie wydajnego oprogramowania Linux znajduje szerokie zastosowanie na rynku biurowym i domowym. System ten jest używany w większości superkomputerów z listy TOP500, chcesz do niej dołączyć ?</p>
-<p>Biblioteka Linuksa skupia się na omawianiu dostępnych aplikacji, obsługą sprzętu pod Linuksem i innymi zagadnieniami związanymi z tym systemem, jak i ruchem/oprogramowaniem OpenSource.</p>{% endifequal %}{% ifequal sid 3 %}Python jest interpretowanym, interaktywnym językiem programowania stworzonym przez Guido van Rossuma w 1990 roku. Mimo że Python jest czasem klasyfikowany jako język skryptowy, wykorzystuje się go do tworzenia dużych projektów jak serwer aplikacji Zope czy system wymiany plików Mojo Nation. Używany jest przez NASA czy Google, napędza grono.net (<i>z pl.wikipedia.org</i>).{% endifequal %}{% ifequal sid 4 %}Niniejszy serwis zawiera kurs uczący programowania w PHP - tworzenia działających i poprawnie wykonanych aplikacji. Przewodnik napisany jest przystępnym językiem i bazuje na prostych, lecz funkcjonalnych rozwiązaniach takich jak framework Code Igniter (również do zastosowań komercyjnych). Nawet jeżeli rozpoczynasz naukę PHP będziesz w stanie, przy rzetelnej pracy szybko poznać "tajniki" języka.{% endifequal %}{% ifequal sid 5 %}<p><b>Baldur's Gate</b> (Wrota Baldura) to seria komputerowych gier fabularnych (cRPG) opartych na zasadach gry Dungeons and Dragons i umieszczone w świecie Forgotten Realms (Zapomnianych Krain). Jedna z najpopularniejszych sag RPG w historii gier komputerowych.<br>
-<b>Icewind Dale</b> (Dolina Lodowego Wichru) to seria wydana przez Interplay i wyprodukowana przez Black Isle, oparta na silniku Infinity Engine firmy BioWare. Pierwsza część gry oparta była na systemie Advanced Dungeons and Dragons, zaś druga część na DnD 3. Część wątków serii kontynuowana miała być w grze Baldur's Gate: The Black Hound, prace nad którą zostały jednak wstrzymane w związku z rozwiązaniem przez Interplay oddziału Black Isle. (<i>z pl.wikipedia.org</i>)</p><p>
-<b>Biblioteka Riklaunima</b> poświęcona jest grom opartym o silnik Infinity jak i samemu systemowi Dungeons and Dragons i jego światom. Znajdziesz tutaj informacje o grach jak i wielu ciekawych modyfikacjach dodających nowe przygody.</p>{% endifequal %}{% ifequal sid 6 %}This site contains various notes and pages about programming in Python and PHP, using Linux and more. You will find here also support for my <b>Diamanda</b> Django Applications set  with MyghtyBoard Forum and other applications, which are used on my websites, including this one.
-<div style="text-align:right;"><b>Piotr "Riklaunim" Maliński</b></div>{% endifequal %}{% ifequal sid 7 %}<b>Witaj w Bibliotece Nauki</b>!<br />
-W niniejszej Bibliotece znajdziesz opracowania ciekawych tematów, wiadomości i inne doniesienia ze świata nauki.{% endifequal %}
-</div>
+{% block content %}
+Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :)
 <div>
 {% for i in entries %}<h3><a href="/w/p/{{ i.slug }}/"><b>{{ i.title }}</b></a></h3>
 <div class="important">{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}</div>

@@ -1,6 +1,6 @@
+{% extends "pages/body.html" %}
 {% load i18n %}
 {% load fbc %}
-{% extends "pages/body.html" %}
 {% block title %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block header %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a>{% endblock %}

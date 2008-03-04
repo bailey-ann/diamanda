@@ -1,4 +1,5 @@
-{% load i18n %}{% load fbc %}{% extends "pages/body.html" %}
+{% extends "pages/body.html" %}
+{% load i18n %}{% load fbc %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > {% ifequal apptype "1" %}<a href="/w/p/{{ a.slug }}/">{{ a.title }}</a>{% endifequal %}{% ifequal apptype "4" %}<a href="/tra/show/{{ appid }}/">{{ a.name }}</a>{% endifequal %}{% ifequal apptype "5" %}<a href="/bgate/show/{{ appid }}/">{{ a.name }}</a>{% endifequal %}{% ifequal apptype "2" %}<a href="/bgate/mod/show/{{ appid }}/">{{ a.name }}</a>{% endifequal %}{% endblock %}
 
 {% block content %}<div class="box">{% trans "Here you can read all comments for" %} "<i>{{ title }}</i>". {% trans "You can add your comment using the form below. Please do not ask for help - use <b>Forums</b> for help and support." %}</div>

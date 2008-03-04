@@ -1,5 +1,5 @@
-{% load i18n %}
 {% extends "pages/body.html" %}
+{% load i18n %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ topic.topic_forum.id }}/">{{ topic.topic_forum }}</a>{% endblock %}
 {% block content %}
 

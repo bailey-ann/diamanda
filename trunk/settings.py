@@ -27,7 +27,11 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
 from sys import path
 path.append('diamandas/')
 
-WIKI_GOOGLE_SEARCH_API = 'tbZF6P1QFHJB23E5zqVwgyytmQPuVkLC'
+SITE_NAME = 'Diamanda'
+SITE_DESCRIPTION = 'Diamanda'
+VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
+GOOGLE_AJAX_SEARCH_API_KEY = ''
+
 MEDIA_ROOT = '/home/piotr/biblioteka/site_media/'
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
@@ -72,7 +76,3 @@ INSTALLED_APPS = (
     'translator',
     'gcodesearch',
 )
-
-SITE_NAME = 'Diamanda'
-SITE_DESCRIPTION = 'Diamanda'
-VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
