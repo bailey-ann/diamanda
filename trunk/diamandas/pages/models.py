@@ -49,10 +49,8 @@ class Content(models.Model):
 		fields = (
 		(None, 
 			{
-			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'book_order')
+			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'book_order', 'is_update', 'changes')
 			}),
-		(_('Other'),
-			{'fields': ('is_update', 'changes'), 'classes': 'collapse'}),
 		)
 	def get_absolute_url(self):
 		return '/w/p/' + self.slug + '/'

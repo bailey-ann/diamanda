@@ -334,6 +334,48 @@ overflow:auto;
 }
 
 
+.newsbox li
+{
+display:inline;
+padding-right:10px;
+font-weight:bold;
+}
+
+#added
+{
+background-image:url(clock.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#read
+{
+background-image:url(page.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#comment
+{
+background-image:url(comment.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#book
+{
+background-image:url(folder.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#update
+{
+background-image:url(update.png);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
 
 .bookdiv
 {

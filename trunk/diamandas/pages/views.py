@@ -83,6 +83,7 @@ def show(request, slug):
 			if not a.place:
 				a = False
 	if page.content_type == 'news':
+		crumb = crumb + ' <a href="%s">%s</a> > ' % (page.slug, page.title)
 		return render_to_response(
 			'pages/show_news.html',
 			{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},

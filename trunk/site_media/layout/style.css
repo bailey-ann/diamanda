@@ -123,18 +123,7 @@ font-size:14px;
 font-weight:bold;
 margin:0px;
 }
-#toc
-{
-border-bottom:1px solid #4993DC;
-font-size:20px!important;
-font-weight:bold;
-margin:0px;
-padding-left:40px;
-padding-top:13px;
-background-image:url(bookmark.png);
-background-repeat:no-repeat;
-background-position:0% 0%;
-}
+
 #top
 {
 padding:0px;
@@ -333,7 +322,57 @@ margin-top:5px;
 overflow:auto;
 }
 
+.newsbox
+{
+border-bottom:1px dotted gray;
+border-top:1px dotted gray;
+padding:5px;
+margin-bottom:35px;
+margin-top:5px;
+overflow:auto;
+}
 
+.newsbox li
+{
+display:inline;
+padding-right:10px;
+font-weight:bold;
+}
+
+#added
+{
+background-image:url(clock.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#read
+{
+background-image:url(page.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#comment
+{
+background-image:url(comment.gif);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#book
+{
+background-image:url(folder.png);
+background-repeat:no-repeat;
+padding-left:20px;
+}
+
+#update
+{
+background-image:url(update.png);
+background-repeat:no-repeat;
+padding-left:20px;
+}
 
 .bookdiv
 {
