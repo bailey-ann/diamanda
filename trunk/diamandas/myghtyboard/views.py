@@ -183,7 +183,7 @@ def add_topic(request, forum_id):
 	* forum_id - ID of a Forum entry
 	"""
 	
-	
+	forum = Forum.objects.get(id=forum_id)
 	if request.POST:
 		page_data = request.POST.copy()
 		page_data['topic_author'] = str(request.user)
@@ -207,7 +207,6 @@ def add_topic(request, forum_id):
 			new_place = form.save()
 			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'])
 			post.save()
-			forum = Forum.objects.get(id=forum_id)
 			forum.forum_topics = forum.forum_topics +1
 			forum.forum_posts = forum.forum_posts +1
 			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
@@ -219,13 +218,13 @@ def add_topic(request, forum_id):
 		else:
 			return render_to_response(
 				'myghtyboard/add_topic.html',
-				{'form': form, 'perms': list_perms(request)},
+				{'form': form, 'forum': forum, 'perms': list_perms(request)},
 				context_instance=RequestContext(request))
 	
 	form = AddTopicForm()
 	return render_to_response(
 		'myghtyboard/add_topic.html',
-		{'form': form, 'perms': list_perms(request)},
+		{'form': form, 'forum': forum, 'perms': list_perms(request)},
 		context_instance=RequestContext(request))
 
 class AddPostForm(forms.ModelForm):
@@ -241,8 +240,9 @@ def add_post(request, topic_id, post_id = False):
 	* post_id - id of a Post entry to be quoted
 	"""
 	
-	topic = Topic.objects.values('is_locked').get(id=topic_id)
-	if topic['is_locked']:
+	topic = Topic.objects.get(id=topic_id)
+	forum = Forum.objects.get(id=topic.topic_forum.id)
+	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request))
 
 	# check who made the last post.
@@ -271,7 +271,6 @@ def add_post(request, topic_id, post_id = False):
 		if form.is_valid():
 			form.save()
 		
-			topic = Topic.objects.get(id=topic_id)
 			posts = Post.objects.filter(post_topic=topic_id).count()
 			
 			pmax =  posts/10
@@ -288,7 +287,6 @@ def add_post(request, topic_id, post_id = False):
 			topic.topic_lastpost = str(request.user)+'<br />' + str(datetime.today())[:-10]
 			topic.save()
 			
-			forum = Forum.objects.get(id=topic.topic_forum.id)
 			forum.forum_posts = forum.forum_posts +1
 			
 			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
@@ -299,7 +297,7 @@ def add_post(request, topic_id, post_id = False):
 		else:
 			return render_to_response(
 				'myghtyboard/add_post.html',
-				{'lastpost': lastpost, 'perms': list_perms(request), 'form':form},
+				{'forum': forum, 'topic': topic, 'lastpost': lastpost, 'perms': list_perms(request), 'form':form},
 				context_instance=RequestContext(request))
 	else:
 		if post_id:
@@ -309,7 +307,7 @@ def add_post(request, topic_id, post_id = False):
 			quote_text = ''
 	return render_to_response(
 		'myghtyboard/add_post.html',
-		{'quote_text': quote_text, 'lastpost': lastpost, 'perms': list_perms(request)},
+		{'forum': forum, 'topic': topic, 'quote_text': quote_text, 'lastpost': lastpost, 'perms': list_perms(request)},
 		context_instance=RequestContext(request))
 
 @login_required
@@ -321,8 +319,9 @@ def edit_post(request, post_id):
 	"""
 	
 	post = Post.objects.get(id=post_id)
-	topic = Topic.objects.values('is_locked').get(id=post.post_topic.id)
-	if topic['is_locked']:
+	topic = Topic.objects.get(id=post.post_topic.id)
+	forum = Forum.objects.get(id=topic.topic_forum.id)
+	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request)) # locked topic!
 	
 	if str(request.user) == post.post_author or  request.user.is_staff:
@@ -346,7 +345,7 @@ def edit_post(request, post_id):
 		else:
 			return render_to_response(
 				'myghtyboard/edit_post.html',
-				{'post_text': post.post_text, 'perms': list_perms(request)},
+				{'forum': forum, 'topic': topic, 'post_text': post.post_text, 'perms': list_perms(request)},
 				context_instance=RequestContext(request))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You can\'t edit this post')}, context_instance=RequestContext(request)) # can't edit post

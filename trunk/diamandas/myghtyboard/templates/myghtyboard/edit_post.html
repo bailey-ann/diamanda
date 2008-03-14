@@ -1,7 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
-
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.forum_name }}</a> > <a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a>{% endblock %}
 {% block content %}
 <br /><h2><span>{% trans "Edit Post" %}</span></h2>
 <div class="box" style="text-align:center;">
@@ -26,10 +25,8 @@
 </form>
 <br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote</div>
 {% endblock %}
-{% block right %}{% if perms.is_authenticated %}<h4>{% trans "Options" %}</h4>
-<ul>
+{% block pagemenu %}{% if perms.is_authenticated %}
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 <li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
-</ul>
 {% endif %}{% endblock %}

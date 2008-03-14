@@ -10,8 +10,5 @@ urlpatterns = patterns('',
 (r'^tra/', include('translator.URLconf')),
 (r'^com/', include('boxcomments.URLconf')),
 (r'^sitemap/$', 'pages.views.sitemap'),
-(r'^gcodesearch/$', 'gcodesearch.views.search'),
-(r'^p/(?P<pid>[0-9]+)/$', 'polls.views.show_pcomment'),
-(r'^p/', 'polls.views.show_polls'),
 (r'^/?$', 'pages.views.show_index'),
 )

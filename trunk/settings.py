@@ -32,7 +32,7 @@ SITE_DESCRIPTION = 'Diamanda'
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
-MEDIA_ROOT = '/home/piotr/biblioteka/site_media/'
+MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 SECRET_KEY = '2tv6q=sq%k1d34t1i#8me%y(og71s##h1m57h7$g)_q2$p^#xc'
@@ -57,10 +57,8 @@ TEMPLATE_DIRS = (
 'diamandas/userpanel/templates',
 'diamandas/stats/templates',
 'diamandas/pages/templates',
-'diamandas/polls/templates',
 'diamandas/translator/templates',
 'diamandas/boxcomments/templates'
-'diamandas/gcodesearch/templates',
 )
 
 INSTALLED_APPS = (
@@ -71,10 +69,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'stats',
     'pages',
-    'polls',
     'boxcomments',
     'userpanel',
     'myghtyboard',
     'translator',
-    'gcodesearch',
 )

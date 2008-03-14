@@ -5,28 +5,15 @@
 {% block header %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a>{% endblock %}
 
-{% block right %}<h4>{% trans "Options" %}</h4><ul>{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			<li><a href="/forum/topic/1/{{ topic_id }}/">{% trans "First Page" %}</a></li>
-			{% endifnotequal %}
-			{% endifnotequal %}
-			
-			{% if has_previous %}
-				<li><a href="/forum/topic/{{ previous }}/{{ topic_id }}/">{% trans "Previous Page" %} </a></li>
-			{% endif %}
-			
-			{% if has_next %}
-			<li><a href="/forum/topic/{{ next }}/{{ topic_id }}/"> {% trans "Next Page" %}</a></li>
-			{% endif %}
-			
-			{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			<li><a href="/forum/topic/{{ pages }}/{{ topic_id }}/">{% trans "Last Page" %}</a></li>
-			{% endifnotequal %}
-			{% endifnotequal %}
-			{% if opened %}
-	<li><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></li>
-	{% endif %}</ul>
+{% block pagemenu %}
+	{% if perms.is_authenticated %}
+	{% if opened %}
+		<li><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></li>
+	{% endif %}
+	<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
+	<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
+	<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
+	{% endif %}
 {% endblock %}
 
 {% block content %}

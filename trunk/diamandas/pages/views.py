@@ -27,7 +27,7 @@ def show_index(request):
 		lastposter = str(t['topic_lastpost'])
 		br = lastposter.find('<br />')
 		t['last'] = lastposter[:br]
-	entries = Content.objects.all().order_by('-date')[:5]
+	entries = Content.objects.select_related().order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:5]
 	now = datetime.now()
 	check_time = now - timedelta(hours=1)
@@ -53,7 +53,7 @@ def list_news(request, book=False):
 			paginate_by = 10,
 			allow_empty = True,
 			template_name = 'pages/news_list.html',
-			extra_context = {'book': book, 'bk':bk})
+			extra_context = {'book': book, 'bk':bk, 'current_book': bk})
 	else:
 		news = Content.objects.filter(content_type='news').order_by('-date').values('slug', 'title', 'date')
 	return object_list(
@@ -88,10 +88,16 @@ def show(request, slug):
 			'pages/show_news.html',
 			{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},
 			context_instance=RequestContext(request))
+	if page.content_type == 'book' and page.book_order > 0:
+		current_book = page
+	elif page.place.content_type == 'book' and page.place.book_order > 0:
+		current_book = page.place
+	else:
+		current_book = False
 	return render_to_response(
 		'pages/show.html',
 		{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},
-		context_instance=RequestContext(request))
+		context_instance=RequestContext(request, {'current_book': current_book}))
 
 def sitemap(request):
 	"""

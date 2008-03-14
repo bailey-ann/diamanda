@@ -5,30 +5,34 @@
 {% block content %}
 Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :)
 <div>
-{% for i in entries %}<h4><a href="/w/p/{{ i.slug }}/"><b>{{ i.title }}</b></a></h4>
-<div class="important">{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}</div>
-{{ i.description|cbc|safe }}
-<ul class="newsbox">
-
-<li id="added">{{ i.date|date:"d.m.Y" }}</li>
-<li id="read"><a href="/w/p/{{ i.slug }}/">{% trans "Read" %}</a></li>
-<li id="comment"><a href="/com/{{ i.id }}/1/">{% trans "Comments" %}</a></li>
-{%if i.place %}<li id="book"><a href="/w/p/{{ i.place.slug }}/">{{ i.place }}</a></li>{% endif %}
-{%if i.is_update %}<li id="update">{{ i.changes }}</li>{% endif %}
-</ul>
-
-{% endfor %}
-</div>{% endblock %}
+	{% for i in entries %}
+		<h4>{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}
+		<a href="/w/p/{{ i.slug }}/"><b>{{ i.title }}</b></a></h4>
+		{{ i.description|cbc|safe }}
+		<ul class="newsbox">
+			<li class="added">{{ i.date|date:"d.m.Y" }}</li>
+			<li class="read"><a href="/w/p/{{ i.slug }}/">{% trans "Read" %}</a></li>
+			<li class="comment"><a href="/com/{{ i.id }}/1/">{% trans "Comments" %}</a></li>
+			{%if i.place %}<li class="book"><a href="/w/p/{{ i.place.slug }}/">{{ i.place }}</a></li>{% endif %}
+			{%if i.is_update %}<li class="update">{{ i.changes }}</li>{% endif %}
+		</ul>
+	{% endfor %}
+</div>
+{% endblock %}
 
 {% block right %}
-{% if itopics %}
-<h4><a href="/forum/">{% trans "Latest Topics" %}</a></h4>
-	<ul>{% for t in itopics %}<li><a href="/forum/topic/{{ t.topic_last_pagination_page }}/{{ t.id }}/">{{ t.topic_name }}</a> ({{ t.last }})</li>{% endfor %}{% endif %}</ul><br />
-{% if com %}<h4>{% trans "Latests Comments" %}</h4>
-	<ul>{% for t in com %}<li><a href="/com/{{ t.appid }}/{{ t.apptype }}/">{{ t.title }}</a></li>{% endfor %}</ul>{% endif %}
-<h4 class="headers"><a href="/tra/list/">{% trans "Latest Translations" %}</a></h4>
-	<ul>{% for t in tra %}<li><a href="/tra/show/{{ t.id }}/">{{ t.name }}</a></li>{% endfor %}</ul>
-<br />
-<h4>{% trans "Users online" %}</h4>
-	<ul>{% for t in onsite %}<li>{{ t.username }}</li>{% endfor %}</ul>
+<div class="important">
+	{% if itopics %}
+		<h4><a href="/forum/">{% trans "Latest Topics" %}</a></h4>
+		<ul>{% for t in itopics %}<li><a href="/forum/topic/{{ t.topic_last_pagination_page }}/{{ t.id }}/">{{ t.topic_name }}</a> ({{ t.last }})</li>{% endfor %}{% endif %}</ul>
+	{% if com %}
+		<h4>{% trans "Latests Comments" %}</h4>
+		<ul>{% for t in com %}<li><a href="/com/{{ t.appid }}/{{ t.apptype }}/">{{ t.title }}</a></li>{% endfor %}</ul>{% endif %}
+	{% if tra %}
+		<h4 class="headers"><a href="/tra/list/">{% trans "Latest Translations" %}</a></h4>
+		<ul>{% for t in tra %}<li><a href="/tra/show/{{ t.id }}/">{{ t.name }}</a></li>{% endfor %}</ul>{% endif %}
+	{% if onsite %}
+		<h4>{% trans "Users online" %}</h4>
+		<ul>{% for t in onsite %}<li>{{ t.username }}</li>{% endfor %}</ul>{% endif %}
+</div>
 {% endblock %}

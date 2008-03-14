@@ -7,61 +7,49 @@
 <meta name="Robots" content="index,follow" />
 <link rel="stylesheet" href="/site_media/layout/style.css" type="text/css" />
 <link rel="shortcut icon" href="/site_media/layout/favicon.ico" />
-<link rel="alternate stylesheet" media="screen" title="green-theme" href="/site_media/layout/style2.css" type="text/css" />
 <script src="/site_media/layout/biblioteka.js" type="text/javascript"></script>{% block meta %}{% endblock %}
 </head>
 <body>
-<div id="top">
-	<div id="topmenu">
-		{% block leftmenu %}<ul>
-		<li><a href="/user/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
-		<li><a href="/forum/">{% trans "Forum" %}</a></li>
-		<li><a href="/tra/list/">{% trans "Translations" %}</a></li>
-		<li><a href="/p/">{% trans "Polls" %}</a></li>
-		</ul>{% endblock %}
+	<div id="top">
+		<div id="topmenu">
+			<form id="myform" action="/w/search/" method="post">
+			<input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="Szukaj" />
+			</form>
+		</div>
+		<h1>{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</h1>
 	</div>
-	<h1>{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</h1>
-</div>
-
-<div id="modernbricksmenu2">
-<ul>
-{% for b in books %}
-	<li><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
-{% endfor %}
-</ul>
-<form id="myform" action="/w/search/" method="post">
-<input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="Szukaj" />
-</form>
-</div>
-<br style="clear: left" />
-<div id="spinacz">
-	<div id="center">
-		{% block content %}{% endblock %}
+	<div id="modernbricksmenu2">
+	<ul>
+	{% for b in books %}
+		<li{% ifequal b.slug current_book.slug %} id="current"{% endifequal %}><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
+	{% endfor %}
+	</ul>
 	</div>
-	<div id="right">
-		{% block right %}{% endblock %}
-		<h4>{% trans "Links" %}</h4>
+	<div id="modernbricksmenu">
 		<ul>
-		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-		<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
+		{% block leftmenu %}
+			<li><a href="/tra/list/">{% trans "Translations" %}</a></li>
+			<li><a href="/forum/">{% trans "Forum" %}</a></li>
+			<li><a href="/user/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
+		{% endblock %}
 		</ul>
-		{% if user.is_authenticated %}
-		<h4>{% trans "Change theme" %}</h4>
-		<form id="switchform" style="text-align:center;margin-top:5px;">
-		<select name="switchcontrol" size="1" onChange="chooseStyle(this.options[this.selectedIndex].value, 60)">
-		<option value="none" selected="selected">{% trans "Default" %}</option>
-		<option value="green-theme">{% trans "Green" %}</option>
-		</select>
-		</form>{% endif %}
 	</div>
-</div>
-<div class="footer">
-<b><a href="{% trans "http://www.rkblog.rk.edu.pl" %}">{% trans "Diamanda Application Set" %}</a></b>
-</div>
+	<div id="modernbricksmenuline">&nbsp;</div>
+		<div id="center">
+			<ul class="basictab">
+				{% block pagemenu %}{% endblock %}
+			</ul>
+			{% block right %}{% endblock %}
+			{% block content %}{% endblock %}
+		</div>
+		<div id="modernbricksmenu3">
+		<ul>
+			<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+			<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
+		</ul>
+		</div>
 </body>
 </html>
 
-
-
-
+<br /><br />
 <div class="box">

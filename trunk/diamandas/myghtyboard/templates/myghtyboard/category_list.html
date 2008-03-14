@@ -2,12 +2,10 @@
 {% load i18n %}
 
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
-{% block right %}{% if perms.is_authenticated %}<h4>{% trans "Options" %}</h4>
-<ul>
+{% block pagemenu %}{% if perms.is_authenticated %}
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 <li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
-</ul>
 {% endif %}{% endblock %}
 
 {% block content %}
