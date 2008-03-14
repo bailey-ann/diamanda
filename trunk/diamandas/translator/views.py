@@ -13,13 +13,14 @@ from django.utils.translation import ugettext as _
 
 from translator.models import *
 from boxcomments.models import Comment
+from translator.context import translator as translatorContext
 
 def tra_list(request):
 	"""
 	List all translations
 	"""
 	tra = Translation.objects.all().order_by('percent_translated')
-	return render_to_response('translator/tra_list.html', {'tra':  tra}, context_instance=RequestContext(request))
+	return render_to_response('translator/tra_list.html', {'tra':  tra}, context_instance=RequestContext(request, translatorContext(request)))
 
 def tra_show(request, tid):
 	"""
@@ -30,7 +31,7 @@ def tra_show(request, tid):
 	try:
 		tra = Translation.objects.get(id=tid)
 	except:
-		return render_to_response('pages/bug.html', {'bug': _('Translation doesn\'t exist')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('Translation doesn\'t exist')}, context_instance=RequestContext(request, translatorContext(request)))
 	
 	if tra.percent_translated != 100 and tra.untrans_entries < 100:
 		po = polib.pofile(settings.MEDIA_ROOT + tra.pofile)
@@ -39,11 +40,11 @@ def tra_show(request, tid):
 		return render_to_response(
 			'translator/tra_show.html',
 			{'tra':  tra, 'untrans': untrans, 'fuzzy': fuzzy, 'com': Comment.objects.filter(apptype= 4, appid = tid).count()},
-			context_instance=RequestContext(request))
+			context_instance=RequestContext(request, translatorContext(request)))
 	return render_to_response(
 		'translator/tra_show.html',
 		{'tra':  tra, 'com': Comment.objects.filter(apptype= 4, appid = tid).count()},
-		context_instance=RequestContext(request))
+		context_instance=RequestContext(request, translatorContext(request)))
 
 def tra_apply(request, tid):
 	"""
@@ -69,7 +70,7 @@ def get_po(request, tid):
 	try:
 		tra = Translation.objects.values('pofile').get(id=tid)
 	except:
-		return render_to_response('pages/bug.html', {'bug': _('Translation doesn\'t exist')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('Translation doesn\'t exist')}, context_instance=RequestContext(request, translatorContext(request)))
 	po = open(settings.MEDIA_ROOT + tra['pofile']).read()
 	e = HttpResponse()
 	e['Content-Type'] = 'application/x-gettext'
@@ -82,4 +83,4 @@ def translations(request):
 	"""
 	Show Gettext help
 	"""
-	return render_to_response('translator/tra.html', context_instance=RequestContext(request))
+	return render_to_response('translator/tra.html', context_instance=RequestContext(request, translatorContext(request)))

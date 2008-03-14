@@ -28,9 +28,9 @@
 	<div id="modernbricksmenu">
 		<ul>
 		{% block leftmenu %}
-			<li><a href="/tra/list/">{% trans "Translations" %}</a></li>
-			<li><a href="/forum/">{% trans "Forum" %}</a></li>
-			<li><a href="/user/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
+			<li{% if on_tra %} id="current"{% endif %}><a href="/tra/list/">{% trans "Translations" %}</a></li>
+			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
+			<li{% if on_user %} id="current"{% endif %}><a href="/user/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
 		{% endblock %}
 		</ul>
 	</div>

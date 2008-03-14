@@ -19,6 +19,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 
 from userpanel.models import *
+from userpanel.context import userpanel as userpanelContext
+
 
 
 def user_panel(request):
@@ -27,14 +29,14 @@ def user_panel(request):
 	"""
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/user/login/")
-	return render_to_response('userpanel/panel.html', context_instance=RequestContext(request))
+	return render_to_response('userpanel/panel.html', context_instance=RequestContext(request, userpanelContext(request)))
 
 def userlist(request):
 	"""
 	list all users
 	"""
 	users = User.objects.all()
-	return object_list(request, users, paginate_by = 25, allow_empty = True, template_name = 'userpanel/userlist.html')
+	return object_list(request, users, paginate_by = 25, allow_empty = True, template_name = 'userpanel/userlist.html', context_processors = [userpanelContext])
 
 
 
@@ -108,7 +110,7 @@ def register(request):
 				return render_to_response(
 					'userpanel/register.html',
 					{'error': True, 'form': form},
-					context_instance=RequestContext(request))
+					context_instance=RequestContext(request, userpanelContext(request)))
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -121,14 +123,14 @@ def register(request):
 			return render_to_response(
 				'userpanel/register.html',
 				{'error': True, 'hash': imghash, 'form': form},
-				context_instance=RequestContext(request))
+				context_instance=RequestContext(request, userpanelContext(request)))
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
 	return render_to_response(
 		'userpanel/register.html',
 		{'hash': imghash, 'form': form},
-		context_instance=RequestContext(request))
+		context_instance=RequestContext(request, userpanelContext(request)))
 
 
 
@@ -162,7 +164,7 @@ def loginlogout(request):
 					return render_to_response(
 						'userpanel/login.html',
 						{'loginform': True, 'error': True, 'form': form},
-						context_instance=RequestContext(request))
+						context_instance=RequestContext(request, userpanelContext(request)))
 		# no post data, show the login form
 		else:
 			errors = data = {}
@@ -171,11 +173,11 @@ def loginlogout(request):
 			return render_to_response(
 				'userpanel/login.html',
 				{'loginform': True, 'form': form, 'reset': True},
-				context_instance=RequestContext(request))
+				context_instance=RequestContext(request, userpanelContext(request)))
 		return render_to_response(
 			'userpanel/login.html',
 			{'loginform': True, 'form': form},
-			context_instance=RequestContext(request))
+			context_instance=RequestContext(request, userpanelContext(request)))
 	else:
 		# user authenticated
 		if request.GET:
@@ -213,7 +215,7 @@ def send_pmessage(request, target_user):
 			return render_to_response(
 				'pages/bug.html',
 				{'bug': _('This user doesn\'t want to receive any messages')},
-				context_instance=RequestContext(request))
+				context_instance=RequestContext(request, userpanelContext(request)))
 		manipulator = PMessage()
 		if request.POST:
 			new_data = request.POST.copy()
@@ -225,7 +227,7 @@ def send_pmessage(request, target_user):
 		else:
 			errors = new_data = {}
 		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/pmessage.html', {'form': form}, context_instance=RequestContext(request))
+		return render_to_response('userpanel/pmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
 	else:
 		return HttpResponseRedirect("/user/")
 
@@ -248,7 +250,7 @@ def edit_profile_pmessage(request):
 			p.use_messages = data['use_messages']
 			p.save()
 			return HttpResponseRedirect("/user/")
-		return render_to_response('userpanel/profile_pmessage.html', {'p': p}, context_instance=RequestContext(request))
+		return render_to_response('userpanel/profile_pmessage.html', {'p': p}, context_instance=RequestContext(request, userpanelContext(request)))
 	else:
 		return HttpResponseRedirect("/user/login/")
 
@@ -279,14 +281,14 @@ def send_hmessage(request):
 				return render_to_response(
 					'pages/bug.html',
 					{'bug': _('ROTFL LOL OMG CSS :)')},
-					context_instance=RequestContext(request))
+					context_instance=RequestContext(request, userpanelContext(request)))
 			try:
 				u = User.objects.get(username=new_data['login'], email = new_data['email'])
 			except:
 				return render_to_response(
 					'pages/bug.html',
 					{'bug': _('No such user account')},
-					context_instance=RequestContext(request))
+					context_instance=RequestContext(request, userpanelContext(request)))
 			else:
 				a = User.objects.make_random_password(length=6, allowed_chars='abcdefghjkmnpqrstuvwxyz23456789')
 				u.set_password(a)
@@ -301,7 +303,7 @@ def send_hmessage(request):
 	else:
 		errors = new_data = {}
 	form = forms.FormWrapper(manipulator, new_data, errors)
-	return render_to_response('userpanel/hmessage.html', {'form': form}, context_instance=RequestContext(request))
+	return render_to_response('userpanel/hmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
 
 
 
@@ -326,7 +328,7 @@ def send_zmessage(request):
 	"""
 	if request.user.is_authenticated():
 		if request.user.is_staff:
-			return render_to_response('pages/bug.html', {'bug': _('ROTFL LOL OMG CSS :)')}, context_instance=RequestContext(request))
+			return render_to_response('pages/bug.html', {'bug': _('ROTFL LOL OMG CSS :)')}, context_instance=RequestContext(request, userpanelContext(request)))
 		manipulator = ZMessage()
 		if request.POST:
 			new_data = request.POST.copy()
@@ -339,6 +341,6 @@ def send_zmessage(request):
 		else:
 			errors = new_data = {}
 		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/zmessage.html', {'form': form}, context_instance=RequestContext(request))
+		return render_to_response('userpanel/zmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
 	else:
 		return HttpResponseRedirect("/user/login/")

@@ -20,24 +20,7 @@ from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
 
 from myghtyboard.models import *
-
-
-def list_perms(request):
-	"""
-	list permissions used in templates
-	"""
-	perms = {}
-	if request.user.is_authenticated():
-		perms['add_topic'] = True
-		perms['add_post'] = True
-		perms['is_authenticated'] = True
-		perms['is_staff'] = request.user.is_staff
-	else:
-		perms['add_topic'] = False
-		perms['add_post'] = False
-		perms['is_staff'] = False
-	return perms
-
+from myghtyboard.context import forum as forumContext
 
 def category_list(request):
 	"""
@@ -48,8 +31,8 @@ def category_list(request):
 		c.forums = c.forum_set.all().order_by('forum_order')
 	return render_to_response(
 		'myghtyboard/category_list.html',
-		{'categories': categories, 'perms': list_perms(request)},
-		context_instance=RequestContext(request))
+		{'categories': categories},
+		context_instance=RequestContext(request, forumContext(request)))
 
 
 def topic_list(request, forum_id, pagination_id=1):
@@ -70,10 +53,11 @@ def topic_list(request, forum_id, pagination_id=1):
 		paginate_by = 10,
 		allow_empty = True,
 		page = pagination_id,
-		extra_context = {'forum': forum_id,  'perms': list_perms(request), 'forum_name': forum_name},
+		context_processors = [forumContext],
+		extra_context = {'forum': forum_id, 'forum_name': forum_name},
 		template_name = 'myghtyboard/topics_list.html')
 
-
+@login_required
 def my_topic_list(request, show_user=False):
 	"""
 	list my topics
@@ -82,15 +66,12 @@ def my_topic_list(request, show_user=False):
 	"""
 	if not show_user:
 		show_user = str(request.user)
-	if request.user.is_authenticated():
-		topics = Topic.objects.order_by('-topic_modification_date').filter(topic_author=show_user)[:50]
-		forum_name = _('User Topics')
-		return render_to_response(
-			'myghtyboard/mytopics_list.html',
-			{'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)},
-			context_instance=RequestContext(request))
-	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t logged in')}, context_instance=RequestContext(request))
+	topics = Topic.objects.order_by('-topic_modification_date').filter(topic_author=show_user)[:50]
+	forum_name = _('User Topics')
+	return render_to_response(
+		'myghtyboard/mytopics_list.html',
+		{'topics': topics, 'forum_name': forum_name},
+		context_instance=RequestContext(request, forumContext(request)))
 
 @login_required
 def last_topic_list(request):
@@ -108,8 +89,8 @@ def last_topic_list(request):
 	forum_name = _('Last Active Topics')
 	return render_to_response(
 		'myghtyboard/mytopics_list.html',
-		{'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)},
-		context_instance=RequestContext(request))
+		{'topics': topics, 'forum_name': forum_name},
+		context_instance=RequestContext(request, forumContext(request)))
 
 @login_required
 def my_posttopic_list(request, show_user=False):
@@ -135,11 +116,11 @@ def my_posttopic_list(request, show_user=False):
 				i.pagination_max = pmax
 		forum_name = _('User Posts in Latest Topics')
 	except:
-		return render_to_response('myghtyboard/mytopics_list.html', {'perms': list_perms(request)}, context_instance=RequestContext(request))
+		return render_to_response('myghtyboard/mytopics_list.html', {}, context_instance=RequestContext(request, forumContext(request)))
 	return render_to_response(
 		'myghtyboard/mytopics_list.html',
-		{'topics': topics, 'forum_name': forum_name, 'perms': list_perms(request)},
-		context_instance=RequestContext(request))
+		{'topics': topics, 'forum_name': forum_name},
+		context_instance=RequestContext(request, forumContext(request)))
 
 
 def post_list(request, topic_id, pagination_id):
@@ -161,13 +142,13 @@ def post_list(request, topic_id, pagination_id):
 		topic.post_set.all().order_by('post_date'),
 		paginate_by = 10,
 		page = pagination_id,
+		context_processors = [forumContext],
 		extra_context = {
 			'topic_id':topic_id,
 			'opened': opened,
 			'topic': topic.topic_name,
 			'forum_id': topic.topic_forum.id,
 			'forum_name': topic.topic_forum,
-			'perms': list_perms(request),
 			'current_user': str(request.user)},
 		template_name = 'myghtyboard/post_list.html')
 
@@ -218,14 +199,14 @@ def add_topic(request, forum_id):
 		else:
 			return render_to_response(
 				'myghtyboard/add_topic.html',
-				{'form': form, 'forum': forum, 'perms': list_perms(request)},
-				context_instance=RequestContext(request))
+				{'form': form, 'forum': forum},
+				context_instance=RequestContext(request, forumContext(request)))
 	
 	form = AddTopicForm()
 	return render_to_response(
 		'myghtyboard/add_topic.html',
-		{'form': form, 'forum': forum, 'perms': list_perms(request)},
-		context_instance=RequestContext(request))
+		{'form': form, 'forum': forum},
+		context_instance=RequestContext(request, forumContext(request)))
 
 class AddPostForm(forms.ModelForm):
 	class Meta:
@@ -243,14 +224,14 @@ def add_post(request, topic_id, post_id = False):
 	topic = Topic.objects.get(id=topic_id)
 	forum = Forum.objects.get(id=topic.topic_forum.id)
 	if topic.is_locked:
-		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request)))
 
 	# check who made the last post.
 	lastpost = Post.objects.order_by('-post_date').filter(post_topic=topic_id)[:1]
 	is_staff = request.user.is_staff
 	# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
 	if str(lastpost[0].post_author) == str(request.user) and not is_staff:
-		return render_to_response('pages/bug.html', {'bug': _('You can\'t post after your post')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('You can\'t post after your post')}, context_instance=RequestContext(request, forumContext(request)))
 	
 	lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
 	if request.POST:
@@ -297,8 +278,8 @@ def add_post(request, topic_id, post_id = False):
 		else:
 			return render_to_response(
 				'myghtyboard/add_post.html',
-				{'forum': forum, 'topic': topic, 'lastpost': lastpost, 'perms': list_perms(request), 'form':form},
-				context_instance=RequestContext(request))
+				{'forum': forum, 'topic': topic, 'lastpost': lastpost, 'form':form},
+				context_instance=RequestContext(request, forumContext(request)))
 	else:
 		if post_id:
 			quote = Post.objects.get(id=post_id)
@@ -307,8 +288,8 @@ def add_post(request, topic_id, post_id = False):
 			quote_text = ''
 	return render_to_response(
 		'myghtyboard/add_post.html',
-		{'forum': forum, 'topic': topic, 'quote_text': quote_text, 'lastpost': lastpost, 'perms': list_perms(request)},
-		context_instance=RequestContext(request))
+		{'forum': forum, 'topic': topic, 'quote_text': quote_text, 'lastpost': lastpost},
+		context_instance=RequestContext(request, forumContext(request)))
 
 @login_required
 def edit_post(request, post_id):
@@ -322,7 +303,7 @@ def edit_post(request, post_id):
 	topic = Topic.objects.get(id=post.post_topic.id)
 	forum = Forum.objects.get(id=topic.topic_forum.id)
 	if topic.is_locked:
-		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request)) # locked topic!
+		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request))) # locked topic!
 	
 	if str(request.user) == post.post_author or  request.user.is_staff:
 		if request.POST and len(request.POST.copy()['post_text']) > 1:
@@ -345,10 +326,10 @@ def edit_post(request, post_id):
 		else:
 			return render_to_response(
 				'myghtyboard/edit_post.html',
-				{'forum': forum, 'topic': topic, 'post_text': post.post_text, 'perms': list_perms(request)},
-				context_instance=RequestContext(request))
+				{'forum': forum, 'topic': topic, 'post_text': post.post_text},
+				context_instance=RequestContext(request, forumContext(request)))
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You can\'t edit this post')}, context_instance=RequestContext(request)) # can't edit post
+		return render_to_response('pages/bug.html', {'bug': _('You can\'t edit this post')}, context_instance=RequestContext(request, forumContext(request))) # can't edit post
 
 
 def delete_post(request, post_id, topic_id):
@@ -365,7 +346,7 @@ def delete_post(request, post_id, topic_id):
 		topic.save()
 		return HttpResponseRedirect("/forum/topic/1/" + topic_id +"/")
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
 
 def delete_topic(request, topic_id, forum_id):
@@ -385,7 +366,7 @@ def delete_topic(request, topic_id, forum_id):
 		forum.save()
 		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
 
 def move_topic(request, topic_id, forum_id):
@@ -420,10 +401,10 @@ def move_topic(request, topic_id, forum_id):
 			topic = Topic.objects.get(id=topic_id)
 			return render_to_response(
 				'myghtyboard/move_topic.html',
-				{'forums': forums, 'topic': topic, 'perms': list_perms(request)},
-				context_instance=RequestContext(request))
+				{'forums': forums, 'topic': topic},
+				context_instance=RequestContext(request, forumContext(request)))
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request)) # can't move
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request))) # can't move
 
 
 def close_topic(request, topic_id, forum_id):
@@ -439,7 +420,7 @@ def close_topic(request, topic_id, forum_id):
 		topic.save()
 		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
 
 def open_topic(request, topic_id, forum_id):
@@ -455,4 +436,4 @@ def open_topic(request, topic_id, forum_id):
 		topic.save()
 		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
 	else:
-		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator and you aren\'t logged in')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator and you aren\'t logged in')}, context_instance=RequestContext(request, forumContext(request)))

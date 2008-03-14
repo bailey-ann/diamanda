@@ -419,6 +419,13 @@ background-color: black; /*Default menu color*/
 background-color: #0C2432; /*Menu hover bgcolor*/
 }
 
+#modernbricksmenu #current a{ /*currently selected tab*/
+border-top: 1px #3c78b5 solid;
+border-right: 1px #3c78b5 solid;
+border-left: 1px #3c78b5 solid;
+}
+
+
 #modernbricksmenuline{
 clear: both;
 padding: 0;
