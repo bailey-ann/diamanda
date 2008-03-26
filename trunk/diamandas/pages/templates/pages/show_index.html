@@ -28,9 +28,6 @@ Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.r
 	{% if com %}
 		<h4>{% trans "Latests Comments" %}</h4>
 		<ul>{% for t in com %}<li><a href="/com/{{ t.appid }}/{{ t.apptype }}/">{{ t.title }}</a></li>{% endfor %}</ul>{% endif %}
-	{% if tra %}
-		<h4 class="headers"><a href="/tra/list/">{% trans "Latest Translations" %}</a></h4>
-		<ul>{% for t in tra %}<li><a href="/tra/show/{{ t.id }}/">{{ t.name }}</a></li>{% endfor %}</ul>{% endif %}
 	{% if onsite %}
 		<h4>{% trans "Users online" %}</h4>
 		<ul>{% for t in onsite %}<li>{{ t.username }}</li>{% endfor %}</ul>{% endif %}

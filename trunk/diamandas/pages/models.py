@@ -69,30 +69,3 @@ class Content(models.Model):
 			else:
 				self.date = c.date
 		super(Content, self).save()
-
-
-class ContentHistory(models.Model):
-	"""
-	old versions of Content Entries
-	"""
-	parent = models.ForeignKey(Content, verbose_name=_("Content Entry"))
-	title = models.CharField(max_length=255, verbose_name=_('Title'))
-	description = models.TextField(verbose_name=_('Description'))
-	text = models.TextField(verbose_name=_('Text'), blank=True)
-	changes = models.CharField(max_length=255, verbose_name=_('Changes summary'), blank=True)
-	is_proposal = models.BooleanField(blank=True, default=False)
-	archiv_date = models.DateTimeField(blank=True, null=True)
-	class Meta:
-		verbose_name = _('Content')
-		verbose_name_plural = _('Content')
-		db_table = 'rk_history' + str(settings.SITE_ID)
-	class Admin:
-		list_display = ('title', 'description', 'archiv_date', 'is_proposal')
-		list_filter = ['archiv_date']
-		search_fields = ['title', 'description']
-	def get_absolute_url(self):
-		return '/w/a/' + self.slug + '/'
-	def __str__(self):
-		return self.title
-	def __unicode__(self):
-		return self.title

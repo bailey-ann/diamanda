@@ -52,13 +52,10 @@
 {% endif %}
 {% endblock %}
 
-{% block right %}<h4>{% trans "Options" %}</h4>
-<ul>
+{% block pagemenu %}
 <li><a href="/com/{{ tra.id }}/4/">{% trans "Comments" %} ({{ com }})</a></li>
-<li><a href="/">{% trans "Main Page" %}</a></li>
-<li><a href="/forum/forum/4/">{% trans "Translations Forum" %}</a></li>
 <li><a href="/tra/list/">{% trans "Translations Main Page" %}</a></li>
-</ul>
+<li><a href="/tra/">{% trans "What are Translations ?" %}</a></li>
 {% endblock %}
 
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/tra/">{% trans "Translations" %}</a> > <a href="/tra/list/">{% trans "Translations List" %}</a>{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/tra/">{% trans "Translations" %}</a> > <a href="/tra/list/">{% trans "Translations List" %}</a> > <a href="/tra/show/{{ tra.id }}/">{{ tra.name }}</a>{% endblock %}

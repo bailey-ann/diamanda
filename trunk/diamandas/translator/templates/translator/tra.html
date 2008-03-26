@@ -26,12 +26,9 @@ Następnie plik .mo (zazwyczaj poprawna nazwa to NAZWA_APLIKACJI.mo) należy prz
 
 {% endblock %}
 
-{% block right %}<h4>{% trans "Options" %}</h4>
-<ul>
-<li><a href="/">{% trans "Main Page" %}</a></li>
-<li><a href="/forum/forum/4/">{% trans "Translations Forum" %}</a></li>
+{% block pagemenu %}
 <li><a href="/tra/list/">{% trans "Translations Main Page" %}</a></li>
-</ul>
+<li><a href="/tra/">{% trans "What are Translations ?" %}</a></li>
 {% endblock %}
 
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/tra/">{% trans "Translations" %}</a> > <a href="/tra/list/">{% trans "Translations List" %}</a>{% endblock %}

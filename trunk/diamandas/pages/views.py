@@ -16,7 +16,6 @@ from boxcomments.models import Comment
 from pages.models import *
 from userpanel.models import Profile
 from myghtyboard.models import Topic
-from translator.models import Translation
 
 def show_index(request):
 	"""
@@ -32,10 +31,9 @@ def show_index(request):
 	now = datetime.now()
 	check_time = now - timedelta(hours=1)
 	onsite = Profile.objects.filter(onsitedata__gt=check_time).order_by('-onsitedata')[:5]
-	tra = Translation.objects.order_by('-id').values('id', 'name')[:4]
 	return render_to_response(
 		'pages/show_index.html',
-		{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'tra':tra},
+		{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite},
 		context_instance=RequestContext(request))
 
 def list_news(request, book=False):
@@ -82,18 +80,20 @@ def show(request, slug):
 			a = a.place
 			if not a.place:
 				a = False
-	if page.content_type == 'news':
-		crumb = crumb + ' <a href="%s">%s</a> > ' % (page.slug, page.title)
-		return render_to_response(
-			'pages/show_news.html',
-			{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},
-			context_instance=RequestContext(request))
+	
 	if page.content_type == 'book' and page.book_order > 0:
 		current_book = page
 	elif page.place.content_type == 'book' and page.place.book_order > 0:
 		current_book = page.place
 	else:
 		current_book = False
+
+	if page.content_type == 'news':
+		crumb = crumb + ' <a href="%s">%s</a> > ' % (page.slug, page.title)
+		return render_to_response(
+			'pages/show_news.html',
+			{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},
+			context_instance=RequestContext(request, {'current_book': current_book}))
 	return render_to_response(
 		'pages/show.html',
 		{'page': page, 'slug': slug, 'crumb': crumb[:-3], 'com': Comment.objects.filter(apptype= 1, appid = page.id).count()},

@@ -35,6 +35,8 @@ GOOGLE_AJAX_SEARCH_API_KEY = ''
 MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
+
+LOGIN_URL = '/user/login/'
 SECRET_KEY = '2tv6q=sq%k1d34t1i#8me%y(og71s##h1m57h7$g)_q2$p^#xc'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
