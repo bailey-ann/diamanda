@@ -9,7 +9,7 @@
           <table>
             <tr class="rowA">
               <td class="first" style="width:35%;"><b>{% trans "Login" %}</b><br />{% trans "required, more than 3 chars<br />letters or numbers" %}</td>
-              <td>{{ form.login }}{% if form.login.errors %}<br />*** {{ form.login.errors|join:", " }}{% endif %}{% ifnotequal sid 6 %}<br />Bez polskich liter{% endifnotequal %}</td>
+              <td>{{ form.login }}{% if form.login.errors %}<br />*** {{ form.login.errors|join:", " }}{% endif %}</td>
             </tr>
             <tr class="rowB">
               <td><b>{% trans "Password" %}</b><br />{% trans "required, more than 4 chars<br />letters or numbers" %}</td>

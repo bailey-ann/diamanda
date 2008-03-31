@@ -7,16 +7,16 @@ from random import choice
 import Image, ImageDraw, ImageFont, sha
 
 from django.shortcuts import render_to_response
-from django import oldforms as forms
-from django.core import validators
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.conf import settings
-from django.contrib.auth.models import User, Group
 from django.template import RequestContext
+import django.contrib.auth.views
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
-from django.views.generic.list_detail import object_list
-from django.contrib.auth import authenticate, login, logout
-from django.core.mail import send_mail
+
+from django import oldforms as forms
+from django.contrib.auth import authenticate, login
+from django.core import validators
 
 from userpanel.models import *
 from userpanel.context import userpanel as userpanelContext
@@ -27,18 +27,36 @@ def user_panel(request):
 	"""
 	main user panel
 	"""
+	return render_to_response('userpanel/panel.html', {'admin_mail': settings.SITE_ADMIN_MAIL}, context_instance=RequestContext(request, userpanelContext(request)))
+
+def login_user(request):
 	if not request.user.is_authenticated():
-		return HttpResponseRedirect("/user/login/")
-	return render_to_response('userpanel/panel.html', context_instance=RequestContext(request, userpanelContext(request)))
+		return django.contrib.auth.views.login(request, template_name='userpanel/login.html')
+	else:
+		return HttpResponseRedirect("/user/")
 
-def userlist(request):
-	"""
-	list all users
-	"""
-	users = User.objects.all()
-	return object_list(request, users, paginate_by = 25, allow_empty = True, template_name = 'userpanel/userlist.html', context_processors = [userpanelContext])
+def logout_then_login(request):
+	return django.contrib.auth.views.logout_then_login(request)
 
+@login_required
+def password_change(request):
+	return django.contrib.auth.views.password_change(request, template_name='userpanel/password_change.html')
 
+@login_required
+def password_change_done(request):
+	return django.contrib.auth.views.password_change_done(request, template_name='userpanel/password_change_done.html')
+
+def password_reset(request):
+	if not request.user.is_authenticated():
+		return django.contrib.auth.views.password_reset(request, template_name='userpanel/password_reset.html', email_template_name= 'userpanel/password_reset_email.html')
+	else:
+		return HttpResponseRedirect("/user/")
+
+def password_reset_done(request):
+	if not request.user.is_authenticated():
+		return django.contrib.auth.views.password_reset_done(request, template_name='userpanel/password_reset_done.html')
+	else:
+		return HttpResponseRedirect("/user/")
 
 
 class RegisterForm(forms.Manipulator):
@@ -46,15 +64,15 @@ class RegisterForm(forms.Manipulator):
 	User registration manipulator
 	"""
 	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=20, max_length=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size3, self.freelogin]),
-		forms.PasswordField(field_name="password1", length=20, max_length=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4, self.equal]),
-		forms.PasswordField(field_name="password2", length=20, max_length=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4]),
+		self.fields = (forms.TextField(field_name="login", length=20, max_length=200, is_required=True, validator_list=[self.size3, self.freelogin]),
+		forms.PasswordField(field_name="password1", length=20, max_length=200, is_required=True, validator_list=[self.size4, self.equal]),
+		forms.PasswordField(field_name="password2", length=20, max_length=200, is_required=True, validator_list=[self.size4]),
 		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
 		forms.TextField(field_name="imghash", is_required=True, length=20),
 		forms.EmailField(field_name="email", is_required=True, length=20, validator_list=[self.freemail]),)
 	def hashcheck(self, field_data, all_data):
 		SALT = settings.SECRET_KEY[:20]
-		if not all_data['imghash'] == sha.new(unicode(SALT)+unicode(field_data.upper())).hexdigest():
+		if not all_data['imghash'] == sha.new(SALT+field_data.upper()).hexdigest():
 			raise validators.ValidationError(_("Captcha Error."))
 	def size3(self, field_data, all_data):
 		if len(field_data) < 4:
@@ -110,7 +128,7 @@ def register(request):
 				return render_to_response(
 					'userpanel/register.html',
 					{'error': True, 'form': form},
-					context_instance=RequestContext(request, userpanelContext(request)))
+					context_instance=RequestContext(request))
 			else:
 				user.save()
 				user = authenticate(username=data['login'], password=data['password1'])
@@ -123,224 +141,11 @@ def register(request):
 			return render_to_response(
 				'userpanel/register.html',
 				{'error': True, 'hash': imghash, 'form': form},
-				context_instance=RequestContext(request, userpanelContext(request)))
+				context_instance=RequestContext(request))
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
 	return render_to_response(
 		'userpanel/register.html',
 		{'hash': imghash, 'form': form},
-		context_instance=RequestContext(request, userpanelContext(request)))
-
-
-
-
-class LoginForm(forms.Manipulator):
-	"""
-	User login manipulator
-	"""
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=30, max_length=200, is_required=True),
-		forms.PasswordField(field_name="password", length=30, max_length=200, is_required=True),)
-
-def loginlogout(request):
-	"""
-	User login and logout
-	"""
-	if not request.user.is_authenticated():
-		manipulator = LoginForm()
-		# log in user
-		if request.POST:
-			data = request.POST.copy()
-			errors = manipulator.get_validation_errors(data)
-			if not errors:
-				manipulator.do_html2python(data)
-				user = authenticate(username=data['login'], password=data['password'])
-				if user is not None:
-					login(request, user)
-					return HttpResponseRedirect("/user/")
-				else:
-					form = forms.FormWrapper(manipulator, data, errors)
-					return render_to_response(
-						'userpanel/login.html',
-						{'loginform': True, 'error': True, 'form': form},
-						context_instance=RequestContext(request, userpanelContext(request)))
-		# no post data, show the login form
-		else:
-			errors = data = {}
-		form = forms.FormWrapper(manipulator, data, errors)
-		if request.GET and request.GET.has_key('b'):
-			return render_to_response(
-				'userpanel/login.html',
-				{'loginform': True, 'form': form, 'reset': True},
-				context_instance=RequestContext(request, userpanelContext(request)))
-		return render_to_response(
-			'userpanel/login.html',
-			{'loginform': True, 'form': form},
-			context_instance=RequestContext(request, userpanelContext(request)))
-	else:
-		# user authenticated
-		if request.GET:
-			# logout user
-			data = request.GET.copy()
-			if data.has_key('log'):
-				logout(request)
-				return HttpResponseRedirect("/user/")
-		return HttpResponseRedirect("/user/")
-
-
-
-
-class PMessage(forms.Manipulator):
-	"""
-	Email-Messages sending manipulator
-	"""
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="subject", length=30, max_length=200, is_required=True),
-		forms.LargeTextField(field_name="contents", is_required=True),)
-
-def send_pmessage(request, target_user):
-	"""
-	Email-Messages sending
-	"""
-	if request.user.is_authenticated() and str(request.user) != str(target_user) and len(str(target_user)) > 0 and str(target_user) != 'AnonymousUser':
-		ruser = User.objects.get(username=str(target_user))
-		try:
-			ruser_profile = Profile.objects.get(username=ruser)
-		except:
-			mess = False
-		else:
-			mess = ruser_profile.use_messages
-		if not mess:
-			return render_to_response(
-				'pages/bug.html',
-				{'bug': _('This user doesn\'t want to receive any messages')},
-				context_instance=RequestContext(request, userpanelContext(request)))
-		manipulator = PMessage()
-		if request.POST:
-			new_data = request.POST.copy()
-			errors = manipulator.get_validation_errors(new_data)
-			if not errors:
-				manipulator.do_html2python(new_data)
-				send_mail(new_data['subject'], new_data['contents'], request.user.email, [ruser.email], fail_silently=False)
-				return HttpResponseRedirect("/user/")
-		else:
-			errors = new_data = {}
-		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/pmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
-	else:
-		return HttpResponseRedirect("/user/")
-
-def edit_profile_pmessage(request):
-	"""
-	Edit profile view
-	"""
-	if request.user.is_authenticated():
-		try:
-			p = Profile.objects.get(username=request.user)
-		except:
-			p = Profile(username=request.user)
-			p.save()
-		if request.POST:
-			data = request.POST.copy()
-			if not data.has_key('use_messages'):
-				data['use_messages'] = False
-			else:
-				data['use_messages'] = True
-			p.use_messages = data['use_messages']
-			p.save()
-			return HttpResponseRedirect("/user/")
-		return render_to_response('userpanel/profile_pmessage.html', {'p': p}, context_instance=RequestContext(request, userpanelContext(request)))
-	else:
-		return HttpResponseRedirect("/user/login/")
-
-
-
-
-class HMessage(forms.Manipulator):
-	"""
-	Password reset manipulator
-	"""
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=30, max_length=200, is_required=True),
-		forms.EmailField(field_name="email", is_required=True, length=20),)
-
-def send_hmessage(request):
-	"""
-	Password reset
-	"""
-	if request.user.is_authenticated():
-		return HttpResponseRedirect('/user/password_reset/')
-	manipulator = HMessage()
-	if request.POST:
-		new_data = request.POST.copy()
-		errors = manipulator.get_validation_errors(new_data)
-		if not errors:
-			manipulator.do_html2python(new_data)
-			if new_data['login'].lower() == 'riklaunim' or new_data['email'].lower() == 'riklaunim@gmail.com':
-				return render_to_response(
-					'pages/bug.html',
-					{'bug': _('ROTFL LOL OMG CSS :)')},
-					context_instance=RequestContext(request, userpanelContext(request)))
-			try:
-				u = User.objects.get(username=new_data['login'], email = new_data['email'])
-			except:
-				return render_to_response(
-					'pages/bug.html',
-					{'bug': _('No such user account')},
-					context_instance=RequestContext(request, userpanelContext(request)))
-			else:
-				a = User.objects.make_random_password(length=6, allowed_chars='abcdefghjkmnpqrstuvwxyz23456789')
-				u.set_password(a)
-				send_mail(
-					_('Password reset'),
-					_('Your new password on rk.edu.pl sites is: ') + a,
-					'riklaunim@gmail.com',
-					[new_data['email']],
-					fail_silently=False)
-				u.save()
-			return HttpResponseRedirect("/user/login/?b=ok")
-	else:
-		errors = new_data = {}
-	form = forms.FormWrapper(manipulator, new_data, errors)
-	return render_to_response('userpanel/hmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
-
-
-
-
-class ZMessage(forms.Manipulator):
-	"""
-	Password change manipulator
-	"""
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="haslo1", length=30, max_length=200, is_required=True, validator_list=[validators.isAlphaNumeric, self.size4, self.equal]),
-		forms.TextField(field_name="haslo2", length=30, max_length=200, is_required=True),)
-	def equal(self, field_data, all_data):
-		if all_data['haslo2'] != field_data:
-			raise validators.ValidationError(_('Passwords do not match'))
-	def size4(self, field_data, all_data):
-		if len(field_data) < 5:
-			raise validators.ValidationError(_('To short'))
-
-def send_zmessage(request):
-	"""
-	Password change
-	"""
-	if request.user.is_authenticated():
-		if request.user.is_staff:
-			return render_to_response('pages/bug.html', {'bug': _('ROTFL LOL OMG CSS :)')}, context_instance=RequestContext(request, userpanelContext(request)))
-		manipulator = ZMessage()
-		if request.POST:
-			new_data = request.POST.copy()
-			errors = manipulator.get_validation_errors(new_data)
-			if not errors:
-				manipulator.do_html2python(new_data)
-				request.user.set_password(new_data['haslo1'])
-				request.user.save()
-				return HttpResponseRedirect("/user/")
-		else:
-			errors = new_data = {}
-		form = forms.FormWrapper(manipulator, new_data, errors)
-		return render_to_response('userpanel/zmessage.html', {'form': form}, context_instance=RequestContext(request, userpanelContext(request)))
-	else:
-		return HttpResponseRedirect("/user/login/")
+		context_instance=RequestContext(request))

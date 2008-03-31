@@ -29,6 +29,7 @@ path.append('diamandas/')
 
 SITE_NAME = 'Diamanda'
 SITE_DESCRIPTION = 'Diamanda'
+SITE_ADMIN_MAIL = '2@2.pl'
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
@@ -37,6 +38,8 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
 LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/'
+AUTH_PROFILE_MODULE = 'userpanel.profile'
 SECRET_KEY = '2tv6q=sq%k1d34t1i#8me%y(og71s##h1m57h7$g)_q2$p^#xc'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
@@ -75,4 +78,4 @@ INSTALLED_APPS = (
     'userpanel',
     'myghtyboard',
     'translator',
-)
+    )

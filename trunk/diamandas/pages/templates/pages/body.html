@@ -20,6 +20,7 @@
 	</div>
 	<div id="modernbricksmenu2">
 	<ul>
+	<li><a style="color:yellow;">{% trans "Categories:" %}</a></li>
 	{% for b in books %}
 		<li{% ifequal b.slug current_book.slug %} id="current"{% endifequal %}><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
 	{% endfor %}

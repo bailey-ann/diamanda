@@ -8,8 +8,16 @@
 {% block content %}{{ page.text|cbc|safe }}{% endblock %}
 {% block pagemenu %}
 <li><a href="/com/{{ page.id }}/1/"><b>{% trans "Comments" %}</b> ({{ com }})</a></li>
-{% if page.place %}<li><a href="/w/r/{{ page.place.slug }}/">{% trans "RSS Feed for" %} {{ page.place }}</a></li>{% endif %}
-{% ifequal page.content_type "book" %}<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
-<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse book news" %}</a></li>{% else %}<li><a href="/w/n/">{% trans "Browse news" %}</a></li>{% endifequal %}
+{% ifequal page.content_type "book" %}
+	<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
+	<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>
+{% else %}
+	{% ifequal page.place.content_type "book" %}
+		<li><a href="/w/r/{{ page.place.slug }}/">{% trans "RSS Feed for" %} {{ page.place.title }}</a></li>
+		<li><a href="/w/n/{{ page.place.slug }}/">{% trans "Browse category news" %}</a></li>
+	{% else %}
+		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+	{% endifequal %}
+{% endifequal %}
 {% if user.is_staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Edit" %}</a></li>{% endif %}
 {% endblock %}

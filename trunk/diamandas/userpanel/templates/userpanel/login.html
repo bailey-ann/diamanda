@@ -1,31 +1,21 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% block content %}
-<h2>{% trans "Log in" %}</h2><form action="." method="post">
-{% if error %}
-	<div style="text-align:center;" class="box"><b>{% trans "Login Error - bad login and/or password" %}</b></div>
+<h2>{% trans "Log in" %}</h2>
+{% if form.has_errors %}
+<p>{% trans "Your username and password didn't match. Please try again." %}</p>
 {% endif %}
-{% if reset %}
-	<div style="text-align:center;" class="box"><b>{% trans "A email with the new password has been send." %}</b></div>
-{% endif %}
+
+<form method="post" action=".">
 <div class="content">
-          <table>
-            <tr class="rowA">
-              <td class="first" style="width:35%;"><b>{% trans "Login" %}</b></td>
-              <td>{{ form.login }}{% if form.login.errors %}<br />*** {{ form.login.errors|join:", " }}{% endif %}</td>
-            </tr>
-            <tr class="rowB">
-              <td><b>{% trans "Password" %}</b></td>
-              <td>{{ form.password }}{% if form.password.errors %}<br />*** {{ form.password.errors|join:", " }}{% endif %}</td>
-            </tr>
-          </table>
+<table>
+<tr class="rowA"><td><label for="id_username">{% trans "Username" %}:</label></td><td>{{ form.username }}</td></tr>
+<tr class="rowB"><td><label for="id_password">{% trans "Password" %}:</label></td><td>{{ form.password }}</td></tr>
+</table>
 </div>
-	<br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}" /><br /><br />
-	<input type="button" value="{% trans "Register" %}" onclick="location.assign('/user/register/');" /><br /><br />
-	<input type="button" value="{% trans "Forgotten Password" %}" onclick="location.assign('/user/password_reset/');" /><br />
-	
-	</div><br />
-	</form></div>
+<input type="submit" value="login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
 
 {% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/user/">{% trans "User Panel" %}</a>{% endblock %}

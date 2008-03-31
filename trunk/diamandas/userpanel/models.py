@@ -8,9 +8,8 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-	username = models.ForeignKey(User)
+	username = models.ForeignKey(User, unique=True)
 	onsitedata = models.DateTimeField(default=datetime.now(), blank=True)
-	use_messages =  models.BooleanField(blank=True, default=True)
 	def __str__(self):
 		return str(self.username)
 	def __unicode__(self):
