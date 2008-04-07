@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import *
+import os.path
 
 urlpatterns = patterns('',
-(r'^site_media/(.*)$', 'django.views.static.serve', {'document_root': '/home/piotr/svn/diamanda/site_media'}), # change it or remove if not on dev server
+(r'^site_media/(.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(__file__), 'site_media')}), # change it or remove if not on dev server
 (r'^admin/', include('django.contrib.admin.urls')),
 (r'^w/', include('pages.URLconf')),
 (r'^forum/', include('myghtyboard.URLconf')),

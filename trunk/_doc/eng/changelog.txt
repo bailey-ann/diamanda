@@ -1,0 +1,6 @@
+~~ 2008.04 Test 1 ~~
+- User Interface changes, fixes and improvements
+- Rewritten userpanel app to use django auth views
+- Updated code to be compatible with latest Django-SVN
+- Migrated from oldforms to newforms in forum and boxcomments
+
