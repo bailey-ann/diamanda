@@ -22,6 +22,7 @@ from translator.models import Translation
 class CommentForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)
 	imgtext = forms.CharField()
+	author = forms.CharField(required=False)
 	imghash = forms.CharField(widget=forms.HiddenInput)
 	def clean(self):
 		SALT = settings.SECRET_KEY[:20]
@@ -66,8 +67,14 @@ def comments(request, apptype, appid, quoteid=False):
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			data = form.cleaned_data
+			if request.user.is_authenticated():
+				author = str(request.user)
+			elif 'author' in data.keys() and len(data['author']) > 1:
+				author = html2safehtml(data['author'] ,valid_tags=())
+			else:
+				author = _('Anonymous User')
 			text = html2safehtml(data['text'] ,valid_tags=())
-			co = Comment(title = title,appid = appid, text = text, author = str(request.user), ip = request.META['REMOTE_ADDR'], apptype = apptype)
+			co = Comment(title = title,appid = appid, text = text, author = author, ip = request.META['REMOTE_ADDR'], apptype = apptype)
 			co.save()
 			mail_admins('Komentarz Dodany', 'Dodano komentarz: http://www.' + settings.SITE_KEY, fail_silently=True)
 			return HttpResponseRedirect('/com/' + str(appid) + '/' + str(apptype) + '/')

@@ -192,6 +192,18 @@ margin-top:5px;
 overflow:auto;
 }
 
+.msg
+{
+text-align:center;
+font-weight:bold;
+border:1px solid gray;
+background:#EEEEEE;
+padding:5px;
+margin-bottom:5px;
+margin-top:5px;
+overflow:auto;
+}
+
 .newsbox
 {
 border-bottom:1px dotted gray;

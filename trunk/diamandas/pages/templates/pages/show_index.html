@@ -3,7 +3,7 @@
 {% block crumb %}{{ site_name }}{% endblock %}
 
 {% block content %}
-Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :)
+{{ home_text|safe }}
 <div>
 	{% for i in entries %}
 		<h4>{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}

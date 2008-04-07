@@ -33,7 +33,7 @@ def show_index(request):
 	onsite = Profile.objects.filter(onsitedata__gt=check_time).order_by('-onsitedata')[:5]
 	return render_to_response(
 		'pages/show_index.html',
-		{'slug': 'index', 'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite},
+		{'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'home_text': settings.HOME_TEXT},
 		context_instance=RequestContext(request))
 
 def list_news(request, book=False):

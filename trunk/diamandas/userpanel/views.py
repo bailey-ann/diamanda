@@ -20,6 +20,7 @@ from django.core import validators
 
 from userpanel.models import *
 from userpanel.context import userpanel as userpanelContext
+from utils import *
 
 
 
@@ -134,7 +135,7 @@ def register(request):
 				user = authenticate(username=data['login'], password=data['password1'])
 				if user is not None:
 					login(request, user)
-				return HttpResponseRedirect("/user/")
+				return redirect_by_template(request, "/user/", _('Registration compleated. You have been logged in succesfuly.'))
 		else:
 			data['imgtext'] = ''
 			form = forms.FormWrapper(manipulator, data, errors)

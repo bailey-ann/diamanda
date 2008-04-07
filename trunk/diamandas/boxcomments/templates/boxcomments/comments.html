@@ -17,7 +17,8 @@
          <form method="post" action="."> <table><input type="hidden" value="{{ hash }}" name="imghash" />
             <tr class="rowA">
               <td class="first" style="width:25%;"><b>{% trans "Comment" %}</b></td>
-              <td>{{ form.text }}{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}<br /><b>{% trans "You can use" %}</b>: [b]{% trans "bold" %}[/b], [i]{% trans "italic" %}[/i], [u]{% trans "underline" %}[/u], [quote]{% trans "quote" %}[/quote], [url]{% trans "link" %}[/url]</b></td>
+              <td>{% if not user.is_authenticated %}<div style="margin-bottom:3px;"><b>{% trans "Nick" %}</b>: {{ form.author }}</div>{% endif %}
+              {{ form.text }}{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}<br /><b>{% trans "You can use" %}</b>: [b]{% trans "bold" %}[/b], [i]{% trans "italic" %}[/i], [u]{% trans "underline" %}[/u], [quote]{% trans "quote" %}[/quote], [url]{% trans "link" %}[/url]</b></td>
             </tr>
             <tr class="rowB">
               <td><b>{% trans "Text from the image" %}</b></td>

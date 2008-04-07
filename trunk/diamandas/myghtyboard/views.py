@@ -21,6 +21,7 @@ from django.contrib.auth.decorators import login_required
 
 from myghtyboard.models import *
 from myghtyboard.context import forum as forumContext
+from utils import *
 
 def category_list(request):
 	"""
@@ -46,7 +47,7 @@ def topic_list(request, forum_id, pagination_id=1):
 		forum_name = Forum.objects.get(id=forum_id)
 		forum_name = forum_name.forum_name
 	except:
-		return HttpResponseRedirect('/forum/')
+		return redirect_by_template(request, "/forum/", _('There is no such forum. Please go back to the forum list.'))
 	return object_list(
 		request,
 		Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1')),
@@ -195,7 +196,7 @@ def add_topic(request, forum_id):
 			
 			mail_admins('Temat Dodany', "Dodano Temat: http://www." + settings.SITE_KEY + "/forum/forum/" + forum_id +"/", fail_silently=True)
 			
-			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic added succesfuly.'))
 		else:
 			return render_to_response(
 				'myghtyboard/add_topic.html',
@@ -274,7 +275,7 @@ def add_post(request, topic_id, post_id = False):
 			forum.save()
 			
 			mail_admins('Post Dodany', "Dodano Post: http://www." + settings.SITE_KEY + "/forum/topic/" + str(pmax) + "/" + topic_id +"/", fail_silently=True)
-			return HttpResponseRedirect("/forum/topic/" + str(pmax) + "/" + topic_id +"/")
+			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + topic_id +"/", _('Post added succesfuly.'))
 		else:
 			return render_to_response(
 				'myghtyboard/add_post.html',
@@ -322,7 +323,7 @@ def edit_post(request, post_id):
 			pmaxten =  Post.objects.filter(post_topic=post.post_topic).count()%10
 			if pmaxten != 0:
 				pmax = pmax+1
-			return HttpResponseRedirect("/forum/topic/" + str(pmax) + "/" + str(post.post_topic.id) +"/")
+			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + str(post.post_topic.id) +"/", _('Post edited succesfuly.'))
 		else:
 			return render_to_response(
 				'myghtyboard/edit_post.html',
@@ -344,7 +345,7 @@ def delete_post(request, post_id, topic_id):
 		topic = Topic.objects.get(id=topic_id)
 		topic.topic_posts = topic.topic_posts -1
 		topic.save()
-		return HttpResponseRedirect("/forum/topic/1/" + topic_id +"/")
+		return redirect_by_template(request, "/forum/topic/1/" + topic_id +"/", _('Post deleted succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
@@ -364,7 +365,7 @@ def delete_topic(request, topic_id, forum_id):
 		forum.forum_topics = forum.forum_topics -1
 		forum.forum_posts = forum.forum_posts - posts
 		forum.save()
-		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic deleted succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
@@ -395,7 +396,7 @@ def move_topic(request, topic_id, forum_id):
 				post_author = _('Forum Staff'),
 				post_ip = str(request.META['REMOTE_ADDR']))
 			p.save()
-			return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic moved succesfuly.'))
 		else:
 			forums = Forum.objects.exclude(id=forum_id)
 			topic = Topic.objects.get(id=topic_id)
@@ -418,7 +419,7 @@ def close_topic(request, topic_id, forum_id):
 		topic = Topic.objects.get(id=topic_id)
 		topic.is_locked=True
 		topic.save()
-		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic closed succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
@@ -434,6 +435,6 @@ def open_topic(request, topic_id, forum_id):
 		topic = Topic.objects.get(id=topic_id)
 		topic.is_locked=False
 		topic.save()
-		return HttpResponseRedirect("/forum/forum/" + forum_id +"/")
+		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic opened succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator and you aren\'t logged in')}, context_instance=RequestContext(request, forumContext(request)))
