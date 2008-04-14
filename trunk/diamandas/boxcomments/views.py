@@ -76,7 +76,8 @@ def comments(request, apptype, appid, quoteid=False):
 			text = html2safehtml(data['text'] ,valid_tags=())
 			co = Comment(title = title,appid = appid, text = text, author = author, ip = request.META['REMOTE_ADDR'], apptype = apptype)
 			co.save()
-			mail_admins('Komentarz Dodany', 'Dodano komentarz: http://www.' + settings.SITE_KEY, fail_silently=True)
+			if settings.NOTIFY_ADMINS:
+				mail_admins(_('Comment added'), _('A Comment have been added on: http://www.') + settings.SITE_KEY, fail_silently=True)
 			return HttpResponseRedirect('/com/' + str(appid) + '/' + str(apptype) + '/')
 		else:
 			if str(form.errors).find('Captha Error') >= 0:

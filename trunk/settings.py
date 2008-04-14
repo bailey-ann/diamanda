@@ -34,6 +34,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
 SITE_NAME = 'Diamanda'
 SITE_DESCRIPTION = 'Diamanda'
 SITE_ADMIN_MAIL = '2@2.pl'
+NOTIFY_ADMINS = True
 HOME_TEXT = 'Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]'
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''

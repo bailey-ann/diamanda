@@ -193,8 +193,8 @@ def add_topic(request, forum_id):
 			forum.forum_posts = forum.forum_posts +1
 			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
 			forum.save()
-			
-			mail_admins('Temat Dodany', "Dodano Temat: http://www." + settings.SITE_KEY + "/forum/forum/" + forum_id +"/", fail_silently=True)
+			if settings.NOTIFY_ADMINS:
+				mail_admins(_('Topic Added'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, forum_id), fail_silently=True)
 			
 			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic added succesfuly.'))
 		else:
@@ -274,7 +274,8 @@ def add_post(request, topic_id, post_id = False):
 			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
 			forum.save()
 			
-			mail_admins('Post Dodany', "Dodano Post: http://www." + settings.SITE_KEY + "/forum/topic/" + str(pmax) + "/" + topic_id +"/", fail_silently=True)
+			if forum.NOTIFY_ADMINS:
+				mail_admins(_('Post Added'), _('Post Added: http://www.%s/forum/topic/%s/%s/') % (settings.SITE_KEY, str(pmax), topic_id), fail_silently=True)
 			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + topic_id +"/", _('Post added succesfuly.'))
 		else:
 			return render_to_response(
