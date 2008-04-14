@@ -1,5 +1,5 @@
 {% extends "pages/body.html" %}
-{% load i18n %}{% load cbc %}
+{% load i18n %}
 {% block crumb %}{{ site_name }}{% endblock %}
 
 {% block content %}
@@ -8,12 +8,12 @@
 	{% for i in entries %}
 		<h4>{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}
 		<a href="/w/p/{{ i.slug }}/"><b>{{ i.title }}</b></a></h4>
-		{{ i.description|cbc|safe }}
+		{{ i.parsed_description|safe }}
 		<ul class="newsbox">
 			<li class="added">{{ i.date|date:"d.m.Y" }}</li>
 			<li class="read"><a href="/w/p/{{ i.slug }}/">{% trans "Read" %}</a></li>
-			<li class="comment"><a href="/com/{{ i.id }}/1/">{% trans "Comments" %}</a></li>
-			{%if i.place %}<li class="book"><a href="/w/p/{{ i.place.slug }}/">{{ i.place }}</a></li>{% endif %}
+			<li class="comment"><a href="/com/{{ i.id }}/1/">{% trans "Comments" %}{% if i.comments_count %} ({{ i.comments_count }}){% endif %}</a></li>
+			{%ifnotequal i.current_book i.slug %}<li class="book"><a href="/w/p/{{ i.current_book }}/">{{ i.current_book_title }}</a></li>{% endifnotequal %}
 			{%if i.is_update %}<li class="update">{{ i.changes }}</li>{% endif %}
 		</ul>
 	{% endfor %}

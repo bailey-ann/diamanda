@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import *
 from sys import path
-import os.path
 
 path.append('diamandas/')
 
@@ -22,7 +21,7 @@ TIME_ZONE = 'Europe/Warsaw'
 LANGUAGE_CODE = 'pl'
 
 SITE_ID = 1
-SITE_KEY = 'localhost:8080'
+SITE_KEY = 'localhost'
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
 "django.core.context_processors.debug",
@@ -39,7 +38,7 @@ HOME_TEXT = 'Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'site_media')
+MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
@@ -78,6 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'django.contrib.markup',
     'stats',
     'pages',
     'boxcomments',

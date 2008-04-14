@@ -4,6 +4,6 @@
                 <loc>http://www.{{ domain }}/w/p/{{ p.slug }}/</loc>
                 <lastmod>{{ p.date }}</lastmod>
                 <changefreq>monthly</changefreq>
-                {% ifequal p.content_type "news" %}<priority>0.5</priority>{% endifequal %}{% ifequal p.content_type "page" %}<priority>0.5</priority>{% endifequal %}{% ifequal p.content_type "book" %}<priority>0.6</priority>{% endifequal %}{% ifequal p.content_type "chapter" %}<priority>0.6</priority>{% endifequal %}
+                {% ifequal p.content_type "news" %}<priority>0.5</priority>{% endifequal %}{% ifequal p.content_type "page" %}<priority>0.5</priority>{% endifequal %}{% ifequal p.content_type "book" %}<priority>0.6</priority>{% endifequal %}
         </url>{% endfor %}
 </urlset>

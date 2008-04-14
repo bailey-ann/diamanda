@@ -46,7 +46,6 @@
 	</td>
 	<td>
 		<div class="box">{{ i.post_author }} {% if perms.is_staff %}({{ i.post_ip }}){% endif %}</div>
-		<a href="/user/pmessage/{{ i.post_author }}/">{% trans "Send Message" %}</a>
 	</td>
 </tr>
 {% endfor %}

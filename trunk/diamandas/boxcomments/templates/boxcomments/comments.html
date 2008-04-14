@@ -4,14 +4,27 @@
 
 {% block content %}<div class="box">{% trans "Here you can read all comments for" %} "<i>{{ title }}</i>". {% trans "You can add your comment using the form below. Please do not ask for help - use <b>Forums</b> for help and support." %}</div>
 {% if com %}
-{% for i in com %}
-<h4 style="margin-bottom:0px;"><b> {{ i.author }} {% trans "on" %}</b> {{ i.date|date:"d.m.Y G:i" }} (<a href="/com/{{ appid }}/{{ apptype }}/{{ i.id }}/">{% trans "Quote" %}</a>)
-{% if user.is_staff %}<a href="/admin/boxcomments/comment/{{ i.id }}/">{% trans "Admin" %}</a>{% endif %}</h4>
-<div class="box" style="margin-top:0px;">{{ i.text|fbc|safe }}</div>
-{% endfor %}
+<div class="content">
+<table>
+	<tr>
+		<th width="20%"><strong>{% trans "Author" %}</strong></th>
+		<th class="first"><strong>{% trans "Comment" %}</strong></th>
+	</tr>
+	{% for i in com %}
+		<tr class="{% cycle rowA,rowB %}">
+		<td>
+			<div class="box"><b>{{ i.author }}</b></div>
+			{{ i.date|date:"d.m.Y G:i" }}<br /><a href="/com/{{ appid }}/{{ apptype }}/{{ i.id }}/">{% trans "Quote" %}</a>{% if user.is_staff %} | <a href="/admin/boxcomments/comment/{{ i.id }}/">{% trans "Admin" %}</a>{% endif %}
+		</td>
+		<td class="first" style="text-align:justify;">{{ i.text|fbc|safe }}</td>
+		</tr>
+	{% endfor %}
+</table>
+</div>
 {% else %}
 <h4>{% trans "No Comments" %}</h4>
 {% endif %}
+
 {% if ban %}<h2>{% trans "You can't post 3 comments in a row" %}</h2>{% else %}<h2>{% trans "Add Comment" %}</h2>
 <div class="content">
          <form method="post" action="."> <table><input type="hidden" value="{{ hash }}" name="imghash" />

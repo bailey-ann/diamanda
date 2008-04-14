@@ -1,4 +1,3 @@
-{% load cbc %}
 <rss version="2.0"><channel>
 <title>Biblioteka Riklaunima  - {{ domain }}</title>
 <link>http://www.{{ domain }}/</link>
@@ -15,7 +14,7 @@
 <guid>http://www.{{ domain }}/w/p/{{ p.slug }}/</guid>
 <link>http://www.{{ domain }}/w/p/{{ p.slug }}/</link>
 <title>{{ p.title }}</title>
-<description>{% ifequal p.content_type "news" %}{{ p.description|cbc|safe }}{% else %}{{ p.description|safe }}{% endifequal %}</description>
+<description>{% ifequal p.content_type "news" %}{{ p.parsed_description|safe }}{% else %}{{ p.parsed_description|safe }}{% endifequal %}</description>
 <pubDate>{{ p.date }}</pubDate>
 </item>
 {% endfor %}</channel></rss>

@@ -1,14 +1,21 @@
 {% extends "pages/body.html" %}
-{% load i18n %}{% load cbc %}
+{% load i18n %}
 {% block header %}{{ page.title }}{% endblock %}
 {% block title %}{{ page.title }}{% endblock %}
 {% block description %}{{ page.title }}{% endblock %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a>{% if crumb %} > {{ crumb|safe }}{% endif %}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
 
-{% block content %}{{ page.description|cbc|safe }}<br /><br />{{ page.text|cbc|safe }}{% endblock %}
+{% block content %}{{ page.parsed_description|safe }}<br /><br />{{ page.parsed_text|safe }}{% endblock %}
 {% block pagemenu %}
-<li><a href="/com/{{ page.id }}/1/">{% trans "Comments" %} ({{ com }})</a></li>
+<li><a href="/com/{{ page.id }}/1/">{% trans "Comments" %} ({{ page.comments_count }})</a></li>
 <li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-{% if page.place %}<li><a href="/w/r/{{ page.place.slug }}/">{% trans "RSS Feed for" %} {{ page.place }}</a></li>{% endif %}
+
+{% if page.current_book %}
+	<li><a href="/w/r/{{ page.current_book }}/">{% trans "Category RSS Feed" %}</a></li>
+	<li><a href="/w/n/{{ page.current_book }}/">{% trans "Browse category news" %}</a></li>
+{% else %}
+	<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+{% endif %}
+
 {% if user.staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Edit" %}</a></li>{% endif %}
 {% endblock %}

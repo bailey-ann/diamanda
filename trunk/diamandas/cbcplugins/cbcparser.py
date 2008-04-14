@@ -4,11 +4,13 @@
 
 from re import findall
 from tags import *
-
+import markdown
+import base64
 
 def parse_cbc_tags(text):
 	# double: [tag]something here[/tag]
 	tags = findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text)
+	
 	parsed_double = {}
 	for tag in tags:
 		k = str(tag[0]).strip()
@@ -31,18 +33,11 @@ def parse_cbc_tags(text):
 		parsed_double[k].append(vals)
 	
 	for plugin in parsed_double:
-		text = eval(plugin + '(parsed_double[plugin], text)')
+		try:
+			text = eval(plugin + '(parsed_double[plugin], text)')
+		except:
+			print 'NO PLUGIN %s' % plugin
 
-			
-	if text.find('[toc]') != -1:
-		tags = findall('<a name="([0-9]*)" class="([0-9]*)" title="(.*?)"></a>', text)
-		toc = ''
-		for i in tags:
-			pad = str((int(i[1]) -1)*20)
-			toc = toc+'<div style="padding-left:' + pad + 'px; padding-bottom:3px;"><img src="/site_media/layout/cbc/' + i[1] + '.png" alt="" /> <a href="#' + i[0] + '">' + i[2] + '</a></div>'
-		text = text.replace('[toc]', toc)
-		
-		
 	# single: [tag]
 	tags = findall(r'\[rk:([a-z_0-9]*) (.*?)\]', text)
 	parsed = {}
@@ -66,5 +61,13 @@ def parse_cbc_tags(text):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		text = eval(plugin + '(parsed[plugin], text)')
+		try:
+			text = eval(plugin + '(parsed[plugin], text)')
+		except:
+			print 'NO PLUGIN %s' % plugin
+	
+	text = markdown.markdown(text, safe_mode = True)
+	tags = findall(r'\^\^(.*?)\^\^', text)
+	for tag in tags:
+		text = text.replace('^^%s^^' % tag, base64.b64decode(tag))
 	return text

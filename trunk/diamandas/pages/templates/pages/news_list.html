@@ -1,5 +1,5 @@
 {% extends "pages/body.html" %}
-{% load i18n %}{% load cbc %}
+{% load i18n %}
 {% block header %}{% if book %}{% trans "News" %}: {{ bk.title }}{% else %}{% trans "News" %}{% endif %}{% endblock %}
 {% block title %}{% trans "News" %}{% endblock %}
 {% block description %}{% trans "News" %}{% endblock %}
