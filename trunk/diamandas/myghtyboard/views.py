@@ -189,9 +189,14 @@ def add_topic(request, forum_id):
 			new_place = form.save()
 			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'])
 			post.save()
+			
+			today = datetime.now().timetuple()
+			today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
+			topic.topic_lastpost = '%s<br />%s' % (str(request.user), today)
+			
 			forum.forum_topics = forum.forum_topics +1
 			forum.forum_posts = forum.forum_posts +1
-			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
+			forum.forum_lastpost = str(request.user)+' (' + today + ')<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
 			forum.save()
 			if settings.NOTIFY_ADMINS:
 				mail_admins(_('Topic Added'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, forum_id), fail_silently=True)
@@ -266,7 +271,9 @@ def add_post(request, topic_id, post_id = False):
 				pmax = 1
 				topic.topic_last_pagination_page = 1
 			topic.topic_posts = posts
-			topic.topic_lastpost = str(request.user)+'<br />' + str(datetime.today())[:-10]
+			today = datetime.now().timetuple()
+			today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
+			topic.topic_lastpost = '%s<br />%s' % (str(request.user), today)
 			topic.save()
 			
 			forum.forum_posts = forum.forum_posts +1
@@ -274,7 +281,7 @@ def add_post(request, topic_id, post_id = False):
 			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
 			forum.save()
 			
-			if forum.NOTIFY_ADMINS:
+			if settings.NOTIFY_ADMINS:
 				mail_admins(_('Post Added'), _('Post Added: http://www.%s/forum/topic/%s/%s/') % (settings.SITE_KEY, str(pmax), topic_id), fail_silently=True)
 			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + topic_id +"/", _('Post added succesfuly.'))
 		else:

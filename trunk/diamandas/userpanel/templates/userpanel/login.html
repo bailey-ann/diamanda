@@ -13,7 +13,8 @@
 <tr class="rowB"><td><label for="id_password">{% trans "Password" %}:</label></td><td>{{ form.password }}</td></tr>
 </table>
 </div>
-<br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}"></div><br /></div>
+<br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}"><br /><br />
+<input type="button" value="{% trans "Register" %}" onclick="location.assign('/user/register/');"></div><br /></div>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
