@@ -76,6 +76,9 @@ def comments(request, apptype, appid, quoteid=False):
 			text = html2safehtml(data['text'] ,valid_tags=())
 			co = Comment(title = title,appid = appid, text = text, author = author, ip = request.META['REMOTE_ADDR'], apptype = apptype)
 			co.save()
+			if apptype == '1':
+				a.comments_count = a.comments_count + 1
+				a.save()
 			if settings.NOTIFY_ADMINS:
 				mail_admins(_('Comment added'), _('A Comment have been added on: http://www.') + settings.SITE_KEY, fail_silently=True)
 			return HttpResponseRedirect('/com/' + str(appid) + '/' + str(apptype) + '/')

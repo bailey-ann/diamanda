@@ -147,14 +147,13 @@ width:100%;
 }
 th
 {
-background: #292929;
+background: #143D55;
 height: 29px;
 padding-left: 11px;
 padding-right: 11px;
 color: #fff;
 text-align:center;
-border-left: solid 1px #A8814D;
-border-bottom: solid 2px #ffffff;
+border-left: solid 1px #6C6C6C;
 }
 tr
 {
@@ -166,11 +165,16 @@ padding-left: 10px;
 padding-right: 10px;
 padding-bottom:5px;
 padding-top:5px;
-border-left: solid 1px #EED9C3;
+border-left: solid 1px #6C6C6C;
 border-bottom:1px solid #6C6C6C;
 border-top:1px solid #6C6C6C;
 }
 
+tr.small
+{
+	font-size:11px;
+	background: #E3E3E3;
+}
 
 
 img

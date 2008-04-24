@@ -24,8 +24,8 @@ def show_index(request):
 	itopics = Topic.objects.all().values('id', 'topic_name', 'topic_last_pagination_page', 'topic_lastpost').order_by('-topic_modification_date')[:4]
 	for t in itopics:
 		lastposter = str(t['topic_lastpost'])
-		br = lastposter.find('<br />')
-		t['last'] = lastposter[:br]
+		br = lastposter.split(_('by'))
+		t['last'] = br[1].strip()
 	entries = Content.objects.all().values('id', 'slug', 'date', 'title', 'parsed_description', 'comments_count', 'current_book', 'current_book_title', 'is_update', 'changes', 'content_type').order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:5]
 	now = datetime.now()

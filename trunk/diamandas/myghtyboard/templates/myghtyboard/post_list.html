@@ -9,6 +9,7 @@
 	{% if opened %}
 		<li><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></li>
 	{% endif %}
+	<li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
 	<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 	<li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
 	<li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>
@@ -50,8 +51,8 @@
 			      {% endif %}
 		    </div>
 	</div>
-<br />
-{% endfor %}
+	<br />
+	{% endfor %}
 
 <br />
 	<div class="box">

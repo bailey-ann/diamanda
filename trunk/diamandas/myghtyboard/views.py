@@ -181,7 +181,9 @@ def add_topic(request, forum_id):
 		page_data['topic_name'] = html2safehtml(page_data['topic_name'] ,valid_tags=())
 		page_data['topic_forum'] = forum_id
 		page_data['topic_posts'] = 1
-		page_data['topic_lastpost'] = str(request.user)+'<br />' + str(datetime.today())[:-10]
+		today = datetime.now().timetuple()
+		today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
+		page_data['topic_lastpost'] = _('%s by %s') % (today, str(request.user))
 		page_data['topic_last_pagination_page'] = 1
 		page_data['topic_modification_date'] = datetime.now()
 		form = AddTopicForm(page_data)
@@ -189,10 +191,6 @@ def add_topic(request, forum_id):
 			new_place = form.save()
 			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'])
 			post.save()
-			
-			today = datetime.now().timetuple()
-			today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
-			topic.topic_lastpost = '%s<br />%s' % (str(request.user), today)
 			
 			forum.forum_topics = forum.forum_topics +1
 			forum.forum_posts = forum.forum_posts +1
@@ -273,7 +271,7 @@ def add_post(request, topic_id, post_id = False):
 			topic.topic_posts = posts
 			today = datetime.now().timetuple()
 			today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
-			topic.topic_lastpost = '%s<br />%s' % (str(request.user), today)
+			topic.topic_lastpost = _('%s by %s') % (today, str(request.user))
 			topic.save()
 			
 			forum.forum_posts = forum.forum_posts +1

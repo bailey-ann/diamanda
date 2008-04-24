@@ -6,6 +6,7 @@
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a>{% endblock %}
 {% block pagemenu %}
 <li><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></li>
+<li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 <li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>{% endblock %}
@@ -18,40 +19,40 @@
               <th><strong>{% trans "Topic" %}</strong></th>
               <th style="width:90px;"><strong>{% trans "Author" %}</strong></th>
               <th style="width:15px;"><strong>{% trans "Posts" %}</strong></th>
-              <th style="width:120px;"><strong>{% trans "Last Post" %}</strong></th>
+              <th style="width:150px;"><strong>{% trans "Last Post" %}</strong></th>
               {% if perms.is_staff %}<th style="width:25%;"><strong>{% trans "Admin" %}</strong></th>{% endif %}
             </tr>
            {% for topic in object_list %}
-            <tr class="{% cycle rowA,rowB %}">
+            <tr class="small">
            <td class="first">
-{% if topic.is_locked %}
-	<img src="/site_media/layout/forum/lock.png" alt="*" />
-{% else %}
-	{% if topic.is_sticky %}
-		<img src="/site_media/layout/forum/stick.png" alt="*" />
-	{% else %}
-		{% if topic.is_global %}
-			<img src="/site_media/layout/forum/glob.png" alt="*" />
-		{% else %}
-			<img src="/site_media/layout/forum/normal.png" alt="*" />
-		{% endif%}
-	{% endif%}
-{% endif %}</td>
-              <td><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/"><b>{{ topic.topic_name }}</b></a></td>
-              <td>{{ topic.topic_author }}</td>
-              <td>{{ topic.topic_posts }}</td>
-              <td>{{ topic.topic_lastpost|safe }}</td>
-{% if perms.is_staff %}<td>
-	<a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
-	{% if topic.is_locked %}
-		<a href="/forum/open_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock Topic" %}</a>
-	{% else %}
-		<a href="/forum/close_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock Topic" %}</a>
-	{% endif %}
-	{% ifnotequal topic.is_locked 1 %}
-	 | <a href="/forum/move_topic/{{ topic.id }}/{{ forum }}/">{% trans "Move Topic" %}</a>
-	 {% endifnotequal %}</td>
-{% endif %}
+            {% if topic.is_locked %}
+                    <img src="/site_media/layout/forum/lock.png" alt="*" />
+            {% else %}
+                    {% if topic.is_sticky %}
+                            <img src="/site_media/layout/forum/stick.png" alt="*" />
+                    {% else %}
+                            {% if topic.is_global %}
+                                    <img src="/site_media/layout/forum/glob.png" alt="*" />
+                            {% else %}
+                                    <img src="/site_media/layout/forum/normal.png" alt="*" />
+                            {% endif%}
+                    {% endif%}
+            {% endif %}</td>
+                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
+                          <td>{{ topic.topic_author }}</td>
+                          <td>{{ topic.topic_posts }}</td>
+                          <td>{{ topic.topic_lastpost|safe }}</td>
+            {% if perms.is_staff %}<td>
+                    <a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
+                    {% if topic.is_locked %}
+                            <a href="/forum/open_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock Topic" %}</a>
+                    {% else %}
+                            <a href="/forum/close_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock Topic" %}</a>
+                    {% endif %}
+                    {% ifnotequal topic.is_locked 1 %}
+                     | <a href="/forum/move_topic/{{ topic.id }}/{{ forum }}/">{% trans "Move Topic" %}</a>
+                     {% endifnotequal %}</td>
+            {% endif %}
             </tr>
 	    {% endfor %}
           </table>
