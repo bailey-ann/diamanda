@@ -57,48 +57,50 @@
 	    {% endfor %}
           </table>
 </div>
-<br />
-<div class="box" style="text-align:center;">
-{% ifnotequal pages 0 %}
-{% ifnotequal pages 1 %}
-<a href="/forum/forum/{{ forum }}/"><b>{% trans "Latest Topics" %}</b></a> | 
-{% endifnotequal %}
-{% endifnotequal %}
-
-{% if has_previous %}
-	<a href="/forum/forum/{{ forum }}/{{ previous }}/"><b>{% trans "Newer Topics" %} </b></a>
-{% endif %}
-
-{% if has_next %}
-<a href="/forum/forum/{{ forum }}/{{ next }}/"><b> {% trans "Older Topics" %}</b></a>
-{% endif %}
-
-{% ifnotequal pages 0 %}
-{% ifnotequal pages 1 %}
- | <a href="/forum/forum/{{ forum }}/{{ pages }}/"><b>{% trans "Oldest Topics" %}</b></a>
-{% endifnotequal %}
-{% endifnotequal %}
-<br />
 {% if perms.add_topic %}
-	<p style="text-align:right;"><a href="/forum/add_topic/{{ forum }}/"><b>{% trans "Add New Topic" %}</b></a></p>
+	<br /><div class="addTopic"><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></div>
 {% endif %}
-</div>
-<div class="box">
-<p style="text-align:right;">
+<br />
+
+
+{% ifnotequal pages 1 %}
+    <div class="box" style="text-align:center;">
+    {% ifnotequal pages 0 %}
+    {% ifnotequal pages 1 %}
+    <a href="/forum/forum/{{ forum }}/"><b>{% trans "Latest Topics" %}</b></a> | 
+    {% endifnotequal %}
+    {% endifnotequal %}
+    
+    {% if has_previous %}
+            <a href="/forum/forum/{{ forum }}/{{ previous }}/"><b>{% trans "Newer Topics" %} </b></a>
+    {% endif %}
+    
+    {% if has_next %}
+    <a href="/forum/forum/{{ forum }}/{{ next }}/"><b> {% trans "Older Topics" %}</b></a>
+    {% endif %}
+    
+    {% ifnotequal pages 0 %}
+    {% ifnotequal pages 1 %}
+     | <a href="/forum/forum/{{ forum }}/{{ pages }}/"><b>{% trans "Oldest Topics" %}</b></a>
+    {% endifnotequal %}
+    {% endifnotequal %}
+    </div>
+{% endifnotequal %}
+	<p style="text-align:right;">
 	{% if perms.add_topic %}
-		- {% trans "You can post new Topics" %}<br />
+		{% trans "You <b>can</b> post new Topics" %}<br />
 	{% else %}
-		- {% trans "You can't post new Topics" %}<br />
+		{% trans "You <b>can't</b> post new Topics" %}<br />
 	{% endif %}
 	{% if perms.add_post %}
-		- {% trans "You can post new Posts" %}<br />
+		{% trans "You <b>can</b> post new Posts" %}<br />
 	{% else %}
-		- {% trans "You can't post new Posts" %}<br />
+		{% trans "You <b>can't</b> post new Posts" %}<br />
 	{% endif %}
 	{% if perms.is_staff %}
-		- {% trans "You can moderate this Topics" %}<br />
+		{% trans "You <b>are</b> a Moderator" %}<br />
 	{% else %}
-		-  {% trans "You can't moderate this Topics" %}<br />
+		{% trans "You <b>aren't</b> a moderator" %}<br />
 	{% endif %}
-</p></div>
+	</p>
 {% endblock %}

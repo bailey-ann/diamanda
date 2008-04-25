@@ -54,14 +54,15 @@
 	<br />
 	{% endfor %}
 
-<br />
-	<div class="box">
-	{% if perms.add_post %}
-		{% if opened %}
-		<p style="text-align:right;"><a href="/forum/add_post/{{ topic_id }}/"><b>{% trans "Add Post" %}</b></a></p>
-		{% endif %}
+{% if perms.add_post %}
+	{% if opened %}
+		<div class="addTopic"><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></div>
 	{% endif %}
+{% endif %}
+<br />
 
+{% ifnotequal pages 1 %}
+	<div class="box">
 			<div style="text-align:center;">
 			{% ifnotequal pages 0 %}
 			{% ifnotequal pages 1 %}
@@ -84,31 +85,26 @@
 			{% endifnotequal %}
 			</div>
 	</div>
-	<div class="box">
+{% endifnotequal %}
 	<p style="text-align:right;">
-		{% if perms.add_topic %}
-			- {% trans "You can post new Topics" %}<br />
-		{% else %}
-			- {% trans "You can't post new Topics" %}<br />
-		{% endif %}
-		{% if perms.add_post %}
-			{% if opened %}
-				- {% trans "You can post new Posts" %}<br />
-			{% else %}
-				- {% trans "You can't post new Posts" %}<br />
-			{% endif %}
-		{% else %}
-			- {% trans "You can't post new Posts" %}<br />
-		{% endif %}
-		{% if perms.is_staff %}
-			- {% trans "You can moderate this Topic" %}<br />
-		{% else %}
-			-  {% trans "You can't moderate this Topic" %}<br />
-		{% endif %}
+	{% if perms.add_topic %}
+		{% trans "You <b>can</b> post new Topics" %}<br />
+	{% else %}
+		{% trans "You <b>can't</b> post new Topics" %}<br />
+	{% endif %}
+	{% if perms.add_post %}
+		{% trans "You <b>can</b> post new Posts" %}<br />
+	{% else %}
+		{% trans "You <b>can't</b> post new Posts" %}<br />
+	{% endif %}
+	{% if perms.is_staff %}
+		{% trans "You <b>are</b> a Moderator" %}<br />
+	{% else %}
+		{% trans "You <b>aren't</b> a moderator" %}<br />
+	{% endif %}
 	</p>
-	</div>
 {% if perms.add_post %}
-{% if opened %}<br /><br />
+{% if opened %}
 <h2>{% trans "Quick Post" %}</h2>
 <div class="box"><div style="text-align:center;"><form method="post" action="/forum/add_post/{{ topic_id }}/">
 <a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'>{% trans "Bold" %}</a>,

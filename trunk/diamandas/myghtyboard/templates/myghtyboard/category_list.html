@@ -29,25 +29,6 @@
             </tr>
 	    {% endfor %}
           </table>
-</div>
-<br /><br />
+</div><br />
 	{% endfor %}
-	<div class="box">
-	<p style="text-align:right;">
-	{% if perms.add_topic %}
-		- {% trans "You can post new Topics" %}<br />
-	{% else %}
-		- {% trans "You can't post new Topics" %}<br />
-	{% endif %}
-	{% if perms.add_post %}
-		- {% trans "You can post new Posts" %}<br />
-	{% else %}
-		- {% trans "You can't post new Posts" %}<br />
-	{% endif %}
-	{% if perms.is_staff %}
-		- {% trans "You are a Moderator" %}<br />
-	{% else %}
-		-  {% trans "You aren't a moderator" %}<br />
-	{% endif %}
-	</p></div>
 {% endblock %}

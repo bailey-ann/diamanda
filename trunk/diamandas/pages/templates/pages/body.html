@@ -10,13 +10,14 @@
 <script src="/site_media/layout/biblioteka.js" type="text/javascript"></script>{% block meta %}{% endblock %}
 </head>
 <body>
+	<div id="crumb"><b>{% trans "You are here" %}</b>: {% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</div>
 	<div id="top">
 		<div id="topmenu">
 			<form id="myform" action="/w/search/" method="post">
 			<input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="{% trans "Search" %}" />
 			</form>
 		</div>
-		<h1>{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</h1>
+		<h1>{% block header %}{{ site_name }}{% endblock %}</h1>
 	</div>
 	<div id="modernbricksmenu2">
 	<ul>
