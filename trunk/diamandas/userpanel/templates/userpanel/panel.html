@@ -10,7 +10,7 @@
 	<li><a href="/user/password_change/"><b>{% trans "Change Password" %}</b></a></li>
 	</ul>
 	<ul>
-	<li><a href="mailto:{{ admin_mail }}"><b>{% trans "Contact Site Admin" %}</b></a></li>
+	<li><a href="mailto:{{ admin_mail }}"><b>{% trans "Contact Site Admin" %}</b></a> {{ admin_mail }}</li>
 	</ul>
 	</div>
 {% else %}
@@ -19,7 +19,7 @@
 	<li><a href="/user/login/"><b>{% trans "Login" %}</b></a></li>
 	<li><a href="/user/register/"><b>{% trans "Register" %}</b></a></li>
 	<li><a href="/user/password_reset/"><b>{% trans "Lost Password" %}</b></a></li>
-	<li><a href="mailto:{{ admin_mail }}"><b>{% trans "Contact Site Admin" %}</b></a></li>
+	<li><a href="mailto:{{ admin_mail }}"><b>{% trans "Contact Site Admin" %}</b></a> {{ admin_mail }}</li>
 	</ul>
 	</div>
 {% endif %}

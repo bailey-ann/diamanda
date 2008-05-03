@@ -3,18 +3,21 @@
 {% block content %}
 <h2>{% trans "Log in" %}</h2>
 {% if form.has_errors %}
-<p>{% trans "Your username and password didn't match. Please try again." %}</p>
+<div class="errmsg">{% trans "Your username and password didn't match. Please try again." %}</div>
 {% endif %}
 
 <form method="post" action=".">
 <div class="content">
-<table>
-<tr class="rowA"><td><label for="id_username">{% trans "Username" %}:</label></td><td>{{ form.username }}</td></tr>
-<tr class="rowB"><td><label for="id_password">{% trans "Password" %}:</label></td><td>{{ form.password }}</td></tr>
+<table style="width:50%;">
+<tr class="rowA"><td class="first"><label for="id_username">{% trans "Username" %}:</label></td><td>{{ form.username }}</td></tr>
+<tr class="rowB"><td class="first"><label for="id_password">{% trans "Password" %}:</label></td><td>{{ form.password }}</td></tr>
 </table>
 </div>
 <br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Login" %}"><br /><br />
-<input type="button" value="{% trans "Register" %}" onclick="location.assign('/user/register/');"></div><br /></div>
+<input type="button" value="{% trans "Register" %}" onclick="location.assign('/user/register/');">
+<input type="button" value="{% trans "Lost Password" %}" onclick="location.assign('/user/password_reset/');">
+</div><br />
+</div>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 

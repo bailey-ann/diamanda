@@ -21,16 +21,12 @@ def show_index(request):
 	"""
 	Show the main page
 	"""
-	itopics = Topic.objects.all().values('id', 'topic_name', 'topic_last_pagination_page', 'topic_lastpost').order_by('-topic_modification_date')[:4]
-	for t in itopics:
-		lastposter = str(t['topic_lastpost'])
-		br = lastposter.split(_('by'))
-		t['last'] = br[1].strip()
+	itopics = Topic.objects.all().values('id', 'topic_name', 'topic_last_pagination_page', 'topic_lastposter').order_by('-topic_modification_date')[:4]
 	entries = Content.objects.all().values('id', 'slug', 'date', 'title', 'parsed_description', 'comments_count', 'current_book', 'current_book_title', 'is_update', 'changes', 'content_type').order_by('-date')[:5]
-	com = Comment.objects.order_by('-id')[:5]
+	com = Comment.objects.order_by('-id')[:4]
 	now = datetime.now()
 	check_time = now - timedelta(hours=1)
-	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:5]
+	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]
 	return render_to_response(
 		'pages/show_index.html',
 		{'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'home_text': settings.HOME_TEXT},

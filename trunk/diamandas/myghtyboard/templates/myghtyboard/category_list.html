@@ -25,7 +25,7 @@
               <td style="text-align:left;"><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.forum_name }}</b></a><br />{{ forum.forum_description }}</td>
               <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
               <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_posts }}{% endif %}</td>
-              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_lastpost|safe }}{% endif %}</td>
+              <td>{% if forum.is_redirect %}-{% else %}{% ifnotequal forum.forum_lastposter None %}{{ forum.forum_lastposter}}, {{forum.forum_modification_date|date:"d.m.Y" }}<br />{{ forum.forum_lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}{% endif %}</td>
             </tr>
 	    {% endfor %}
           </table>

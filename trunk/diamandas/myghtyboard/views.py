@@ -181,9 +181,7 @@ def add_topic(request, forum_id):
 		page_data['topic_name'] = html2safehtml(page_data['topic_name'] ,valid_tags=())
 		page_data['topic_forum'] = forum_id
 		page_data['topic_posts'] = 1
-		today = datetime.now().timetuple()
-		today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
-		page_data['topic_lastpost'] = _('%s by %s') % (today, str(request.user))
+		page_data['topic_lastposter'] = str(request.user)
 		page_data['topic_last_pagination_page'] = 1
 		page_data['topic_modification_date'] = datetime.now()
 		form = AddTopicForm(page_data)
@@ -194,7 +192,9 @@ def add_topic(request, forum_id):
 			
 			forum.forum_topics = forum.forum_topics +1
 			forum.forum_posts = forum.forum_posts +1
-			forum.forum_lastpost = str(request.user)+' (' + today + ')<br /><a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
+			forum.forum_lastposter = str(request.user)
+			forum.forum_lasttopic = '<a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
+			forum.forum_modification_date = datetime.now()
 			forum.save()
 			if settings.NOTIFY_ADMINS:
 				mail_admins(_('Topic Added'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, forum_id), fail_silently=True)
@@ -276,7 +276,9 @@ def add_post(request, topic_id, post_id = False):
 			
 			forum.forum_posts = forum.forum_posts +1
 			
-			forum.forum_lastpost = str(request.user)+' (' + str(datetime.today())[:-10] + ')<br /><a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
+			forum.forum_lastposter = str(request.user)
+			forum.forum_lasttopic = '<a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
+			forum.forum_modification_date = datetime.now()
 			forum.save()
 			
 			if settings.NOTIFY_ADMINS:
@@ -393,7 +395,7 @@ def move_topic(request, topic_id, forum_id):
 				topic_name = topic.topic_name,
 				topic_author = topic.topic_author,
 				topic_posts = 0,
-				topic_lastpost = _('Topic Moved'),
+				topic_lastposter = _('Topic Moved'),
 				is_locked = True)
 			t.save()
 			p = Post(

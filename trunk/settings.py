@@ -58,8 +58,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'stats.statsMiddleware.statsMiddleware',
     'userpanel.userMiddleware.userMiddleware',
-    'profiler.ProfileMiddleware', # debug !
-    'profiler_sql.SQLLogMiddleware', # debug !
+    #'profiler.ProfileMiddleware', # debug !
+    #'profiler_sql.SQLLogMiddleware', # debug !
 )
 
 ROOT_URLCONF = 'urls'

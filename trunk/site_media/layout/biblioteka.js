@@ -232,3 +232,12 @@ var dhtmlgoodies_tooltip = false;
 		dhtmlgoodies_tooltipShadow.style.display='none';		
 		if(tooltip_is_msie)dhtmlgoodies_iframe.style.display='none';		
 	}
+
+
+function logowanie()
+{
+    document.getElementById('loginlink').innerHTML = document.getElementById('loginform').innerHTML
+    return false;
+}
+
+

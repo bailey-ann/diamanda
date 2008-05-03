@@ -44,9 +44,8 @@ color:#392F68;
 float:right;
 margin-left:20px;
 margin-bottom:20px;
-/* width:170px; */
-/* border-left:1px solid #3c78b5; */
 }
+
 
 #crumb
 {
@@ -327,7 +326,16 @@ background:#EEEEEE;
 padding:5px;
 margin-bottom:5px;
 margin-top:5px;
-overflow:auto;
+}
+
+.errmsg
+{
+text-align:center;
+font-weight:bold;
+border:1px solid red;
+background:#EEEEEE;
+padding:2px;
+margin:10px;
 }
 
 .newsbox
@@ -441,6 +449,7 @@ border:0px !important;
 		-moz-border-radius:6px;	
 	}
 
+
 /*Credits: Dynamic Drive CSS Library */
 /*URL: http://www.dynamicdrive.com/style/ */
 /* TOP BLACK MENU FOR BOOKS */
@@ -500,20 +509,18 @@ display:inline;
 
 #myform .textinput{
 width: 190px;
-border: 1px solid gray;
-background-color:#4993DC;
+background-color: #0C2432;
+border: 1px #3c78b5 solid;
 color:white;
 font-size:11px;
-font-family:dejavu, verdana, tahoma, arial;
 }
 
 #myform .submit{
 color:white;
-height: 22px;
-border: 1px solid black;
-background-color: #4993DC;
+height: 17px;
+background-color: #0C2432;
+border: 1px #3c78b5 solid;
 font-size:11px;
-font-family:dejavu, verdana, tahoma, arial;
 }
 
 /* TOP BLACK MENU FOR SITE LINKS */
@@ -522,7 +529,7 @@ padding: 0;
 margin-top:15px;
 background: transparent;
 text-align:right;
-float:right;
+/*float:right;*/
 overflow:auto;
 }
 
@@ -562,6 +569,41 @@ border-top: 1px #3c78b5 solid;
 border-right: 1px #3c78b5 solid;
 border-left: 1px #3c78b5 solid;
 }
+
+/* code of login form displayed in the menu*/
+#loginform
+{
+visibility:hidden;
+}
+
+/* form in menu CSS */
+#inlinelogin
+{
+	font-size:11px;
+	display:inline;
+	padding-bottom:3px;
+	font-weight:normal;
+}
+
+#inlinelogin input
+{
+	display:inline;
+	padding:0px;
+	margin:0px;
+	height:12px;
+	margin-right:3px;
+	width:80px;
+	font-size:10px;
+	background-color: #0C2432;
+	border: 1px #3c78b5 solid;
+	color:white;
+}
+
+#inlinesubmit
+{
+	height:14px !important;
+}
+
 
 
 #modernbricksmenuline{
@@ -685,4 +727,18 @@ border: 1px solid black;
 background-color: #EFEFEF;
 padding: 5px;
 z-index: 5;
+}
+
+.content table
+{
+	/*text-align:center;*/
+	margin: 0 auto 0 auto;
+}
+.content input
+{
+	width:75%;
+}
+.content label
+{
+	font-weight:bold;
 }

@@ -32,7 +32,12 @@
 		{% block leftmenu %}
 			<li{% if on_tra %} id="current"{% endif %}><a href="/tra/list/">{% trans "Translations" %}</a></li>
 			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
-			<li{% if on_user %} id="current"{% endif %}><a href="/user/login/">{% if user.is_authenticated %}{% trans "My Account" %} ({{ user }}){% else %}{% trans "Login or Register" %}{% endif %}</a></li>
+			<li{% if on_user %} id="current"{% endif %} id="loginlink">
+			{% if user.is_authenticated %}
+				<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
+			{% else %}
+				<a href="/user/login/" onclick="return logowanie();">{% trans "Login or Register" %}</a>
+			{% endif %}</li>
 		{% endblock %}
 		</ul>
 	</div>
@@ -50,6 +55,17 @@
 			<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
 		</ul>
 		</div>
+{% if not user.is_authenticated %}
+	<div id="loginform">
+		<a>
+			<form id="inlinelogin" name="inlinelogin" method="post" action="/user/login/">
+				Login: <input type="text" name="username" size="15" maxlength="30" />
+				Password:  <input type="password" name="password" size="15" maxlength="30" />
+				<input type="submit" value="Login" id="inlinesubmit" /> or <input type="button" onclick="location.assign('/user/register/');" value="Register" id="inlinesubmit" />
+			</form>
+		</a>
+	</div>
+{% endif %}
 </body>
 </html>
 

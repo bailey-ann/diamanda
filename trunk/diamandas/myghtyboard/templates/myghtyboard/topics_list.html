@@ -41,7 +41,7 @@
                           <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
                           <td>{{ topic.topic_author }}</td>
                           <td>{{ topic.topic_posts }}</td>
-                          <td>{{ topic.topic_lastpost|safe }}</td>
+                          <td>{{ topic.topic_lastposter}}, {{topic.topic_modification_date|date:"d.m.Y" }}</td>
             {% if perms.is_staff %}<td>
                     <a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
                     {% if topic.is_locked %}

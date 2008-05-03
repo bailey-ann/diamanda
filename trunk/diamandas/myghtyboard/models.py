@@ -29,7 +29,9 @@ class Forum(models.Model):
 	forum_description = models.CharField(max_length=255, verbose_name=_("Forum Description"))
 	forum_topics = models.PositiveIntegerField(blank=True,default=0, verbose_name=_("Topics"))
 	forum_posts = models.PositiveIntegerField(blank=True,default=0, verbose_name=_("Posts"))
-	forum_lastpost = models.CharField(max_length=255, verbose_name=_("Last Post"), blank=True, default='', null=True)
+	forum_lastposter = models.CharField(max_length=255, verbose_name=_("Last Poster"), blank=True, default='', null=True)
+	forum_lasttopic = models.CharField(max_length=255, verbose_name=_("Last Topic"), blank=True, default='', null=True)
+	forum_modification_date = models.DateTimeField(default=datetime.now(), blank=True)
 	forum_order = models.PositiveSmallIntegerField(default=0)
 	class Meta:
 		verbose_name = _("Forum")
@@ -46,13 +48,18 @@ class Forum(models.Model):
 		return self.forum_name
 	def __unicode__(self):
 		return self.forum_name
+	def save(self, **kwargs):
+		"""override save to set defaults"""
+		if self.pk:
+			self.forum_modification_date = datetime.now()
+		super(Forum, self).save(**kwargs)
 
 class Topic(models.Model):
 	topic_forum = models.ForeignKey(Forum, verbose_name=_("Forum"))
 	topic_name = models.CharField(max_length=255, verbose_name=_("Topic Title"))
 	topic_author = models.CharField(max_length=255, verbose_name=_("Author"), blank=True)
 	topic_posts = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Posts"))
-	topic_lastpost = models.CharField(max_length=255, verbose_name=_("Last Post"))
+	topic_lastposter = models.CharField(max_length=255, verbose_name=_("Last Poster"))
 	topic_modification_date = models.DateTimeField(default=datetime.now())
 	topic_last_pagination_page = models.PositiveIntegerField(default=1, blank=True, verbose_name=_("Pagination Page"))
 	is_sticky = models.BooleanField(blank=True, default=False)

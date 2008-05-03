@@ -74,13 +74,13 @@ class RegisterForm(forms.Manipulator):
 	def hashcheck(self, field_data, all_data):
 		SALT = settings.SECRET_KEY[:20]
 		if not all_data['imghash'] == sha.new(SALT+field_data.upper()).hexdigest():
-			raise validators.ValidationError(_("Captcha Error."))
+			raise validators.ValidationError(_("Incorrect captcha text."))
 	def size3(self, field_data, all_data):
 		if len(field_data) < 4:
-			raise validators.ValidationError(_("Login to short"))
+			raise validators.ValidationError(_("Login is to short"))
 	def size4(self, field_data, all_data):
 		if len(field_data) < 5:
-			raise validators.ValidationError(_("Password to short"))
+			raise validators.ValidationError(_("Password is to short"))
 	def equal(self, field_data, all_data):
 		if all_data['password2'] != field_data:
 			raise validators.ValidationError(_("Passwords do not match"))
