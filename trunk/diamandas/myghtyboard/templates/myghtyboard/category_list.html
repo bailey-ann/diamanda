@@ -1,5 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% load pyif %}
 
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
 {% block pagemenu %}
@@ -9,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+
 {% for cat in categories %}
 <div class="content">
           <table>
@@ -21,7 +23,11 @@
             </tr>
             {% for forum in cat.forums %}
             <tr class="small">
-              <td class="first"><img src="/site_media/layout/forum/normal.png" alt="*" /></td>
+              <td class="first">{% pyif user.get_profile.onsitedata < forum.forum_modification_date %}
+                    <img src="/site_media/layout/forum/new.png" alt="*" />
+                    {% else %}
+                    <img src="/site_media/layout/forum/normal.png" alt="*" />
+                    {% endif %}</td>
               <td style="text-align:left;"><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.forum_name }}</b></a><br />{{ forum.forum_description }}</td>
               <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
               <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_posts }}{% endif %}</td>

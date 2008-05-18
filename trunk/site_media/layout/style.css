@@ -283,24 +283,6 @@ a.delete
 	padding-left:19px;
 }
 
-div.addTopic
-{
-	text-align:right;
-	font-weight:bold;
-	font-size:14px;
-}
-div.addTopic a
-{
-	border: solid 1px #6C6C6C;
-	padding: 4px;
-	background-color:#DDDDDD;
-}
-div.addTopic a:hover
-{
-	border: solid 1px black;
-	padding: 4px;
-	background-color:#CCCCCC;
-}
 
 
 
@@ -741,4 +723,49 @@ z-index: 5;
 .content label
 {
 	font-weight:bold;
+}
+
+
+.postform
+{
+	margin: 0 auto 0 auto;
+	width:75%;
+	padding: 5px;
+	padding-left:0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	background:#EEEEEE;
+	border: 1px solid #143D55;
+	font-size:11px;
+}
+
+.postform input
+{
+	margin-bottom:5px;
+	margin-top: 5px;
+	width:99%;
+	border: 1px solid #143D55;
+}
+
+ .postform textarea
+ {
+	width:99%;
+	border: 1px solid #143D55;
+ }
+ 
+ .leftpostform
+{
+	float:left;
+	width:130px;
+	padding:5px;
+}
+.rightpostform
+{
+	overflow:auto;
+	padding:5px;
+}
+#checkboxes input
+{
+	width:auto;
+	padding-right:15px;
 }

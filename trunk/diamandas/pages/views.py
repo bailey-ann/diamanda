@@ -25,7 +25,7 @@ def show_index(request):
 	entries = Content.objects.all().values('id', 'slug', 'date', 'title', 'parsed_description', 'comments_count', 'current_book', 'current_book_title', 'is_update', 'changes', 'content_type').order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:4]
 	now = datetime.now()
-	check_time = now - timedelta(hours=1)
+	check_time = now - timedelta(minutes=10)
 	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]
 	return render_to_response(
 		'pages/show_index.html',
@@ -40,7 +40,7 @@ def list_news(request, book=False):
 	"""
 	if book:
 		bk = Content.objects.get(slug=book)
-		news = Content.objects.filter(content_type='news', place=bk).order_by('-date').values('slug', 'title', 'date')
+		news = Content.objects.filter(content_type='news', place=bk).order_by('-date')
 		return object_list(
 			request,
 			news,

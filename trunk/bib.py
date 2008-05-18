@@ -1,5 +1,5 @@
 from django.conf import settings
-from pages.models import *
+from pages.models import Content
 
 
 def bib(request):

@@ -30,7 +30,6 @@
 	<div id="modernbricksmenu">
 		<ul>
 		{% block leftmenu %}
-			<li{% if on_tra %} id="current"{% endif %}><a href="/tra/list/">{% trans "Translations" %}</a></li>
 			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
 			<li{% if on_user %} id="current"{% endif %} id="loginlink">
 			{% if user.is_authenticated %}
@@ -42,30 +41,31 @@
 		</ul>
 	</div>
 	<div id="modernbricksmenuline">&nbsp;</div>
-		<div id="center">
-			<ul class="basictab">
-				{% block pagemenu %}{% endblock %}
-			</ul>
-			{% block right %}{% endblock %}
-			{% block content %}{% endblock %}
-		</div>
-		<div id="modernbricksmenu3">
-		<ul>
-			<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-			<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
+	<div id="center">
+		<ul class="basictab">
+			{% block pagemenu %}{% endblock %}
 		</ul>
-		</div>
-{% if not user.is_authenticated %}
+		{% block right %}{% endblock %}
+		{% block content %}{% endblock %}
+	</div>
+	<div id="modernbricksmenu3">
+	<ul>
+		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+		<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
+	</ul>
+	</div>
+	{% if not user.is_authenticated %}
 	<div id="loginform">
 		<a>
 			<form id="inlinelogin" name="inlinelogin" method="post" action="/user/login/">
 				Login: <input type="text" name="username" size="15" maxlength="30" />
 				Password:  <input type="password" name="password" size="15" maxlength="30" />
-				<input type="submit" value="Login" id="inlinesubmit" /> or <input type="button" onclick="location.assign('/user/register/');" value="Register" id="inlinesubmit" />
+				<input type="submit" value="Login" id="inlinesubmit" /> or
+				<input type="button" onclick="location.assign('/user/register/');" value="Register" id="inlinesubmit" />
 			</form>
 		</a>
 	</div>
-{% endif %}
+	{% endif %}
 </body>
 </html>
 

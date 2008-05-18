@@ -1,6 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
-{% block crumb %}{{ site_name }}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}
 
 {% block content %}
 {{ home_text|safe }}
@@ -55,7 +55,7 @@
 		    </tr>
 		    {% for t in onsite %}
 		      <tr class="small">
-		      <td class="first">{{ t.username }}</td>
+		      <td class="first">{{ t.user }}</td>
 		     </tr>
 		    {% endfor %}
 		  </table>

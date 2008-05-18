@@ -68,7 +68,7 @@ TEMPLATE_DIRS = (
 'diamandas/userpanel/templates',
 'diamandas/stats/templates',
 'diamandas/pages/templates',
-'diamandas/translator/templates',
+#'diamandas/translator/templates',
 'diamandas/boxcomments/templates'
 )
 
@@ -84,5 +84,5 @@ INSTALLED_APPS = (
     'boxcomments',
     'userpanel',
     'myghtyboard',
-    'translator',
+    #'translator',
     )

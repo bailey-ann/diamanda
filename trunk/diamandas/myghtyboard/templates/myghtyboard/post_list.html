@@ -1,6 +1,8 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% load fbc %}
+{% load pyif %}
+
 {% block title %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block header %}{{ forum_name }} - {{ topic }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a>{% endblock %}
@@ -18,12 +20,13 @@
 {% block content %}
 
 	{% for i in object_list %}
+	{% pyif user.get_profile.onsitedata < i.post_date %}<a name="new"></a>{% endif %}
 	<div class="post">
 		    <div class="posthead">{{ i.post_date|date:"d.m.Y" }}</div>
 		    <div class="leftpost">
 			      <strong>{{ i.post_author}}</strong>
 		    </div>
-		    <div class="rightpost">	
+		    <div class="rightpost">
 			      {{ i.post_text|fbc|safe|urlizetrunc:"60" }}
 		    </div>
 		    <div class="leftbottompost">
@@ -54,13 +57,6 @@
 	<br />
 	{% endfor %}
 
-{% if perms.add_post %}
-	{% if opened %}
-		<div class="addTopic"><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></div>
-	{% endif %}
-{% endif %}
-<br />
-
 {% ifnotequal pages 1 %}
 	<div class="box">
 			<div style="text-align:center;">
@@ -86,7 +82,28 @@
 			</div>
 	</div>
 {% endifnotequal %}
-	<p style="text-align:right;">
+
+{% if perms.add_post %}
+{% if opened %}
+<form method="post" action="/forum/add_post/{{ topic_id }}/">
+<div class="postform">
+        <div class="posthead">{% trans "Add new post" %}</div>
+        <div class="leftpostform">
+		<strong>{% trans "Content" %}</strong>
+	</div>
+	<div class="rightpostform">	
+	      <textarea name="post_text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ post_text }}</textarea>
+	</div>
+        <div class="leftpostform">
+	</div>
+	<div class="rightpostform">	
+                <input type="submit" value="{% trans "Add post" %}" />
+	</div>
+    </div>
+</form>
+{% endif %}{% endif %}
+
+<p style="text-align:right;"><br />
 	{% if perms.add_topic %}
 		{% trans "You <b>can</b> post new Topics" %}<br />
 	{% else %}
@@ -103,31 +120,4 @@
 		{% trans "You <b>aren't</b> a moderator" %}<br />
 	{% endif %}
 	</p>
-{% if perms.add_post %}
-{% if opened %}
-<h2>{% trans "Quick Post" %}</h2>
-<div class="box"><div style="text-align:center;"><form method="post" action="/forum/add_post/{{ topic_id }}/">
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'>{% trans "Bold" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'>{% trans "Italic" %}</a>, 
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'>{% trans "Underline" %}</a>, 
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'>{% trans "Image" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'>{% trans "Blockquote" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'>{% trans "Code" %}</a> 
-				<br />
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/layout/forum/smilies/icon_eek.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/layout/forum/smilies/icon_biggrin.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/layout/forum/smilies/icon_evil.gif" alt="" /></a>
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/layout/forum/smilies/icon_twisted.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/layout/forum/smilies/icon_cheesygrin.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/layout/forum/smilies/icon_cool.gif" alt="" /></a> 
-<br />
-<div class="box">{% trans "Place code snippets inside [code][/code] tags !" %}</div>
-<textarea rows="7" cols="70" name="post_text" id="id_text"></textarea>
-</div></div>
-<div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Add Post" %}" style="actiontable"></div>
-</form>
-<br /><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote<br /><br /></div>
-
-{% endif %}{% endif %}
-
 {% endblock %}

@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 (r'^w/', include('pages.URLconf')),
 (r'^forum/', include('myghtyboard.URLconf')),
 (r'^stats/', include('stats.URLconf')),
-(r'^tra/', include('translator.URLconf')),
+#(r'^tra/', include('translator.URLconf')),
 (r'^com/', include('boxcomments.URLconf')),
 (r'^sitemap/$', 'pages.views.sitemap'),
 

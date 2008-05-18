@@ -17,12 +17,12 @@ class userMiddleware(object):
 	def process_request(self, request):
 		if request.user.is_authenticated():
 			now = datetime.now()
-			check_time = now - timedelta(hours=1)
+			check_time = now - timedelta(minutes=10)
 			if not request.session.__contains__('onsite') or request.session['onsite'] < check_time:
 				request.session['onsite'] = now
 				try:
-					a = Profile.objects.get(username=request.user)
+					a = Profile.objects.get(user=request.user)
 					a.save()
 				except:
-					a = Profile(username=request.user)
+					a = Profile(user=request.user)
 					a.save()

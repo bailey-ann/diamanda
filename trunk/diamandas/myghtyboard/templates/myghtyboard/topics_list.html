@@ -1,5 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% load pyif %}
 
 {% block title %}{% trans "Topics from" %} "{{ forum_name }}"{% endblock %}
 {% block header %}{% trans "Topics from" %} "{{ forum_name }}"{% endblock %}
@@ -34,11 +35,15 @@
                             {% if topic.is_global %}
                                     <img src="/site_media/layout/forum/glob.png" alt="*" />
                             {% else %}
-                                    <img src="/site_media/layout/forum/normal.png" alt="*" />
+                                    {% pyif user.get_profile.onsitedata < topic.topic_modification_date %}
+                                        <img src="/site_media/layout/forum/new.png" alt="*" />
+                                    {% else %}
+                                        <img src="/site_media/layout/forum/normal.png" alt="*" />
+                                    {% endif %}
                             {% endif%}
                     {% endif%}
             {% endif %}</td>
-                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
+                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/{% pyif user.get_profile.onsitedata < topic.topic_modification_date %}#new{% endif %}">{{ topic.topic_name }}</a></td>
                           <td>{{ topic.topic_author }}</td>
                           <td>{{ topic.topic_posts }}</td>
                           <td>{{ topic.topic_lastposter}}, {{topic.topic_modification_date|date:"d.m.Y" }}</td>
@@ -58,7 +63,39 @@
           </table>
 </div>
 {% if perms.add_topic %}
-	<br /><div class="addTopic"><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></div>
+    <br />
+    <form method="post" action="/forum/add_topic/{{ forum }}/">
+    
+    <div class="postform">
+        <div class="posthead">{% trans "Add new topic" %}</div>
+        
+        <div class="leftpostform">
+		<strong>{% trans "Title" %}</strong>
+	</div>
+	<div class="rightpostform">	
+	      {{ form.topic_name }}{% if form.topic_name.errors %}<br />*** {{ form.topic_name.errors|join:", " }}{% endif %}
+	</div>
+        <div class="leftpostform">
+		<strong>{% trans "Content" %}</strong>
+	</div>
+	<div class="rightpostform">	
+	      <textarea name="text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ post_text }}</textarea>
+	</div>
+        {% if perms.is_staff %}
+            <div class="leftpostform"><strong>{% trans "Options" %}</strong>
+            </div>
+            <div class="rightpostform" id="checkboxes">	
+                   {{ form.is_sticky }} {% trans "Sticky" %}{% if form.is_sticky.errors %}<br />*** {{ form.is_sticky.errors|join:", " }}{% endif %}<br />
+                   {{ form.is_global }} {% trans "Global" %}{% if form.is_global.errors %}<br />*** {{ form.is_global.errors|join:", " }}{% endif %}
+            </div>
+        {% endif %}
+        <div class="leftpostform">
+	</div>
+	<div class="rightpostform">	
+                <input type="submit" value="{% trans "Add topic" %}" />
+	</div>
+    </div>
+    </form>
 {% endif %}
 <br />
 

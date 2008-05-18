@@ -240,4 +240,13 @@ function logowanie()
     return false;
 }
 
-
+function fit_textarea(obj) {
+		var counter = obj.value.match(/\n/gi);
+		if(counter) {
+			if(counter.length > 2) {
+				obj.rows = counter.length+2;
+			} else {
+				obj.rows = 6;
+			}
+		}
+	}

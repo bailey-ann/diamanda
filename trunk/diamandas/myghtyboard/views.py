@@ -48,6 +48,7 @@ def topic_list(request, forum_id, pagination_id=1):
 		forum_name = forum_name.forum_name
 	except:
 		return redirect_by_template(request, "/forum/", _('There is no such forum. Please go back to the forum list.'))
+	form = AddTopicForm()
 	return object_list(
 		request,
 		Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1')),
@@ -55,7 +56,7 @@ def topic_list(request, forum_id, pagination_id=1):
 		allow_empty = True,
 		page = pagination_id,
 		context_processors = [forumContext],
-		extra_context = {'forum': forum_id, 'forum_name': forum_name},
+		extra_context = {'forum': forum_id, 'forum_name': forum_name, 'form': form},
 		template_name = 'myghtyboard/topics_list.html')
 
 @login_required
