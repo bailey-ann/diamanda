@@ -190,6 +190,29 @@ tr.small
 	background: #E3E3E3;
 }
 
+tr.small_solved
+{
+	font-size:11px;
+	background: #D6D6D6;
+	color:#494949;
+}
+tr.small_solved a
+{
+	color:#494949 !important;
+}
+
+p.toptions
+{
+	margin:0px;
+	color:#494949 !important;
+	float:right;
+	
+}
+
+p.toptions a
+{
+	color:#494949 !important;
+}
 
 img
 {
@@ -283,7 +306,37 @@ a.delete
 	padding-left:19px;
 }
 
-
+/**/
+a.solve
+{
+	background-image:url(solve.png);
+	background-repeat:no-repeat;
+	padding-left:19px;
+}
+a.unsolve
+{
+	background-image:url(unsolve.png);
+	background-repeat:no-repeat;
+	padding-left:19px;
+}
+a.move
+{
+	background-image:url(move.png);
+	background-repeat:no-repeat;
+	padding-left:19px;
+}
+a.lock
+{
+	background-image:url(lock.png);
+	background-repeat:no-repeat;
+	padding-left:19px;
+}
+a.unlock
+{
+	background-image:url(unlock.png);
+	background-repeat:no-repeat;
+	padding-left:19px;
+}
 
 
 .author

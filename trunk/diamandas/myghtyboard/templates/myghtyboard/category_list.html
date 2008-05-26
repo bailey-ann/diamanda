@@ -10,28 +10,27 @@
 {% endblock %}
 
 {% block content %}
-
 {% for cat in categories %}
 <div class="content">
           <table>
             <tr>
             <th class="first" style="width:20px;"></th>
-              <th class="first"><strong>{{ cat.cat_name }}</strong></th>
+              <th><strong>{{ cat.name }}</strong></th>
               <th style="width:30px;"><strong>{% trans "Topics" %}</strong></th>
               <th style="width:30px;"><strong>{% trans "Posts" %}</strong></th>
               <th style="width:200px;"><strong>{% trans "Last Post" %}</strong></th>
             </tr>
             {% for forum in cat.forums %}
             <tr class="small">
-              <td class="first">{% pyif user.get_profile.onsitedata < forum.forum_modification_date %}
+              <td class="first">{% pyif user.get_profile.last_visit < forum.modification_date %}
                     <img src="/site_media/layout/forum/new.png" alt="*" />
                     {% else %}
                     <img src="/site_media/layout/forum/normal.png" alt="*" />
                     {% endif %}</td>
-              <td style="text-align:left;"><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.forum_name }}</b></a><br />{{ forum.forum_description }}</td>
-              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_topics }}{% endif %}</td>
-              <td>{% if forum.is_redirect %}-{% else %}{{ forum.forum_posts }}{% endif %}</td>
-              <td>{% if forum.is_redirect %}-{% else %}{% ifnotequal forum.forum_lastposter None %}{{ forum.forum_lastposter}}, {{forum.forum_modification_date|date:"d.m.Y" }}<br />{{ forum.forum_lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}{% endif %}</td>
+              <td style="text-align:left;"><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.name }}</b></a><br />{{ forum.description }}</td>
+              <td>{{ forum.topics }}</td>
+              <td>{{ forum.posts }}</td>
+              <td>{% ifnotequal forum.lastposter None %}{{ forum.lastposter}}, {{forum.modification_date|date:"d.m.Y" }}<br />{{ forum.lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}</td>
             </tr>
 	    {% endfor %}
           </table>

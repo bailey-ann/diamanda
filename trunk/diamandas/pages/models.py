@@ -11,20 +11,6 @@ from django.utils.translation import ugettext as _
 from boxcomments.models import Comment
 from cbcplugins import cbcparser
 
-
-class ForeignCategoryContent(models.ForeignKey):
-	"""
-	Custom ForeignKey that will show only Content objects with content_type='book'
-	"""
-	def __init__(self, to, to_field=None, **kwargs):
-		models.ForeignKey.__init__(self, to, to_field=None, **kwargs)
-	def get_choices(self, include_blank=True):
-		c = Content.objects.filter(content_type='book')
-		returnList = [('', '---------')]
-		for cc in c:
-			returnList.append([cc.id, cc.title])
-		return returnList
-
 class Content(models.Model):
 	"""
 	main Content model
@@ -38,7 +24,7 @@ class Content(models.Model):
 	text = models.TextField(verbose_name=_('Text'), blank=True)
 	parsed_text = models.TextField(verbose_name=_('Text'), blank=True)
 	content_type = models.CharField(max_length=255, verbose_name=_('Type'), choices=CONTENT_TYPE)
-	place = ForeignCategoryContent('self', verbose_name=_('Place in'), blank=True, null=True)
+	place = models.ForeignKey('self', verbose_name=_('Place in'), blank=True, null=True, limit_choices_to={'content_type': 'book'})
 	date = models.DateTimeField(blank=True, null=True)
 	is_update = models.BooleanField(blank=True, default=False, verbose_name=_('Updated'))
 	is_markup = models.BooleanField(blank=True, default=True, verbose_name=_('Using markdown'))

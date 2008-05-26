@@ -1,6 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.forum_name }}</a> > <a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a>{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a> > <a href="/forum/topic/{{ topic.last_pagination_page }}/{{ topic.id }}/">{{ topic.name }}</a>{% endblock %}
 {% block content %}
 <br /><h2><span>{% trans "Edit Post" %}</span></h2>
 <div class="box" style="text-align:center;">
@@ -20,7 +20,7 @@
 				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/layout/forum/smilies/icon_cool.gif" alt="" /></a> 
 				
 
-<br><textarea rows="10" cols="100" name="post_text" id="id_text">{{ post_text }}</textarea>
+<br><textarea rows="10" cols="100" name="text" id="id_text">{{ text }}</textarea>
 <center><input type="submit" value="{% trans "Save Changes" %}" style="actiontable"></center>
 </form>
 <br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote</div>

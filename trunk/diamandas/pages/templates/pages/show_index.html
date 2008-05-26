@@ -29,7 +29,7 @@
 		    </tr>
 		    {% for t in itopics %}
 		      <tr class="small">
-		      <td class="first"><a href="/forum/topic/{{ t.topic_last_pagination_page }}/{{ t.id }}/">{{ t.topic_name }}</a> ({{ t.topic_lastposter }})</td>
+		      <td class="first"><a href="/forum/topic/{{ t.last_pagination_page }}/{{ t.id }}/">{{ t.name }}</a> ({{ t.lastposter }})</td>
 		     </tr>
 		    {% endfor %}
 		  </table>

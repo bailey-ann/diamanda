@@ -3,13 +3,13 @@
 {% load fbc %}
 {% load pyif %}
 
-{% block title %}{{ forum_name }} - {{ topic }}{% endblock %}
-{% block header %}{{ forum_name }} - {{ topic }}{% endblock %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic_id }}">{{ topic }}</a>{% endblock %}
+{% block title %}{{ forum_name }} - {{ topic.name }}{% endblock %}
+{% block header %}{{ forum_name }} - {{ topic.name }}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic.id }}">{{ topic.name }}</a>{% endblock %}
 
 {% block pagemenu %}
 	{% if opened %}
-		<li><a href="/forum/add_post/{{ topic_id }}/">{% trans "Add Post" %}</a></li>
+		<li><a href="/forum/add_post/{{ topic.id }}/">{% trans "Add Post" %}</a></li>
 	{% endif %}
 	<li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
 	<li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
@@ -20,27 +20,27 @@
 {% block content %}
 
 	{% for i in object_list %}
-	{% pyif user.get_profile.onsitedata < i.post_date %}<a name="new"></a>{% endif %}
+	{% pyif user.get_profile.last_visit < i.date %}<a name="new"></a>{% endif %}
 	<div class="post">
-		    <div class="posthead">{{ i.post_date|date:"d.m.Y" }}</div>
+		    <div class="posthead">{{ i.date|date:"d.m.Y" }}</div>
 		    <div class="leftpost">
-			      <strong>{{ i.post_author}}</strong>
+			      <strong>{{ i.author}}</strong>
 		    </div>
 		    <div class="rightpost">
-			      {{ i.post_text|fbc|safe|urlizetrunc:"60" }}
+			      {{ i.text|fbc|safe|urlizetrunc:"60" }}
 		    </div>
 		    <div class="leftbottompost">
-			      {% if perms.is_staff %}{{ i.post_ip }}{% endif %}
+			      {% if perms.is_staff %}{{ i.ip }}{% endif %}
 		    </div>
 		    <div class="rightbottompost">
 			      {% if perms.add_post %}
 				      {% if opened %}
-					      <a href="/forum/add_post/{{ topic_id }}/{{ i.id }}/" class="quote">{% trans "Reply with quote" %}</a>
+					      <a href="/forum/add_post/{{ topic.id }}/{{ i.id }}/" class="quote">{% trans "Reply with quote" %}</a>
 				      {% endif %}
 			      {% endif %}
-			      {% ifequal i.post_author current_user %}
+			      {% ifequal i.author current_user %}
 				      {% if opened %}
-					      {% ifnotequal i.post_author "AnonymousUser" %}
+					      {% ifnotequal i.author "AnonymousUser" %}
 						      <a href="/forum/edit_post/{{ i.id }}/" class="edit">{% trans "Edit this post" %}</a>
 					      {% endifnotequal %}
 				      {% endif %} 
@@ -50,8 +50,15 @@
 				      {% endif %}
 			      {% endifequal %}
 			      {% if perms.is_staff %}
-					<a href="/forum/delete_post/{{ i.id }}/{{ topic_id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')" class="delete">{% trans "Delete this post" %}</a>
+					<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')" class="delete">{% trans "Delete this post" %}</a>
 			      {% endif %}
+			      {% pyif perms.is_staff or is_author %}
+                                        {% if topic.is_solved %}
+                                                <a href="/forum/topic/unsolve/{{ topic.id }}/{{ forum_id }}/" class="unsolve">{% trans "Unsolve Topic" %}</a>
+                                            {% else %}
+                                                <a href="/forum/topic/solve/{{ topic.id }}/{{ forum_id }}/"  class="solve">{% trans "Mark as solved" %}</a>
+                                        {% endif %}
+                                {% endif %}
 		    </div>
 	</div>
 	<br />
@@ -62,21 +69,21 @@
 			<div style="text-align:center;">
 			{% ifnotequal pages 0 %}
 			{% ifnotequal pages 1 %}
-			<a href="/forum/topic/1/{{ topic_id }}/"><b>{% trans "First Page" %}</b></a> | 
+			<a href="/forum/topic/1/{{ topic.id }}/"><b>{% trans "First Page" %}</b></a> | 
 			{% endifnotequal %}
 			{% endifnotequal %}
 			
 			{% if has_previous %}
-				<a href="/forum/topic/{{ previous }}/{{ topic_id }}/"><b>{% trans "Previous Page" %} </b></a>
+				<a href="/forum/topic/{{ previous }}/{{ topic.id }}/"><b>{% trans "Previous Page" %} </b></a>
 			{% endif %}
 			
 			{% if has_next %}
-			<a href="/forum/topic/{{ next }}/{{ topic_id }}/"><b> {% trans "Next Page" %}</b></a>
+			<a href="/forum/topic/{{ next }}/{{ topic.id }}/"><b> {% trans "Next Page" %}</b></a>
 			{% endif %}
 			
 			{% ifnotequal pages 0 %}
 			{% ifnotequal pages 1 %}
-			 | <a href="/forum/topic/{{ pages }}/{{ topic_id }}/"><b>{% trans "Last Page" %}</b></a>
+			 | <a href="/forum/topic/{{ pages }}/{{ topic.id }}/"><b>{% trans "Last Page" %}</b></a>
 			{% endifnotequal %}
 			{% endifnotequal %}
 			</div>
@@ -85,14 +92,14 @@
 
 {% if perms.add_post %}
 {% if opened %}
-<form method="post" action="/forum/add_post/{{ topic_id }}/">
+<form method="post" action="/forum/add_post/{{ topic.id }}/">
 <div class="postform">
         <div class="posthead">{% trans "Add new post" %}</div>
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">	
-	      <textarea name="post_text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ post_text }}</textarea>
+	      <textarea name="text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ text }}</textarea>
 	</div>
         <div class="leftpostform">
 	</div>

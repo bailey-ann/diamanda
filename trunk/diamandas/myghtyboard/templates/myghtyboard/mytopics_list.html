@@ -27,10 +27,10 @@
                             {% endif%}
                     {% endif%}
             {% endif %}</td>
-                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a></td>
-                          <td>{{ topic.topic_author }}</td>
-                          <td>{{ topic.topic_posts }}</td>
-                          <td>{{ topic.topic_lastposter }}, {{topic.topic_modification_date|date:"d.m.Y" }}</td>
+                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.last_pagination_page }}/{{ topic.id }}/">{{ topic.name }}</a></td>
+                          <td>{{ topic.author }}</td>
+                          <td>{{ topic.posts }}</td>
+                          <td>{{ topic.lastposter }}, {{topic.modification_date|date:"d.m.Y" }}</td>
             </tr>
 	    {% endfor %}
           </table>

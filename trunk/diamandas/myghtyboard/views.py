@@ -27,9 +27,9 @@ def category_list(request):
 	"""
 	show all categories and their topics
 	"""
-	categories = Category.objects.all().order_by('cat_order')
+	categories = Category.objects.all().order_by('order')
 	for c in categories:
-		c.forums = c.forum_set.all().order_by('forum_order')
+		c.forums = c.forum_set.all().order_by('order')
 	return render_to_response(
 		'myghtyboard/category_list.html',
 		{'categories': categories},
@@ -43,20 +43,28 @@ def topic_list(request, forum_id, pagination_id=1):
 	* forum_id - id of a Forum record
 	"""
 	try:
-		topics = Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1'))
-		forum_name = Forum.objects.get(id=forum_id)
-		forum_name = forum_name.forum_name
+		topics = Topic.objects.order_by('-is_global', '-is_sticky', '-modification_date').filter(Q(forum=forum_id) | Q(is_global='1'))
+		forum = Forum.objects.get(id=forum_id)
+		name = forum.name
 	except:
 		return redirect_by_template(request, "/forum/", _('There is no such forum. Please go back to the forum list.'))
 	form = AddTopicForm()
+	
+	pr = False
+	if forum.use_prefixes:
+		p = Prefix.objects.filter(forums=forum)
+		if len(p) > 0:
+			pr = []
+			for i in p:
+				pr.append(i)
 	return object_list(
 		request,
-		Topic.objects.order_by('-is_global', '-is_sticky', '-topic_modification_date').filter(Q(topic_forum=forum_id) | Q(is_global='1')),
+		Topic.objects.order_by('-is_global', '-is_sticky', '-modification_date').filter(Q(forum=forum_id) | Q(is_global='1')),
 		paginate_by = 10,
 		allow_empty = True,
 		page = pagination_id,
 		context_processors = [forumContext],
-		extra_context = {'forum': forum_id, 'forum_name': forum_name, 'form': form},
+		extra_context = {'forum': forum, 'form': form, 'current_user': str(request.user), 'pr': pr},
 		template_name = 'myghtyboard/topics_list.html')
 
 @login_required
@@ -68,11 +76,11 @@ def my_topic_list(request, show_user=False):
 	"""
 	if not show_user:
 		show_user = str(request.user)
-	topics = Topic.objects.order_by('-topic_modification_date').filter(topic_author=show_user)[:50]
-	forum_name = _('User Topics')
+	topics = Topic.objects.order_by('-modification_date').filter(author=show_user)[:50]
+	name = _('User Topics')
 	return render_to_response(
 		'myghtyboard/mytopics_list.html',
-		{'topics': topics, 'forum_name': forum_name},
+		{'topics': topics, 'name': name},
 		context_instance=RequestContext(request, forumContext(request)))
 
 @login_required
@@ -80,7 +88,7 @@ def last_topic_list(request):
 	"""
 	 list last active topics
 	"""
-	topics = Topic.objects.order_by('-topic_modification_date')[:50]
+	topics = Topic.objects.order_by('-modification_date')[:50]
 	for i in topics:
 		pmax =  i.post_set.all().count()/10
 		pmaxten =  i.post_set.all().count()%10
@@ -88,10 +96,10 @@ def last_topic_list(request):
 			i.pagination_max = pmax+1
 		else:
 			i.pagination_max = pmax
-	forum_name = _('Last Active Topics')
+	name = _('Last Active Topics')
 	return render_to_response(
 		'myghtyboard/mytopics_list.html',
-		{'topics': topics, 'forum_name': forum_name},
+		{'topics': topics, 'name': name},
 		context_instance=RequestContext(request, forumContext(request)))
 
 @login_required
@@ -104,11 +112,11 @@ def my_posttopic_list(request, show_user=False):
 	if not show_user:
 		show_user = str(request.user)
 	try:
-		topics = Post.objects.order_by('-post_date').filter(post_author=show_user).values('post_topic').distinct()[:50]
+		topics = Post.objects.order_by('-date').filter(author=show_user).values('topic').distinct()[:50]
 		posts = []
 		for i in topics:
-			posts.append(int(i['post_topic']))
-		topics = Topic.objects.order_by('-topic_modification_date').filter(id__in=posts)
+			posts.append(int(i['topic']))
+		topics = Topic.objects.order_by('-modification_date').filter(id__in=posts)
 		for i in topics:
 			pmax =  i.post_set.all().count()/10
 			pmaxten =  i.post_set.all().count()%10
@@ -116,12 +124,12 @@ def my_posttopic_list(request, show_user=False):
 				i.pagination_max = pmax+1
 			else:
 				i.pagination_max = pmax
-		forum_name = _('User Posts in Latest Topics')
+		name = _('User Posts in Latest Topics')
 	except:
 		return render_to_response('myghtyboard/mytopics_list.html', {}, context_instance=RequestContext(request, forumContext(request)))
 	return render_to_response(
 		'myghtyboard/mytopics_list.html',
-		{'topics': topics, 'forum_name': forum_name},
+		{'topics': topics, 'name': name},
 		context_instance=RequestContext(request, forumContext(request)))
 
 
@@ -139,22 +147,27 @@ def post_list(request, topic_id, pagination_id):
 		opened = False
 	else:
 		opened = True
+	if str(request.user) == topic.author:
+		is_author = True
+	else:
+		is_author = False
 	return object_list(
 		request,
-		topic.post_set.all().order_by('post_date'),
+		topic.post_set.all().order_by('date'),
 		paginate_by = 10,
 		page = pagination_id,
 		context_processors = [forumContext],
 		extra_context = {
-			'topic_id':topic_id,
 			'opened': opened,
-			'topic': topic.topic_name,
-			'forum_id': topic.topic_forum.id,
-			'forum_name': topic.topic_forum,
+			'is_author': is_author,
+			'topic': topic,
+			'forum_id': topic.forum.id,
+			'forum_name': topic.forum,
 			'current_user': str(request.user)},
 		template_name = 'myghtyboard/post_list.html')
 
 class AddTopicForm(forms.ModelForm):
+	text = forms.CharField(widget=forms.Textarea)
 	class Meta:
 		model = Topic
 
@@ -167,9 +180,18 @@ def add_topic(request, forum_id):
 	"""
 	
 	forum = Forum.objects.get(id=forum_id)
+	
+	pr = False
+	if forum.use_prefixes:
+		p = Prefix.objects.filter(forums=forum)
+		if len(p) > 0:
+			pr = []
+			for i in p:
+				pr.append(i)
+	
 	if request.POST:
 		page_data = request.POST.copy()
-		page_data['topic_author'] = str(request.user)
+		page_data['author'] = str(request.user)
 		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
 		for i in tags:
 			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
@@ -178,39 +200,54 @@ def add_topic(request, forum_id):
 		for i in tags:
 			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
 		text = page_data['text']
-		del page_data['text']
-		page_data['topic_name'] = html2safehtml(page_data['topic_name'] ,valid_tags=())
-		page_data['topic_forum'] = forum_id
-		page_data['topic_posts'] = 1
-		page_data['topic_lastposter'] = str(request.user)
-		page_data['topic_last_pagination_page'] = 1
-		page_data['topic_modification_date'] = datetime.now()
+		if 'prefix[]' in page_data:
+			prefixes = page_data.getlist("prefix[]")
+			pr = Prefix.objects.filter(id__in=prefixes)
+			page_data['prefixes'] = ''
+			for p in pr:
+				page_data['prefixes'] = '%s[%s] ' % (page_data['prefixes'], p.name)
+			
+			del page_data['prefix[]']
+		page_data['name'] = html2safehtml(page_data['name'] ,valid_tags=())
+		page_data['forum'] = forum_id
+		page_data['posts'] = 1
+		page_data['lastposter'] = str(request.user)
+		page_data['last_pagination_page'] = 1
+		page_data['modification_date'] = datetime.now()
 		form = AddTopicForm(page_data)
 		if form.is_valid():
 			new_place = form.save()
-			post = Post(post_topic = new_place, post_text = text, post_author = str(request.user), post_ip = request.META['REMOTE_ADDR'])
+			if 'prefixes' in page_data:
+				for p in pr:
+					tp = TopicPrefix(topic=new_place, prefix=p)
+			
+			post = Post(topic = new_place, text = text, author = str(request.user), ip = request.META['REMOTE_ADDR'])
 			post.save()
 			
-			forum.forum_topics = forum.forum_topics +1
-			forum.forum_posts = forum.forum_posts +1
-			forum.forum_lastposter = str(request.user)
-			forum.forum_lasttopic = '<a href="/forum/topic/1/' + str(new_place.id) + '/">' + new_place.topic_name + '</a>'
-			forum.forum_modification_date = datetime.now()
+			forum.topics = forum.topics +1
+			forum.posts = forum.posts +1
+			forum.lastposter = str(request.user)
+			if len(new_place.name) > 25:
+				tname = new_place.name[0:25] + '...'
+			else:
+				tname = new_place.name
+			forum.lasttopic = '<a href="/forum/topic/1/' + str(new_place.id) + '/">' + tname + '</a>'
+			forum.modification_date = datetime.now()
 			forum.save()
 			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Topic Added'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, forum_id), fail_silently=True)
+				mail_admins(_('Topic Added'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, id), fail_silently=True)
 			
 			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic added succesfuly.'))
 		else:
 			return render_to_response(
 				'myghtyboard/add_topic.html',
-				{'form': form, 'forum': forum},
+				{'form': form, 'forum': forum, 'pr': pr},
 				context_instance=RequestContext(request, forumContext(request)))
-	
+
 	form = AddTopicForm()
 	return render_to_response(
 		'myghtyboard/add_topic.html',
-		{'form': form, 'forum': forum},
+		{'form': form, 'forum': forum, 'pr': pr},
 		context_instance=RequestContext(request, forumContext(request)))
 
 class AddPostForm(forms.ModelForm):
@@ -227,59 +264,62 @@ def add_post(request, topic_id, post_id = False):
 	"""
 	
 	topic = Topic.objects.get(id=topic_id)
-	forum = Forum.objects.get(id=topic.topic_forum.id)
+	forum = Forum.objects.get(id=topic.forum.id)
 	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request)))
 
 	# check who made the last post.
-	lastpost = Post.objects.order_by('-post_date').filter(post_topic=topic_id)[:1]
+	lastpost = Post.objects.order_by('-date').filter(topic=topic_id)[:1]
 	is_staff = request.user.is_staff
 	# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
-	if str(lastpost[0].post_author) == str(request.user) and not is_staff:
+	if str(lastpost[0].author) == str(request.user) and not is_staff:
 		return render_to_response('pages/bug.html', {'bug': _('You can\'t post after your post')}, context_instance=RequestContext(request, forumContext(request)))
 	
-	lastpost = Post.objects.filter(post_topic=topic_id).order_by('-id')[:10]
+	lastpost = Post.objects.filter(topic=topic_id).order_by('-id')[:10]
 	if request.POST:
 		page_data = request.POST.copy()
-		page_data['post_author'] = str(request.user)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'])
+		page_data['author'] = str(request.user)
+		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
 		for i in tags:
-			page_data['post_text'] = page_data['post_text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
-		page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=settings.VALID_TAGS)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'])
+			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
+		page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=settings.VALID_TAGS)
+		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
 		for i in tags:
-			page_data['post_text'] = page_data['post_text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
+			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
 		
-		page_data['post_ip'] = request.META['REMOTE_ADDR']
-		page_data['post_topic'] = topic_id
-		page_data['post_date'] = datetime.now()
+		page_data['ip'] = request.META['REMOTE_ADDR']
+		page_data['topic'] = topic_id
+		page_data['date'] = datetime.now()
 		form = AddPostForm(page_data)
 		if form.is_valid():
 			form.save()
 		
-			posts = Post.objects.filter(post_topic=topic_id).count()
+			posts = Post.objects.filter(topic=topic_id).count()
 			
 			pmax =  posts/10
 			pmaxten =  posts%10
 			if pmaxten != 0:
 				pmax = pmax+1
-				topic.topic_last_pagination_page = pmax
+				topic.last_pagination_page = pmax
 			elif pmax > 0:
-				topic.topic_last_pagination_page = pmax
+				topic.last_pagination_page = pmax
 			else:
 				pmax = 1
-				topic.topic_last_pagination_page = 1
-			topic.topic_posts = posts
-			today = datetime.now().timetuple()
-			today = '%s.%s.%s %s:%s' % (today[0], today[1], today[2], today[3], today[4])
-			topic.topic_lastpost = _('%s by %s') % (today, str(request.user))
+				topic.last_pagination_page = 1
+			topic.posts = posts
+			topic.lastposter = str(request.user)
+			topic.modification_date = datetime.now()
 			topic.save()
 			
-			forum.forum_posts = forum.forum_posts +1
+			forum.posts = forum.posts +1
 			
-			forum.forum_lastposter = str(request.user)
-			forum.forum_lasttopic = '<a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + topic.topic_name + '</a>'
-			forum.forum_modification_date = datetime.now()
+			forum.lastposter = str(request.user)
+			if len(topic.name) > 25:
+				tname = topic.name[0:25] + '...'
+			else:
+				tname = topic.name
+			forum.lasttopic = '<a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + tname + '</a>'
+			forum.modification_date = datetime.now()
 			forum.save()
 			
 			if settings.NOTIFY_ADMINS:
@@ -293,7 +333,7 @@ def add_post(request, topic_id, post_id = False):
 	else:
 		if post_id:
 			quote = Post.objects.get(id=post_id)
-			quote_text = '<blockquote><b>' + quote.post_author + _(' wrote') + ':</b><br /><cite>' + quote.post_text + '</cite></blockquote>\n\n'
+			quote_text = '<blockquote><b>' + quote.author + _(' wrote') + ':</b><br /><cite>' + quote.text + '</cite></blockquote>\n\n'
 		else:
 			quote_text = ''
 	return render_to_response(
@@ -310,33 +350,33 @@ def edit_post(request, post_id):
 	"""
 	
 	post = Post.objects.get(id=post_id)
-	topic = Topic.objects.get(id=post.post_topic.id)
-	forum = Forum.objects.get(id=topic.topic_forum.id)
+	topic = Topic.objects.get(id=post.topic.id)
+	forum = Forum.objects.get(id=topic.forum.id)
 	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request))) # locked topic!
 	
-	if str(request.user) == post.post_author or  request.user.is_staff:
-		if request.POST and len(request.POST.copy()['post_text']) > 1:
+	if str(request.user) == post.author or  request.user.is_staff:
+		if request.POST and len(request.POST.copy()['text']) > 1:
 			page_data = request.POST.copy()
-			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'])
+			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
 			for i in tags:
-				page_data['post_text'] = page_data['post_text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
-			page_data['post_text'] = html2safehtml(page_data['post_text'] ,valid_tags=settings.VALID_TAGS)
-			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['post_text'])
+				page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
+			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=settings.VALID_TAGS)
+			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
 			for i in tags:
-				page_data['post_text'] = page_data['post_text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
-			post.post_text = page_data['post_text']
+				page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
+			post.text = page_data['text']
 			post.save()
 			
-			pmax = Post.objects.filter(post_topic=post.post_topic).count()/10
-			pmaxten =  Post.objects.filter(post_topic=post.post_topic).count()%10
+			pmax = Post.objects.filter(topic=post.topic).count()/10
+			pmaxten =  Post.objects.filter(topic=post.topic).count()%10
 			if pmaxten != 0:
 				pmax = pmax+1
-			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + str(post.post_topic.id) +"/", _('Post edited succesfuly.'))
+			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + str(post.topic.id) +"/", _('Post edited succesfuly.'))
 		else:
 			return render_to_response(
 				'myghtyboard/edit_post.html',
-				{'forum': forum, 'topic': topic, 'post_text': post.post_text},
+				{'forum': forum, 'topic': topic, 'text': post.text},
 				context_instance=RequestContext(request, forumContext(request)))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You can\'t edit this post')}, context_instance=RequestContext(request, forumContext(request))) # can't edit post
@@ -352,9 +392,14 @@ def delete_post(request, post_id, topic_id):
 	if request.user.is_authenticated() and request.user.is_staff:
 		Post.objects.get(id=post_id).delete()
 		topic = Topic.objects.get(id=topic_id)
-		topic.topic_posts = topic.topic_posts -1
-		topic.save()
-		return redirect_by_template(request, "/forum/topic/1/" + topic_id +"/", _('Post deleted succesfuly.'))
+		topic.posts = topic.posts -1
+		if topic.posts > 0:
+			topic.save()
+			return redirect_by_template(request, "/forum/topic/1/" + topic_id +"/", _('Post deleted succesfuly.'))
+		else:
+			fid = topic.forum.id
+			topic.delete()
+			return redirect_by_template(request, "/forum/forum/%s/" % fid, _('Topic deleted succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator')}, context_instance=RequestContext(request, forumContext(request)))
 
@@ -367,12 +412,12 @@ def delete_topic(request, topic_id, forum_id):
 	* forum_id - ID of a Forum entry that contain the Topic entry
 	"""
 	if request.user.is_authenticated() and request.user.is_staff:
-		posts = Post.objects.filter(post_topic=topic_id).count()
+		posts = Post.objects.filter(topic=topic_id).count()
 		Topic.objects.get(id=topic_id).delete()
-		Post.objects.filter(post_topic=topic_id).delete()
+		Post.objects.filter(topic=topic_id).delete()
 		forum = Forum.objects.get(id=forum_id)
-		forum.forum_topics = forum.forum_topics -1
-		forum.forum_posts = forum.forum_posts - posts
+		forum.topics = forum.topics -1
+		forum.posts = forum.posts - posts
 		forum.save()
 		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic deleted succesfuly.'))
 	else:
@@ -389,21 +434,21 @@ def move_topic(request, topic_id, forum_id):
 	if request.user.is_authenticated() and request.user.is_staff:
 		if request.POST and len(request.POST['forum']) > 0:
 			topic = Topic.objects.get(id=topic_id)
-			topic.topic_forum=Forum.objects.get(id=request.POST['forum'])
+			topic.forum=Forum.objects.get(id=request.POST['forum'])
 			topic.save()
 			t = Topic(
-				topic_forum=Forum.objects.get(id=forum_id),
-				topic_name = topic.topic_name,
-				topic_author = topic.topic_author,
-				topic_posts = 0,
-				topic_lastposter = _('Topic Moved'),
+				forum=Forum.objects.get(id=forum_id),
+				name = topic.name,
+				author = topic.author,
+				posts = 0,
+				lastposter = _('Topic Moved'),
 				is_locked = True)
 			t.save()
 			p = Post(
-				post_topic = t,
-				post_text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>',
-				post_author = _('Forum Staff'),
-				post_ip = str(request.META['REMOTE_ADDR']))
+				topic = t,
+				text = _('This topic has been moved to another forum. To see the topic follow') + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>',
+				author = _('Forum Staff'),
+				ip = str(request.META['REMOTE_ADDR']))
 			p.save()
 			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic moved succesfuly.'))
 		else:
@@ -447,3 +492,34 @@ def open_topic(request, topic_id, forum_id):
 		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic opened succesfuly.'))
 	else:
 		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator and you aren\'t logged in')}, context_instance=RequestContext(request, forumContext(request)))
+
+def solve_topic(request, topic_id, forum_id):
+	"""
+	marks topic as solved
+	
+	* topic_id - ID of a Topic entry
+	* forum_id - ID of a Forum entry that contain the Topic entry
+	"""
+	topic = Topic.objects.get(id=topic_id)
+	
+	if request.user.is_authenticated() and request.user.is_staff or request.user.is_authenticated() and topic.author == str(request.user):
+		topic.is_solved=True
+		topic.save()
+		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic solved.'))
+	else:
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator or topic author and you aren\'t logged in')}, context_instance=RequestContext(request, forumContext(request)))
+
+def unsolve_topic(request, topic_id, forum_id):
+	"""
+	marks topic as unsolved
+	
+	* topic_id - ID of a Topic entry
+	* forum_id - ID of a Forum entry that contain the Topic entry
+	"""
+	topic = Topic.objects.get(id=topic_id)
+	if request.user.is_authenticated() and request.user.is_staff or topic.author == str(request.user):
+		topic.is_solved=False
+		topic.save()
+		return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic unsolved.'))
+	else:
+		return render_to_response('pages/bug.html', {'bug': _('You aren\'t a moderator or topic author and you aren\'t logged in')}, context_instance=RequestContext(request, forumContext(request)))

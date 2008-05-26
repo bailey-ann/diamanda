@@ -2,11 +2,11 @@
 {% load i18n %}
 {% load pyif %}
 
-{% block title %}{% trans "Topics from" %} "{{ forum_name }}"{% endblock %}
-{% block header %}{% trans "Topics from" %} "{{ forum_name }}"{% endblock %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum }}/">{{ forum_name }}</a>{% endblock %}
+{% block title %}{% trans "Topics from" %} "{{ forum.name }}"{% endblock %}
+{% block header %}{% trans "Topics from" %} "{{ forum.name }}"{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a>{% endblock %}
 {% block pagemenu %}
-<li><a href="/forum/add_topic/{{ forum }}/">{% trans "Add New Topic" %}</a></li>
+<li><a href="/forum/add_topic/{{ forum.id }}/">{% trans "Add New Topic" %}</a></li>
 <li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
 <li><a href="/forum/mytopics/">{% trans "My Topics" %}</a></li>
@@ -17,14 +17,13 @@
           <table>
             <tr>
               <th class="first" style="width:20px;"></th>
-              <th><strong>{% trans "Topic" %}</strong></th>
-              <th style="width:90px;"><strong>{% trans "Author" %}</strong></th>
+              <th style="width:70%;"><strong>{% trans "Topic" %}</strong></th>
               <th style="width:15px;"><strong>{% trans "Posts" %}</strong></th>
-              <th style="width:150px;"><strong>{% trans "Last Post" %}</strong></th>
-              {% if perms.is_staff %}<th style="width:25%;"><strong>{% trans "Admin" %}</strong></th>{% endif %}
+              <th style="width:15px;"><strong>{% trans "Author" %}</strong></th>
+              <th style="width:130px;"><strong>{% trans "Last Post" %}</strong></th>
             </tr>
            {% for topic in object_list %}
-            <tr class="small">
+            <tr {% if topic.is_solved %}class="small_solved"{% else %}class="small"{% endif %}>
            <td class="first">
             {% if topic.is_locked %}
                     <img src="/site_media/layout/forum/lock.png" alt="*" />
@@ -35,7 +34,7 @@
                             {% if topic.is_global %}
                                     <img src="/site_media/layout/forum/glob.png" alt="*" />
                             {% else %}
-                                    {% pyif user.get_profile.onsitedata < topic.topic_modification_date %}
+                                    {% pyif user.get_profile.last_visit < topic.modification_date %}
                                         <img src="/site_media/layout/forum/new.png" alt="*" />
                                     {% else %}
                                         <img src="/site_media/layout/forum/normal.png" alt="*" />
@@ -43,28 +42,40 @@
                             {% endif%}
                     {% endif%}
             {% endif %}</td>
-                          <td style="text-align:left;"><a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/{% pyif user.get_profile.onsitedata < topic.topic_modification_date %}#new{% endif %}">{{ topic.topic_name }}</a></td>
-                          <td>{{ topic.topic_author }}</td>
-                          <td>{{ topic.topic_posts }}</td>
-                          <td>{{ topic.topic_lastposter}}, {{topic.topic_modification_date|date:"d.m.Y" }}</td>
-            {% if perms.is_staff %}<td>
-                    <a href="/forum/delete_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete Topic" %}</a> | 
-                    {% if topic.is_locked %}
-                            <a href="/forum/open_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock Topic" %}</a>
-                    {% else %}
-                            <a href="/forum/close_topic/{{ topic.id }}/{{ forum }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock Topic" %}</a>
-                    {% endif %}
-                    {% ifnotequal topic.is_locked 1 %}
-                     | <a href="/forum/move_topic/{{ topic.id }}/{{ forum }}/">{% trans "Move Topic" %}</a>
-                     {% endifnotequal %}</td>
-            {% endif %}
+                          <td style="text-align:left;">
+                                {% if topic.is_solved %}[{% trans "Solved" %}] {% endif %}<a href="/forum/topic/{{ topic.last_pagination_page }}/{{ topic.id }}/{% pyif user.get_profile.last_visit < topic.modification_date %}#new{% endif %}"><strong>{% if forum.use_prefixes %}{{ topic.prefixes }} {% endif %}{{ topic.name }}</strong></a>
+                                {% if user.is_authenticated %}<p class="toptions">
+                                    {% pyif perms.is_staff or topic.author == current_user %}
+                                        {% if topic.is_solved %}
+                                                <a href="/forum/topic/unsolve/{{ topic.id }}/{{ forum.id }}/" class="unsolve">{% trans "Unsolve Topic" %}</a>
+                                            {% else %}
+                                                <a href="/forum/topic/solve/{{ topic.id }}/{{ forum.id }}/"  class="solve">{% trans "Mark as solved" %}</a>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if perms.is_staff %}
+                                        <a href="/forum/delete_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')" class="delete">{% trans "Delete" %}</a>
+                                        {% if topic.is_locked %}
+                                                <a href="/forum/open_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Open This Topic?" %}')" class="unlock">{% trans "Unlock" %}</a>
+                                        {% else %}
+                                                <a href="/forum/close_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Close This Topic?" %}')"  class="lock">{% trans "Lock" %}</a>
+                                        {% endif %}
+                                        {% ifnotequal topic.is_locked 1 %}
+                                        <a href="/forum/move_topic/{{ topic.id }}/{{ forum.id }}/" class="move">{% trans "Move" %}</a>
+                                         {% endifnotequal %}
+                                    {% endif %}
+                                </p>
+                                {% endif %}
+                          </td>
+                          <td>{{ topic.posts }}</td>
+                          <td>{{ topic.author }}</td>
+                          <td>{{ topic.lastposter}}, {{topic.modification_date|date:"d.m.Y" }}</td>
             </tr>
 	    {% endfor %}
           </table>
 </div>
 {% if perms.add_topic %}
     <br />
-    <form method="post" action="/forum/add_topic/{{ forum }}/">
+    <form method="post" action="/forum/add_topic/{{ forum.id }}/">
     
     <div class="postform">
         <div class="posthead">{% trans "Add new topic" %}</div>
@@ -73,8 +84,18 @@
 		<strong>{% trans "Title" %}</strong>
 	</div>
 	<div class="rightpostform">	
-	      {{ form.topic_name }}{% if form.topic_name.errors %}<br />*** {{ form.topic_name.errors|join:", " }}{% endif %}
+	      {{ form.name }}{% if form.name.errors %}<br />*** {{ form.name.errors|join:", " }}{% endif %}
 	</div>
+         {% if pr %}  
+          <div class="leftpostform">
+                  <strong>{% trans "Prefixes" %}</strong>
+          </div>
+          <div class="rightpostform">	
+                 {% for i in pr %}
+                    <input type="checkbox" name="prefix[]" value="{{ i.id }}" style="width:auto;" /> {{ i.name }} 
+                 {% endfor %}
+          </div>
+          {% endif %}
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>
@@ -104,21 +125,21 @@
     <div class="box" style="text-align:center;">
     {% ifnotequal pages 0 %}
     {% ifnotequal pages 1 %}
-    <a href="/forum/forum/{{ forum }}/"><b>{% trans "Latest Topics" %}</b></a> | 
+    <a href="/forum/forum/{{ forum.id }}/"><b>{% trans "Latest Topics" %}</b></a> | 
     {% endifnotequal %}
     {% endifnotequal %}
     
     {% if has_previous %}
-            <a href="/forum/forum/{{ forum }}/{{ previous }}/"><b>{% trans "Newer Topics" %} </b></a>
+            <a href="/forum/forum/{{ forum.id }}/{{ previous }}/"><b>{% trans "Newer Topics" %} </b></a>
     {% endif %}
     
     {% if has_next %}
-    <a href="/forum/forum/{{ forum }}/{{ next }}/"><b> {% trans "Older Topics" %}</b></a>
+    <a href="/forum/forum/{{ forum.id }}/{{ next }}/"><b> {% trans "Older Topics" %}</b></a>
     {% endif %}
     
     {% ifnotequal pages 0 %}
     {% ifnotequal pages 1 %}
-     | <a href="/forum/forum/{{ forum }}/{{ pages }}/"><b>{% trans "Oldest Topics" %}</b></a>
+     | <a href="/forum/forum/{{ forum.id }}/{{ pages }}/"><b>{% trans "Oldest Topics" %}</b></a>
     {% endifnotequal %}
     {% endifnotequal %}
     </div>

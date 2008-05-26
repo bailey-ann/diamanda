@@ -1,7 +1,7 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% load fbc %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.forum_name }}</a> > <a href="/forum/topic/{{ topic.topic_last_pagination_page }}/{{ topic.id }}/">{{ topic.topic_name }}</a>{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a> > <a href="/forum/topic/{{ topic.last_pagination_page }}/{{ topic.id }}/">{{ topic.name }}</a>{% endblock %}
 {% block content %}
 <form method="post" action="/forum/add_post/{{ topic.id }}/">
 <div class="postform">
@@ -10,7 +10,8 @@
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">	
-	      <textarea name="post_text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{% if post_text %}{{ post_text }}{% else %}{{ quote_text }}{% endif %}</textarea>
+	      <textarea name="text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{% if text %}{{ text }}{% else %}{{ quote_text }}{% endif %}</textarea>
+                    {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 	</div>
         <div class="leftpostform">
 	</div>
@@ -26,12 +27,12 @@
 
 {% for i in lastpost %}
 	<div class="post">
-		    <div class="posthead">{{ i.post_date|date:"d.m.Y" }}</div>
+		    <div class="posthead">{{ i.date|date:"d.m.Y" }}</div>
 		    <div class="leftpost">
-			      <strong>{{ i.post_author}}</strong>
+			      <strong>{{ i.author}}</strong>
 		    </div>
 		    <div class="rightpost">
-			      {{ i.post_text|fbc|safe|urlizetrunc:"60" }}
+			      {{ i.text|fbc|safe|urlizetrunc:"60" }}
 		    </div>
 	</div>
 	<br />

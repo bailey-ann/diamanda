@@ -1,16 +1,16 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ topic.topic_forum.id }}/">{{ topic.topic_forum }}</a>{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ topic.forum.id }}/">{{ topic.forum }}</a>{% endblock %}
 {% block content %}
 
 <br />
 <h2><span>{% trans "Move Topic" %}</span></h2>
-<div class="box">{% trans "Select a forum to which the topic " %}"<b>{{ topic.topic_name }}</b>" {% trans "should be moved" %}:<br /><br />
+<div class="box">{% trans "Select a forum to which the topic " %}"<b>{{ topic.name }}</b>" {% trans "should be moved" %}:<br /><br />
 <div style="text-align:center;">
 <form method="post" action=".">
 <select name="forum">
 {% for f in forums %}
-<option value="{{ f.id }}">{{ f.forum_name }}</option>
+<option value="{{ f.id }}">{{ f.name }}</option>
 {% endfor %}
 </select>
 <input type="submit" value="{% trans "Move Topic" %}" style="actiontable" />

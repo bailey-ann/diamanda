@@ -1,6 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
-{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.forum_name }}</a>{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a>{% endblock %}
 {% block content %}
 
 
@@ -13,13 +13,25 @@
 		<strong>{% trans "Title" %}</strong>
 	</div>
 	<div class="rightpostform">	
-	      {{ form.topic_name }}{% if form.topic_name.errors %}<br />*** {{ form.topic_name.errors|join:", " }}{% endif %}
+	      {{ form.name }}{% if form.name.errors %}<br />*** {{ form.name.errors|join:", " }}{% endif %}
 	</div>
+          {% if pr %}  
+          <div class="leftpostform">
+                  <strong>{% trans "Prefix" %}</strong>
+          </div>
+          <div class="rightpostform">	
+                 {% for i in pr %}
+                    <input type="checkbox" name="prefix[]" value="{{ i.id }}" style="width:auto;" /> {{ i.name }} 
+                 {% endfor %}
+          </div>
+          {% endif %}
+
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">	
 	      <textarea name="text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ post_text }}</textarea>
+                    {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 	</div>
         {% if perms.is_staff %}
             <div class="leftpostform"><strong>{% trans "Options" %}</strong>

@@ -21,7 +21,7 @@ def show_index(request):
 	"""
 	Show the main page
 	"""
-	itopics = Topic.objects.all().values('id', 'topic_name', 'topic_last_pagination_page', 'topic_lastposter').order_by('-topic_modification_date')[:4]
+	itopics = Topic.objects.all().values('id', 'name', 'last_pagination_page', 'lastposter').order_by('-modification_date')[:4]
 	entries = Content.objects.all().values('id', 'slug', 'date', 'title', 'parsed_description', 'comments_count', 'current_book', 'current_book_title', 'is_update', 'changes', 'content_type').order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:4]
 	now = datetime.now()
