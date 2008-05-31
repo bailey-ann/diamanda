@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'stats.statsMiddleware.statsMiddleware',
     'userpanel.userMiddleware.userMiddleware',
     #'profiler.ProfileMiddleware', # debug !
-    #'profiler_sql.SQLLogMiddleware', # debug !
+    'profiler_sql.SQLLogMiddleware', # debug !
 )
 
 ROOT_URLCONF = 'urls'

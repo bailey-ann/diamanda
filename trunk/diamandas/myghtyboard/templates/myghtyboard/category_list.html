@@ -27,7 +27,9 @@
                     {% else %}
                     <img src="/site_media/layout/forum/normal.png" alt="*" />
                     {% endif %}</td>
-              <td style="text-align:left;"><a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.name }}</b></a><br />{{ forum.description }}</td>
+              <td style="text-align:left;">
+                    <a href="/forum/forum/{{ forum.id }}/"><b>{{ forum.name }}</b></a><br />{{ forum.description }}
+              </td>
               <td>{{ forum.topics }}</td>
               <td>{{ forum.posts }}</td>
               <td>{% ifnotequal forum.lastposter None %}{{ forum.lastposter}}, {{forum.modification_date|date:"d.m.Y" }}<br />{{ forum.lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}</td>

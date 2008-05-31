@@ -13,6 +13,7 @@
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>{% endblock %}
 
 {% block content %}
+
 <div class="content">
           <table>
             <tr>
@@ -22,9 +23,27 @@
               <th style="width:15px;"><strong>{% trans "Author" %}</strong></th>
               <th style="width:130px;"><strong>{% trans "Last Post" %}</strong></th>
             </tr>
+            {% if pr %}
+                <tr class="small_prefixes">
+                <td class="first"></td>
+                <td>
+                <strong>{% trans "Filter topics" %}: </strong>
+                <form action="./" method="post">
+                {% for i in pr %}
+                    <input type="checkbox" name="prefix[]" value="{{ i.id }}" style="width:auto;"{% pyif i in prefixes %}checked="checked"{% endif %} /> {{ i.name }}
+                {% endfor %}
+                <input type="submit" value="{% trans "Filter" %}" id="prefixes_submit" />
+                <input type="button" value="{% trans "Clear" %}" id="prefixes_submit" onclick="location.assign('/forum/forum/{{ forum.id }}/');" />
+                </form>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+            {% endif %}
            {% for topic in object_list %}
             <tr {% if topic.is_solved %}class="small_solved"{% else %}class="small"{% endif %}>
-           <td class="first">
+            <td class="first">
             {% if topic.is_locked %}
                     <img src="/site_media/layout/forum/lock.png" alt="*" />
             {% else %}
@@ -53,14 +72,14 @@
                                         {% endif %}
                                     {% endif %}
                                     {% if perms.is_staff %}
-                                        <a href="/forum/delete_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')" class="delete">{% trans "Delete" %}</a>
+                                        [<a href="/forum/delete_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Delete this Topic and all Posts?" %}')">{% trans "Delete" %}</a>]
                                         {% if topic.is_locked %}
-                                                <a href="/forum/open_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Open This Topic?" %}')" class="unlock">{% trans "Unlock" %}</a>
+                                                [<a href="/forum/open_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Open This Topic?" %}')">{% trans "Unlock" %}</a>]
                                         {% else %}
-                                                <a href="/forum/close_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Close This Topic?" %}')"  class="lock">{% trans "Lock" %}</a>
+                                                [<a href="/forum/close_topic/{{ topic.id }}/{{ forum.id }}/" onclick="return confirm('{% trans "Close This Topic?" %}')">{% trans "Lock" %}</a>]
                                         {% endif %}
                                         {% ifnotequal topic.is_locked 1 %}
-                                        <a href="/forum/move_topic/{{ topic.id }}/{{ forum.id }}/" class="move">{% trans "Move" %}</a>
+                                        [<a href="/forum/move_topic/{{ topic.id }}/{{ forum.id }}/">{% trans "Move" %}</a>]
                                          {% endifnotequal %}
                                     {% endif %}
                                 </p>
@@ -71,8 +90,25 @@
                           <td>{{ topic.lastposter}}, {{topic.modification_date|date:"d.m.Y" }}</td>
             </tr>
 	    {% endfor %}
+            {% ifnotequal pages 1 %}
+            <tr class="small_prefixes">
+                <td class="first"></td>
+                <td><strong>{% trans "Pages: " %}</strong>
+                    {% for i in cnt %}
+                        [<a href="/forum/forum/{{ forum.id }}/{{ i }}/">{% ifequal i page %}<b>{{ i }}</b>{% else %}{{ i }}{% endifequal %}</a>] 
+                    {% endfor %}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endifnotequal %}
           </table>
 </div>
+
+
+
+
 {% if perms.add_topic %}
     <br />
     <form method="post" action="/forum/add_topic/{{ forum.id }}/">
@@ -120,30 +156,6 @@
 {% endif %}
 <br />
 
-
-{% ifnotequal pages 1 %}
-    <div class="box" style="text-align:center;">
-    {% ifnotequal pages 0 %}
-    {% ifnotequal pages 1 %}
-    <a href="/forum/forum/{{ forum.id }}/"><b>{% trans "Latest Topics" %}</b></a> | 
-    {% endifnotequal %}
-    {% endifnotequal %}
-    
-    {% if has_previous %}
-            <a href="/forum/forum/{{ forum.id }}/{{ previous }}/"><b>{% trans "Newer Topics" %} </b></a>
-    {% endif %}
-    
-    {% if has_next %}
-    <a href="/forum/forum/{{ forum.id }}/{{ next }}/"><b> {% trans "Older Topics" %}</b></a>
-    {% endif %}
-    
-    {% ifnotequal pages 0 %}
-    {% ifnotequal pages 1 %}
-     | <a href="/forum/forum/{{ forum.id }}/{{ pages }}/"><b>{% trans "Oldest Topics" %}</b></a>
-    {% endifnotequal %}
-    {% endifnotequal %}
-    </div>
-{% endifnotequal %}
 	<p style="text-align:right;">
 	{% if perms.add_topic %}
 		{% trans "You <b>can</b> post new Topics" %}<br />

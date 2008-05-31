@@ -7,6 +7,7 @@ from datetime import datetime
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -40,6 +41,10 @@ class Forum(models.Model):
 	modification_date = models.DateTimeField(default=datetime.now(), blank=True)
 	order = models.PositiveSmallIntegerField(default=0)
 	use_prefixes = models.BooleanField(blank=True, default=False)
+	use_moderators = models.BooleanField(blank=True, default=False, verbose_name=_('Use moderators'))
+	moderators = models.ManyToManyField(User, verbose_name=_('Moderators'), blank=True, null=True,
+		help_text=_('Select non-staff users that should be moderators of this forum (optional).'), limit_choices_to={'is_staff': False}
+		)
 	class Meta:
 		verbose_name = _("Forum")
 		verbose_name_plural = _("2. Forums")
@@ -48,7 +53,7 @@ class Forum(models.Model):
 		list_display = ('name', 'description', 'category', 'prefixes', 'order')
 		fields = (
 		(None, {
-		'fields': ('category', 'name', 'description', 'order', 'use_prefixes')
+		'fields': ('category', 'name', 'description', 'order', 'use_moderators', 'moderators', 'use_prefixes')
 		}),
 		(_('Stats'), {'fields': ('topics', 'posts'), 'classes': 'collapse'}),)
 	def __str__(self):
@@ -73,7 +78,6 @@ class Forum(models.Model):
 	prefixes.allow_tags = True
 	prefixes.short_description = _('Prefixes')
 	def save(self, **kwargs):
-		"""override save to set defaults"""
 		if self.pk:
 			self.modification_date = datetime.now()
 		super(Forum, self).save(**kwargs)
@@ -103,7 +107,6 @@ class Topic(models.Model):
 	def __unicode__(self):
 		return self.name
 	def save(self, **kwargs):
-		"""override save to set defaults"""
 		if self.pk and self.is_solved == False:
 			self.modification_date = datetime.now()
 		super(Topic, self).save(**kwargs)
@@ -139,7 +142,7 @@ class TopicPrefix(models.Model):
 	Model for prefix - topic relation. Used in filtering topics by prefix
 	"""
 	topic = models.ForeignKey(Topic, verbose_name=_("Topic"))
-	prefix = models.ForeignKey(Prefix, verbose_name=_("Prefix"))
+	prefix = models.ManyToManyField(Prefix, verbose_name=_("Prefix"))
 	class Meta:
 		db_table = 'rk_topicprefix' + str(settings.SITE_ID)
 
