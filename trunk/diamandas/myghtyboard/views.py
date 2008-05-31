@@ -308,15 +308,17 @@ def add_post(request, topic_id, post_id = False):
 	* topic_id - id of a Topic entry
 	* post_id - id of a Post entry to be quoted
 	"""
-	request.forum_id = forum_id
+	topic = Topic.objects.get(id=topic_id)
+	forum = Forum.objects.get(id=topic.forum.id)
+	
+	request.forum_id = forum.id
 	perms = forumContext(request)
 	if not perms['perms']['add_post']:
 		return render_to_response('pages/bug.html',
 			{'bug': _('You can\'t add a post.')},
 			context_instance=RequestContext(request, forumContext(request))
 			)
-	topic = Topic.objects.get(id=topic_id)
-	forum = Forum.objects.get(id=topic.forum.id)
+	
 	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request)))
 

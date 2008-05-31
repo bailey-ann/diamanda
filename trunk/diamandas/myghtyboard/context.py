@@ -17,15 +17,15 @@ def forum(request):
 		perms['is_authenticated'] = False
 		perms['is_staff'] = request.user.is_staff
 
-	if hasattr(request, 'forum_id'):
-		try:
-			forum = Forum.objects.get(id=request.forum_id)
-		except:
-			pass
-		else:
-			if forum.use_moderators and request.user in forum.moderators.all():
-				perms['add_topic'] = True
-				perms['add_post'] = True
-				perms['is_authenticated'] = True
-				perms['is_staff'] = True
+		if hasattr(request, 'forum_id'):
+			try:
+				forum = Forum.objects.get(id=request.forum_id)
+			except:
+				pass
+			else:
+				if forum.use_moderators and request.user in forum.moderators.all():
+					perms['add_topic'] = True
+					perms['add_post'] = True
+					perms['is_authenticated'] = True
+					perms['is_staff'] = True
 	return {'perms': perms, 'on_forum': True}
