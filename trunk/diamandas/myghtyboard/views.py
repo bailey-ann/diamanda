@@ -414,7 +414,7 @@ def edit_post(request, post_id):
 	forum = Forum.objects.get(id=topic.forum.id)
 	request.forum_id = forum.id
 	perms = forumContext(request)
-	if not perms['perms']['add_post']:
+	if not perms['perms']['add_post'] and str(request.user) != post.author:
 		return render_to_response('pages/bug.html',
 			{'bug': _('You can\'t edit a post.')},
 			context_instance=RequestContext(request, forumContext(request))

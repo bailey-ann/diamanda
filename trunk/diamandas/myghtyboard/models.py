@@ -98,6 +98,7 @@ class Topic(models.Model):
 	is_locked = models.BooleanField(blank=True, default=False)
 	is_global = models.BooleanField(blank=True, default=False)
 	is_solved = models.BooleanField(blank=True, default=False)
+	is_external = models.BooleanField(blank=True, default=False)
 	class Meta:
 		verbose_name = _("Topic")
 		verbose_name_plural = _("Topics")
