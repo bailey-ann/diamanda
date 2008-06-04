@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 #(r'^tra/', include('translator.URLconf')),
 (r'^com/', include('boxcomments.URLconf')),
 (r'^sitemap/$', 'pages.views.sitemap'),
+(r'^sitemap.xml$', 'pages.views.sitemap'),
 
 (r'^user/', include('userpanel.URLconf')),
 

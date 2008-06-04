@@ -6,9 +6,10 @@ from re import findall
 import base64
 from datetime import datetime
 from stripogram import html2safehtml
+from postmarkup import render_bbcode
 
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django import newforms as forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -22,6 +23,13 @@ from django.contrib.auth.decorators import login_required
 from myghtyboard.models import *
 from myghtyboard.context import forum as forumContext
 from utils import *
+
+def bbcode(request):
+	if 'data' in request.POST:
+		data = render_bbcode(request.POST['data'], "UTF-8")
+	else:
+		data = ''
+	return HttpResponse(data)
 
 def category_list(request):
 	"""
@@ -394,7 +402,7 @@ def add_post(request, topic_id, post_id = False):
 	else:
 		if post_id:
 			quote = Post.objects.get(id=post_id)
-			quote_text = '<blockquote><b>' + quote.author + _(' wrote') + ':</b><br /><cite>' + quote.text + '</cite></blockquote>\n\n'
+			quote_text = '[quote][b]' + quote.author + _(' wrote') + ':[/b]\n\r' + quote.text + '[/quote]\n\r'
 		else:
 			quote_text = ''
 	return render_to_response(
@@ -463,12 +471,12 @@ def delete_post(request, post_id, topic_id):
 	* post_id - ID of a Post entry
 	* topic_id - Topic entry ID that contain the Post entry
 	"""
-	request.forum_id = forum_id
+	topic = Topic.objects.get(id=topic_id)
+	request.forum_id = topic.forum.id
 	perms = forumContext(request)
 	
 	if perms['perms']['is_staff']:
 		Post.objects.get(id=post_id).delete()
-		topic = Topic.objects.get(id=topic_id)
 		topic.posts = topic.posts -1
 		if topic.posts > 0:
 			topic.save()
@@ -493,7 +501,10 @@ def delete_topic(request, topic_id, forum_id):
 	
 	if perms['perms']['is_staff']:
 		posts = Post.objects.filter(topic=topic_id).count()
-		Topic.objects.get(id=topic_id).delete()
+		t = Topic.objects.get(id=topic_id)
+		if t.forum.id != forum_id:
+			return render_to_response('pages/bug.html', {'bug': _('Invalid Forum/Topic')}, context_instance=RequestContext(request, forumContext(request)))
+		t.delete()
 		Post.objects.filter(topic=topic_id).delete()
 		forum = Forum.objects.get(id=forum_id)
 		forum.topics = forum.topics -1

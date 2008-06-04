@@ -1,6 +1,25 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a>{% endblock %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
+<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
+<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
+
+<script language="javascript">
+$(document).ready(function()    {
+    $('#bbcode').markItUp(myBbcodeSettings);
+
+    $('#emoticons a').click(function() {
+        emoticon = $(this).attr("title");
+        $.markItUp( { replaceWith:emoticon } );
+    });
+});
+</script>
+{% endblock %}
+
 {% block content %}
 
 
@@ -29,8 +48,16 @@
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>
-	<div class="rightpostform">	
-	      <textarea name="text" id="id_text" onkeyup="fit_textarea(this);" rows="6">{{ post_text }}</textarea>
+	<div class="rightpostform">
+		<div id="emoticons">
+			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" /></a>
+			<a href="#" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" /></a>
+			<a href="#" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" /></a>
+			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" /></a>
+			<a href="#" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" /></a>
+			<a href="#" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" /></a>
+		</div>
+	      <textarea name="text" id="bbcode" rows="6">{{ post_text }}</textarea>
                     {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 	</div>
         {% if perms.is_staff %}

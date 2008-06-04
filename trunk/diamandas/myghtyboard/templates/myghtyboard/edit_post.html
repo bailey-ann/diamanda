@@ -1,30 +1,55 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% load fbc %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a> > <a href="/forum/topic/{{ topic.last_pagination_page }}/{{ topic.id }}/">{{ topic.name }}</a>{% endblock %}
-{% block content %}
-<br /><h2><span>{% trans "Edit Post" %}</span></h2>
-<div class="box" style="text-align:center;">
-<form method="post" action=".">
-<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<b></b>"'>{% trans "Bold" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<i></i>"'>{% trans "Italic" %}</a>, 
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<u></u>"'>{% trans "Underline" %}</a>, 
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<img src=\"URL\" alt=\"\" />"'>{% trans "Image" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"<blockquote></blockquote>"'>{% trans "Blockquote" %}</a>,
-			<a onclick='document.getElementById("id_text").value=document.getElementById("id_text").value+"[code]{% trans "Code Here" %}[/code]"'>{% trans "Code" %}</a> 
-				<br />
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':omg:' "><img src="/site_media/layout/forum/smilies/icon_eek.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':nice:' "><img src="/site_media/layout/forum/smilies/icon_biggrin.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':evil:' "><img src="/site_media/layout/forum/smilies/icon_evil.gif" alt="" /></a>
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':twisted:' "><img src="/site_media/layout/forum/smilies/icon_twisted.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':grin:' "><img src="/site_media/layout/forum/smilies/icon_cheesygrin.gif" alt="" /></a> 
-				<a onclick="document.getElementById('id_text').value=document.getElementById('id_text').value+ ':cool:' "><img src="/site_media/layout/forum/smilies/icon_cool.gif" alt="" /></a> 
-				
 
-<br><textarea rows="10" cols="100" name="text" id="id_text">{{ text }}</textarea>
-<center><input type="submit" value="{% trans "Save Changes" %}" style="actiontable"></center>
-</form>
-<br><b>{% trans "Allowed HTML Tags" %}</b>: b, a, i, br, p, u, img, li, ul, ol, center, sub, sup, cite, blockquote</div>
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
+<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
+<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
+
+<script language="javascript">
+$(document).ready(function()    {
+    $('#bbcode').markItUp(myBbcodeSettings);
+
+    $('#emoticons a').click(function() {
+        emoticon = $(this).attr("title");
+        $.markItUp( { replaceWith:emoticon } );
+    });
+});
+</script>
 {% endblock %}
+
+{% block content %}
+<form method="post" action="/forum/add_post/{{ topic.id }}/">
+<div class="postform">
+        <div class="posthead">{% trans "Edit post" %}</div>
+        <div class="leftpostform">
+		<strong>{% trans "Content" %}</strong>
+	</div>
+	<div class="rightpostform">
+		<div id="emoticons">
+			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" /></a>
+			<a href="#" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" /></a>
+			<a href="#" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" /></a>
+			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" /></a>
+			<a href="#" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" /></a>
+			<a href="#" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" /></a>
+		</div>
+	      <textarea name="text" id="bbcode" rows="6">{{ text }}</textarea>
+                    {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
+	</div>
+        <div class="leftpostform">
+	</div>
+	<div class="rightpostform">	
+                <input type="submit" value="{% trans "Add post" %}" />
+	</div>
+    </div>
+</form>
+
+{% endblock %}
+
 {% block pagemenu %}
 <li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>

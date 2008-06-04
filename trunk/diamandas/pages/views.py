@@ -22,7 +22,10 @@ def show_index(request):
 	Show the main page
 	"""
 	itopics = Topic.objects.all().values('id', 'name', 'last_pagination_page', 'lastposter').order_by('-modification_date')[:4]
-	entries = Content.objects.all().values('id', 'slug', 'date', 'title', 'parsed_description', 'comments_count', 'current_book', 'current_book_title', 'is_update', 'changes', 'content_type').order_by('-date')[:5]
+	entries = Content.objects.all().values(
+		'id', 'slug', 'date', 'title', 'parsed_description',
+		'comments_count', 'current_book', 'current_book_title',
+		'is_update', 'changes', 'content_type').order_by('-date')[:5]
 	com = Comment.objects.order_by('-id')[:4]
 	now = datetime.now()
 	check_time = now - timedelta(minutes=10)
@@ -65,9 +68,13 @@ def show(request, slug):
 	* slug - slug of a Content entry
 	"""
 	try:
-		page = Content.objects.filter(slug=slug).values('id', 'slug', 'date', 'title', 'parsed_description', 'description', 'parsed_text', 'comments_count', 'current_book', 'crumb', 'content_type')
+		page = Content.objects.filter(slug=slug).values(
+			'id', 'slug', 'date', 'title', 'parsed_description', 'description',
+			'parsed_text', 'comments_count', 'current_book', 'crumb', 'content_type')
 	except Content.DoesNotExist:
-		return render_to_response('pages/bug.html', {'bug': _('Page does not exist')}, context_instance=RequestContext(request))
+		return render_to_response('pages/bug.html',
+			{'bug': _('Page does not exist')},
+			context_instance=RequestContext(request))
 	page = page[0]
 	if page['content_type'] == 'news':
 		return render_to_response(
@@ -102,7 +109,8 @@ def book_rss(request, slug):
 	* book - slug of a Content entry (book content_type)
 	"""
 	book = Content.objects.get(slug=slug)
-	pages = Content.objects.all().filter(place=book).values('slug', 'title', 'parsed_description', 'date', 'content_type').order_by('-id')[:10]
+	pages = Content.objects.all().filter(place=book).values('slug', 'title',
+		'parsed_description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
 
 def search_pages(request):
@@ -111,6 +119,10 @@ def search_pages(request):
 	"""
 	if request.POST:
 		data = request.POST.copy()
-		return render_to_response('pages/search.html', {'term': data['term'], 'key': settings.GOOGLE_AJAX_SEARCH_API_KEY}, context_instance=RequestContext(request))
+		return render_to_response(
+			'pages/search.html',
+			{'term': data['term'], 'key': settings.GOOGLE_AJAX_SEARCH_API_KEY},
+			context_instance=RequestContext(request)
+			)
 	else:
 		return render_to_response('pages/search.html', {'key': key}, context_instance=RequestContext(request))

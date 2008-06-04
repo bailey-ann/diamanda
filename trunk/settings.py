@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'stats.statsMiddleware.statsMiddleware',
     'userpanel.userMiddleware.userMiddleware',
     #'profiler.ProfileMiddleware', # debug !
-    'profiler_sql.SQLLogMiddleware', # debug !
+    #'profiler_sql.SQLLogMiddleware', # debug !
 )
 
 ROOT_URLCONF = 'urls'
@@ -76,9 +76,9 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.admin',
-    'django.contrib.markup',
+    #'django.contrib.markup',
     'stats',
     'pages',
     'boxcomments',
