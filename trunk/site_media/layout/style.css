@@ -4,18 +4,13 @@ margin:0px;
 padding:0px;
 background-color:#143D55;
 font-size:13px;
-font-family:dejavu, verdana, tahoma, arial;
+font-family:"DejaVu Sans", verdana, tahoma, arial;
 }
 
 a
 {
 text-decoration:none;
 }
-a:hover
-{
-text-decoration: underline;
-}
-
 
 ul, ol
 {
@@ -28,22 +23,143 @@ ul { padding-left: 2em; list-style-type: square; }
 
 #center
 {
-border:2px solid #3c78b5; background-color:#F6F6F6;margin:5px; margin-top:0px; padding:15px;
-/*padding-bottom:0px;*/
-margin-bottom:0px;
-padding-top:0px;
+background-color:white;
+padding-left:10px;
+padding-right:10px;
+padding-bottom:10px;
 border-top:1px #3c78b5 solid;
 text-align:justify;
+line-height:1.5;
+overflow:auto;
 }
 #center a
 {
-color:#392F68;
+color:#003366;
 }
-.important
+#center a:hover
 {
+color:#002142;
+}
+
+
+#left
+{
+overflow:auto;
+}
+
+#left h4
+{
+margin:0px;
+margin-top:15px;
+font-size:14px;
+font-weight:bold;
+}
+#left h4 a
+{
+color:black;
+}
+#left h4 a:hover
+{
+color:black !important;
+}
+
+
+#left p
+{
+margin-bottom:3px;
+}
+
+#right
+{
+margin-left:10px;
 float:right;
-margin-left:20px;
-margin-bottom:20px;
+width:60%;
+font-size:11px;
+}
+
+
+.user1
+{
+padding:5px; background-color:#f0f0f0; border-bottom:1px solid #DDDDDD;
+padding-left:27px;
+background-image:url(user.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+color:gray;
+}
+
+.user2
+{
+padding:5px; border-bottom:1px solid #DDDDDD;
+padding-left:27px;
+background-image:url(user2.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+background-color:#FBFBFB;
+color:gray;
+}
+
+.feed
+{
+background-color:#EDEDED;
+border:1px solid #EDEDED;
+margin-bottom:4px;
+color:gray;
+}
+.feed a
+{
+font-size:13px;
+font-weight:normal;
+padding-bottom:5px !important;
+}
+
+.left_feed
+{
+width:20%;
+float:left;
+padding:3px;
+}
+
+.right_feed
+{
+padding:3px;
+overflow:auto;
+background-color:white;
+}
+
+.forum_feed
+{
+padding-left:27px;
+background-image:url(forum.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+}
+.reply_feed
+{
+padding-left:27px;
+background-image:url(reply.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+}
+.content_feed
+{
+padding-left:27px;
+background-image:url(document.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+}
+.content_update_feed
+{
+padding-left:27px;
+background-image:url(document_edit.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+}
+
+.margin_feed
+{
+border-bottom:1px solid #EDEDED;
+margin-bottom:10px;
 }
 
 
@@ -363,7 +479,7 @@ a.unsolve
 .author
 {
 border:1px solid gray;
-background:#EEEEEE;
+background:#F2F2F2;
 padding:5px;
 margin-bottom:5px;
 margin-top:5px;
@@ -378,7 +494,7 @@ font-weight:bold;
 text-align:center;
 font-weight:bold;
 border:1px solid gray;
-background:#EEEEEE;
+background:#F2F2F2;
 padding:5px;
 margin-bottom:5px;
 margin-top:5px;
@@ -389,7 +505,7 @@ margin-top:5px;
 text-align:center;
 font-weight:bold;
 border:1px solid red;
-background:#EEEEEE;
+background:#F2F2F2;
 padding:2px;
 margin:10px;
 }
@@ -402,7 +518,8 @@ padding:5px;
 margin-bottom:35px;
 margin-top:5px;
 overflow:auto;
-background-color:#EFEFEF;
+background-color:#F2F2F2;
+font-size:11px;
 }
 
 .newsbox li
@@ -581,7 +698,8 @@ font-size:11px;
 
 /* TOP BLACK MENU FOR SITE LINKS */
 #modernbricksmenu{
-padding: 0;
+padding:0px;
+margin:0px;
 margin-top:15px;
 background: transparent;
 text-align:right;
@@ -665,23 +783,20 @@ visibility:hidden;
 #modernbricksmenuline{
 clear: both;
 padding: 0;
-height: 3px;
+height: 2px;
 line-height: 5px;
-background: #3c78b5; /*Brown color theme*/
-margin-left:5px;
-margin-right:5px;
+background: #3c78b5;
 }
 
 /* DOWN BLACK MENU FOR FOOTER  */
 #modernbricksmenu3{
 padding: 0px;
-border-top: 2px solid #3c78b5; /*Brown color theme*/
+border-top: 2px solid #3c78b5;
 background: transparent;
 /* overflow:auto; */
 margin:0px;
-margin-left:5px;
-margin-right:5px;
 text-align:center;
+margin-bottom:50px;
 }
 
 #modernbricksmenu3 ul{
@@ -707,7 +822,7 @@ text-decoration: none;
 margin: 0 1px 0 0; /*Margin between each menu item*/
 padding: 5px 10px;
 background-color: #000000; /*Brown color theme*/ 
-border-top: 1px solid white;
+border-top: 1px solid #143D55;
 }
 
 #modernbricksmenu3 a:hover{
@@ -735,7 +850,7 @@ padding: 3px 7px;
 margin-left: 3px;
 border: 1px solid gray;
 border-top: none;
-background-color: white;
+background-color: #F2F2F2;
 color: black !important;
 }
 

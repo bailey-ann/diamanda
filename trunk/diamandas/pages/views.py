@@ -12,27 +12,22 @@ from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django import newforms as forms
 
-from boxcomments.models import Comment
 from pages.models import *
 from userpanel.models import Profile
 from myghtyboard.models import Topic
+from pages.feed import *
 
 def show_index(request):
 	"""
 	Show the main page
 	"""
-	itopics = Topic.objects.all().values('id', 'name', 'last_pagination_page', 'lastposter').order_by('-modification_date')[:4]
-	entries = Content.objects.all().values(
-		'id', 'slug', 'date', 'title', 'parsed_description',
-		'comments_count', 'current_book', 'current_book_title',
-		'is_update', 'changes', 'content_type').order_by('-date')[:5]
-	com = Comment.objects.order_by('-id')[:4]
+	feed = make_feed()
 	now = datetime.now()
 	check_time = now - timedelta(minutes=10)
 	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]
 	return render_to_response(
 		'pages/show_index.html',
-		{'entries': entries, 'itopics': itopics, 'com': com, 'onsite': onsite, 'home_text': settings.HOME_TEXT},
+		{'onsite': onsite, 'home_text': settings.HOME_TEXT, 'feed': feed},
 		context_instance=RequestContext(request))
 
 def list_news(request, book=False):
@@ -52,7 +47,7 @@ def list_news(request, book=False):
 			template_name = 'pages/news_list.html',
 			extra_context = {'book': book, 'bk':bk, 'current_book': bk.slug})
 	else:
-		news = Content.objects.filter(content_type='news').order_by('-date').values('slug', 'title', 'date')
+		news = Content.objects.filter(content_type='news').order_by('-date')
 	return object_list(
 		request,
 		news,

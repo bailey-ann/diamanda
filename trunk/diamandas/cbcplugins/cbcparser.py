@@ -7,7 +7,7 @@ from tags import *
 import markdown
 import base64
 
-def parse_cbc_tags(text):
+def parse_cbc_tags(text, use_mdk=True):
 	# double: [tag]something here[/tag]
 	tags = findall( r'(?xs)\[\s*rk:([a-z0-9]*)\s*(.*?)\](.*?)\[(?=\s*/rk)\s*/rk:(\1)\s*\]''', text)
 	
@@ -66,7 +66,8 @@ def parse_cbc_tags(text):
 		except:
 			print 'NO PLUGIN %s' % plugin
 	
-	text = markdown.markdown(text, safe_mode = True)
+	if use_mdk:
+		text = markdown.markdown(text, safe_mode = True)
 	tags = findall(r'\^\^(.*?)\^\^', text)
 	for tag in tags:
 		text = text.replace('^^%s^^' % tag, base64.b64decode(tag))

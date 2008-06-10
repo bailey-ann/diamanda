@@ -22,20 +22,11 @@ LANGUAGE_CODE = 'pl'
 
 SITE_ID = 1
 SITE_KEY = 'localhost'
-
-TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
-"django.core.context_processors.debug",
-"django.core.context_processors.i18n",
-"bib.bib",)
-
-
-
-
 SITE_NAME = 'Diamanda'
 SITE_DESCRIPTION = 'Diamanda'
 SITE_ADMIN_MAIL = '2@2.pl'
 NOTIFY_ADMINS = True
-HOME_TEXT = 'Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]'
+HOME_TEXT = '''Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]'''
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
@@ -62,14 +53,17 @@ MIDDLEWARE_CLASSES = (
     #'profiler_sql.SQLLogMiddleware', # debug !
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
+"django.core.context_processors.debug",
+"django.core.context_processors.i18n",
+"bib.bib",)
+
 ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
 'diamandas/myghtyboard/templates',
 'diamandas/userpanel/templates',
 'diamandas/stats/templates',
 'diamandas/pages/templates',
-#'diamandas/translator/templates',
-'diamandas/boxcomments/templates'
 )
 
 INSTALLED_APPS = (
@@ -78,11 +72,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.sites',
     'django.contrib.admin',
-    #'django.contrib.markup',
     'stats',
     'pages',
-    'boxcomments',
     'userpanel',
     'myghtyboard',
-    #'translator',
     )

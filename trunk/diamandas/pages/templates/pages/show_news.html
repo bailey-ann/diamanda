@@ -5,7 +5,15 @@
 {% block description %}{{ page.title }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
 
-{% block content %}{{ page.parsed_description|safe }}<br /><br />{{ page.parsed_text|safe }}{% endblock %}
+{% block content %}
+{{ page.parsed_description|safe }}
+{{ page.parsed_text|safe }}
+<ul class="newsbox">
+	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
+	<li class="comment"><a href="/com/{{ page.id }}/1/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+</ul>
+
+{% endblock %}
 {% block pagemenu %}
 <li><a href="/com/{{ page.id }}/1/">{% trans "Comments" %} ({{ page.comments_count }})</a></li>
 <li><a href="/w/n/">{% trans "Browse news" %}</a></li>

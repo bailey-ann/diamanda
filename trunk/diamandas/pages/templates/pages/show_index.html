@@ -3,62 +3,29 @@
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}
 
 {% block content %}
-{{ home_text|safe }}
-<div>
-	{% for i in entries %}
-		<h4>{% ifequal i.content_type "news" %}<img src="/site_media/layout/news.png" alt="" />{% else %}<img src="/site_media/layout/article.png" alt="" />{% endifequal %}
-		<a href="/w/p/{{ i.slug }}/"><b>{{ i.title }}</b></a></h4>
-		{{ i.parsed_description|safe }}
-		<ul class="newsbox">
-			<li class="added">{{ i.date|date:"d.m.Y" }}</li>
-			<li class="read"><a href="/w/p/{{ i.slug }}/">{% trans "Read" %}</a></li>
-			<li class="comment"><a href="/com/{{ i.id }}/1/">{% trans "Comments" %}{% if i.comments_count %} ({{ i.comments_count }}){% endif %}</a></li>
-			{%ifnotequal i.current_book i.slug %}<li class="book"><a href="/w/p/{{ i.current_book }}/">{{ i.current_book_title }}</a></li>{% endifnotequal %}
-			{%if i.is_update %}<li class="update">{{ i.changes }}</li>{% endif %}
-		</ul>
+<div id="right">
+	<h3 style="margin:0px;">{% trans "Whats new?" %}</h3>
+	{% for f in feed %}
+		<div class="feed">{{ f|safe }}</div>
 	{% endfor %}
-</div>
-{% endblock %}
-
-{% block right %}
-<div class="important">
-	{% if itopics %}
-		  <table style="width:180px;">
-		    <tr>
-		      <th class="first"><a href="/forum/"><strong>{% trans "Latest Topics" %}</strong></a></th>
-		    </tr>
-		    {% for t in itopics %}
-		      <tr class="small">
-		      <td class="first"><a href="/forum/topic/{{ t.last_pagination_page }}/{{ t.id }}/">{{ t.name }}</a> ({{ t.lastposter }})</td>
-		     </tr>
-		    {% endfor %}
-		  </table>
-	<br />{% endif %}
-	
-	{% if com %}
-		  <table style="width:180px;">
-		    <tr>
-		      <th class="first"><strong>{% trans "Latests Comments" %}</strong></th>
-		    </tr>
-		    {% for t in com %}
-		      <tr class="small">
-		      <td class="first"><a href="/com/{{ t.appid }}/{{ t.apptype }}/">{{ t.title }}</a></td>
-		     </tr>
-		    {% endfor %}
-		  </table>
-	<br />{% endif %}
 	
 	{% if onsite %}
-		  <table style="width:180px;">
-		    <tr>
-		      <th class="first"><strong>{% trans "Users online" %}</strong></th>
-		    </tr>
-		    {% for t in onsite %}
-		      <tr class="small">
-		      <td class="first">{{ t.user }}</td>
-		     </tr>
-		    {% endfor %}
-		  </table>
+	<h3 style="margin-bottom:0px;">{% trans "Users online" %}</h3>
+	{% for t in onsite %}
+		<div class="user{% cycle 1,2 %}">{{ t.user }}</div>
+	{% endfor %}
 	{% endif %}
+</div>
+<div id="left">
+<h3 style="margin:0px;">{{ site_name }}</h3>
+{{ home_text|safe }}
+
+aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
+aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />aaa dfd fd<br />
 </div>
 {% endblock %}

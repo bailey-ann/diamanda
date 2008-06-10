@@ -45,9 +45,8 @@
 	<div id="modernbricksmenuline">&nbsp;</div>
 	<div id="center">
 		<ul class="basictab">
-			{% block pagemenu %}{% endblock %}
+			{% block pagemenu %}<li style="display:hidden;"></li>{% endblock %}
 		</ul>
-		{% block right %}{% endblock %}
 		{% block content %}{% endblock %}
 	</div>
 	<div id="modernbricksmenu3">
@@ -70,6 +69,3 @@
 	{% endif %}
 </body>
 </html>
-
-<br /><br />
-<div class="box">
