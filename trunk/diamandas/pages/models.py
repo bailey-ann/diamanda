@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 
 from cbcplugins import cbcparser
 from myghtyboard.models import Topic, Forum
+from pages.feedupdate import *
 
 class Content(models.Model):
 	"""
@@ -114,6 +115,7 @@ class Content(models.Model):
 			self.current_book = False
 			self.current_book_title = False
 		super(Content, self).save()
+		make_feed(settings.SITE_ID)
 
 
 class Attachment(models.Model):
@@ -166,3 +168,10 @@ class Archive(models.Model):
 		return self.page
 	def __unicode__(self):
 		return self.page
+
+class Feed(models.Model):
+	"""
+	storage for "what's new?" feeds
+	"""
+	site = models.PositiveSmallIntegerField(verbose_name=_('Site ID'), unique=True)
+	text = models.TextField(verbose_name=_('Feed content'))

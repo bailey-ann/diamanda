@@ -15,13 +15,12 @@ from django import newforms as forms
 from pages.models import *
 from userpanel.models import Profile
 from myghtyboard.models import Topic
-from pages.feed import *
 
 def show_index(request):
 	"""
 	Show the main page
 	"""
-	feed = make_feed()
+	feed = Feed.objects.get(site=settings.SITE_ID)
 	now = datetime.now()
 	check_time = now - timedelta(minutes=10)
 	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]

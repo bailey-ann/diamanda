@@ -9,6 +9,8 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
+from pages.feedupdate import *
+
 
 class Category(models.Model):
 	"""
@@ -164,3 +166,8 @@ class Post(models.Model):
 		return str(self.id)
 	def __unicode__(self):
 		return unicode(self.id)
+	def save(self, **kwargs):
+		super(Post, self).save(**kwargs)
+		make_feed(settings.SITE_ID)
+	
+	

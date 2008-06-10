@@ -5,9 +5,7 @@
 {% block content %}
 <div id="right">
 	<h3 style="margin:0px;">{% trans "Whats new?" %}</h3>
-	{% for f in feed %}
-		<div class="feed">{{ f|safe }}</div>
-	{% endfor %}
+	{{ feed.text|safe }}
 	
 	{% if onsite %}
 	<h3 style="margin-bottom:0px;">{% trans "Users online" %}</h3>
