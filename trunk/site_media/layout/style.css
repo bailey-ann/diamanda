@@ -148,6 +148,13 @@ background-image:url(document.png);
 background-repeat:no-repeat;
 background-position:1% 50%;
 }
+.news_feed
+{
+padding-left:27px;
+background-image:url(news.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+}
 .content_update_feed
 {
 padding-left:27px;
@@ -953,6 +960,17 @@ z-index: 5;
 	overflow:auto;
 	padding:5px;
 }
+
+.comments
+{
+	text-align:center;
+}
+
+.comments input
+{
+	width:auto;
+}
+
 #checkboxes input
 {
 	width:auto;
@@ -1019,3 +1037,24 @@ z-index: 5;
 .code .vg { color: #B8860B } /* Name.Variable.Global */
 .code .vi { color: #B8860B } /* Name.Variable.Instance */
 .code .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+
+
+.content_box_header
+{
+	font-size:11px;
+	font-weight:bold;
+	background-color:#C8D7E3;
+	border:1px solid #3C78B5;
+	border-bottom:0px;
+	padding:3px;
+	margin:0px;
+	text-align:center;
+	margin-top:6px;
+}
+
+.content_box
+{
+	border:1px solid #3C78B5;
+	background:#F5F7F1;
+}

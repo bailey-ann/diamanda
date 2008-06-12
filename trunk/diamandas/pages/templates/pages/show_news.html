@@ -10,7 +10,7 @@
 {{ page.parsed_text|safe }}
 <ul class="newsbox">
 	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
-	<li class="comment"><a href="/com/{{ page.id }}/1/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+	<li class="comment"><a href="/w/c/{{ page.slug }}/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
 </ul>
 
 {% endblock %}

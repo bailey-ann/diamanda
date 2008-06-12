@@ -15,6 +15,7 @@ from django import newforms as forms
 from pages.models import *
 from userpanel.models import Profile
 from myghtyboard.models import Topic
+from myghtyboard.context import forum as forumContext
 
 def show_index(request):
 	"""
@@ -24,9 +25,15 @@ def show_index(request):
 	now = datetime.now()
 	check_time = now - timedelta(minutes=10)
 	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]
+	try:
+		p = Content.objects.get(slug='index')
+	except:
+		home = settings.DEFAULT_HOME_TEXT
+	else:
+		home = p.parsed_text
 	return render_to_response(
 		'pages/show_index.html',
-		{'onsite': onsite, 'home_text': settings.HOME_TEXT, 'feed': feed},
+		{'onsite': onsite, 'home_text': home, 'feed': feed},
 		context_instance=RequestContext(request))
 
 def list_news(request, book=False):
@@ -62,23 +69,36 @@ def show(request, slug):
 	* slug - slug of a Content entry
 	"""
 	try:
-		page = Content.objects.filter(slug=slug).values(
-			'id', 'slug', 'date', 'title', 'parsed_description', 'description',
-			'parsed_text', 'comments_count', 'current_book', 'crumb', 'content_type')
+		page = Content.objects.get(slug=slug)
 	except Content.DoesNotExist:
 		return render_to_response('pages/bug.html',
 			{'bug': _('Page does not exist')},
 			context_instance=RequestContext(request))
-	page = page[0]
-	if page['content_type'] == 'news':
+	
+	if page.current_book:
+		cb = page.current_book
+	
+	add_topic = False
+	if page.coment_forum:
+		request.forum_id = page.coment_forum.id
+		perms = forumContext(request)
+		if perms['perms']['add_topic']:
+			add_topic = True
+	elif page.place and page.place.coment_forum:
+		request.forum_id = page.place.coment_forum.id
+		perms = forumContext(request)
+		if perms['perms']['add_topic']:
+			add_topic = True
+	
+	if page.content_type == 'news':
 		return render_to_response(
 			'pages/show_news.html',
-			{'page': page},
-			context_instance=RequestContext(request, {'current_book': page['current_book']}))
+			{'page': page, 'add_topic': add_topic},
+			context_instance=RequestContext(request, {'current_book': cb}))
 	return render_to_response(
 		'pages/show.html',
-		{'page': page},
-		context_instance=RequestContext(request, {'current_book': page['current_book']}))
+		{'page': page, 'add_topic': add_topic},
+		context_instance=RequestContext(request, {'current_book': cb}))
 
 def sitemap(request):
 	"""
@@ -107,9 +127,25 @@ def book_rss(request, slug):
 		'parsed_description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
 
+#def add_comment(request, slug):
+	#try:
+		#page = Content.objects.filter(slug=slug).values(
+			#'id', 'slug', 'date', 'title', 'parsed_description', 'description',
+			#'parsed_text', 'comments_count', 'current_book', 'crumb', 'content_type')
+	#except Content.DoesNotExist:
+		#return render_to_response('pages/bug.html',
+			#{'bug': _('Page does not exist')},
+			#context_instance=RequestContext(request))
+	#page = page[0]
+	#return render_to_response(
+		#'pages/add_comment.html',
+		#{'page': page},
+		#context_instance=RequestContext(request, {'current_book': page['current_book']}))
+	
+
 def search_pages(request):
 	"""
-	Search view
+	Search view using Google ajax search
 	"""
 	if request.POST:
 		data = request.POST.copy()

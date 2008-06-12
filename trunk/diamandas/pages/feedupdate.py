@@ -16,10 +16,11 @@ def make_feed(site_id = 1):
 	cursor = connection.cursor()
 	query = Template("""
 		SELECT
-			'content', auth_user.username, date, title, description, is_update, changes, slug, Null, Null  FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
+			'content', auth_user.username, date, title, description, is_update, changes, slug, content_type, Null  FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
 		UNION ALL
 		SELECT
-			'topic', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page, rk_post$sid.topic_id, rk_topic$sid.is_solved FROM rk_post$sid
+			'topic', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page,
+			rk_post$sid.topic_id, rk_topic$sid.is_solved FROM rk_post$sid
 				JOIN rk_topic$sid ON rk_post$sid.topic_id = rk_topic$sid.id
 		ORDER BY date DESC LIMIT 15""")
 	query = query.substitute(sid=site_id)
@@ -77,7 +78,7 @@ def make_feed(site_id = 1):
 				r = t.render(c)
 			lastuser = i[1]
 		#handle content entries
-		#'content' - 0, auth_user.username - 1, date - 2, title - 3, description - 4, is_update - 5, changes - 6, slug - 7, Null - 8,9
+		#'content' - 0, auth_user.username - 1, date - 2, title - 3, description - 4, is_update - 5, changes - 6, slug - 7, content_type - 8, Null - 9
 		elif i[0] == 'content':
 			if i[5] == 1:
 				text = i[6] # update text
@@ -87,6 +88,9 @@ def make_feed(site_id = 1):
 				if len(text) > 100:
 					text = '%s...' % text[0:100]
 				cssclass = 'content_feed'
+			
+			if i[8] == 'news':
+				cssclass = 'news_feed'
 			
 			# append entry to current user DIV block
 			if lastuser and lastuser == i[1]:

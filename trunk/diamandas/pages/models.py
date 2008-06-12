@@ -108,7 +108,7 @@ class Content(models.Model):
 		if self.content_type == 'book':
 			self.current_book = self.slug
 			self.current_book_title = self.title
-		elif self.place.content_type == 'book':
+		elif self.place and self.place.content_type == 'book':
 			self.current_book = self.place.slug
 			self.current_book_title = self.place.title
 		else:

@@ -26,7 +26,6 @@ SITE_NAME = 'Diamanda'
 SITE_DESCRIPTION = 'Diamanda'
 SITE_ADMIN_MAIL = '2@2.pl'
 NOTIFY_ADMINS = True
-HOME_TEXT = '''Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]'''
 VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
@@ -34,6 +33,20 @@ MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
+
+
+DEFAULT_HOME_TEXT = '''Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]<br /><br />
+				You can edit this text by editing DEFAULT_HOME_TEXT in settings.py, or just by adding a Content entry with "index" slug.
+				<div class="content_box_header">Diamanda resources and help</div>
+				<div  class="content_box">
+				<ul>
+				<li><a href="http://www.rkblog.rk.edu.pl">English Support</a></li>
+				<li><a href="http://www.python.rk.edu.pl">Polish Support</a></li>
+				<li><a href="http://code.google.com/p/diamanda/">SVN repository at code.google.com</a></li>
+				<li><a href="http://code.djangoproject.com/wiki/ForumAppsComparison">Django Forum Apps Comparison</a></li>
+				</ul>
+				</div>'''
+#################################
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_PROFILE_MODULE = 'userpanel.profile'
