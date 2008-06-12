@@ -237,35 +237,36 @@ class LinkTag(TagBase):
         if u"javascript:" in self.url.lower():
             return ""
 
-        #Disallow non http: links
-        url_parsed = urlparse(self.url)
-        if url_parsed[0] and not url_parsed[0].lower().startswith(u'http'):
-            return ""
+        ##Disallow non http: links
+        #url_parsed = urlparse(self.url)
+        #if url_parsed[0] and not url_parsed[0].lower().startswith(u'http'):
+            #return ""
 
-        #Prepend http: if it is not present
-        if not url_parsed[0]:
-            self.url="http://"+self.url
-            url_parsed = urlparse(self.url)
+        ##Prepend http: if it is not present
+        #if not url_parsed[0]:
+            #self.url="http://"+self.url
+            #url_parsed = urlparse(self.url)
 
-        #Get domain
-        self.domain = url_parsed[1].lower()
+        ##Get domain
+        #self.domain = url_parsed[1].lower()
 
-        #Remove www for brevity
-        if self.domain.startswith(u'www.'):
-            self.domain = self.domain[4:]
+        ##Remove www for brevity
+        #if self.domain.startswith(u'www.'):
+            #self.domain = self.domain[4:]
 
         #Quote the url
         #self.url="http:"+urlunparse( map(quote, (u"",)+url_parsed[1:]) )
-        self.url= unicode( urlunparse(quote(component, safe='/=&?:+') for component in url_parsed) )
+        #self.url= unicode( urlunparse(quote(component, safe='/=&?:+') for component in url_parsed) )
 
         #Sanity check
-        if not self.url:
-            return u""
+        #if not self.url:
+            #return u""
 
-        if self.domain:
-            return u'<a href="%s">'%self.url
-        else:
-            return u""
+        #if self.domain:
+            #return u'<a href="%s">'%self.url
+        #else:
+            #return u""
+        return u'<a href="%s">'%self.url
 
     def _close(self):
         
@@ -783,8 +784,8 @@ def test():
     tests.append("[link http://www.willmcgugan.com]My homepage[/link]")
     tests.append("[link]http://www.willmcgugan.com[/link]")
 
-    tests.append(u"[b]Hello André[/b]")
-    tests.append(u"[google]André[/google]")
+    tests.append(u"[b]Hello Andrï¿½[/b]")
+    tests.append(u"[google]Andrï¿½[/google]")
     tests.append("[s]Strike through[/s]")
     tests.append("[b]bold [i]bold and italic[/b] italic[/i]")
     tests.append("[google]Will McGugan[/google]")

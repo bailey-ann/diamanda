@@ -31,7 +31,7 @@
 		<div class="rightpostform comments">
 			<input type="submit" value="{% trans "Add comment" %}" />
 			{% if page.coment_topic %}
-				<input type="button" value="{% trans "Read all comments" %}" onclick="location.assign('/forum/topic/1/{{ page.coment_topic }}/');" />
+				<input type="button" value="{% trans "Read all comments" %}" onclick="location.assign('/forum/topic/1/{{ page.coment_topic.id }}/');" />
 			{% endif %}
 		</div>
 	</div>
@@ -41,7 +41,7 @@
 {% endblock %}
 
 {% block pagemenu %}
-<li><a href="/w/c/{{ page.slug }}/"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>
+<li><a href="#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>
 {% ifequal page.content_type "book" %}
 	<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
 	<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>

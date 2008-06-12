@@ -92,7 +92,10 @@ class Content(models.Model):
 			self.parsed_description = cbcparser.parse_cbc_tags(self.description, False)
 			self.parsed_text = cbcparser.parse_cbc_tags(self.text, False)
 		
-		self.comments_count = 0 # TUTAJ Z FORUM !!
+		if self.coment_topic:
+			self.comments_count = self.coment_topic.posts
+		else:
+			self.comments_count = 0
 		
 		crumb = '<a href="/w/p/%s/">%s</a>' % (self.slug, self.title)
 		a = self

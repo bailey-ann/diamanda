@@ -16,11 +16,11 @@ def make_feed(site_id = 1):
 	cursor = connection.cursor()
 	query = Template("""
 		SELECT
-			'content', auth_user.username, date, title, description, is_update, changes, slug, content_type, Null  FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
+			'content', auth_user.username, date, title, description, is_update, changes, slug, content_type, Null, Null  FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
 		UNION ALL
 		SELECT
 			'topic', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page,
-			rk_post$sid.topic_id, rk_topic$sid.is_solved FROM rk_post$sid
+			rk_post$sid.topic_id, rk_topic$sid.is_solved, rk_topic$sid.is_external FROM rk_post$sid
 				JOIN rk_topic$sid ON rk_post$sid.topic_id = rk_topic$sid.id
 		ORDER BY date DESC LIMIT 15""")
 	query = query.substitute(sid=site_id)
@@ -32,13 +32,16 @@ def make_feed(site_id = 1):
 	for i in row:
 		r = False
 		# handle new posts
-		#'topic' - 0, author - 1, date - 2, name - 3, text - 4, posts - 5, is_locked - 6, last_pagination_page - 7, topic_id - 8, is_solved - 9
+		#'topic' - 0, author - 1, date - 2, name - 3, text - 4, posts - 5, is_locked - 6, last_pagination_page - 7, topic_id - 8, is_solved - 9, is_external - 10
 		if i[0] == 'topic' and i[6] != 1:
 			text = i[4].split('\n')[0]
 			if len(text) > 100:
 				text = '%s...' % text[0:100]
 			
-			if i[5] > 1:
+			if i[10] == 1:
+				prefix  = ''
+				cssclass = 'reply_feed'
+			elif i[5] > 1:
 				cssclass = 'reply_feed'
 				prefix  = 'Re: '
 			elif i[9] == 1:
@@ -78,7 +81,7 @@ def make_feed(site_id = 1):
 				r = t.render(c)
 			lastuser = i[1]
 		#handle content entries
-		#'content' - 0, auth_user.username - 1, date - 2, title - 3, description - 4, is_update - 5, changes - 6, slug - 7, content_type - 8, Null - 9
+		#'content' - 0, auth_user.username - 1, date - 2, title - 3, description - 4, is_update - 5, changes - 6, slug - 7, content_type - 8, Null - 9, 10
 		elif i[0] == 'content':
 			if i[5] == 1:
 				text = i[6] # update text

@@ -11,11 +11,14 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django import newforms as forms
+from django.core.mail import mail_admins
 
 from pages.models import *
 from userpanel.models import Profile
-from myghtyboard.models import Topic
+from myghtyboard.models import *
 from myghtyboard.context import forum as forumContext
+from myghtyboard.views import AddPostForm, AddTopicForm
+from utils import *
 
 def show_index(request):
 	"""
@@ -81,14 +84,111 @@ def show(request, slug):
 	add_topic = False
 	if page.coment_forum:
 		request.forum_id = page.coment_forum.id
+		coment_forum_id = page.coment_forum.id
 		perms = forumContext(request)
 		if perms['perms']['add_topic']:
 			add_topic = True
 	elif page.place and page.place.coment_forum:
 		request.forum_id = page.place.coment_forum.id
+		coment_forum_id = page.place.coment_forum.id
 		perms = forumContext(request)
 		if perms['perms']['add_topic']:
 			add_topic = True
+	
+	if request.POST and add_topic and not page.coment_topic:
+		forum = Forum.objects.get(id=coment_forum_id)
+		page_data = request.POST.copy()
+		page_data['author'] = str(request.user)
+		text = page_data['text']
+		
+		page_data['name'] = _('Comments for: %s') % page.title
+		page_data['forum'] = coment_forum_id
+		page_data['posts'] = 1
+		page_data['lastposter'] = str(request.user)
+		page_data['last_pagination_page'] = 1
+		page_data['is_external'] = True
+		page_data['modification_date'] = datetime.now()
+		form = AddTopicForm(page_data)
+		if form.is_valid():
+			new_place = form.save()
+			COMMENT_POST = _('This is a discussion about article: [url="/w/p/%s/"]%s[/url].') % (page.slug, page.title)
+			post = Post(topic = new_place, text = COMMENT_POST, author = str(request.user), ip = request.META['REMOTE_ADDR'])
+			post.save()
+			
+			post = Post(topic = new_place, text = text, author = str(request.user), ip = request.META['REMOTE_ADDR'])
+			post.save()
+			
+			forum.topics = forum.topics +1
+			forum.posts = forum.posts +1
+			forum.lastposter = str(request.user)
+			if len(new_place.name) > 25:
+				tname = new_place.name[0:25] + '...'
+			else:
+				tname = new_place.name
+			forum.lasttopic = '<a href="/forum/topic/1/' + str(new_place.id) + '/">' + tname + '</a>'
+			forum.modification_date = datetime.now()
+			forum.save()
+			
+			page.coment_topic = new_place
+			page.comments_count = page.coment_topic.posts
+			page.save()
+			
+			if settings.NOTIFY_ADMINS:
+				mail_admins(_('Comment Topic Created'), _('Topic added: http://www.%s/forum/forum/%s/') % (settings.SITE_KEY, coment_forum_id), fail_silently=True)
+			
+			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
+	elif request.POST and add_topic and page.coment_topic:
+		topic = Topic.objects.get(id=page.coment_topic.id)
+		forum = Forum.objects.get(id=topic.forum.id)
+		
+		page_data = request.POST.copy()
+		page_data['author'] = str(request.user)
+		page_data['ip'] = request.META['REMOTE_ADDR']
+		page_data['topic'] = page.coment_topic.id
+		page_data['date'] = datetime.now()
+		form = AddPostForm(page_data)
+		if form.is_valid():
+			form.save()
+		
+			posts = Post.objects.filter(topic=topic).count()
+			
+			pmax =  posts/10
+			pmaxten =  posts%10
+			if pmaxten != 0:
+				pmax = pmax+1
+				topic.last_pagination_page = pmax
+			elif pmax > 0:
+				topic.last_pagination_page = pmax
+			else:
+				pmax = 1
+				topic.last_pagination_page = 1
+			topic.posts = posts
+			topic.lastposter = str(request.user)
+			topic.modification_date = datetime.now()
+			topic.save()
+			
+			forum.posts = forum.posts +1
+			
+			forum.lastposter = str(request.user)
+			if len(topic.name) > 25:
+				tname = topic.name[0:25] + '...'
+			else:
+				tname = topic.name
+			forum.lasttopic = '<a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + tname + '</a>'
+			forum.modification_date = datetime.now()
+			forum.save()
+			
+			page.comments_count = page.coment_topic.posts
+			page.save()
+			
+			if settings.NOTIFY_ADMINS:
+				mail_admins(
+					_('Comment Post Added'),
+					_('Post Added: http://www.%s/forum/topic/%s/%s/') % (settings.SITE_KEY, str(pmax), topic.id),
+					fail_silently=True
+					)
+			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
+		
 	
 	if page.content_type == 'news':
 		return render_to_response(

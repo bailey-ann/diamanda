@@ -2,7 +2,6 @@
 # Diamanda Application Set
 # myghtyboard forum
 
-from re import findall
 import base64
 from datetime import datetime
 from stripogram import html2safehtml
@@ -245,13 +244,6 @@ def add_topic(request, forum_id):
 	if request.POST:
 		page_data = request.POST.copy()
 		page_data['author'] = str(request.user)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-		for i in tags:
-			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
-		page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=settings.VALID_TAGS)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-		for i in tags:
-			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
 		text = page_data['text']
 		if 'prefix[]' in page_data:
 			prefixes = page_data.getlist("prefix[]")
@@ -344,14 +336,6 @@ def add_post(request, topic_id, post_id = False):
 	if request.POST:
 		page_data = request.POST.copy()
 		page_data['author'] = str(request.user)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-		for i in tags:
-			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
-		page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=settings.VALID_TAGS)
-		tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-		for i in tags:
-			page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
-		
 		page_data['ip'] = request.META['REMOTE_ADDR']
 		page_data['topic'] = topic_id
 		page_data['date'] = datetime.now()
