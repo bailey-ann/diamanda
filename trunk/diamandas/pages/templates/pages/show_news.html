@@ -10,8 +10,42 @@
 {{ page.parsed_text|safe }}
 <ul class="newsbox">
 	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
-	<li class="comment"><a href="/w/c/{{ page.slug }}/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+	<li class="comment"><a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+	<li class="aauthor">{{ page.author }}</li>
+	{% if page.is_update %}<li class="update">{{ page.changes }}</li>{% endif %}
+
 </ul>
+{% if add_topic %}
+	<form method="post" action=".">
+	<div class="postform">
+		<div class="posthead">{% trans "Add comment" %}</div>
+		<div class="leftpostform">
+			<strong>{% trans "Comment" %}</strong>
+		</div>
+		<div class="rightpostform">
+			<div id="emoticons"><a name="c"></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" /></a>
+				<a href="#c" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" /></a>
+				<a href="#c" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" /></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" /></a>
+				<a href="#c" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" /></a>
+				<a href="#c" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" /></a>
+			</div>
+		<textarea name="text" id="bbcode" rows="6">{{ post_text }}</textarea>
+			{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
+		</div>
+		<div class="leftpostform">
+		</div>
+		<div class="rightpostform comments">
+			<input type="submit" value="{% trans "Add comment" %}" />
+			{% if page.coment_topic %}
+				<input type="button" value="{% trans "Read all comments" %}" onclick="location.assign('/forum/topic/1/{{ page.coment_topic.id }}/');" />
+			{% endif %}
+		</div>
+	</div>
+{% else %}
+	{% if user.is_authenticated %}<div class="box">{% trans "Comments have been disabled for this page" %}</div>{% endif %}
+{% endif %}
 
 {% endblock %}
 {% block pagemenu %}
@@ -26,4 +60,25 @@
 {% endif %}
 
 {% if user.staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Edit" %}</a></li>{% endif %}
+{% endblock %}
+
+
+{% block meta %}
+{% if page.coment_forum or page.place.coment_forum %}
+	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
+	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
+	<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.js"></script>
+	<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
+	
+	<script language="javascript">
+	$(document).ready(function()    {
+	$('#bbcode').markItUp(myBbcodeSettings);
+	
+	$('#emoticons a').click(function() {
+		emoticon = $(this).attr("title");
+		$.markItUp( { replaceWith:emoticon } );
+	});
+	});
+	</script>
+{% endif %}
 {% endblock %}

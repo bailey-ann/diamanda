@@ -7,6 +7,13 @@
 
 {% block content %}{{ page.parsed_text|safe }}
 
+<ul class="newsbox">
+	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
+	<li class="comment"><a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+	<li class="aauthor">{{ page.author }}</li>
+	{% if page.is_update %}<li class="update">{{ page.changes }}</li>{% endif %}
+
+</ul>
 {% if add_topic %}
 	<form method="post" action=".">
 	<div class="postform">

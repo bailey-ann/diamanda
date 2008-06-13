@@ -101,8 +101,8 @@ color:gray;
 
 .feed
 {
-background-color:#EDEDED;
-border:1px solid #EDEDED;
+background-color:#F5F7F1;
+border:1px solid #F5F7F1;
 margin-bottom:4px;
 color:gray;
 }
@@ -165,7 +165,7 @@ background-position:1% 50%;
 
 .margin_feed
 {
-border-bottom:1px solid #EDEDED;
+border-bottom:1px solid #F5F7F1;
 margin-bottom:10px;
 }
 
@@ -523,7 +523,7 @@ border-bottom:1px dotted gray;
 border-top:1px dotted gray;
 padding:5px;
 margin-bottom:35px;
-margin-top:5px;
+margin-top:15px;
 overflow:auto;
 background-color:#F2F2F2;
 font-size:11px;
@@ -542,12 +542,12 @@ background-repeat:no-repeat;
 padding-left:20px;
 }
 
-.read
+/*.read
 {
 background-image:url(page.gif);
 background-repeat:no-repeat;
 padding-left:20px;
-}
+}*/
 
 .comment
 {
@@ -556,12 +556,13 @@ background-repeat:no-repeat;
 padding-left:20px;
 }
 
-.book
+.aauthor
 {
-background-image:url(folder.png);
+background-image:url(user2.png);
 background-repeat:no-repeat;
 padding-left:20px;
 }
+
 
 .update
 {
