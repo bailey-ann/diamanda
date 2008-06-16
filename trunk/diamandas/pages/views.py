@@ -3,7 +3,6 @@
 # Pages module
 
 from datetime import datetime, timedelta
-
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.template import RequestContext

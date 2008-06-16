@@ -5,6 +5,7 @@ from string import Template
 
 from django.utils.translation import ugettext as _
 from django.template import Context, loader
+from utils import *
 
 def make_feed(site_id = 1):
 	"""
@@ -13,6 +14,7 @@ def make_feed(site_id = 1):
 	site_id - ID of the site defined in settings.py as SITE_ID
 	"""
 	from django.db import connection
+	stripper = Stripper()
 	cursor = connection.cursor()
 	query = Template("""
 		SELECT
@@ -34,7 +36,7 @@ def make_feed(site_id = 1):
 		# handle new posts
 		#'topic' - 0, author - 1, date - 2, name - 3, text - 4, posts - 5, is_locked - 6, last_pagination_page - 7, topic_id - 8, is_solved - 9, is_external - 10
 		if i[0] == 'topic' and i[6] != 1:
-			text = i[4].split('\n')[0]
+			text = stripper.strip(i[4].split('\n')[0])
 			if len(text) > 100:
 				text = '%s...' % text[0:100]
 			
@@ -58,7 +60,7 @@ def make_feed(site_id = 1):
 					'pagination_page': i[7],
 					'topic_id': i[8],
 					'prefix': prefix,
-					'topic_title': i[3],
+					'topic_title': stripper.strip(i[3]),
 					'text': text
 				})
 				appended = t.render(c)
@@ -75,7 +77,7 @@ def make_feed(site_id = 1):
 					'pagination_page': i[7],
 					'topic_id': i[8],
 					'prefix': prefix,
-					'topic_title': i[3],
+					'topic_title': stripper.strip(i[3]),
 					'text': text
 				})
 				r = t.render(c)
@@ -84,10 +86,10 @@ def make_feed(site_id = 1):
 		#'content' - 0, auth_user.username - 1, date - 2, title - 3, description - 4, is_update - 5, changes - 6, slug - 7, content_type - 8, Null - 9, 10
 		elif i[0] == 'content':
 			if i[5] == 1:
-				text = i[6] # update text
+				text = stripper.strip(i[6]) # update text
 				cssclass = 'content_update_feed'
 			else:
-				text = i[4].split('\n')[0]
+				text = stripper.strip(i[4].split('\n')[0])
 				if len(text) > 100:
 					text = '%s...' % text[0:100]
 				cssclass = 'content_feed'
@@ -101,7 +103,7 @@ def make_feed(site_id = 1):
 				c = Context({
 					'cssclass': cssclass,
 					'slug': i[7],
-					'title': i[3],
+					'title': stripper.strip(i[3]),
 					'text': text
 				})
 				appended = t.render(c)
@@ -115,7 +117,7 @@ def make_feed(site_id = 1):
 					'date': i[2][:10],
 					'cssclass': cssclass,
 					'slug': i[7],
-					'title': i[3],
+					'title': stripper.strip(i[3]),
 					'text': text
 				})
 				r = t.render(c)

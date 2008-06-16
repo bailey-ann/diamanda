@@ -2,7 +2,6 @@
 # Diamanda Application Set
 # User Panel
 
-from stripogram import html2safehtml
 from random import choice
 import Image, ImageDraw, ImageFont, sha
 
@@ -117,10 +116,11 @@ def register(request):
 	manipulator = RegisterForm()
 	if request.POST:
 		data = request.POST.copy()
-		
+		stripper = Stripper()
+		data['login'] = stripper.strip(data['login'])
+		data['email'] = stripper.strip(data['email'])
 		errors = manipulator.get_validation_errors(data)
 		if not errors:
-			data['email'] = html2safehtml(data['email'] ,valid_tags=())
 			try:
 				user = User.objects.create_user(data['login'], data['email'], data['password1'])
 			except Exception:

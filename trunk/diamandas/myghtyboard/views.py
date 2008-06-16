@@ -4,7 +4,6 @@
 
 import base64
 from datetime import datetime
-from stripogram import html2safehtml
 from postmarkup import render_bbcode
 
 from django.shortcuts import render_to_response
@@ -242,6 +241,7 @@ def add_topic(request, forum_id):
 				pr.append(i)
 	
 	if request.POST:
+		stripper = Stripper()
 		page_data = request.POST.copy()
 		page_data['author'] = str(request.user)
 		text = page_data['text']
@@ -253,7 +253,7 @@ def add_topic(request, forum_id):
 				page_data['prefixes'] = '%s[%s] ' % (page_data['prefixes'], p.name)
 			
 			del page_data['prefix[]']
-		page_data['name'] = html2safehtml(page_data['name'] ,valid_tags=())
+		page_data['name'] = stripper.strip(page_data['name'])
 		page_data['forum'] = forum_id
 		page_data['posts'] = 1
 		page_data['lastposter'] = str(request.user)
@@ -421,13 +421,6 @@ def edit_post(request, post_id):
 	if str(request.user) == post.author or perms['perms']['is_staff']:
 		if request.POST and len(request.POST.copy()['text']) > 1:
 			page_data = request.POST.copy()
-			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-			for i in tags:
-				page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.encodestring(i)+u'[/code]')
-			page_data['text'] = html2safehtml(page_data['text'] ,valid_tags=settings.VALID_TAGS)
-			tags = findall( r'(?xs)\[code\](.*?)\[/code\]''', page_data['text'])
-			for i in tags:
-				page_data['text'] = page_data['text'].replace(u'[code]'+i+u'[/code]', u'[code]'+base64.decodestring(i)+u'[/code]')
 			post.text = page_data['text']
 			post.save()
 			

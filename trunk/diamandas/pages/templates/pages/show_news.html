@@ -49,7 +49,7 @@
 
 {% endblock %}
 {% block pagemenu %}
-<li><a href="/com/{{ page.id }}/1/">{% trans "Comments" %} ({{ page.comments_count }})</a></li>
+<li><a href="#c">{% trans "Comments" %} ({{ page.comments_count }})</a></li>
 <li><a href="/w/n/">{% trans "Browse news" %}</a></li>
 
 {% if page.current_book %}
