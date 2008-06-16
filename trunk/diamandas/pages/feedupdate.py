@@ -71,7 +71,7 @@ def make_feed(site_id = 1):
 				t = loader.get_template('feed/forum_block.html')
 				c = Context({
 					'user_id': 'ID_USERA_DO_PROFILU',
-					'username': i[1],
+					'username': i[1][0:14],
 					'date': i[2][:10],
 					'cssclass': cssclass,
 					'pagination_page': i[7],
@@ -113,7 +113,7 @@ def make_feed(site_id = 1):
 				t = loader.get_template('feed/content_block.html')
 				c = Context({
 					'user_id': 'ID_USERA_DO_PROFILU',
-					'username': i[1],
+					'username': i[1][0:14],
 					'date': i[2][:10],
 					'cssclass': cssclass,
 					'slug': i[7],

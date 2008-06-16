@@ -415,9 +415,10 @@ overflow:auto;
 .leftpost
 {
 	float:left;
-	width:130px;
+	width:160px;
 	background:#EEEEEE;
 	padding:4px;
+
 }
 .rightpost
 {
@@ -433,7 +434,7 @@ overflow:auto;
 .leftbottompost
 {
 	float:left;
-	width:130px;
+	width:160px;
 	background:#EEEEEE;
 	padding:4px;
 	padding-top:10px;

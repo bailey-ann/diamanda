@@ -42,7 +42,8 @@ class Forum(models.Model):
 	lasttopic = models.CharField(max_length=255, verbose_name=_("Last Topic"), blank=True, default='', null=True)
 	modification_date = models.DateTimeField(default=datetime.now(), blank=True)
 	order = models.PositiveSmallIntegerField(default=0)
-	use_prefixes = models.BooleanField(blank=True, default=False)
+	use_prefixes = models.BooleanField(blank=True, default=False, verbose_name=_('Use prefixes'))
+	allow_anonymous = models.BooleanField(blank=True, default=False, verbose_name=_('Allow anonymous to post'))
 	use_moderators = models.BooleanField(blank=True, default=False, verbose_name=_('Use moderators'))
 	moderators = models.ManyToManyField(User, verbose_name=_('Moderators'), blank=True, null=True,
 		help_text=_('Select non-staff users that should be moderators of this forum (optional).'), limit_choices_to={'is_staff': False}
@@ -55,7 +56,7 @@ class Forum(models.Model):
 		list_display = ('name', 'description', 'category', 'prefixes', 'order')
 		fields = (
 		(None, {
-		'fields': ('category', 'name', 'description', 'order', 'use_moderators', 'moderators', 'use_prefixes')
+		'fields': ('category', 'name', 'description', 'order', 'use_moderators', 'moderators', 'use_prefixes', 'allow_anonymous')
 		}),
 		(_('Stats'), {'fields': ('topics', 'posts'), 'classes': 'collapse'}),)
 	def __str__(self):

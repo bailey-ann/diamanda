@@ -21,13 +21,9 @@ $(document).ready(function()    {
 {% endblock %}
 
 {% block content %}
-
-
-
 <form method="post" action=".">
 <div class="postform">
         <div class="posthead">{% trans "Add new topic" %}</div>
-        
         <div class="leftpostform">
 		<strong>{% trans "Title" %}</strong>
 	</div>
@@ -44,7 +40,14 @@ $(document).ready(function()    {
                  {% endfor %}
           </div>
           {% endif %}
-
+	{% if not user.is_authenticated %}
+		<div class="leftpostform">
+			<strong>{% trans "Nick" %}</strong>
+		</div>
+		<div class="rightpostform">	
+			{{ form.nick }}{% if form.nick.errors %}<br />*** {{ form.nick.errors|join:", " }}{% endif %}
+		</div>
+	{% endif %}
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>

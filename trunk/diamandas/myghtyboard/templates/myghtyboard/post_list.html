@@ -113,6 +113,14 @@ $(document).ready(function()    {
 <form method="post" action="/forum/add_post/{{ topic.id }}/">
 <div class="postform">
         <div class="posthead">{% trans "Add new post" %}</div>
+	{% if not user.is_authenticated %}
+		<div class="leftpostform">
+			<strong>{% trans "Nick" %}</strong>
+		</div>
+		<div class="rightpostform">	
+			{{ form.nick }}{% if form.nick.errors %}<br />*** {{ form.nick.errors|join:", " }}{% endif %}
+		</div>
+	{% endif %}
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>

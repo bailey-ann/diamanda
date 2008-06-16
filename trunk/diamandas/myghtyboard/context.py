@@ -14,9 +14,9 @@ def forum(request):
 	if request.user.is_authenticated():
 		perms['add_topic'] = True
 		perms['add_post'] = True
-		perms['is_authenticated'] = False
+		perms['is_authenticated'] = True
 		perms['is_staff'] = request.user.is_staff
-
+		
 		if hasattr(request, 'forum_id'):
 			try:
 				forum = Forum.objects.get(id=request.forum_id)
@@ -28,4 +28,13 @@ def forum(request):
 					perms['add_post'] = True
 					perms['is_authenticated'] = True
 					perms['is_staff'] = True
+	elif not request.user.is_authenticated() and hasattr(request, 'forum_id'):
+		try:
+			forum = Forum.objects.get(id=request.forum_id)
+		except:
+			pass
+		else:
+			if forum.allow_anonymous:
+				perms['add_topic'] = True
+				perms['add_post'] = True
 	return {'perms': perms, 'on_forum': True}

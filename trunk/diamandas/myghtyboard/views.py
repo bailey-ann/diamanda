@@ -196,6 +196,7 @@ def post_list(request, topic_id, pagination_id):
 		is_author = False
 	forum = topic.forum
 	request.forum_id = forum.id
+	form = AddPostForm()
 	return object_list(
 		request,
 		topic.post_set.all().order_by('date'),
@@ -207,12 +208,14 @@ def post_list(request, topic_id, pagination_id):
 			'is_author': is_author,
 			'topic': topic,
 			'forum_id': forum.id,
+			'form': form,
 			'forum_name': forum,
 			'current_user': str(request.user)},
 		template_name = 'myghtyboard/post_list.html')
 
 class AddTopicForm(forms.ModelForm):
 	text = forms.CharField(widget=forms.Textarea)
+	nick = forms.CharField(required=False, initial=_('Anonymous'))
 	class Meta:
 		model = Topic
 
@@ -243,7 +246,6 @@ def add_topic(request, forum_id):
 	if request.POST:
 		stripper = Stripper()
 		page_data = request.POST.copy()
-		page_data['author'] = str(request.user)
 		text = page_data['text']
 		if 'prefix[]' in page_data:
 			prefixes = page_data.getlist("prefix[]")
@@ -256,7 +258,19 @@ def add_topic(request, forum_id):
 		page_data['name'] = stripper.strip(page_data['name'])
 		page_data['forum'] = forum_id
 		page_data['posts'] = 1
-		page_data['lastposter'] = str(request.user)
+		if perms['perms']['is_authenticated']:
+			page_data['lastposter'] = str(request.user)
+			page_data['author'] = str(request.user)
+			author = str(request.user)
+		else:
+			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
+				author = stripper.strip(page_data['nick'])[0:14]
+				page_data['lastposter'] = author
+				page_data['author'] = author
+			else:
+				page_data['lastposter'] = _('Anonymous')
+				page_data['author'] = _('Anonymous')
+				author = _('Anonymous')
 		page_data['last_pagination_page'] = 1
 		page_data['modification_date'] = datetime.now()
 		form = AddTopicForm(page_data)
@@ -268,12 +282,12 @@ def add_topic(request, forum_id):
 				tp.prefix=pr
 				tp.save()
 			
-			post = Post(topic = new_place, text = text, author = str(request.user), ip = request.META['REMOTE_ADDR'])
+			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
 			post.save()
 			
 			forum.topics = forum.topics +1
 			forum.posts = forum.posts +1
-			forum.lastposter = str(request.user)
+			forum.lastposter = author
 			if len(new_place.name) > 25:
 				tname = new_place.name[0:25] + '...'
 			else:
@@ -298,6 +312,7 @@ def add_topic(request, forum_id):
 		context_instance=RequestContext(request, forumContext(request)))
 
 class AddPostForm(forms.ModelForm):
+	nick = forms.CharField(required=False, initial=_('Anonymous'))
 	class Meta:
 		model = Post
 
@@ -334,8 +349,18 @@ def add_post(request, topic_id, post_id = False):
 	
 	lastpost = Post.objects.filter(topic=topic_id).order_by('-id')[:10]
 	if request.POST:
+		stripper = Stripper()
 		page_data = request.POST.copy()
-		page_data['author'] = str(request.user)
+		if perms['perms']['is_authenticated']:
+			page_data['author'] = str(request.user)
+			author = str(request.user)
+		else:
+			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
+				author = stripper.strip(page_data['nick'])[0:14]
+				page_data['author'] = author
+			else:
+				page_data['author'] = _('Anonymous')
+				author = _('Anonymous')
 		page_data['ip'] = request.META['REMOTE_ADDR']
 		page_data['topic'] = topic_id
 		page_data['date'] = datetime.now()
@@ -356,13 +381,13 @@ def add_post(request, topic_id, post_id = False):
 				pmax = 1
 				topic.last_pagination_page = 1
 			topic.posts = posts
-			topic.lastposter = str(request.user)
+			topic.lastposter = author
 			topic.modification_date = datetime.now()
 			topic.save()
 			
 			forum.posts = forum.posts +1
+			forum.lastposter = author
 			
-			forum.lastposter = str(request.user)
 			if len(topic.name) > 25:
 				tname = topic.name[0:25] + '...'
 			else:
@@ -389,9 +414,10 @@ def add_post(request, topic_id, post_id = False):
 			quote_text = '[quote][b]' + quote.author + _(' wrote') + ':[/b]\n\r' + quote.text + '[/quote]\n\r'
 		else:
 			quote_text = ''
+	form = AddPostForm()
 	return render_to_response(
 		'myghtyboard/add_post.html',
-		{'forum': forum, 'topic': topic, 'quote_text': quote_text, 'lastpost': lastpost},
+		{'forum': forum, 'topic': topic, 'quote_text': quote_text, 'lastpost': lastpost, 'form':form},
 		context_instance=RequestContext(request, forumContext(request)))
 
 def edit_post(request, post_id):

@@ -1,7 +1,7 @@
 {% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>{% block title %}{{ site_name }}{% endblock %}</title>
+<title>{% block title %}{{ siteName }}{% endblock %}</title>
 <meta name="description" content="{% block description %}{{ site_desc }}{% endblock %}" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Robots" content="index,follow" />
@@ -19,7 +19,7 @@
 			<input type="text" class="textinput" name="term" /> <input class="submit" type="submit" value="{% trans "Search" %}" />
 			</form>
 		</div>
-		<h1>{% block header %}{{ site_name }}{% endblock %}</h1>
+		<h1>{% block header %}{{ siteName }}{% endblock %}</h1>
 	</div>
 	<div id="modernbricksmenu2">
 	<ul>
@@ -33,7 +33,7 @@
 		<ul>
 		{% block leftmenu %}
 			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
-			<li{% if on_user %} id="current"{% endif %} id="loginlink">
+			<li{% block on_user %}{% endblock %} id="loginlink">
 			{% if user.is_authenticated %}
 				<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
 			{% else %}
