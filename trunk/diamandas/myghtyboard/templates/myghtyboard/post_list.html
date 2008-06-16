@@ -42,7 +42,7 @@ $(document).ready(function()    {
 	<div class="post">
 		    <div class="posthead">{{ i.date|date:"d.m.Y" }}</div>
 		    <div class="leftpost">
-			      <strong>{{ i.author}}</strong>
+			      <strong>{% if i.author_anonymous %}~<i>{% endif %}{{ i.author}}{% if i.author_anonymous %}</i>{% endif %}</strong>
 		    </div>
 		    <div class="rightpost">
 			      {{ i.text|fbc|safe|urlizetrunc:"60" }}
@@ -58,9 +58,9 @@ $(document).ready(function()    {
 			      {% endif %}
 			      {% ifequal i.author current_user %}
 				      {% if opened %}
-					      {% ifnotequal i.author "AnonymousUser" %}
+					      {% if not i.author_anonymous %}
 						      <a href="/forum/edit_post/{{ i.id }}/" class="edit">{% trans "Edit this post" %}</a>
-					      {% endifnotequal %}
+					      {% endif %}
 				      {% endif %} 
 			      {% else %}
 				      {% if perms.is_staff %}

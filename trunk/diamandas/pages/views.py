@@ -23,7 +23,10 @@ def show_index(request):
 	"""
 	Show the main page
 	"""
-	feed = Feed.objects.get(site=settings.SITE_ID)
+	try:
+		feed = Feed.objects.get(site=settings.SITE_ID)
+	except:
+		feed = False
 	now = datetime.now()
 	check_time = now - timedelta(minutes=10)
 	onsite = Profile.objects.select_related().filter(onsitedata__gt=check_time).order_by('-onsitedata')[:4]
@@ -93,6 +96,13 @@ def show(request, slug):
 		perms = forumContext(request)
 		if perms['perms']['add_topic']:
 			add_topic = True
+	
+	if add_topic and not page.coment_topic:
+		form = AddTopicForm()
+	elif add_topic and page.coment_topic:
+		form = AddPostForm()
+	else:
+		form = False
 	
 	if request.POST and add_topic and not page.coment_topic:
 		forum = Forum.objects.get(id=coment_forum_id)
@@ -192,11 +202,11 @@ def show(request, slug):
 	if page.content_type == 'news':
 		return render_to_response(
 			'pages/show_news.html',
-			{'page': page, 'add_topic': add_topic},
+			{'page': page, 'add_topic': add_topic, 'form': form},
 			context_instance=RequestContext(request, {'current_book': cb}))
 	return render_to_response(
 		'pages/show.html',
-		{'page': page, 'add_topic': add_topic},
+		{'page': page, 'add_topic': add_topic, 'form': form},
 		context_instance=RequestContext(request, {'current_book': cb}))
 
 def sitemap(request):

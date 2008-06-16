@@ -36,9 +36,9 @@ def make_feed(site_id = 1):
 		# handle new posts
 		#'topic' - 0, author - 1, date - 2, name - 3, text - 4, posts - 5, is_locked - 6, last_pagination_page - 7, topic_id - 8, is_solved - 9, is_external - 10
 		if i[0] == 'topic' and i[6] != 1:
-			text = stripper.strip(i[4].split('\n')[0])
-			if len(text) > 100:
-				text = '%s...' % text[0:100]
+			text = stripper.strip(i[4].strip().split('\n')[0])
+			if len(text) > 200:
+				text = '%s...' % text[0:200]
 			
 			if i[10] == 1:
 				prefix  = ''
@@ -89,9 +89,9 @@ def make_feed(site_id = 1):
 				text = stripper.strip(i[6]) # update text
 				cssclass = 'content_update_feed'
 			else:
-				text = stripper.strip(i[4].split('\n')[0])
-				if len(text) > 100:
-					text = '%s...' % text[0:100]
+				text = stripper.strip(i[4].strip().split('\n')[0])
+				if len(text) > 200:
+					text = '%s...' % text[0:200]
 				cssclass = 'content_feed'
 			
 			if i[8] == 'news':

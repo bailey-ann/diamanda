@@ -93,6 +93,8 @@ class Topic(models.Model):
 	name = models.CharField(max_length=255, verbose_name=_("Topic Title"))
 	prefixes = models.CharField(max_length=255, verbose_name=_("Prefixes"), blank=True)
 	author = models.CharField(max_length=255, verbose_name=_("Author"), blank=True)
+	author_anonymous = models.BooleanField(blank=True, default=False)
+	author_system = models.ForeignKey(User, blank=True, null=True)
 	posts = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Posts"))
 	lastposter = models.CharField(max_length=255, verbose_name=_("Last Poster"))
 	modification_date = models.DateTimeField(default=datetime.now())
@@ -157,6 +159,8 @@ class Post(models.Model):
 	topic = models.ForeignKey(Topic, verbose_name=_("Post"))
 	text = models.TextField()
 	author = models.CharField(max_length=255, verbose_name=_("Author"), blank=True)
+	author_anonymous = models.BooleanField(blank=True, default=False)
+	author_system = models.ForeignKey(User, blank=True, null=True)
 	date = models.DateTimeField(default=datetime.now, blank=True)
 	ip = models.CharField(max_length=20, blank=True)
 	class Meta:

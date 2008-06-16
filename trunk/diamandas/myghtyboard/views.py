@@ -190,7 +190,7 @@ def post_list(request, topic_id, pagination_id):
 		opened = False
 	else:
 		opened = True
-	if str(request.user) == topic.author:
+	if topic.author_anonymous == False and request.user == topic.author_system:
 		is_author = True
 	else:
 		is_author = False
@@ -262,15 +262,18 @@ def add_topic(request, forum_id):
 			page_data['lastposter'] = str(request.user)
 			page_data['author'] = str(request.user)
 			author = str(request.user)
+			page_data['author_system'] = request.user.id
 		else:
 			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
 				author = stripper.strip(page_data['nick'])[0:14]
 				page_data['lastposter'] = author
 				page_data['author'] = author
+				page_data['author_anonymous'] = 1
 			else:
 				page_data['lastposter'] = _('Anonymous')
 				page_data['author'] = _('Anonymous')
 				author = _('Anonymous')
+				page_data['author_anonymous'] = 1
 		page_data['last_pagination_page'] = 1
 		page_data['modification_date'] = datetime.now()
 		form = AddTopicForm(page_data)
@@ -283,6 +286,8 @@ def add_topic(request, forum_id):
 				tp.save()
 			
 			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
+			if 'author_anonymous' in page_data:
+				post.author_anonymous = True
 			post.save()
 			
 			forum.topics = forum.topics +1
@@ -354,13 +359,16 @@ def add_post(request, topic_id, post_id = False):
 		if perms['perms']['is_authenticated']:
 			page_data['author'] = str(request.user)
 			author = str(request.user)
+			page_data['author_system'] = request.user.id
 		else:
 			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
 				author = stripper.strip(page_data['nick'])[0:14]
 				page_data['author'] = author
+				page_data['author_anonymous'] = 1
 			else:
 				page_data['author'] = _('Anonymous')
 				author = _('Anonymous')
+				page_data['author_anonymous'] = 1
 		page_data['ip'] = request.META['REMOTE_ADDR']
 		page_data['topic'] = topic_id
 		page_data['date'] = datetime.now()

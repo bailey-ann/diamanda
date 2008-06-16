@@ -18,6 +18,14 @@
 	<form method="post" action=".">
 	<div class="postform">
 		<div class="posthead">{% trans "Add comment" %}</div>
+		{% if not user.is_authenticated %}
+			<div class="leftpostform">
+				<strong>{% trans "Nick" %}</strong>
+			</div>
+			<div class="rightpostform">	
+				{{ form.nick }}{% if form.nick.errors %}<br />*** {{ form.nick.errors|join:", " }}{% endif %}
+			</div>
+		{% endif %}
 		<div class="leftpostform">
 			<strong>{% trans "Comment" %}</strong>
 		</div>
