@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.js"></script>
 <script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
 
-<script language="javascript">
+<script type="text/javascript">
 $(document).ready(function()    {
     $('#bbcode').markItUp(myBbcodeSettings);
 
@@ -22,28 +22,28 @@ $(document).ready(function()    {
 {% endblock %}
 
 {% block content %}
-<form method="post" action="/forum/add_post/{{ topic.id }}/">
+<form method="post" action="/forum/edit_post/{{ post_id }}/">
 <div class="postform">
         <div class="posthead">{% trans "Edit post" %}</div>
         <div class="leftpostform">
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">
-		<div id="emoticons">
-			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" /></a>
-			<a href="#" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" /></a>
-			<a href="#" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" /></a>
-			<a href="#" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" /></a>
-			<a href="#" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" /></a>
-			<a href="#" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" /></a>
-		</div>
-	      <textarea name="text" id="bbcode" rows="6">{{ text }}</textarea>
+		<div id="emoticons"><a name="c"></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" alt="" /></a>
+				<a href="#c" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
+				<a href="#c" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
+				<a href="#c" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
+				<a href="#c" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
+			</div>
+	      <textarea name="text" id="bbcode" rows="6" cols="60">{{ text }}</textarea>
                     {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 	</div>
         <div class="leftpostform">
 	</div>
 	<div class="rightpostform">	
-                <input type="submit" value="{% trans "Add post" %}" />
+                <input type="submit" value="{% trans "Edit post" %}" />
 	</div>
     </div>
 </form>

@@ -4,10 +4,9 @@
 
 import base64
 from datetime import datetime
-from postmarkup import render_bbcode
 
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django import newforms as forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -21,13 +20,6 @@ from django.contrib.auth.decorators import login_required
 from myghtyboard.models import *
 from myghtyboard.context import forum as forumContext
 from utils import *
-
-def bbcode(request):
-	if 'data' in request.POST:
-		data = render_bbcode(request.POST['data'], "UTF-8")
-	else:
-		data = ''
-	return HttpResponse(data)
 
 def category_list(request):
 	"""
@@ -466,7 +458,7 @@ def edit_post(request, post_id):
 		else:
 			return render_to_response(
 				'myghtyboard/edit_post.html',
-				{'forum': forum, 'topic': topic, 'text': post.text},
+				{'forum': forum, 'topic': topic, 'text': post.text, 'post_id': post_id},
 				context_instance=RequestContext(request, forumContext(request)))
 	else:
 		return render_to_response('pages/bug.html',

@@ -237,8 +237,8 @@ class LinkTag(TagBase):
         if u"javascript:" in self.url.lower():
             return ""
 
-        ##Disallow non http: links
-        #url_parsed = urlparse(self.url)
+        #Disallow non http: links
+        url_parsed = urlparse(self.url)
         #if url_parsed[0] and not url_parsed[0].lower().startswith(u'http'):
             #return ""
 
@@ -247,16 +247,15 @@ class LinkTag(TagBase):
             #self.url="http://"+self.url
             #url_parsed = urlparse(self.url)
 
-        ##Get domain
-        #self.domain = url_parsed[1].lower()
+        #Get domain
+        self.domain = url_parsed[1].lower()
 
-        ##Remove www for brevity
-        #if self.domain.startswith(u'www.'):
-            #self.domain = self.domain[4:]
+        if self.domain.startswith(u'www.'):
+            self.domain = self.domain[4:]
 
         #Quote the url
-        #self.url="http:"+urlunparse( map(quote, (u"",)+url_parsed[1:]) )
-        #self.url= unicode( urlunparse(quote(component, safe='/=&?:+') for component in url_parsed) )
+        self.url="http:"+urlunparse( map(quote, (u"",)+url_parsed[1:]) )
+        self.url= unicode( urlunparse(quote(component, safe='/=&?:+') for component in url_parsed) )
 
         #Sanity check
         #if not self.url:
@@ -278,7 +277,7 @@ class LinkTag(TagBase):
         if self.domain:
             return u'</a>'+self.annotate_link(self.domain)
         else:
-            return u''
+            return u'</a>'
 
     def annotate_link(self, domain):
         """Annotates a link with the domain name.
@@ -470,7 +469,7 @@ class PygmentsCodeTag(TagBase):
         except ClassNotFound:
             contents = _escape(self.get_raw_tag_contents())
             self.no_close = True
-            return u'''<div class="code"><pre>%s</pre></div><div style='display:none'>'''%contents
+            return u"<div class=\"code\"><pre>%s</pre></div><div style='display:none'>" % contents
         formatter = HtmlFormatter(linenos=self.line_numbers, cssclass="code")
         code = self.get_raw_tag_contents()
         result = highlight(code, lexer, formatter)

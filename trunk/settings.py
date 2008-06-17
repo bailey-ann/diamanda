@@ -45,7 +45,12 @@ DEFAULT_HOME_TEXT = '''Diamanda Application Set :) Visit <a href="http://www.rkb
 				<li><a href="http://code.google.com/p/diamanda/">SVN repository at code.google.com</a></li>
 				<li><a href="http://code.djangoproject.com/wiki/ForumAppsComparison">Django Forum Apps Comparison</a></li>
 				</ul>
-				</div>'''
+				</div>
+				<p style="text-align:center; margin-top:5px;">
+				<a href="http://validator.w3.org/check?uri=referer"><img
+					src="http://www.w3.org/Icons/valid-xhtml10-blue"
+					alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+				</p>'''
 #################################
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/'

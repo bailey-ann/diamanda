@@ -31,14 +31,14 @@
 		</div>
 		<div class="rightpostform">
 			<div id="emoticons"><a name="c"></a>
-				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" /></a>
-				<a href="#c" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" /></a>
-				<a href="#c" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" /></a>
-				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" /></a>
-				<a href="#c" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" /></a>
-				<a href="#c" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" /></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-happy.png" alt="" /></a>
+				<a href="#c" title=":("><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
+				<a href="#c" title=":o"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
+				<a href="#c" title=":p"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
+				<a href="#c" title=";)"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
+				<a href="#c" title=":D"><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
 			</div>
-		<textarea name="text" id="bbcode" rows="6">{{ post_text }}</textarea>
+			<textarea name="text" id="bbcode" rows="6" cols="60">{{ post_text }}</textarea>
 			{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 		</div>
 		<div class="leftpostform">
@@ -50,6 +50,7 @@
 			{% endif %}
 		</div>
 	</div>
+	</form>
 {% else %}
 	{% if user.is_authenticated %}<div class="box">{% trans "Comments have been disabled for this page" %}</div>{% endif %}
 {% endif %}
@@ -78,7 +79,7 @@
 	<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.js"></script>
 	<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
 	
-	<script language="javascript">
+	<script type="text/javascript">
 	$(document).ready(function()    {
 	$('#bbcode').markItUp(myBbcodeSettings);
 	

@@ -106,14 +106,31 @@ def show(request, slug):
 	
 	if request.POST and add_topic and not page.coment_topic:
 		forum = Forum.objects.get(id=coment_forum_id)
+		stripper = Stripper()
 		page_data = request.POST.copy()
-		page_data['author'] = str(request.user)
+		
+		if perms['perms']['is_authenticated']:
+			page_data['lastposter'] = str(request.user)
+			page_data['author'] = str(request.user)
+			author = str(request.user)
+			page_data['author_system'] = request.user.id
+		else:
+			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
+				author = stripper.strip(page_data['nick'])[0:14]
+				page_data['lastposter'] = author
+				page_data['author'] = author
+				page_data['author_anonymous'] = 1
+			else:
+				page_data['lastposter'] = _('Anonymous')
+				page_data['author'] = _('Anonymous')
+				author = _('Anonymous')
+				page_data['author_anonymous'] = 1
+
 		text = page_data['text']
 		
 		page_data['name'] = _('Comments for: %s') % page.title
 		page_data['forum'] = coment_forum_id
 		page_data['posts'] = 1
-		page_data['lastposter'] = str(request.user)
 		page_data['last_pagination_page'] = 1
 		page_data['is_external'] = True
 		page_data['modification_date'] = datetime.now()
@@ -121,15 +138,19 @@ def show(request, slug):
 		if form.is_valid():
 			new_place = form.save()
 			COMMENT_POST = _('This is a discussion about article: [url="/w/p/%s/"]%s[/url].') % (page.slug, page.title)
-			post = Post(topic = new_place, text = COMMENT_POST, author = str(request.user), ip = request.META['REMOTE_ADDR'])
+			post = Post(topic = new_place, text = COMMENT_POST, author = author, ip = request.META['REMOTE_ADDR'])
+			if 'author_anonymous' in page_data:
+				post.author_anonymous = True
 			post.save()
 			
-			post = Post(topic = new_place, text = text, author = str(request.user), ip = request.META['REMOTE_ADDR'])
+			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
+			if 'author_anonymous' in page_data:
+				post.author_anonymous = True
 			post.save()
 			
 			forum.topics = forum.topics +1
 			forum.posts = forum.posts +1
-			forum.lastposter = str(request.user)
+			forum.lastposter = author
 			if len(new_place.name) > 25:
 				tname = new_place.name[0:25] + '...'
 			else:
@@ -149,9 +170,23 @@ def show(request, slug):
 	elif request.POST and add_topic and page.coment_topic:
 		topic = Topic.objects.get(id=page.coment_topic.id)
 		forum = Forum.objects.get(id=topic.forum.id)
+		stripper = Stripper()
 		
 		page_data = request.POST.copy()
-		page_data['author'] = str(request.user)
+		if perms['perms']['is_authenticated']:
+			page_data['author'] = str(request.user)
+			author = str(request.user)
+			page_data['author_system'] = request.user.id
+		else:
+			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
+				author = stripper.strip(page_data['nick'])[0:14]
+				page_data['author'] = author
+				page_data['author_anonymous'] = 1
+			else:
+				page_data['author'] = _('Anonymous')
+				author = _('Anonymous')
+				page_data['author_anonymous'] = 1
+
 		page_data['ip'] = request.META['REMOTE_ADDR']
 		page_data['topic'] = page.coment_topic.id
 		page_data['date'] = datetime.now()
@@ -172,13 +207,13 @@ def show(request, slug):
 				pmax = 1
 				topic.last_pagination_page = 1
 			topic.posts = posts
-			topic.lastposter = str(request.user)
+			topic.lastposter = author
 			topic.modification_date = datetime.now()
 			topic.save()
 			
 			forum.posts = forum.posts +1
 			
-			forum.lastposter = str(request.user)
+			forum.lastposter = author
 			if len(topic.name) > 25:
 				tname = topic.name[0:25] + '...'
 			else:
