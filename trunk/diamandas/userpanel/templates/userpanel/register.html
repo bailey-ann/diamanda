@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
 <h2>{% trans "Register" %}</h2>
-<form action="." method="post"><input type="hidden" value="{{ hash }}" name="imghash" />
+<form action="." method="post"><input type="hidden" value="{{ hash }}" name="answer" />
 {% if error %}
 	<div class="errmsg">{% trans "Registration Error" %}</div>
 {% endif %}
@@ -25,8 +25,9 @@
               <td>{{ form.email }}{% if form.email.errors %}<div class="errmsg">{{ form.email.errors|join:", " }}</div>{% endif %}</td>
             </tr>
             <tr class="rowB">
-              <td class="first"><b>{% trans "Text from the image" %}</b></td>
-              <td>{{ form.imgtext }}{% if form.imgtext.errors %}<div class="errmsg">{{ form.imgtext.errors|join:", " }}</div>{% endif %}<br /><img src="/site_media/captcha/{{ user }}.jpg?random={{ hash }}" alt=""></td>
+              <td class="first"><b>{% trans "What's the answer?" %}</b></td>
+              <td>	<b>{{ question }}</b><br />
+			{{ form.reply }}{% if form.reply.errors %}<div class="errmsg">{{ form.reply.errors|join:", " }}</div>{% endif %}<br /></td>
             </tr>
           </table>
 </div>

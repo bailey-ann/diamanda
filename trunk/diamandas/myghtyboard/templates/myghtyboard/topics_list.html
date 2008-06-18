@@ -32,7 +32,6 @@ $(document).ready(function()    {
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>{% endblock %}
 
 {% block content %}
-
 <div class="content">
           <table>
             <tr>
@@ -188,6 +187,9 @@ $(document).ready(function()    {
 	</div>
     </div>
     </form>
+{% endif %}
+{% if perms.is_spam %}
+<div class="box">{% trans "To many anonymous posts. Login to post topics and new messages." %}</div>
 {% endif %}
 <br />
 

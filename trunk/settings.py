@@ -26,7 +26,7 @@ SITE_NAME = 'Diamanda'
 SITE_DESCRIPTION = 'Diamanda'
 SITE_ADMIN_MAIL = '2@2.pl'
 NOTIFY_ADMINS = True
-VALID_TAGS = ('b', 'a', 'i', 'br', 'p', 'u', 'img', 'li', 'ul', 'ol', 'center', 'sub', 'sup', 'cite', 'blockquote')
+FORUM_MAX_ANONYMOUS_PER_HOUR = 10
 GOOGLE_AJAX_SEARCH_API_KEY = ''
 
 MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'

@@ -20,7 +20,7 @@ from django.core import validators
 from userpanel.models import *
 from userpanel.context import userpanel as userpanelContext
 from utils import *
-
+from captcha import *
 
 
 def user_panel(request):
@@ -67,13 +67,13 @@ class RegisterForm(forms.Manipulator):
 		self.fields = (forms.TextField(field_name="login", length=20, max_length=200, is_required=True, validator_list=[self.size3, self.freelogin]),
 		forms.PasswordField(field_name="password1", length=20, max_length=200, is_required=True, validator_list=[self.size4, self.equal]),
 		forms.PasswordField(field_name="password2", length=20, max_length=200, is_required=True, validator_list=[self.size4]),
-		forms.TextField(field_name="imgtext", is_required=True, validator_list=[self.hashcheck], length=20),
-		forms.TextField(field_name="imghash", is_required=True, length=20),
+		forms.TextField(field_name="reply", is_required=True, validator_list=[self.hashcheck], length=20),
+		forms.TextField(field_name="answer", is_required=True, length=20),
 		forms.EmailField(field_name="email", is_required=True, length=20, validator_list=[self.freemail]),)
 	def hashcheck(self, field_data, all_data):
-		SALT = settings.SECRET_KEY[:20]
-		if not all_data['imghash'] == sha.new(SALT+field_data.upper()).hexdigest():
-			raise validators.ValidationError(_("Incorrect captcha text."))
+		SALT = settings.SECRET_KEY
+		if not all_data['answer'] == sha.new(field_data+SALT).hexdigest():
+			raise validators.ValidationError(_("Incorrect answer."))
 	def size3(self, field_data, all_data):
 		if len(field_data) < 4:
 			raise validators.ValidationError(_("Login is to short"))
@@ -103,16 +103,7 @@ def register(request):
 	User registration
 	"""
 	# create a 5 char random strin and sha hash it
-	imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
-	SALT = settings.SECRET_KEY[:20]
-	imghash = sha.new(unicode(SALT)+unicode(imgtext)).hexdigest()
-	# create an image with the string
-	im=Image.open(settings.MEDIA_ROOT + '/bg.jpg')
-	draw=ImageDraw.Draw(im)
-	font=ImageFont.truetype(settings.MEDIA_ROOT + '/SHERWOOD.TTF', 26)
-	draw.text((5,5),imgtext, font=font, fill=(100,100,50))
-	im.save(settings.MEDIA_ROOT + '/captcha/' + str(request.user) + '.jpg',"JPEG")
-	
+	captcha = text_captcha()
 	manipulator = RegisterForm()
 	if request.POST:
 		data = request.POST.copy()
@@ -124,11 +115,11 @@ def register(request):
 			try:
 				user = User.objects.create_user(data['login'], data['email'], data['password1'])
 			except Exception:
-				data['imgtext'] = ''
+				data['reply'] = ''
 				form = forms.FormWrapper(manipulator, data, errors)
 				return render_to_response(
 					'userpanel/register.html',
-					{'error': True, 'form': form},
+					{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
 					context_instance=RequestContext(request))
 			else:
 				user.save()
@@ -137,16 +128,16 @@ def register(request):
 					login(request, user)
 				return redirect_by_template(request, "/user/", _('Registration compleated. You have been logged in succesfuly.'))
 		else:
-			data['imgtext'] = ''
+			data['reply'] = ''
 			form = forms.FormWrapper(manipulator, data, errors)
 			return render_to_response(
 				'userpanel/register.html',
-				{'error': True, 'hash': imghash, 'form': form},
+				{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
 				context_instance=RequestContext(request))
 	else:
 		errors = data = {}
 	form = forms.FormWrapper(manipulator, data, errors)
 	return render_to_response(
 		'userpanel/register.html',
-		{'hash': imghash, 'form': form},
+		{'hash': captcha['answer'], 'form': form, 'question': captcha['question']},
 		context_instance=RequestContext(request))

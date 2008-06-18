@@ -143,6 +143,9 @@ $(document).ready(function()    {
     </div>
 </form>
 {% endif %}{% endif %}
+{% if perms.is_spam %}
+<div class="box">{% trans "To many anonymous posts. Login to post topics and new messages." %}</div>
+{% endif %}
 
 <p style="text-align:right;"><br />
 	{% if perms.add_topic %}

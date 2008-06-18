@@ -219,9 +219,14 @@ def add_topic(request, forum_id):
 	"""
 	request.forum_id = forum_id
 	perms = forumContext(request)
-	if not perms['perms']['add_topic']:
+	if not perms['perms']['add_topic'] and not perms['perms']['is_spam']:
 		return render_to_response('pages/bug.html',
 			{'bug': _('You can\'t add a topic.')},
+			context_instance=RequestContext(request, forumContext(request))
+			)
+	if not perms['perms']['add_topic'] and perms['perms']['is_spam']:
+		return render_to_response('pages/bug.html',
+			{'bug': _('To many anonymous posts. Login to post topics and new messages.')},
 			context_instance=RequestContext(request, forumContext(request))
 			)
 	
@@ -325,9 +330,14 @@ def add_post(request, topic_id, post_id = False):
 	
 	request.forum_id = forum.id
 	perms = forumContext(request)
-	if not perms['perms']['add_post']:
+	if not perms['perms']['add_post'] and not perms['perms']['is_spam']:
 		return render_to_response('pages/bug.html',
 			{'bug': _('You can\'t add a post.')},
+			context_instance=RequestContext(request, forumContext(request))
+			)
+	if not perms['perms']['add_post'] and perms['perms']['is_spam']:
+		return render_to_response('pages/bug.html',
+			{'bug': _('To many anonymous posts. Login to post topics and new messages.')},
 			context_instance=RequestContext(request, forumContext(request))
 			)
 	
