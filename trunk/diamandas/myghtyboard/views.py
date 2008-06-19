@@ -2,7 +2,6 @@
 # Diamanda Application Set
 # myghtyboard forum
 
-import base64
 from datetime import datetime
 
 from django.shortcuts import render_to_response
@@ -285,6 +284,8 @@ def add_topic(request, forum_id):
 			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
 			if 'author_anonymous' in page_data:
 				post.author_anonymous = True
+			else:
+				post.author_system = request.user
 			post.save()
 			
 			forum.topics = forum.topics +1

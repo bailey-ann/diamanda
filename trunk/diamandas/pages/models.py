@@ -118,7 +118,7 @@ class Content(models.Model):
 			self.current_book = False
 			self.current_book_title = False
 		super(Content, self).save()
-		make_feed(settings.SITE_ID)
+		FeedUpdate(settings.SITE_ID)
 
 
 class Attachment(models.Model):
@@ -176,5 +176,5 @@ class Feed(models.Model):
 	"""
 	storage for "what's new?" feeds
 	"""
-	site = models.PositiveSmallIntegerField(verbose_name=_('Site ID'), unique=True)
-	text = models.TextField(verbose_name=_('Feed content'))
+	site = models.PositiveSmallIntegerField(unique=True) # site id
+	text = models.TextField() # rendered text

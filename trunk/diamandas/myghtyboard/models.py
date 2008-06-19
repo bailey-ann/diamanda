@@ -147,8 +147,8 @@ class TopicPrefix(models.Model):
 	"""
 	Model for prefix - topic relation. Used in filtering topics by prefix
 	"""
-	topic = models.ForeignKey(Topic, verbose_name=_("Topic"))
-	prefix = models.ManyToManyField(Prefix, verbose_name=_("Prefix"))
+	topic = models.ForeignKey(Topic)
+	prefix = models.ManyToManyField(Prefix)
 	class Meta:
 		db_table = 'rk_topicprefix' + str(settings.SITE_ID)
 
@@ -156,9 +156,9 @@ class Post(models.Model):
 	"""
 	Model for topic posts
 	"""
-	topic = models.ForeignKey(Topic, verbose_name=_("Post"))
+	topic = models.ForeignKey(Topic)
 	text = models.TextField()
-	author = models.CharField(max_length=255, verbose_name=_("Author"), blank=True)
+	author = models.CharField(max_length=255, blank=True)
 	author_anonymous = models.BooleanField(blank=True, default=False)
 	author_system = models.ForeignKey(User, blank=True, null=True)
 	date = models.DateTimeField(default=datetime.now, blank=True)
@@ -173,6 +173,6 @@ class Post(models.Model):
 		return unicode(self.id)
 	def save(self, **kwargs):
 		super(Post, self).save(**kwargs)
-		make_feed(settings.SITE_ID)
+		FeedUpdate(settings.SITE_ID)
 	
 	
