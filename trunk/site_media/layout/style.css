@@ -163,6 +163,15 @@ background-repeat:no-repeat;
 background-position:1% 50%;
 }
 
+#feed_rss
+{
+padding-left:20px;
+background-image:url(feed.png);
+background-repeat:no-repeat;
+background-position:1% 50%;
+float:right;
+}
+
 .margin_feed
 {
 border-bottom:1px solid #F5F7F1;

@@ -177,4 +177,5 @@ class Feed(models.Model):
 	storage for "what's new?" feeds
 	"""
 	site = models.PositiveSmallIntegerField(unique=True) # site id
-	text = models.TextField() # rendered text
+	html = models.TextField() # rendered html
+	rss = models.CharField(max_length=4) # rss

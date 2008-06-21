@@ -5,21 +5,28 @@ from string import Template
 
 from django.utils.translation import ugettext as _
 from django.template import Context, loader
+from django.conf import settings
+
 from utils import *
 
 class FeedUpdate():
+	"""
+	Generates "what's new" list and saves in database for later use
+	"""
 	def __init__(self, site_id):
 		self.feed = []
 		self.lastuser = False
 		self.r = False
 		self.stripper = Stripper()
 		self.site_id = site_id
+		
+		self.rss_feed = []
+		self.rss_row = False
+		
 		self.__make_feed()
 	def __make_feed(self):
 		"""
-		Generates "what's new" list and saves in database for later use
-		
-		site_id - ID of the site defined in settings.py as SITE_ID
+		the main method that execute all the code
 		"""
 		from django.db import connection
 		cursor = connection.cursor()
@@ -29,7 +36,7 @@ class FeedUpdate():
 					FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
 			UNION ALL
 			SELECT
-				'topic', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page,
+				'post', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page,
 				rk_post$sid.topic_id, rk_topic$sid.is_solved, rk_topic$sid.is_external, rk_post$sid.author_anonymous, rk_post$sid.author_system_id FROM rk_post$sid
 					JOIN rk_topic$sid ON rk_post$sid.topic_id = rk_topic$sid.id
 			ORDER BY date DESC LIMIT 15""")
@@ -39,34 +46,53 @@ class FeedUpdate():
 		
 		for i in rows:
 			self.r = False
+			self.rss_row = False
 			# handle posts
-			if i[0] == 'topic' and i[6] != 1:
+			if i[0] == 'post' and i[6] != 1:
 				self.__handle_post_feed(author=i[1], date=i[2], name=i[3], text=i[4], posts=i[5], is_locked=i[6], last_pagination_page=i[7], topic_id=i[8],
 								is_solved=i[9], is_external=i[10], author_anonymous=i[11], author_system_id=i[12])
+				self.__rss_handle_post_feed(date=i[2], title=i[3], description=i[4], pagination_page=i[7],topic_id=i[8],is_external=i[10],posts=i[5],is_solved=i[9])
 			#handle content
 			elif i[0] == 'content':
 				self.__handle_content_feed(username=i[1], date=i[2], title=i[3], description=i[4], is_update=i[5], changes=i[6], slug=i[7],
 									content_type=i[8], author_id=i[9])
+				self.__rss_handle_content_feed(date=i[2], title=i[3], description=i[4],slug=i[7],is_update=i[5], changes=i[6])
 			
 			if self.r:
 				self.feed.append(self.r)
+			if self.rss_row:
+				self.rss_feed.append(self.rss_row)
 	
 		ff = ''
 		for i in self.feed:
 			ff += '<div class="feed">%s</div>' % i
 		self.feed = ff
 		
+		
+		t = loader.get_template('feed/rss.html')
+		c = Context({
+			'rss': self.rss_feed,
+			'domain': settings.SITE_KEY,
+			'site_name': settings.SITE_NAME,
+			'site_desc': settings.SITE_DESCRIPTION,
+			'site_lang': settings.LANGUAGE_CODE,
+		})
+		self.rss_feed = t.render(c)
+		
 		from pages.models import Feed
 		try:
 			f = Feed.objects.get(site=self.site_id)
 		except:
-			f = Feed(site=site_id, text=self.feed)
+			f = Feed(site=self.site_id, html=self.feed, rss=self.rss_feed)
 			f.save()
 		else:
-			f.text = self.feed
+			f.html = self.feed
+			f.rss = self.rss_feed
 			f.save()
 		return True
-	def __handle_post_feed(self, author,date,name,text,posts,is_locked,last_pagination_page,topic_id,is_solved,is_external,author_anonymous,author_system_id,):
+	
+	
+	def __handle_post_feed(self, author,date,name,text,posts,is_locked,last_pagination_page,topic_id,is_solved,is_external,author_anonymous,author_system_id):
 		"""
 		Parse a Post entry
 		"""
@@ -120,6 +146,7 @@ class FeedUpdate():
 		self.lastuser = author
 		return True
 	
+	
 	def __handle_content_feed(self, username,date,title,description,is_update,changes,slug,content_type,author_id):
 		"""
 		Parse a Content entry
@@ -162,3 +189,46 @@ class FeedUpdate():
 			self.r = t.render(c)
 		self.lastuser = username
 		return True
+	
+	
+	def __rss_handle_content_feed(self, date,title,description,slug,is_update,changes):
+		"""
+		Handle RSS entries for Content objects
+		"""
+		t = loader.get_template('feed/content_rss.html')
+		c = Context({
+			'date': date,
+			'title': title,
+			'description': description,
+			'slug': slug,
+			'is_update':is_update,
+			'changes':changes,
+			'domain': settings.SITE_KEY
+		})
+		self.rss_row = t.render(c)
+	
+	
+	def __rss_handle_post_feed(self, date,title,description,pagination_page,topic_id,is_external,posts,is_solved):
+		"""
+		Handle RSS entries for Post objects
+		"""
+		if is_external == 1:
+			prefix  = ''
+		elif posts > 1:
+			prefix  = 'Re: '
+		elif is_solved == 1:
+			prefix  = _('Solved: ')
+		else:
+			prefix  = ''
+		
+		t = loader.get_template('feed/forum_rss.html')
+		c = Context({
+			'date': date,
+			'title': title,
+			'description': description,
+			'pagination_page': pagination_page,
+			'topic_id':topic_id,
+			'prefix': prefix,
+			'domain': settings.SITE_KEY
+		})
+		self.rss_row = t.render(c)

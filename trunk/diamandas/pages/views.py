@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django import newforms as forms
@@ -25,6 +25,7 @@ def show_index(request):
 	"""
 	try:
 		feed = Feed.objects.get(site=settings.SITE_ID)
+		feed = feed.html
 	except:
 		feed = False
 	now = datetime.now()
@@ -257,8 +258,12 @@ def full_rss(request):
 	"""
 	RSS channel
 	"""
-	pages = Content.objects.all().values('slug', 'title', 'parsed_description', 'date', 'content_type').order_by('-id')[:10]
-	return render_to_response('pages/rss2.html', {'pages': pages}, context_instance=RequestContext(request))
+	try:
+		feed = Feed.objects.get(site=settings.SITE_ID)
+		feed = feed.rss
+	except:
+		feed = False
+	return HttpResponse(feed)
 
 def book_rss(request, slug):
 	"""
@@ -270,22 +275,6 @@ def book_rss(request, slug):
 	pages = Content.objects.all().filter(place=book).values('slug', 'title',
 		'parsed_description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
-
-#def add_comment(request, slug):
-	#try:
-		#page = Content.objects.filter(slug=slug).values(
-			#'id', 'slug', 'date', 'title', 'parsed_description', 'description',
-			#'parsed_text', 'comments_count', 'current_book', 'crumb', 'content_type')
-	#except Content.DoesNotExist:
-		#return render_to_response('pages/bug.html',
-			#{'bug': _('Page does not exist')},
-			#context_instance=RequestContext(request))
-	#page = page[0]
-	#return render_to_response(
-		#'pages/add_comment.html',
-		#{'page': page},
-		#context_instance=RequestContext(request, {'current_book': page['current_book']}))
-	
 
 def search_pages(request):
 	"""

@@ -1,0 +1,16 @@
+<rss version="2.0"><channel>
+<title>{{ site_name }}</title>
+<link>http://www.{{ domain }}/</link>
+<description>{{ site_desc }}</description>
+<language>{{ site_lang }}</language>
+<image>
+<title>{{ site_name }}</title>
+<url>http://www.{{ domain }}/site_media/layout/tux.png</url>
+<link>http://www.{{ domain }}/</link>
+<width>132</width>
+<height>124</height>
+</image>
+{% for i in rss %}
+{{ i }}
+{% endfor %}
+</channel></rss>
