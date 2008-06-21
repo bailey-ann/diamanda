@@ -170,6 +170,9 @@ background-image:url(feed.png);
 background-repeat:no-repeat;
 background-position:1% 50%;
 float:right;
+border-bottom:3px solid #4993DC;
+font-size:16px;
+font-weight:bold;
 }
 
 .margin_feed
@@ -236,7 +239,7 @@ border-bottom:3px solid #4993DC;
 font-size:20px;
 font-weight:bold;
 margin-bottom:5px;
-overflow:auto;
+overflow:hidden;
 }
 #center h2
 {
@@ -244,7 +247,7 @@ border-bottom:3px solid #4993DC;
 font-size:18px;
 font-weight:bold;
 margin-bottom:5px;
-overflow:auto;
+overflow:hidden;
 }
 #center h3
 {
@@ -252,7 +255,7 @@ border-bottom:3px solid #4993DC;
 font-size:16px;
 font-weight:bold;
 margin-bottom:5px;
-overflow:auto;
+overflow:hidden;
 }
 #center h4
 {
@@ -260,7 +263,7 @@ border-bottom:1px solid #4993DC;
 font-size:14px;
 font-weight:bold;
 margin-bottom:5px;
-overflow:auto;
+overflow:hidden;
 }
 
 

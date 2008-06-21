@@ -4,8 +4,8 @@
 
 {% block content %}
 <div id="right">
-	
-	<h3 style="margin:0px;">{% trans "Whats new?" %} <a href="/w/rss/" id="feed_rss">{% trans "RSS" %}</a></h3>
+	<a href="/w/rss/" id="feed_rss">{% trans "RSS" %}</a>
+	<h3 style="margin:0px;">{% trans "Whats new?" %}</h3>
 	{{ feed|safe }}
 	
 	{% if onsite %}
