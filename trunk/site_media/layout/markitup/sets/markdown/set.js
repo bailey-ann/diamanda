@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 myMarkdownSettings = {
     nameSpace:          "markdown", // Useful to prevent multi-instances CSS conflict
-    previewParserPath:  "../markitup/sets/markdown/preview.php",
+    previewParserPath:  "/w/mdk/",
     onShiftEnter:       {keepDefault:false,    openWith:'\n\n'},
     markupSet: [         
         {name:'First Level Heading', key:"1", placeHolder:'Your title here...', openWith:"\n", 

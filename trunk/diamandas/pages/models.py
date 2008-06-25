@@ -23,14 +23,11 @@ class Content(models.Model):
 	title = models.CharField(max_length=255, verbose_name=_('Title'))
 	slug = models.SlugField(max_length=255, unique=True, prepopulate_from=("title", ), verbose_name=_('Slug'))
 	description = models.TextField(verbose_name=_('Description'))
-	parsed_description = models.TextField(verbose_name=_('Description'), blank=True)
 	text = models.TextField(verbose_name=_('Text'), blank=True)
-	parsed_text = models.TextField(verbose_name=_('Text'), blank=True)
 	content_type = models.CharField(max_length=255, verbose_name=_('Type'), choices=CONTENT_TYPE)
 	place = models.ForeignKey('self', verbose_name=_('Place in'), blank=True, null=True, limit_choices_to={'content_type': 'book'})
 	date = models.DateTimeField(blank=True, null=True)
 	is_update = models.BooleanField(blank=True, default=False, verbose_name=_('Updated'))
-	is_markup = models.BooleanField(blank=True, default=True, verbose_name=_('Using markdown'), help_text=_('If checked markdown parser will be run on text and description.'))
 	changes = models.CharField(max_length=255, verbose_name=_('Changes summary'), blank=True)
 	book_order = models.PositiveSmallIntegerField(default=0, verbose_name=_('Book order'), blank=True, help_text=ORDER_HELP)
 	author = models.ForeignKey(User, verbose_name=_('Author'))
@@ -52,7 +49,7 @@ class Content(models.Model):
 		fields = (
 		(_('Content'), 
 			{
-			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'author', 'is_markup')
+			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'author')
 			}),
 		(_('Book'), 
 			{
@@ -83,15 +80,8 @@ class Content(models.Model):
 
 	def update_entry(self):
 		"""
-		Parse markup, gather other data
+		Gather other data, update Feed
 		"""
-		if self.is_markup:
-			self.parsed_description = cbcparser.parse_cbc_tags(self.description)
-			self.parsed_text = cbcparser.parse_cbc_tags(self.text)
-		else:
-			self.parsed_description = cbcparser.parse_cbc_tags(self.description, False)
-			self.parsed_text = cbcparser.parse_cbc_tags(self.text, False)
-		
 		if self.coment_topic:
 			self.comments_count = self.coment_topic.posts
 		else:
@@ -101,7 +91,7 @@ class Content(models.Model):
 		a = self
 		if a.place:
 			while a:
-				crumb = '<a href="/w/p/' + a.place.slug + '/">' + a.place.title + '</a> > ' + crumb
+				crumb = '<a href="/w/p/' + a.place.slug + '/">' + a.place.title + '</a> &gt; ' + crumb
 				a = a.place
 				if not a.place:
 					a = False
@@ -121,56 +111,25 @@ class Content(models.Model):
 		FeedUpdate(settings.SITE_ID)
 
 
-class Attachment(models.Model):
+class Submission(models.Model):
 	"""
-	Support for Content attachments / multisite
+	content submitted by users
 	"""
-	TYPES = [('image', _('Image')), ('other', _('Other'))]
-	file = models.CharField(max_length=255, verbose_name=_('File'))
-	filetype = models.CharField(max_length=255, verbose_name=_('Type'), choices=TYPES)
-	site = models.CharField(max_length=255, verbose_name=_('Site'), blank=True, default=settings.SITE_KEY)
-	page = models.ForeignKey(Content, verbose_name=_('Page'))
-	author = models.ForeignKey(User, verbose_name=_('Author'))
-	class Meta:
-		verbose_name = _('Attachment')
-		verbose_name_plural = _('Attachments')
-	class Admin:
-		list_display = ('file', 'filetype', 'site', 'page', 'author')
-		list_filter = ['site', 'filetype']
-		search_fields = ['file']
-	def __str__(self):
-		return self.file
-	def __unicode__(self):
-		return self.file
-
-class Archive(models.Model):
-	"""
-	archived content entries and edit proposals
-	"""
-	page = models.ForeignKey(Content, verbose_name=_('Source Page'))
-	description = models.TextField(verbose_name=_('Description'))
+	title = models.CharField(max_length=255, verbose_name=_('Title'))
 	text = models.TextField(verbose_name=_('Text'), blank=True)
-	date = models.DateTimeField(blank=True, null=True)
-	changes = models.CharField(max_length=255, verbose_name=_('Changes summary'), blank=True)
 	author = models.ForeignKey(User, verbose_name=_('Author'))
-	is_proposal = models.BooleanField(blank=True, default=True, verbose_name=_('Proposal'))
+	date = models.DateTimeField(blank=True, null=True, verbose_name=_('Added'))
 	class Meta:
-		verbose_name = _('Archive')
-		verbose_name_plural = _('Archive')
-		db_table = 'rk_archive' + str(settings.SITE_ID)
+		verbose_name = _('Submission')
+		verbose_name_plural = _('2. Submissions')
+		db_table = 'rk_submission' + str(settings.SITE_ID)
 	class Admin:
-		list_display = ('page', 'author', 'date', 'changes')
-		list_filter = ['date', 'author', 'page']
-		fields = (
-		(None, 
-			{
-			'fields': ('page', 'description', 'text', 'date', 'changes','author')
-			}),
-		)
+		list_display = ('title', 'author', 'date')
+		list_filter = ['author']
 	def __str__(self):
-		return self.page
+		return self.title
 	def __unicode__(self):
-		return self.page
+		return self.title
 
 class Feed(models.Model):
 	"""

@@ -6,16 +6,24 @@
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
 
 {% block content %}
-{{ page.parsed_description|safe }}
-{{ page.parsed_text|safe }}
+{{ page.description|safe }}
+{{ page.text|safe }}
 <ul class="newsbox">
 	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
-	<li class="comment"><a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a></li>
+	<li class="comment">
+		{% if page.coment_topic %}
+			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+		{% else %}
+			<a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+		{% endif %}
+	</li>
 	<li class="aauthor">{{ page.author }}</li>
 	{% if page.is_update %}<li class="update">{{ page.changes }}</li>{% endif %}
+	{% if not show_comment %}<li><input type="button" value="{% trans "Add a Comment" %}" onclick="location.assign('/w/p/{{ page.slug }}/?c=ok');" /></li>{% endif %}
 
 </ul>
 {% if add_topic %}
+	{% if show_comment %}
 	<form method="post" action=".">
 	<div class="postform">
 		<div class="posthead">{% trans "Add comment" %}</div>
@@ -52,6 +60,7 @@
 		</div>
 	</div>
 	</form>
+	{% endif %}
 {% else %}
 	{% if user.is_authenticated %}<div class="box">{% trans "Comments have been disabled for this page" %}</div>{% endif %}
 {% endif %}
@@ -66,6 +75,8 @@
 	<li><a href="/w/n/{{ page.current_book }}/">{% trans "Browse category news" %}</a></li>
 {% else %}
 	<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+{% if user.is_authenticated %}<li><a href="/w/submit/">{% trans "Add Content" %}</a></li>{% endif %}
+{% if user.is_staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Admin" %}</a></li>{% endif %}
 {% endif %}
 
 {% if user.staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Edit" %}</a></li>{% endif %}
@@ -74,6 +85,7 @@
 
 {% block meta %}
 {% if page.coment_forum or page.place.coment_forum %}
+	{% if show_comment %}
 	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
 	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
 	<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.pack.js"></script>
@@ -89,5 +101,6 @@
 	});
 	});
 	</script>
+	{% endif %}
 {% endif %}
 {% endblock %}

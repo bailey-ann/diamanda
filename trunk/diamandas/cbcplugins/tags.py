@@ -71,7 +71,7 @@ def syntax(dic, text):
 		except ValueError:
 			lexer = get_lexer_by_name('text')
 		parsed = highlight(i['code'], lexer, pygments_formatter)
-		text = text.replace(i['tag'],  '^^%s^^' % base64.b64encode('<div class="box" style="overflow:auto;font-size:11px;">' + parsed + '</div>'))
+		text = text.replace(i['tag'],  '^^%s^^' % base64.b64encode('<div class="box" style="overflow:hidden;font-size:11px;">' + parsed + '</div>'))
 		langs['<style>' + pygments_formatter.get_style_defs() + '</style>'] = True
 	
 	styles = ''

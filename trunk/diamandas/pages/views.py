@@ -11,6 +11,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django import newforms as forms
 from django.core.mail import mail_admins
+from django.contrib.auth.decorators import login_required
 
 from pages.models import *
 from userpanel.models import Profile
@@ -18,6 +19,7 @@ from myghtyboard.models import *
 from myghtyboard.context import forum as forumContext
 from myghtyboard.views import AddPostForm, AddTopicForm
 from utils import *
+from cbcplugins import cbcparser
 
 def show_index(request):
 	"""
@@ -104,6 +106,12 @@ def show(request, slug):
 		form = AddPostForm()
 	else:
 		form = False
+	
+	# check if user wants to add a comment - show the form if possible
+	if 'c' in request.GET:
+		show_comment = True
+	else:
+		show_comment = False
 	
 	if request.POST and add_topic and not page.coment_topic:
 		forum = Forum.objects.get(id=coment_forum_id)
@@ -238,12 +246,58 @@ def show(request, slug):
 	if page.content_type == 'news':
 		return render_to_response(
 			'pages/show_news.html',
-			{'page': page, 'add_topic': add_topic, 'form': form},
+			{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment},
 			context_instance=RequestContext(request, {'current_book': cb}))
 	return render_to_response(
 		'pages/show.html',
-		{'page': page, 'add_topic': add_topic, 'form': form},
+		{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment},
 		context_instance=RequestContext(request, {'current_book': cb}))
+
+
+class SubmitContentForm(forms.ModelForm):
+	class Meta:
+		model = Submission
+
+
+@login_required
+def submit_content(request):
+	"""
+	For users to submit new content
+	"""
+	if request.POST:
+		data = request.POST.copy()
+		data['author'] = request.user.id
+		data['date'] = datetime.now()
+		form = SubmitContentForm(data)
+		if form.is_valid():
+			form.save()
+			return redirect_by_template(request, "/", _('Your article have been saved. Staff will review the article and publish it afterwards.'))
+		else:
+			return render_to_response(
+				'pages/submit.html',
+				{'form': form, 'text': data['text']},
+				context_instance=RequestContext(request))
+
+	form = SubmitContentForm()
+	return render_to_response(
+		'pages/submit.html',
+		{'form': form},
+		context_instance=RequestContext(request))
+
+def preview(request):
+	"""
+	Markdown Preview for MarkitUp editor
+	"""
+	if 'data' in request.POST:
+		data = cbcparser.parse_cbc_tags(request.POST['data'])
+	else:
+		data = ''
+	return render_to_response(
+		'pages/submit_preview.html',
+		{'data': data},
+		context_instance=RequestContext(request))
+
+
 
 def sitemap(request):
 	"""

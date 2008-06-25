@@ -30,5 +30,6 @@
 {% block pagemenu %}
 {% if book %}<li><a href="/w/p/{{ bk.slug }}/">{% trans "Go Back" %}</a></li>{% endif %}
 <li><a href="/">{% trans "Home" %}</a></li>
+{% if user.is_authenticated %}<li><a href="/w/submit/">{% trans "Add Content" %}</a></li>{% endif %}
 {% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/w/n/">{% trans "News" %}</a>{% endblock %}

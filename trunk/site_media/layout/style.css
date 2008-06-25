@@ -407,7 +407,7 @@ background:#EEEEEE;
 padding:5px;
 margin-bottom:5px;
 margin-top:5px;
-overflow:auto;
+overflow:hidden;
 }
 
 .posthead
@@ -503,7 +503,7 @@ background:#F2F2F2;
 padding:5px;
 margin-bottom:5px;
 margin-top:5px;
-overflow:auto;
+overflow:hidden;
 font-size:14px;
 font-weight:bold;
 }
@@ -537,7 +537,7 @@ border-top:1px dotted gray;
 padding:5px;
 margin-bottom:35px;
 margin-top:15px;
-overflow:auto;
+overflow:hidden;
 background-color:#F2F2F2;
 font-size:11px;
 }
