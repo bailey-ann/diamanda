@@ -10,7 +10,7 @@
 	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
 	<li class="comment">
 		{% if page.coment_topic %}
-			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Read comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% else %}
 			<a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% endif %}
