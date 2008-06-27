@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from sys import path
+import os.path
 
 path.append('diamandas/')
 
@@ -20,16 +21,17 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 TIME_ZONE = 'Europe/Warsaw'
 LANGUAGE_CODE = 'pl'
 
-SITE_ID = 1
-SITE_KEY = 'localhost'
-SITE_NAME = 'Diamanda'
-SITE_DESCRIPTION = 'Diamanda'
-SITE_ADMIN_MAIL = '2@2.pl'
-NOTIFY_ADMINS = True
-FORUM_MAX_ANONYMOUS_PER_HOUR = 10
-GOOGLE_AJAX_SEARCH_API_KEY = ''
+SITE_ID = 1 # ID of the site, used in table names etc
+SITE_KEY = 'localhost' # domain of the site, used in creation of full URLs to your site
+SITE_NAME = 'Diamanda' # name displayed in templates
+SITE_DESCRIPTION = 'Diamanda' # description of the site used in meta description
+SITE_ADMIN_MAIL = '2@2.pl' # email shown to the users in User Panel as a contact mail
+NOTIFY_ADMINS = False # if true add topic/post will send a email to admin
+FORUM_MAX_ANONYMOUS_POSTS_PER_HOUR = 10 # how many posts may be made by anonymous within an hour from now
+FORUM_MAX_USER_POST_PER_HOUR = 10 # how many posts may be made by every logged in user within an hour from now
+GOOGLE_AJAX_SEARCH_API_KEY = '' # required for searching your site with Google :)
 
-MEDIA_ROOT = '/home/piotr/svn/diamanda/site_media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'site_media')
 MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 

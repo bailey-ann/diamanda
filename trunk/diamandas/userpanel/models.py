@@ -19,7 +19,7 @@ class Profile(models.Model):
 	def save(self, **kwargs):
 		if self.pk:
 			if not self.last_visit:
-				self.last_visit = datetime.nowe()
+				self.last_visit = datetime.now()
 			self.last_visit = self.onsitedata
 			self.onsitedata = datetime.now()
 		super(Profile, self).save(**kwargs)
