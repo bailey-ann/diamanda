@@ -122,7 +122,7 @@ class Prefix(models.Model):
 	Model for setting topic prefixes for selected forums
 	"""
 	name = models.CharField(max_length=20, verbose_name=_("Name"))
-	forums = models.ManyToManyField(Forum, verbose_name=_('Topics'))
+	forums = models.ManyToManyField(Forum, verbose_name=_('Forums'))
 	class Meta:
 		verbose_name = _("Topic Prefix")
 		verbose_name_plural = _("3. Topic Prefixes")

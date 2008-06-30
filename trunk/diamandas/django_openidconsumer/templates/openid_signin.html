@@ -1,0 +1,19 @@
+{% extends "pages/body.html" %}
+{% load i18n %}
+{% block header %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
+
+{% block content %}
+<h1>Sign in with your OpenID</h1>
+
+<form action="{{ action }}" method="post">
+<p><input class="openid" type="text" name="openid_url"> <input type="submit" value="Sign in"></p>
+</form>
+
+{% endblock %}
+
+{% block pagemenu %}
+
+{% endblock %}

@@ -32,6 +32,8 @@
 	<div id="modernbricksmenu">
 		<ul>
 		{% block leftmenu %}
+			<li><a href="/openid/">{{ openid }}</a></li>
+			<li><a href="/openid/signout/">Wyloguj oid</a></li>
 			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
 			<li{% block on_user %}{% endblock %} id="loginlink">
 			{% if user.is_authenticated %}

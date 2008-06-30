@@ -28,7 +28,7 @@ SITE_DESCRIPTION = 'Diamanda' # description of the site used in meta description
 SITE_ADMIN_MAIL = '2@2.pl' # email shown to the users in User Panel as a contact mail
 NOTIFY_ADMINS = False # if true add topic/post will send a email to admin
 FORUM_MAX_ANONYMOUS_POSTS_PER_HOUR = 10 # how many posts may be made by anonymous within an hour from now
-FORUM_MAX_USER_POST_PER_HOUR = 10 # how many posts may be made by every logged in user within an hour from now
+FORUM_MAX_USER_POST_PER_HOUR = 10 # how many posts may be made by every logged in user within an hour from now. 0 - no limit
 GOOGLE_AJAX_SEARCH_API_KEY = '' # required for searching your site with Google :)
 
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'site_media')
@@ -68,9 +68,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'stats.statsMiddleware.statsMiddleware',
+    'django_openidconsumer.middleware.OpenIDMiddleware',
     'userpanel.userMiddleware.userMiddleware',
     #'profiler.ProfileMiddleware', # debug !
     #'profiler_sql.SQLLogMiddleware', # debug !
+)
+
+AUTHENTICATION_BACKENDS = (
+    'userpanel.openIdAuth.OpenIdBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
@@ -92,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.sites',
     'django.contrib.admin',
+    'django_openidconsumer',
     'stats',
     'pages',
     'userpanel',

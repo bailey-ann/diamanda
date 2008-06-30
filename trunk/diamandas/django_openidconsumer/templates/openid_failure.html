@@ -1,0 +1,17 @@
+{% extends "pages/body.html" %}
+{% load i18n %}
+{% block header %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
+
+{% block content %}
+<h1>OpenID failed</h1>
+
+<p>{{ message|escape }}</p>
+
+{% endblock %}
+
+{% block pagemenu %}
+
+{% endblock %}
