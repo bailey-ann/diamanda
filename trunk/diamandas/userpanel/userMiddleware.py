@@ -27,14 +27,7 @@ class userMiddleware(object):
 				# block openID - user authentication for staff
 				if not o.user.is_staff:
 					user = authenticate(user_id = o.user.id, openid=str(request.openid))
-					print
-					print 'ssssssssssss'
-					print user
-					print
 					if user is not None:
-						print
-						print 'aaaaaaaaaaaaaaaaa'
-						print
 						login(request, user)
 		
 		if request.user.is_authenticated():

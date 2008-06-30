@@ -15,7 +15,10 @@ class OpenIdBackend:
 		if user_id and openid:
 			try:
 				o = OpenIdAssociation.objects.get(openid=openid, user=User.objects.get(id=user_id))
-				return o.user
+				if not o.user.is_staff:
+					return o.user
+				else:
+					return None
 			except:
 				return None
 		return None
