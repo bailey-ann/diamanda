@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stats\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-29 15:41+0200\n"
+"POT-Creation-Date: 2008-07-03 00:08+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:7
+#: models.py:13
 msgid "Stat"
 msgstr "Statystyki"
 
-#: models.py:8
+#: models.py:14
 msgid "Stats"
 msgstr "Statystyki"
 
-#: views.py:23 views.py:30 views.py:67
+#: views.py:34 views.py:51 views.py:94
 msgid "You don't have the permissions to view this page"
 msgstr "Brak uprawnień do oglądania tej strony"
 
@@ -61,9 +61,8 @@ msgstr "Kasowanie Danych Statystyk"
 msgid "Site Statistics"
 msgstr "Statystyki Wejść"
 
-#: templates/stats/noperm.html:14
-msgid "Permission Denied"
-msgstr "Brak Uprawnień"
+#~ msgid "Permission Denied"
+#~ msgstr "Brak Uprawnień"
 
 #~ msgid "Day of month"
 #~ msgstr "Dzien miesiaca"

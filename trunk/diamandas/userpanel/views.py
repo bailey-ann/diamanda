@@ -115,7 +115,7 @@ class RegisterOpenIdForm(forms.Form):
 
 def register_from_openid(request):
 	"""
-	Create user based on used OpenID
+	Quick User registration for new openIDs
 	"""
 	if 'new_openid' in request.session and request.session['new_openid'] == False or 'new_openid' not in request.session or request.openid == None:
 		return HttpResponseRedirect("/user/")
@@ -132,6 +132,7 @@ def register_from_openid(request):
 		
 		if form.is_valid():
 			data = form.cleaned_data
+			# a random password.
 			password = ''.join([choice('qwertyuiopasdfghjklzxcvbnm') for i in range(10)])
 			try:
 				user = User.objects.create_user(data['login'], data['email'], password)

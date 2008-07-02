@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: userpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-02 15:58+0200\n"
+"POT-Creation-Date: 2008-07-03 00:08+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -15,92 +15,125 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:37
-msgid "Captcha Error."
-msgstr "Błąd Captcha."
+#: models.py:29
+msgid "User"
+msgstr "Użytkownik"
 
-#: views.py:40
-msgid "Login to short"
-msgstr "Za krótki login"
+#: models.py:30 templates/userpanel/login.html:29
+#: templates/userpanel/login_light.html:29
+msgid "OpenID"
+msgstr "OpenID"
 
-#: views.py:43
-msgid "Password to short"
-msgstr "Za krótkie hasło"
+#: models.py:36
+msgid "OpenID association"
+msgstr "Powiązanie OpenID"
 
-#: views.py:46 views.py:252
-msgid "Passwords do not match"
-msgstr "Hasła nie zgadzają się"
+#: models.py:37
+msgid "OpenID associations"
+msgstr "Powiązania OpenID"
 
-#: views.py:53
+#: views.py:98 views.py:189
+msgid "Incorrect answer."
+msgstr "Błędna odpowiedź."
+
+#: views.py:105 views.py:161 views.py:162 views.py:199 views.py:246
+#: views.py:247
 msgid "Login already taken"
 msgstr "Logij już zajęty"
 
-#: views.py:60
+#: views.py:112 views.py:163 views.py:164 views.py:206 views.py:248
+#: views.py:249
 msgid "Email already taken"
 msgstr "Email zajęty"
 
-#: views.py:172
-msgid "This user doesn't want to receive any messages"
-msgstr "Ten użytkownik nie chce otrzymywać wiadomości"
+#: views.py:154
+msgid ""
+"Registration compleated. To login on this site use your OpenID. You have "
+"been logged in succesfuly."
+msgstr ""
+"Rejestracja zakończona. By zalogować się na konto wystarczy użyć OpenID. Zostałeś "
+"zalogowany pomyślnie."
 
-#: views.py:226 views.py:260
-msgid "ROTFL LOL OMG CSS :)"
-msgstr "ROTFL LOL OMG CSS :)"
+#: views.py:159 views.py:160 views.py:244 views.py:245
+msgid "Incorrect answer"
+msgstr "Błędna odpowiedź"
 
-#: views.py:230
-msgid "No such user account"
-msgstr "Brak takiego użytkownika w bazie danych"
+#: views.py:192 views.py:250 views.py:251
+msgid "Passwords do not match."
+msgstr "Hasła nie zgadzają się."
 
-#: views.py:235
-msgid "Password reset"
-msgstr "Resetowanie Hasła"
+#: views.py:239
+msgid "Registration compleated. You have been logged in succesfuly."
+msgstr "Rejestracja zakończona. Zostałeś zalogowany pomyślnie."
 
-#: views.py:235
-msgid "Your new password on rk.edu.pl sites is: "
-msgstr "Twoje nowe hasło w serwisach rk.edu.pl to: "
+#: templates/userpanel/login.html:4 templates/userpanel/login_light.html:4
+msgid ""
+"As a registered user you will have full access to comments and forum. "
+"Registration isn't however required to browse this site content."
+msgstr ""
+"Jako zarejestrowany użytkownik będziesz miał pełen dostęp do forum i komentarzy. "
+"Rejestracja nie jest wymagana do przeglądania zawartości strony."
 
-#: views.py:255
-msgid "To short"
-msgstr "Za krótkie"
+#: templates/userpanel/login.html:6 templates/userpanel/login_light.html:6
+msgid "If you are a new user you can"
+msgstr "Jeżeli jesteś nowym użytkownikiem możesz"
 
-#: templates/userpanel/login.html:4
-msgid "Log in"
-msgstr "Zaloguj Się"
+#: templates/userpanel/login.html:6 templates/userpanel/login_light.html:6
+msgid "register"
+msgstr "zarejestrować się"
 
-#: templates/userpanel/login.html:6
-msgid "Login Error - bad login and/or password"
-msgstr "Błąd Logowania - zły login i/lub hasło"
+#: templates/userpanel/login.html:7 templates/userpanel/login_light.html:7
+msgid "If you forgotten your password, then you can"
+msgstr "Jeżeli zapomniałeś hasła, to możesz"
 
-#: templates/userpanel/login.html:9
-msgid "A email with the new password has been send."
-msgstr "Email wraz z nowym hasłem został wysłany."
+#: templates/userpanel/login.html:7 templates/userpanel/login_light.html:7
+msgid "reset it"
+msgstr "je zresetować"
 
-#: templates/userpanel/login.html:14 templates/userpanel/login.html.py:23
-#: templates/userpanel/register.html:11 templates/userpanel/userlist.html:8
-msgid "Login"
-msgstr "Login"
+#: templates/userpanel/login.html:11 templates/userpanel/login_light.html:11
+msgid "Your username and password didn't match. Please try again."
+msgstr "Login i hasło nie pasują. Spróbuj ponownie"
 
-#: templates/userpanel/login.html:18 templates/userpanel/register.html:15
+#: templates/userpanel/login.html:17 templates/userpanel/login_light.html:17
+msgid "Standard login"
+msgstr "Zwykłe logowanie"
+
+#: templates/userpanel/login.html:18
+#: templates/userpanel/password_reset_email.html:6
+#: templates/userpanel/login_light.html:18
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: templates/userpanel/login.html:19 templates/userpanel/register.html:13
+#: templates/userpanel/login_light.html:19
 msgid "Password"
 msgstr "Hasło"
 
-#: templates/userpanel/login.html:24 templates/userpanel/register.html:4
-msgid "Register"
-msgstr "Rejestracja"
+#: templates/userpanel/login.html:20 templates/userpanel/login.html.py:31
+#: templates/userpanel/panel.html:19 templates/userpanel/register.html:9
+#: templates/userpanel/login_light.html:20
+#: templates/userpanel/login_light.html:31
+#: templates/userpanel/register_openid.html:10
+msgid "Login"
+msgstr "Login"
 
-#: templates/userpanel/login.html:25
-msgid "Forgotten Password"
-msgstr "Zapomniane Hasło"
-
-#: templates/userpanel/login.html:31 templates/userpanel/panel.html:18
-#: templates/userpanel/pmessage.html:20 templates/userpanel/register.html:37
-#: templates/userpanel/userlist.html:28
+#: templates/userpanel/login.html:36 templates/userpanel/panel.html:27
+#: templates/userpanel/password_change.html:21
+#: templates/userpanel/password_change_done.html:7
+#: templates/userpanel/password_reset_done.html:7
+#: templates/userpanel/password_reset.html:21
+#: templates/userpanel/register.html:35
+#: templates/userpanel/register_openid.html:27
 msgid "Home"
 msgstr "Strona Główna"
 
-#: templates/userpanel/login.html:31 templates/userpanel/panel.html:18
-#: templates/userpanel/pmessage.html:20 templates/userpanel/register.html:37
-#: templates/userpanel/userlist.html:28
+#: templates/userpanel/login.html:36 templates/userpanel/panel.html:27
+#: templates/userpanel/password_change.html:21
+#: templates/userpanel/password_change_done.html:7
+#: templates/userpanel/password_reset_done.html:7
+#: templates/userpanel/password_reset.html:21
+#: templates/userpanel/register.html:35
+#: templates/userpanel/register_openid.html:27
 msgid "User Panel"
 msgstr "Panel Użytkownika"
 
@@ -108,118 +141,204 @@ msgstr "Panel Użytkownika"
 msgid "User Profile"
 msgstr "Profil Użytkownika"
 
-#: templates/userpanel/panel.html:8
+#: templates/userpanel/panel.html:9
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/userpanel/panel.html:9
-msgid "Messages Settings"
-msgstr "Ustawienia Wiadomości-Emaili"
-
-#: templates/userpanel/panel.html:10 templates/userpanel/zmessage.html:4
-#: templates/userpanel/zmessage.html:17
+#: templates/userpanel/panel.html:10
+#: templates/userpanel/password_change.html:4
+#: templates/userpanel/password_change.html:17
+#: templates/userpanel/password_change_done.html:4
 msgid "Change Password"
 msgstr "Zmień Hasło"
 
-#: templates/userpanel/panel.html:13
-msgid "User List"
-msgstr "Lista Użytkowników"
-
-#: templates/userpanel/panel.html:14
+#: templates/userpanel/panel.html:13 templates/userpanel/panel.html.py:22
 msgid "Contact Site Admin"
 msgstr "Kontakt z Adminem"
 
-#: templates/userpanel/pmessage.html:4
-msgid "Send a Private Message"
-msgstr "Wyślij Wiadomość"
+#: templates/userpanel/panel.html:20 templates/userpanel/register.html:4
+msgid "Register"
+msgstr "Rejestracja"
 
-#: templates/userpanel/pmessage.html:8
-msgid "Subject"
-msgstr "Temat"
+#: templates/userpanel/panel.html:21
+msgid "Lost Password"
+msgstr "Zapomniane Hasło"
 
-#: templates/userpanel/pmessage.html:12
-msgid "Text"
-msgstr "Treść"
+#: templates/userpanel/password_change.html:6
+msgid ""
+"There was a problem with password change. Did you entered correct email "
+"address?"
+msgstr ""
+"Wystąpił błąd ze zmianą hasła. Czy podałeś poprawny adres email?"
 
-#: templates/userpanel/pmessage.html:17 templates/userpanel/userlist.html:14
-msgid "Send Message"
-msgstr "Wyślij Wiadomość"
 
-#: templates/userpanel/register.html:6
-msgid "Registration Error"
-msgstr "Błąd Rejestracji"
+#: templates/userpanel/password_change.html:12
+msgid "Current Password"
+msgstr "Obecne Hasło"
 
-#: templates/userpanel/register.html:11
-msgid "required, more than 3 chars<br />letters or numbers"
-msgstr "wymagane, więcej niż 3 znaki<br />litery lub liczby"
-
-#: templates/userpanel/register.html:15
-msgid "required, more than 4 chars<br />letters or numbers"
-msgstr "wymagane, więcej niż 4 znaki<br />litery lub liczby"
-
-#: templates/userpanel/register.html:19
-msgid "Password Again"
-msgstr "Hasło Ponownie"
-
-#: templates/userpanel/register.html:19
-msgid "required, enter the same password"
-msgstr "wymagane, wprowadź to samo hasło"
-
-#: templates/userpanel/register.html:23
-msgid "Email"
-msgstr "Email"
-
-#: templates/userpanel/register.html:23
-msgid "required, your email addres"
-msgstr "wymagane, podaj swój adres email"
-
-#: templates/userpanel/register.html:27
-msgid "Text from the image"
-msgstr "Tekst z grafiki"
-
-#: templates/userpanel/register.html:33
-msgid "Register My"
-msgstr "Zarejestruj Mnie"
-
-#: templates/userpanel/userlist.html:4
-msgid "Users List"
-msgstr "Lista Użytkowników"
-
-#: templates/userpanel/userlist.html:9
-msgid "Actions"
-msgstr "Akcje"
-
-#: templates/userpanel/profile_pmessage.html:11
-msgid "Allow messages from users"
-msgstr "Zezwól na wiadomości od użytkowników"
-
-#: templates/userpanel/profile_pmessage.html:16
-msgid "Save"
-msgstr "Zapisz"
-
-#: templates/userpanel/hmessage.html:4
-msgid "Change Forgotten Password"
-msgstr "Zmień Zapomniane Hasło"
-
-#: templates/userpanel/hmessage.html:8
-msgid "Your Login"
-msgstr "Twój Login"
-
-#: templates/userpanel/hmessage.html:12
-msgid "Your Registration Email"
-msgstr "Email z rejestracji"
-
-#: templates/userpanel/hmessage.html:17
-msgid "Reset Password"
-msgstr "Resetuj Hasło"
-
-#: templates/userpanel/zmessage.html:8
+#: templates/userpanel/password_change.html:13
 msgid "New Password"
 msgstr "Nowe Hasło"
 
-#: templates/userpanel/zmessage.html:12
-msgid "New Password Again"
-msgstr "Nowe Hasło Ponownie"
+#: templates/userpanel/password_change.html:14
+msgid "New Password again"
+msgstr "Nowe Hasło ponownie"
+
+#: templates/userpanel/password_change_done.html:5
+#: templates/userpanel/password_reset_done.html:5
+msgid "Password have been changed succesfuly"
+msgstr "Hasło zmienione pomyślnie"
+
+#: templates/userpanel/password_change_done.html:5
+#: templates/userpanel/password_reset_done.html:5
+msgid "Go to Main Page"
+msgstr "Przejdź do Głównej Strony"
+
+#: templates/userpanel/password_reset_done.html:4
+msgid "Password Reset"
+msgstr "Resetowanie Hasła"
+
+#: templates/userpanel/password_reset.html:4
+#: templates/userpanel/password_reset.html:18
+msgid "Reset Password"
+msgstr "Resetuj Hasło"
+
+#: templates/userpanel/password_reset.html:6
+msgid ""
+"There was a problem with password reset. Did you entered correct email "
+"address?"
+msgstr ""
+"Wystąpił błąd z resetowaniem hasła. Czy podałeś poprawny adres email?"
+
+#: templates/userpanel/password_reset.html:13
+msgid "Email used on registration"
+msgstr "Adres email podany przy rejestracji"
+
+#: templates/userpanel/password_reset_email.html:3
+msgid "You requested password reset on"
+msgstr "Zarządałeś zresetowania hasła na"
+
+#: templates/userpanel/password_reset_email.html:5
+msgid "New password"
+msgstr "Nowe hasło"
+
+#: templates/userpanel/register.html:17
+msgid "Password Again"
+msgstr "Hasło Ponownie"
+
+#: templates/userpanel/register.html:21
+#: templates/userpanel/register_openid.html:14
+msgid "Email"
+msgstr "Email"
+
+#: templates/userpanel/register.html:25
+#: templates/userpanel/register_openid.html:18
+msgid "What's the answer?"
+msgstr "Jaka jest odpowiedź?"
+
+#: templates/userpanel/register.html:32
+#: templates/userpanel/register_openid.html:24
+msgid "Register My"
+msgstr "Zarejestruj Mnie"
+
+#: templates/userpanel/register_openid.html:4
+msgid "Quick registration for"
+msgstr "Szybka rejestracja dla"
+
+#: templates/userpanel/register_openid.html:5
+msgid ""
+"Fill in this form to get features of a full user account. You will be "
+"automatically logged in when you use your openID. No extra passwords! :)"
+msgstr ""
+"Wypełnij ten formularz by uzyskać możliwości zwykłego konta, na które "
+"będziesz automatycznie logowany. Bez dodatkowych haseł! :)"
+
+#~ msgid "Captcha Error."
+#~ msgstr "Błąd Captcha."
+
+#~ msgid "Login to short"
+#~ msgstr "Za krótki login"
+
+#~ msgid "Password to short"
+#~ msgstr "Za krótkie hasło"
+
+#~ msgid "This user doesn't want to receive any messages"
+#~ msgstr "Ten użytkownik nie chce otrzymywać wiadomości"
+
+#~ msgid "ROTFL LOL OMG CSS :)"
+#~ msgstr "ROTFL LOL OMG CSS :)"
+
+#~ msgid "No such user account"
+#~ msgstr "Brak takiego użytkownika w bazie danych"
+
+#~ msgid "Your new password on rk.edu.pl sites is: "
+#~ msgstr "Twoje nowe hasło w serwisach rk.edu.pl to: "
+
+#~ msgid "To short"
+#~ msgstr "Za krótkie"
+
+#~ msgid "Log in"
+#~ msgstr "Zaloguj Się"
+
+#~ msgid "Login Error - bad login and/or password"
+#~ msgstr "Błąd Logowania - zły login i/lub hasło"
+
+#~ msgid "A email with the new password has been send."
+#~ msgstr "Email wraz z nowym hasłem został wysłany."
+
+#~ msgid "Forgotten Password"
+#~ msgstr "Zapomniane Hasło"
+
+#~ msgid "Messages Settings"
+#~ msgstr "Ustawienia Wiadomości-Emaili"
+
+#~ msgid "Send a Private Message"
+#~ msgstr "Wyślij Wiadomość"
+
+#~ msgid "Subject"
+#~ msgstr "Temat"
+
+#~ msgid "Text"
+#~ msgstr "Treść"
+
+#~ msgid "Send Message"
+#~ msgstr "Wyślij Wiadomość"
+
+#~ msgid "required, more than 3 chars<br />letters or numbers"
+#~ msgstr "wymagane, więcej niż 3 znaki<br />litery lub liczby"
+
+#~ msgid "required, more than 4 chars<br />letters or numbers"
+#~ msgstr "wymagane, więcej niż 4 znaki<br />litery lub liczby"
+
+#~ msgid "required, enter the same password"
+#~ msgstr "wymagane, wprowadź to samo hasło"
+
+#~ msgid "required, your email addres"
+#~ msgstr "wymagane, podaj swój adres email"
+
+#~ msgid "Text from the image"
+#~ msgstr "Tekst z grafiki"
+
+#~ msgid "Users List"
+#~ msgstr "Lista Użytkowników"
+
+#~ msgid "Actions"
+#~ msgstr "Akcje"
+
+#~ msgid "Allow messages from users"
+#~ msgstr "Zezwól na wiadomości od użytkowników"
+
+#~ msgid "Save"
+#~ msgstr "Zapisz"
+
+#~ msgid "Change Forgotten Password"
+#~ msgstr "Zmień Zapomniane Hasło"
+
+#~ msgid "Your Login"
+#~ msgstr "Twój Login"
+
+#~ msgid "Your Registration Email"
+#~ msgstr "Email z rejestracji"
 
 #~ msgid "(Use CAPITAL letters)"
 #~ msgstr "(Użyj DUŻYCH liter)"
