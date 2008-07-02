@@ -26,7 +26,7 @@ class Profile(models.Model):
 		super(Profile, self).save(**kwargs)
 
 class OpenIdAssociation(models.Model):
-	user = models.ForeignKey(User, unique=True, verbose_name=_('User'))
+	user = models.ForeignKey(User, unique=True, verbose_name=_('User'), limit_choices_to={'is_staff': False})
 	openid = models.CharField(max_length=255, verbose_name=_('OpenID'))
 	def __str__(self):
 		return self.openid

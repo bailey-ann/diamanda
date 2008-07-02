@@ -13,7 +13,7 @@ import django.contrib.auth.views
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 
-from django import oldforms as forms
+from django import newforms as forms
 from django.contrib.auth import authenticate, login
 from django.core import validators
 
@@ -84,63 +84,148 @@ def password_reset_done(request):
 		return HttpResponseRedirect("/user/")
 
 
-class RegisterForm(forms.Manipulator):
+class RegisterOpenIdForm(forms.Form):
 	"""
-	User registration manipulator
+	Quick registration form for OpenID users
 	"""
-	def __init__(self):
-		self.fields = (forms.TextField(field_name="login", length=20, max_length=200, is_required=True, validator_list=[self.size3, self.freelogin]),
-		forms.PasswordField(field_name="password1", length=20, max_length=200, is_required=True, validator_list=[self.size4, self.equal]),
-		forms.PasswordField(field_name="password2", length=20, max_length=200, is_required=True, validator_list=[self.size4]),
-		forms.TextField(field_name="reply", is_required=True, validator_list=[self.hashcheck], length=20),
-		forms.TextField(field_name="answer", is_required=True, length=20),
-		forms.EmailField(field_name="email", is_required=True, length=20, validator_list=[self.freemail]),)
-	def hashcheck(self, field_data, all_data):
-		SALT = settings.SECRET_KEY
-		if not all_data['answer'] == sha.new(field_data+SALT).hexdigest():
-			raise validators.ValidationError(_("Incorrect answer."))
-	def size3(self, field_data, all_data):
-		if len(field_data) < 4:
-			raise validators.ValidationError(_("Login is to short"))
-	def size4(self, field_data, all_data):
-		if len(field_data) < 5:
-			raise validators.ValidationError(_("Password is to short"))
-	def equal(self, field_data, all_data):
-		if all_data['password2'] != field_data:
-			raise validators.ValidationError(_("Passwords do not match"))
-	def freelogin(self, field_data, all_data):
+	login = forms.CharField(min_length=3, max_length=30)
+	reply = forms.CharField()
+	answer = forms.CharField()
+	email = forms.EmailField()
+	def clean(self):
+		# check the answer
+		if 'answer' in self.cleaned_data and 'reply' in self.cleaned_data and not self.cleaned_data['answer'] == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
+			raise forms.ValidationError(_("Incorrect answer."))
+		# check if login is free
 		try:
-			User.objects.get(username=field_data)
+			User.objects.get(username=self.cleaned_data['login'])
 		except:
 			pass
 		else:
-			raise validators.ValidationError(_("Login already taken"))
-	def freemail(self, field_data, all_data):
+			raise forms.ValidationError(_("Login already taken"))
+		# check if email isn't used already
 		try:
-			User.objects.get(email=field_data)
+			User.objects.get(email=self.cleaned_data['email'])
 		except:
 			pass
 		else:
-			raise validators.ValidationError(_('Email already taken'))
+			raise forms.ValidationError(_("Email already taken"))
+		
+		return self.cleaned_data
+
+def register_from_openid(request):
+	"""
+	Create user based on used OpenID
+	"""
+	if 'new_openid' in request.session and request.session['new_openid'] == False or 'new_openid' not in request.session or request.openid == None:
+		return HttpResponseRedirect("/user/")
+	
+	captcha = text_captcha()
+	form =  RegisterOpenIdForm()
+	if request.POST:
+		stripper = Stripper()
+		data = request.POST.copy()
+		data['login'] = stripper.strip(data['login'])
+		data['email'] = stripper.strip(data['email'])
+		
+		form = RegisterOpenIdForm(data)
+		
+		if form.is_valid():
+			data = form.cleaned_data
+			password = ''.join([choice('qwertyuiopasdfghjklzxcvbnm') for i in range(10)])
+			try:
+				user = User.objects.create_user(data['login'], data['email'], password)
+			except Exception:
+				data['reply'] = ''
+				return render_to_response(
+					'userpanel/register_openid.html',
+					{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+					context_instance=RequestContext(request))
+			else:
+				user.save()
+				user = authenticate(username=data['login'], password=password)
+				if user is not None:
+					login(request, user)
+					# save the openID association
+					o = OpenIdAssociation(user=user, openid=str(request.openid))
+					o.save()
+					request.session['new_openid'] = False
+				return redirect_by_template(request, "/user/", _('Registration compleated. To login on this site use your OpenID. You have been logged in succesfuly.'))
+		else:
+			data['reply'] = ''
+			# newforms are bad... ;)
+			if '__all__' in form.errors:
+				if str(form.errors['__all__']).find(_('Incorrect answer')) != -1:
+					form.errors['reply'] = [_('Incorrect answer'),]
+				if str(form.errors['__all__']).find(_("Login already taken")) != -1:
+					form.errors['login'] = [_("Login already taken"),]
+				if str(form.errors['__all__']).find(_("Email already taken")) != -1:
+					form.errors['email'] = [_("Email already taken"),]
+			return render_to_response(
+				'userpanel/register_openid.html',
+				{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+				context_instance=RequestContext(request))
+	
+	return render_to_response(
+		'userpanel/register_openid.html',
+		{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+		context_instance=RequestContext(request))
+
+
+class RegisterForm(forms.Form):
+	"""
+	Standard registration form
+	"""
+	login = forms.CharField(min_length=3, max_length=30)
+	password1 = forms.CharField(min_length=6)
+	password2 = forms.CharField(min_length=6)
+	reply = forms.CharField()
+	answer = forms.CharField()
+	email = forms.EmailField()
+	def clean(self):
+		# check the answer
+		if 'answer' in self.cleaned_data and 'reply' in self.cleaned_data and not self.cleaned_data['answer'] == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
+			raise forms.ValidationError(_("Incorrect answer."))
+		# check if passwords match
+		if 'password2' in self.cleaned_data and 'password1' in self.cleaned_data and self.cleaned_data['password2'] != self.cleaned_data['password1'] :
+			raise forms.ValidationError(_("Passwords do not match."))
+		# check if login is free
+		try:
+			User.objects.get(username=self.cleaned_data['login'])
+		except:
+			pass
+		else:
+			raise forms.ValidationError(_("Login already taken"))
+		# check if email isn't used already
+		try:
+			User.objects.get(email=self.cleaned_data['email'])
+		except:
+			pass
+		else:
+			raise forms.ValidationError(_("Email already taken"))
+		
+		return self.cleaned_data
 
 def register(request):
 	"""
 	User registration
 	"""
 	captcha = text_captcha()
-	manipulator = RegisterForm()
+	form =  RegisterForm()
 	if request.POST:
-		data = request.POST.copy()
 		stripper = Stripper()
+		data = request.POST.copy()
 		data['login'] = stripper.strip(data['login'])
 		data['email'] = stripper.strip(data['email'])
-		errors = manipulator.get_validation_errors(data)
-		if not errors:
+		
+		form = RegisterForm(data)
+		
+		if form.is_valid():
+			data = form.cleaned_data
 			try:
 				user = User.objects.create_user(data['login'], data['email'], data['password1'])
 			except Exception:
 				data['reply'] = ''
-				form = forms.FormWrapper(manipulator, data, errors)
 				return render_to_response(
 					'userpanel/register.html',
 					{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
@@ -153,14 +238,21 @@ def register(request):
 				return redirect_by_template(request, "/user/", _('Registration compleated. You have been logged in succesfuly.'))
 		else:
 			data['reply'] = ''
-			form = forms.FormWrapper(manipulator, data, errors)
+			# newforms are bad... ;)
+			if '__all__' in form.errors:
+				if str(form.errors['__all__']).find(_('Incorrect answer')) != -1:
+					form.errors['reply'] = [_('Incorrect answer'),]
+				if str(form.errors['__all__']).find(_("Login already taken")) != -1:
+					form.errors['login'] = [_("Login already taken"),]
+				if str(form.errors['__all__']).find(_("Email already taken")) != -1:
+					form.errors['email'] = [_("Email already taken"),]
+				if str(form.errors['__all__']).find(_("Passwords do not match.")) != -1:
+					form.errors['password1'] = [_("Passwords do not match."),]
 			return render_to_response(
 				'userpanel/register.html',
 				{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
 				context_instance=RequestContext(request))
-	else:
-		errors = data = {}
-	form = forms.FormWrapper(manipulator, data, errors)
+	
 	return render_to_response(
 		'userpanel/register.html',
 		{'hash': captcha['answer'], 'form': form, 'question': captcha['question']},

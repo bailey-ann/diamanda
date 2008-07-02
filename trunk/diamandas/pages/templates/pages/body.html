@@ -39,7 +39,11 @@
 			{% if user.is_authenticated %}
 				<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
 			{% else %}
-				<a href="/user/login/" rel="facebox" onclick="">{% trans "Login or Register" %}</a>
+				{% if new_openid %}
+					<a href="/user/register_openid/" >{% trans "Compleate OpenID registration" %}</a>
+				{% else %}
+					<a href="/user/login/" rel="facebox">{% trans "Login or Register" %}</a>
+				{% endif %}
 			{% endif %}</li>
 		{% endblock %}
 		</ul>

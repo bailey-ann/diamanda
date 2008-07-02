@@ -47,15 +47,15 @@ class Content(models.Model):
 		list_filter = ['date', 'content_type']
 		search_fields = ['title', 'slug', 'text']
 		fields = (
-		(_('Content'), 
+		(_('Content'),
 			{
 			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'author')
 			}),
-		(_('Book'), 
+		(_('Book'),
 			{
 			'fields': ('book_order', 'coment_forum')
 			}),
-		(_('Updates'), 
+		(_('Updates'),
 			{
 			'fields': ('is_update', 'changes')
 			}),

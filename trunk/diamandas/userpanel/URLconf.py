@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('userpanel',
 (r'^$', 'views.user_panel'),
 (r'^register/$', 'views.register'),
+(r'^register_openid/$', 'views.register_from_openid'),
 (r'^login/$', 'views.login_user'),
 (r'^logout/$', 'views.logout_then_login'),
 (r'^password_change/$', 'views.password_change'),
