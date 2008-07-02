@@ -1,3 +1,16 @@
+~~ 2008.07 Test 2 ~~
+- FORUM: Solve/Unsolve topic
+- FORUM: forum moderators, topic prefixes
+- FORUM: added postmarkup as BBCode parser
+- FORUM: anonymous posting per forum
+- CONTENT: "what's new?" feed of new and updated pages and posts.
+- CONTENT: comments as forum topics
+- CONTENT: initial content submission support
+- DIAMANDA: removed stripogram dependency
+- USERPANEL: removed graphic captcha
+- USERPANEL: added OpenID support
+
+
 ~~ 2008.04 Test 1 ~~
 - User Interface changes, fixes and improvements
 - Rewritten userpanel app to use django auth views

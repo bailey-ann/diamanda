@@ -1,4 +1,0 @@
-~~ For 2008.04 Test 2 ~~
-- Improve content module by adding markitup "editor" (http://markitup.jaysalvat.com/home/) and more wiki-like features
-- Add OpenID support to userpanel
-- UI changes to boxcomments
