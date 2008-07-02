@@ -30,31 +30,54 @@ def user_panel(request):
 	return render_to_response('userpanel/panel.html', {'admin_mail': settings.SITE_ADMIN_MAIL}, context_instance=RequestContext(request, userpanelContext(request)))
 
 def login_user(request):
+	"""
+	django.contrib.auth.views.login login view
+	"""
 	if not request.user.is_authenticated():
-		return django.contrib.auth.views.login(request, template_name='userpanel/login.html')
+		# if the view is called by Ajax- Facebox then show the light version
+		if 'HTTP_X_REQUESTED_WITH' in request.META and request.META['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest':
+			return django.contrib.auth.views.login(request, template_name='userpanel/login_light.html')
+		else:
+			return django.contrib.auth.views.login(request, template_name='userpanel/login.html')
 	else:
 		return HttpResponseRedirect("/user/")
 
 def logout_then_login(request):
+	"""
+	django.contrib.auth.views.logout_then_login logout view
+	"""
+	# logout openIDs if any
 	if 'openids' in request.session:
 		request.session['openids'] = []
-	return django.contrib.auth.views.logout_then_login(request)
+	return django.contrib.auth.views.logout_then_login(request, login_url = '/')
 
 @login_required
 def password_change(request):
+	"""
+	django.contrib.auth.views.password_change password change view
+	"""
 	return django.contrib.auth.views.password_change(request, template_name='userpanel/password_change.html')
 
 @login_required
 def password_change_done(request):
+	"""
+	django.contrib.auth.views.password_change_done after password change view
+	"""
 	return django.contrib.auth.views.password_change_done(request, template_name='userpanel/password_change_done.html')
 
 def password_reset(request):
+	"""
+	django.contrib.auth.views.password_reset view (forgotten password)
+	"""
 	if not request.user.is_authenticated():
 		return django.contrib.auth.views.password_reset(request, template_name='userpanel/password_reset.html', email_template_name= 'userpanel/password_reset_email.html')
 	else:
 		return HttpResponseRedirect("/user/")
 
 def password_reset_done(request):
+	"""
+	django.contrib.auth.views.password_reset_done - after password reset view
+	"""
 	if not request.user.is_authenticated():
 		return django.contrib.auth.views.password_reset_done(request, template_name='userpanel/password_reset_done.html')
 	else:
@@ -104,7 +127,6 @@ def register(request):
 	"""
 	User registration
 	"""
-	# create a 5 char random strin and sha hash it
 	captcha = text_captcha()
 	manipulator = RegisterForm()
 	if request.POST:
