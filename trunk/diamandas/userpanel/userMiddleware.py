@@ -17,8 +17,8 @@ class userMiddleware(object):
 	Handle OpenID association
 	"""
 	def process_request(self, request):
-		request.session['new_openid'] = False
 		if request.openid and str(request.openid).find('.') != -1 and not request.user.is_authenticated():
+			request.session['new_openid'] = False
 			try:
 				o = OpenIdAssociation.objects.get(openid=str(request.openid))
 			except:

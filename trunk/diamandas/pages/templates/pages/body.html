@@ -3,11 +3,13 @@
 <head>
 <title>{% block title %}{{ siteName }}{% endblock %}</title>
 <meta name="description" content="{% block description %}{{ site_desc }}{% endblock %}" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Robots" content="index,follow" />
-<link rel="stylesheet" href="/site_media/layout/style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/site_media/layout/style.css" type="text/css" rel="stylesheet" />
+<link href="/site_media/layout/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css"/>
 <link rel="shortcut icon" href="/site_media/layout/favicon.ico" />
 <script src="/site_media/layout/jquery.pack.js" type="text/javascript"></script>
+<script src="/site_media/layout/facebox/facebox.js" type="text/javascript"></script>
 <script src="/site_media/layout/biblioteka.js" type="text/javascript"></script>
 {% block meta %}{% endblock %}
 </head>
@@ -32,14 +34,12 @@
 	<div id="modernbricksmenu">
 		<ul>
 		{% block leftmenu %}
-			<li><a href="/openid/">{{ openid }}</a></li>
-			<li><a href="/openid/signout/">Wyloguj oid</a></li>
 			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
 			<li{% block on_user %}{% endblock %} id="loginlink">
 			{% if user.is_authenticated %}
 				<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
 			{% else %}
-				<a href="/user/login/" onclick="return logowanie();">{% trans "Login or Register" %}</a>
+				<a href="/user/login/" rel="facebox" onclick="">{% trans "Login or Register" %}</a>
 			{% endif %}</li>
 		{% endblock %}
 		</ul>
@@ -57,17 +57,5 @@
 		<li><a href="/w/rss/">{% trans "RSS - Latest Publications" %}</a></li>
 	</ul>
 	</div>
-	{% if not user.is_authenticated %}
-	<div id="loginform">
-		<a>
-			<form id="inlinelogin" name="inlinelogin" method="post" action="/user/login/">
-				Login: <input type="text" name="username" size="15" maxlength="30" />
-				Password:  <input type="password" name="password" size="15" maxlength="30" />
-				<input type="submit" value="Login" id="inlinesubmit" /> or
-				<input type="button" onclick="location.assign('/user/register/');" value="Register" id="inlinesubmit" />
-			</form>
-		</a>
-	</div>
-	{% endif %}
 </body>
 </html>

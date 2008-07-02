@@ -38,7 +38,7 @@ def show_index(request):
 	except:
 		home = settings.DEFAULT_HOME_TEXT
 	else:
-		home = p.parsed_text
+		home = p.text
 	return render_to_response(
 		'pages/show_index.html',
 		{'onsite': onsite, 'home_text': home, 'feed': feed},
@@ -327,7 +327,7 @@ def book_rss(request, slug):
 	"""
 	book = Content.objects.get(slug=slug)
 	pages = Content.objects.all().filter(place=book).values('slug', 'title',
-		'parsed_description', 'date', 'content_type').order_by('-id')[:10]
+		'description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
 
 def search_pages(request):

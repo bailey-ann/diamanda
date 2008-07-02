@@ -18,20 +18,18 @@ def thumb(dic, text):
 	"""
 	display an image with a thumbnail and lightbox like script
 	"""
-	THUMB = '''<div style="text-align:center;">
-<a href="/site_media/resources/%s/images/%s" rel="thumbnail"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a>
-</div>'''
+	THUMB = '<a href="/site_media/resources/%s/images/%s" rel="facebox"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a>'
 	for i in dic:
 		img = i['attributes']['src'].split('/')
 		thumb = 'thumb_' + img[-1]
 		im = img[-1]
 		domain = img[0]
-		if isfile(settings.MEDIA_ROOT + 'resources/' + domain + '/images/' + im):
-			if not isfile(settings.MEDIA_ROOT + 'resources/' + domain + '/images/' + thumb):
+		if isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im):
+			if not isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb):
 				import Image
-				imi = Image.open(settings.MEDIA_ROOT + 'resources/' + domain + '/images/' + im)
+				imi = Image.open(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im)
 				imi.thumbnail((120, 120))
-				imi.save(settings.MEDIA_ROOT + 'resources/' + domain + '/images/' + thumb)
+				imi.save(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb)
 			thm = THUMB % (domain, im, domain, thumb, im)
 			text = text.replace(i['tag'], '^^%s^^' % base64.b64encode(thm))
 	return text

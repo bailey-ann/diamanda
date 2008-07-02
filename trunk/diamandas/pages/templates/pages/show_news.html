@@ -1,20 +1,21 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% load cbc %}
 {% block header %}{{ page.title }}{% endblock %}
 {% block title %}{{ page.title }}{% endblock %}
 {% block description %}{{ page.title }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
 
 {% block content %}
-{{ page.description|safe }}
-{{ page.text|safe }}
+{{ page.description|cbc|safe }}
+{{ page.text|cbc|safe }}
 <ul class="newsbox">
 	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
 	<li class="comment">
 		{% if page.coment_topic %}
 			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Read comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% else %}
-			<a href="#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+			<a href="?c=ok#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% endif %}
 	</li>
 	<li class="aauthor">{{ page.author }}</li>

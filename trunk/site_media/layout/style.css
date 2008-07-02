@@ -7,19 +7,14 @@ font-size:13px;
 font-family:"DejaVu Sans", verdana, tahoma, arial;
 }
 
-a
-{
-text-decoration:none;
-}
-
-ul, ol
+#center ul, ol
 {
 	margin-top:3px;
 	margin-bottom:15px;
 	line-height: 1.8em;
 }
-ol li { margin-left: 2.5em; }
-ul { padding-left: 2em; list-style-type: square; }
+#center ol li { margin-left: 2.5em; }
+#center ul { padding-left: 2em; list-style-type: square; }
 
 #center
 {
@@ -31,6 +26,8 @@ border-top:1px #3c78b5 solid;
 text-align:justify;
 line-height:1.5;
 overflow:auto;
+padding-top:0px;
+margin-top:0px;
 }
 #center a
 {
@@ -284,17 +281,17 @@ blockquote
 
 
 
-th strong
+#center th strong
 {
 color: #fff;
 }
-table
+#center table
 {
 border-collapse: collapse;
 text-align:center;
 width:100%;
 }
-th
+#center th
 {
 background: #143D55;
 height: 29px;
@@ -304,11 +301,11 @@ color: #fff;
 text-align:center;
 border-left: solid 1px #6C6C6C;
 }
-tr
+#center tr
 {
 height: 30px;
 }
-td
+#center td
 {
 padding-left: 10px;
 padding-right: 10px;
@@ -319,37 +316,37 @@ border-bottom:1px solid #6C6C6C;
 border-top:1px solid #6C6C6C;
 }
 
-tr.small
+#center tr.small
 {
 	font-size:11px;
 	background: #E3E3E3;
 }
 
-tr.small_solved
+#center tr.small_solved
 {
 	font-size:11px;
 	background-color: #D6D6D6;
 	color:#494949;
 }
-tr.small_prefixes
+#center tr.small_prefixes
 {
 	font-size:11px;
 	background-color: #184A67;
 	color:white;
 }
-tr.small_prefixes input
+#center tr.small_prefixes input
 {
 	width:auto;
 	background-color: #143D55;
 	color:white;
 	border: 1px solid #0B2330;
 }
-tr.small_prefixes form
+#center tr.small_prefixes form
 {
 	display:inline;
 	padding-right:6px;
 }
-tr.small_prefixes a
+#center tr.small_prefixes a
 {
 	color:white !important;
 }
@@ -365,7 +362,7 @@ tr.small_prefixes a
 }
 
 
-tr.small_solved a
+#center tr.small_solved a
 {
 	color:#494949 !important;
 }
@@ -387,15 +384,15 @@ img
 {
 border:0px;
 }
-td.first,th.first
+#center td.first,th.first
 {
 border-left: 0px;
 }
-tr.rowA
+#center tr.rowA
 {
 background: #E3E3E3;
 }
-tr.rowB
+#center tr.rowB
 {
 background: #D6D6D6;
 }
@@ -765,42 +762,6 @@ border-right: 1px #3c78b5 solid;
 border-left: 1px #3c78b5 solid;
 }
 
-/* code of login form displayed in the menu*/
-#loginform
-{
-visibility:hidden;
-}
-
-/* form in menu CSS */
-#inlinelogin
-{
-	font-size:11px;
-	display:inline;
-	padding-bottom:3px;
-	font-weight:normal;
-}
-
-#inlinelogin input
-{
-	display:inline;
-	padding:0px;
-	margin:0px;
-	height:12px;
-	margin-right:3px;
-	width:80px;
-	font-size:10px;
-	background-color: #0C2432;
-	border: 1px #3c78b5 solid;
-	color:white;
-}
-
-#inlinesubmit
-{
-	height:14px !important;
-}
-
-
-
 #modernbricksmenuline{
 clear: both;
 padding: 0;
@@ -858,6 +819,8 @@ margin-left: 0;
 font: bold 12px Verdana;
 list-style-type: none;
 text-align: right;
+
+line-height: 1em !important;
 }
 
 .basictab li{
@@ -888,38 +851,6 @@ color: white !important;
 color: black;
 }
 
-/* Displaying Images */
-#thumbBox{ /*Outermost DIV for thumbnail viewer*/
-position: absolute;
-left: 0;
-top: 0;
-width: auto;
-padding: 10px;
-padding-bottom: 0;
-background: #313131;
-visibility: hidden;
-z-index: 10;
-cursor: pointer;
-}
-#thumbBox .footerbar{ /*Footer DIV of thumbbox that contains "close" link */
-font: bold 16px Tahoma;
-letter-spacing: 5px;
-line-height: 1.1em;
-color: white;
-padding: 5px 0;
-text-align: right;
-}
-#thumbBox #thumbImage{ /*DIV within thumbbox that holds the enlarged image */
-background-color: white;
-}
-#thumbLoading{ /*DIV for showing "loading" status while thumbbox is being generated*/
-position: absolute;
-visibility: hidden;
-border: 1px solid black;
-background-color: #EFEFEF;
-padding: 5px;
-z-index: 5;
-}
 
 .content table
 {

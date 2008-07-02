@@ -36,6 +36,8 @@ def login_user(request):
 		return HttpResponseRedirect("/user/")
 
 def logout_then_login(request):
+	if 'openids' in request.session:
+		request.session['openids'] = []
 	return django.contrib.auth.views.logout_then_login(request)
 
 @login_required
