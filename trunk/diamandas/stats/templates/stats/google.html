@@ -1,17 +1,43 @@
-{% extends "pages/body.html" %}
+{% extends "admin/base_site.html" %}
 {% load i18n %}
-{% block content %}
-<h2>{% trans "Google Keywords" %}</h2><br />
-<b>Wejścia z Google</b>: {{ google }} %<br />
-<b>Wejścia z jakilinux.org</b>: {{ jaki }} %<br />
-<b>Wejścia z wykop.pl</b>: {{ wykop }} %<br />
-<b>Wejścia z wikipedii</b>: {{ wiki }} %<br /><br />
 
+{% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/dashboard.css{% endblock %}
+{% block coltype %}colMS{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/admin/">{% trans "Admin Panel" %}</a> > <a href="/stats/">{% trans "Site Statistics" %}</a></div>{% endblock %}
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block content %}
+<div id="content-main">
+<div class="module">
+<h2>{% trans "Search engine traffic sources" %}</h2>
+<ul>
+<li><b>{% trans "Google" %}</b>: {{ google }} %</li>
+<li><b>{% trans "Wikipedia" %}</b>: {{ wiki }} %</li>
+</ul>
+</div>
+
+<div class="module">
+<h2>{% trans "Google Keywords" %}</h2>
+<ul>
 {% for r in refs %}
-<b>{{ r.word|escape }}</b>: {{ r.count }}<br />
+<li><b>{{ r.word|escape }}</b>: {{ r.count }}</li>
 {% endfor %}
+</ul>
+</div>
+</div>
 {% endblock %}
 
 
-{% block leftmenu %}
-<ul><li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li><li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li><li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li><li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li></ul>{% endblock %}
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+ <h2>{% trans "Actions" %}</h2>
+<ul>
+<li><a href="/stats/entries/">{% trans "Unique Entries" %}</a></li>
+<li><a href="/stats/refs/">{% trans "Last Referers" %}</a></li>
+<li><a href="/stats/google/">{% trans "Google Keywords" %}</a></li>
+<li><a href="/stats/delete/" onclick="return confirm('{% trans "Delete all data ?" %}')">{% trans "Delete Stat Data" %}</a></li>
+</ul>
+</div>
+</div>
+{% endblock %}
