@@ -524,7 +524,7 @@ msgstr "Dodaj Nowy Temat"
 
 #: templates/myghtyboard/topics_list.html:48
 msgid "Filter topics"
-msgstr "Starsze Tematy"
+msgstr "Filtruj tematy"
 
 #: templates/myghtyboard/topics_list.html:53
 msgid "Filter"

@@ -61,10 +61,10 @@ def parse_cbc_tags(text, use_mdk=True):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		try:
-			text = eval(plugin + '(parsed[plugin], text)')
-		except:
-			print 'NO PLUGIN %s' % plugin
+		#try:
+		text = eval(plugin + '(parsed[plugin], text)')
+		#except:
+			#print 'NO PLUGIN %s' % plugin
 	
 	#if use_mdk:
 		#text = markdown.markdown(text, safe_mode = True)

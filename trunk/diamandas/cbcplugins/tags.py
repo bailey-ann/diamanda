@@ -12,6 +12,9 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
+import Image
+from PIL import ImageEnhance
+
 from django.conf import settings
 
 def thumb(dic, text):
@@ -26,9 +29,10 @@ def thumb(dic, text):
 		domain = img[0]
 		if isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im):
 			if not isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb):
-				import Image
 				imi = Image.open(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im)
-				imi.thumbnail((120, 120))
+				imi.thumbnail((145, 145), Image.ANTIALIAS)
+				sharpener = ImageEnhance.Sharpness(imi)
+				imi = sharpener.enhance(2.4)
 				imi.save(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb)
 			thm = THUMB % (domain, im, domain, thumb, im)
 			text = text.replace(i['tag'], '^^%s^^' % base64.b64encode(thm))
