@@ -19,7 +19,7 @@ DATABASE_HOST = ''             # Set to empty string for localhost. Not used wit
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 TIME_ZONE = 'Europe/Warsaw'
-LANGUAGE_CODE = 'pl'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1 # ID of the site, used in table names etc
 SITE_KEY = 'localhost' # domain of the site, used in creation of full URLs to your site

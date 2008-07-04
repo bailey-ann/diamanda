@@ -98,7 +98,7 @@ class Content(models.Model):
 			
 		self.crumb = crumb
 		
-		if self.content_type == 'book':
+		if self.content_type == 'book' and self.book_order > 0:
 			self.current_book = self.slug
 			self.current_book_title = self.title
 		elif self.place and self.place.content_type == 'book':

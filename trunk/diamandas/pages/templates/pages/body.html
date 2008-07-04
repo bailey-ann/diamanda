@@ -33,19 +33,18 @@
 	</div>
 	<div id="modernbricksmenu">
 		<ul>
-		{% block leftmenu %}
-			<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
-			<li{% block on_user %}{% endblock %} id="loginlink">
-			{% if user.is_authenticated %}
-				<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
+		<li{% if on_help %} id="current"{% endif %}><a href="/w/">{% trans "Help Page" %}</a></li>
+		<li{% if on_forum %} id="current"{% endif %}><a href="/forum/">{% trans "Forum" %}</a></li>
+		<li{% block on_user %}{% endblock %} id="loginlink">
+		{% if user.is_authenticated %}
+			<a href="/user/">{% trans "My Account" %} ({{ user }})</a>
+		{% else %}
+			{% if new_openid %}
+				<a href="/user/register_openid/" >{% trans "Compleate OpenID registration" %}</a>
 			{% else %}
-				{% if new_openid %}
-					<a href="/user/register_openid/" >{% trans "Compleate OpenID registration" %}</a>
-				{% else %}
-					<a href="/user/login/" rel="facebox">{% trans "Login or Register" %}</a>
-				{% endif %}
-			{% endif %}</li>
-		{% endblock %}
+				<a href="/user/login/" rel="facebox">{% trans "Login or Register" %}</a>
+			{% endif %}
+		{% endif %}</li>
 		</ul>
 	</div>
 	<div id="modernbricksmenuline">&nbsp;</div>

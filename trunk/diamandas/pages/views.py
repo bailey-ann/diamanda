@@ -44,6 +44,12 @@ def show_index(request):
 		{'onsite': onsite, 'home_text': home, 'feed': feed},
 		context_instance=RequestContext(request))
 
+def show_help(request):
+	return render_to_response(
+		'pages/show_help.html',
+		{'email': settings.SITE_ADMIN_MAIL},
+		context_instance=RequestContext(request, {'on_help': True}))
+
 def list_news(request, book=False):
 	"""
 	List news

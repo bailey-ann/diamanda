@@ -7,6 +7,8 @@ from django.utils.translation import ugettext as _
 from django.template import Context, loader
 from django.conf import settings
 
+from postmarkup import render_bbcode
+from cbcplugins import cbcparser
 from utils import *
 
 class FeedUpdate:
@@ -121,7 +123,7 @@ class FeedUpdate:
 				'topic_id': topic_id,
 				'prefix': prefix,
 				'topic_title': self.stripper.strip(name),
-				'text': text,
+				'text': render_bbcode(text,'UTF-8'),
 				'author_anonymous': author_anonymous
 			})
 			appended = t.render(c)
@@ -139,7 +141,7 @@ class FeedUpdate:
 				'topic_id': topic_id,
 				'prefix': prefix,
 				'topic_title': self.stripper.strip(name),
-				'text': text,
+				'text': render_bbcode(text,'UTF-8'),
 				'author_anonymous': author_anonymous
 			})
 			self.r = t.render(c)
@@ -199,7 +201,7 @@ class FeedUpdate:
 		c = Context({
 			'date': date,
 			'title': title,
-			'description': description,
+			'description': cbcparser.parse_cbc_tags(description),
 			'slug': slug,
 			'is_update':is_update,
 			'changes':changes,
@@ -225,7 +227,7 @@ class FeedUpdate:
 		c = Context({
 			'date': date,
 			'title': title,
-			'description': description,
+			'description': render_bbcode(description, 'UTF-8'),
 			'pagination_page': pagination_page,
 			'topic_id':topic_id,
 			'prefix': prefix,

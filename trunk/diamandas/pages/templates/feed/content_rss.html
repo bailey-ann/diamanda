@@ -3,6 +3,6 @@
 <guid>http://www.{{ domain }}/w/p/{{ slug }}/</guid>
 <link>http://www.{{ domain }}/w/p/{{ slug }}/</link>
 <title>{{ title }}</title>
-<description>{% if is_update %}<b>{% trans "Update" %}</b>: {{ changes }}<br />{% endif %}{{ description|safe }}</description>
+<description><![CDATA[{% if is_update %}<b>{% trans "Update" %}</b>: {{ changes }}<br />{% endif %}{{ description|safe }}]]></description>
 <pubDate>{{ date }}</pubDate>
 </item>

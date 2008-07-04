@@ -17,6 +17,9 @@ from django.conf import settings
 def thumb(dic, text):
 	"""
 	display an image with a thumbnail and lightbox like script
+	
+	USAGE:
+	[rk:thumb src="SITE_KEY/filename"]
 	"""
 	THUMB = '<a href="/site_media/resources/%s/images/%s" rel="facebox"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a>'
 	for i in dic:
@@ -38,6 +41,9 @@ def thumb(dic, text):
 def art(dic, text):
 	"""
 	display a link to Content entry by given slug
+	
+	USAGE:
+	[rk:art slug="slugname"]
 	"""
 	from pages.models import Content
 	lista = []
@@ -56,6 +62,9 @@ def art(dic, text):
 def syntax(dic, text):
 	"""
 	highlight code using pygments
+	
+	USAGE:
+	[rk:syntax lang="LANG_NAME"]CODE[/rk:syntax]
 	"""
 	pygments_formatter = HtmlFormatter()
 	langs = {}
@@ -77,6 +86,10 @@ def syntax(dic, text):
 def box(dic, text):
 	"""
 	a small blue CSS box for text with a header
+	that floats to the right side of page
+	
+	USAGE:
+	[rk:box title="TITLE"]TEXT[/rk:box]
 	"""
 	TEMPLATE = '''<div class="content_float">
 	<div class="content_box_header">%s</div>
