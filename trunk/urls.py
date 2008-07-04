@@ -6,7 +6,7 @@ urlpatterns = patterns('',
 (r'^admin/', include('django.contrib.admin.urls')),
 (r'^w/', include('pages.URLconf')),
 (r'^forum/', include('myghtyboard.URLconf')),
-(r'^stats/', include('stats.URLconf')),
+(r'^stats/', include('pagestats.URLconf')),
 (r'^sitemap/$', 'pages.views.sitemap'),
 (r'^sitemap.xml$', 'pages.views.sitemap'),
 

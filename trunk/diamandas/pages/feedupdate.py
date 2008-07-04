@@ -9,7 +9,7 @@ from django.conf import settings
 
 from utils import *
 
-class FeedUpdate():
+class FeedUpdate:
 	"""
 	Generates "what's new" list and saves in database for later use
 	"""

@@ -65,7 +65,7 @@
 {% endblock %}
 
 {% block pagemenu %}
-<li><a href="#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>
+<li><a href="?c=ok#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>
 {% ifequal page.content_type "book" %}
 	<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
 	<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>

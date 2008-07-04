@@ -67,7 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    'stats.statsMiddleware.statsMiddleware',
+    'pagestats.statsMiddleware.statsMiddleware',
     'django_openidconsumer.middleware.OpenIDMiddleware',
     'userpanel.userMiddleware.userMiddleware',
     #'profiler.ProfileMiddleware', # debug !
@@ -88,7 +88,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
 'diamandas/myghtyboard/templates',
 'diamandas/userpanel/templates',
-'diamandas/stats/templates',
+'diamandas/pagestats/templates',
 'diamandas/pages/templates',
 )
 
@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
     'django.contrib.admin',
     'django_openidconsumer',
-    'stats',
+    'pagestats',
     'pages',
     'userpanel',
     'myghtyboard',

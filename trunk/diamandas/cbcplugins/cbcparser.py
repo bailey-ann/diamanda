@@ -36,7 +36,7 @@ def parse_cbc_tags(text, use_mdk=True):
 		try:
 			text = eval(plugin + '(parsed_double[plugin], text)')
 		except:
-			print 'NO PLUGIN %s' % plugin
+			pass
 
 	# single: [tag]
 	tags = findall(r'\[rk:([a-z_0-9]*) (.*?)\]', text)
@@ -61,14 +61,9 @@ def parse_cbc_tags(text, use_mdk=True):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		#try:
-		text = eval(plugin + '(parsed[plugin], text)')
-		#except:
-			#print 'NO PLUGIN %s' % plugin
+		try:
+			text = eval(plugin + '(parsed[plugin], text)')
+		except:
+			pass
 	
-	#if use_mdk:
-		#text = markdown.markdown(text, safe_mode = True)
-	tags = findall(r'\^\^(.*?)\^\^', text)
-	for tag in tags:
-		text = text.replace('^^%s^^' % tag, base64.b64decode(tag))
 	return text

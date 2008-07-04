@@ -19,6 +19,7 @@ Here is a list of extra python modules that Diamanda uses:
 * Django-SVN (tested on 0.97-pre-SVN-7403)
 * PIL - ContentBBCode
 * Pygments - ContentBBCode and MyghtyBoard
+* Python-OpenID
 
 
 ~~ How to start the dev server / Diamanda 2007 ~~
