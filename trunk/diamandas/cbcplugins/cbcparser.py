@@ -33,10 +33,7 @@ def parse_cbc_tags(text, use_mdk=True):
 		parsed_double[k].append(vals)
 	
 	for plugin in parsed_double:
-		try:
-			text = eval(plugin + '(parsed_double[plugin], text)')
-		except:
-			pass
+		text = eval(plugin + '(parsed_double[plugin], text)')
 
 	# single: [tag]
 	tags = findall(r'\[rk:([a-z_0-9]*) (.*?)\]', text)
@@ -61,9 +58,6 @@ def parse_cbc_tags(text, use_mdk=True):
 		parsed[k].append(vals)
 	
 	for plugin in parsed:
-		try:
-			text = eval(plugin + '(parsed[plugin], text)')
-		except:
-			pass
+		text = eval(plugin + '(parsed[plugin], text)')
 	
 	return text

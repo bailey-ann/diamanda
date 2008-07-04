@@ -1035,3 +1035,11 @@ list-style-image: url(plus.png);
 {
 list-style-image: url(minus.png);
 }
+.book
+{
+list-style-image: url(cbc/book.png);
+}
+.page
+{
+list-style-image: url(cbc/page.png);
+}

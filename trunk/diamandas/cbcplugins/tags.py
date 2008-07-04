@@ -4,8 +4,6 @@
 # CBCParhaser - replace tags with some content
 
 from os.path import isfile
-from datetime import timedelta
-from datetime import datetime
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -36,28 +34,23 @@ def thumb(dic, text):
 			thm = THUMB % (domain, im, domain, thumb, im)
 			text = text.replace(i['tag'], thm)
 	return text
+
 def art(dic, text):
 	"""
 	display a link to Content entry by given slug
 	"""
 	from pages.models import Content
-	now = datetime.now()
-	red = now - timedelta(hours=48)
-	yellow = now - timedelta(hours=96)
-	green = now - timedelta(hours=192)
 	lista = []
 	for i in dic:
 		lista.append(i['attributes']['slug'])
 	pages = Content.objects.filter(slug__in=lista)
 	for i in pages:
-		if i.date > red:
-			text = text.replace('[rk:art slug="' + i.slug + '"]',  '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + ' <img src="/site_media/layout/cbc/new_1.gif" alt="" /><br />')
-		elif i.date > yellow:
-			text = text.replace('[rk:art slug="' + i.slug + '"]',  '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + ' <img src="/site_media/layout/cbc/new_3.gif" alt="" /><br />')
-		elif i.date > green:
-			text = text.replace('[rk:art slug="' + i.slug + '"]',  '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + ' <img src="/site_media/layout/cbc/new_7.gif" alt="" / alt="" /><br />')
+		if i.content_type == 'book':
+			text = text.replace('[rk:art slug="' + i.slug + '"]',
+				'<li class="book"><a href="/w/p/%s/">%s</a> - %s</li>' % (i.slug, i.title, i.description))
 		else:
-			text = text.replace('[rk:art slug="' + i.slug + '"]',  '<img src="/site_media/layout/cbc/1.png" alt="" /> <a href="/w/p/' + i.slug + '/">' + i.title + '</a> - ' + i.description + '<br />')
+			text = text.replace('[rk:art slug="' + i.slug + '"]',
+				'<li class="page"><a href="/w/p/%s/">%s</a> - %s</li>' % (i.slug, i.title, i.description))
 	return text
 
 def syntax(dic, text):
@@ -72,8 +65,8 @@ def syntax(dic, text):
 		except ValueError:
 			lexer = get_lexer_by_name('text')
 		parsed = highlight(i['code'], lexer, pygments_formatter)
-		text = text.replace(i['tag'],  '<div class="box" style="overflow:hidden;font-size:11px;">' + parsed + '</div>')
-		langs['<style>' + pygments_formatter.get_style_defs() + '</style>'] = True
+		text = text.replace(i['tag'],  '<div class="box" style="overflow:hidden;font-size:11px;">%s</div>' % parsed)
+		langs['<style>%s</style>' % pygments_formatter.get_style_defs()] = True
 	
 	styles = ''
 	for style in langs.keys():
