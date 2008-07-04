@@ -231,6 +231,14 @@ def add_topic(request, forum_id):
 	
 	forum = Forum.objects.get(id=forum_id)
 	
+	lasttopic = Topic.objects.filter(forum=forum).order_by('-modification_date')[:3]
+	if str(lasttopic[0].author) == str(request.user) and str(lasttopic[1].author) == str(request.user) and str(lasttopic[2].author) == str(request.user) and not perms['perms']['is_staff'] \
+	or lasttopic[0].author_anonymous and lasttopic[1].author_anonymous and lasttopic[2].author_anonymous:
+		return render_to_response('pages/bug.html',
+			{'bug': _('You can\'t make more than 3 topics in a row')},
+			context_instance=RequestContext(request, forumContext(request))
+			)
+	
 	pr = False
 	if forum.use_prefixes:
 		p = Prefix.objects.filter(forums=forum)
@@ -243,6 +251,12 @@ def add_topic(request, forum_id):
 		stripper = Stripper()
 		page_data = request.POST.copy()
 		text = page_data['text']
+		# block anonymous messages with multiple links
+		if not perms['perms']['is_authenticated'] and text.count('http') > 1:
+			return render_to_response('pages/bug.html',
+				{'bug': _('To many links. Is this spam?.')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
 		if 'prefix[]' in page_data:
 			prefixes = page_data.getlist("prefix[]")
 			pr = Prefix.objects.filter(id__in=prefixes)
@@ -347,9 +361,8 @@ def add_post(request, topic_id, post_id = False):
 
 	# check who made the last post.
 	lastpost = Post.objects.order_by('-date').filter(topic=topic_id)[:1]
-	is_staff = request.user.is_staff
 	# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
-	if str(lastpost[0].author) == str(request.user) and not is_staff:
+	if str(lastpost[0].author) == str(request.user) and not is_staff or str(lastpost[0].ip) == str(request.META['REMOTE_ADDR']) and not perms['perms']['is_staff']:
 		return render_to_response('pages/bug.html',
 			{'bug': _('You can\'t post after your post')},
 			context_instance=RequestContext(request, forumContext(request))
@@ -359,6 +372,12 @@ def add_post(request, topic_id, post_id = False):
 	if request.POST:
 		stripper = Stripper()
 		page_data = request.POST.copy()
+		# block anonymous messages with multiple links
+		if not perms['perms']['is_authenticated'] and page_data['text'].count('http') > 1:
+			return render_to_response('pages/bug.html',
+				{'bug': _('To many links. Is this spam?.')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
 		if perms['perms']['is_authenticated']:
 			page_data['author'] = str(request.user)
 			author = str(request.user)
