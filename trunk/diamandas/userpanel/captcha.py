@@ -27,23 +27,22 @@ def digit_from_number():
 	integer = ''.join([choice('0123456789') for i in range(4)])
 	offset = int(choice('0123'))
 	answer = sha.new('%s%s' % (integer[offset], settings.SECRET_KEY)).hexdigest()
-	return {'question': _('What\'s the %s digit in %s?') % (offset+1, integer), 'answer': answer}
+	q = _('What\'s the ') + str(offset+1) + _(' digit in %s?') % integer
+	return {'question': q, 'answer': answer}
 
 def char_from_string():
 	char = ''.join([choice('qwertyuiopasdfghjklzxcvbnm') for i in range(4)])
 	offset = int(choice('0123'))
 	answer = sha.new('%s%s' % (char[offset], settings.SECRET_KEY)).hexdigest()
-	return {'question': _('What\'s the %s character in %s?') % (offset+1, char), 'answer': answer}
+	q = _('What\'s the ') + str(offset+1) + _(' character in %s?') % char
+	return {'question': q, 'answer': answer}
 
 def logic_question():
 	"""
 	Your own captcha questions
 	"""
 	QUESTIONS = [
-		{'question': 'How much is 2+2?', 'answer': '4'},
-		{'question': 'How much is 2+1?', 'answer': '3'},
-		{'question': 'How much is 2+0?', 'answer': '2'},
-		{'question': 'How much is 2+3?', 'answer': '5'},
+		{'question': 'What\'s the main color of Ferrari?', 'answer': 'red'},
 		]
 	index = randint(0, len(QUESTIONS) - 1)
 	elem = QUESTIONS[index]

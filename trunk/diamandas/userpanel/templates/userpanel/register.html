@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
 <h2>{% trans "Register" %}</h2>
-<form action="." method="post"><input type="hidden" value="{{ hash }}" name="answer" />
+<form action="." method="post"><input type="hidden" value="{{ token }}" name="token" />
 <div class="content">
           <table style="width:50%;">
             <tr class="rowA">

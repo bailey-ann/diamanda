@@ -3,13 +3,15 @@
 # User Panel
 
 from random import choice
-import Image, ImageDraw, ImageFont, sha
+from datetime import timedelta
+from datetime import datetime
+import sha
 
+import django.contrib.auth.views
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.template import RequestContext
-import django.contrib.auth.views
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 
@@ -19,8 +21,8 @@ from django.core import validators
 
 from userpanel.models import *
 from userpanel.context import userpanel as userpanelContext
+from userpanel.captcha import *
 from utils import *
-from captcha import *
 
 
 def user_panel(request):
@@ -90,12 +92,24 @@ class RegisterOpenIdForm(forms.Form):
 	"""
 	login = forms.CharField(min_length=3, max_length=30)
 	reply = forms.CharField()
-	answer = forms.CharField()
+	token = forms.CharField()
 	email = forms.EmailField()
 	def clean(self):
 		# check the answer
-		if 'answer' in self.cleaned_data and 'reply' in self.cleaned_data and not self.cleaned_data['answer'] == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
-			raise forms.ValidationError(_("Incorrect answer."))
+		if 'token' in self.cleaned_data and 'reply' in self.cleaned_data:
+			try:
+				ct = CaptchaToken.objects.get(token=self.cleaned_data['token'])
+			except:
+				raise forms.ValidationError(_("Incorrect answer."))
+			else:
+				now = datetime.now()
+				check_time = now - timedelta(minutes=5)
+				if ct.date < check_time:
+					raise forms.ValidationError(_("Incorrect answer."))
+				if not ct.answer == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
+					raise forms.ValidationError(_("Incorrect answer."))
+				ct.delete()
+		
 		# check if login is free
 		try:
 			User.objects.get(username=self.cleaned_data['login'])
@@ -121,6 +135,10 @@ def register_from_openid(request):
 		return HttpResponseRedirect("/user/")
 	
 	captcha = text_captcha()
+	t = ''.join([choice('1234567890qwertyuiopasdfghjklzxcvbnm') for i in range(15)])
+	ct = CaptchaToken(answer=captcha['answer'], token=t)
+	ct.save()
+	
 	form =  RegisterOpenIdForm()
 	if request.POST:
 		stripper = Stripper()
@@ -140,7 +158,7 @@ def register_from_openid(request):
 				data['reply'] = ''
 				return render_to_response(
 					'userpanel/register_openid.html',
-					{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+					{'token': t, 'form': form, 'question': captcha['question'], 'openid': request.openid},
 					context_instance=RequestContext(request))
 			else:
 				user.save()
@@ -164,12 +182,12 @@ def register_from_openid(request):
 					form.errors['email'] = [_("Email already taken"),]
 			return render_to_response(
 				'userpanel/register_openid.html',
-				{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+				{'token': t, 'form': form, 'question': captcha['question'], 'openid': request.openid},
 				context_instance=RequestContext(request))
 	
 	return render_to_response(
 		'userpanel/register_openid.html',
-		{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'openid': request.openid},
+		{'token': t, 'form': form, 'question': captcha['question'], 'openid': request.openid},
 		context_instance=RequestContext(request))
 
 
@@ -181,12 +199,28 @@ class RegisterForm(forms.Form):
 	password1 = forms.CharField(min_length=6)
 	password2 = forms.CharField(min_length=6)
 	reply = forms.CharField()
-	answer = forms.CharField()
+	token = forms.CharField()
 	email = forms.EmailField()
 	def clean(self):
 		# check the answer
-		if 'answer' in self.cleaned_data and 'reply' in self.cleaned_data and not self.cleaned_data['answer'] == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
-			raise forms.ValidationError(_("Incorrect answer."))
+		if 'token' in self.cleaned_data and 'reply' in self.cleaned_data:
+			try:
+				ct = CaptchaToken.objects.get(token=self.cleaned_data['token'])
+			except:
+				raise forms.ValidationError(_("Incorrect answer."))
+			else:
+				now = datetime.now()
+				check_time = now - timedelta(minutes=5)
+				if ct.date < check_time:
+					raise forms.ValidationError(_("Incorrect answer."))
+				if not ct.answer == sha.new(self.cleaned_data['reply']+settings.SECRET_KEY).hexdigest():
+					raise forms.ValidationError(_("Incorrect answer."))
+				ct.delete()
+				# remove old tokens
+				ct = CaptchaToken.objects.filter(date__lte=check_time)
+				for i in ct:
+					i.delete()
+		
 		# check if passwords match
 		if 'password2' in self.cleaned_data and 'password1' in self.cleaned_data and self.cleaned_data['password2'] != self.cleaned_data['password1'] :
 			raise forms.ValidationError(_("Passwords do not match."))
@@ -212,6 +246,10 @@ def register(request):
 	User registration
 	"""
 	captcha = text_captcha()
+	t = ''.join([choice('1234567890qwertyuiopasdfghjklzxcvbnm') for i in range(15)])
+	ct = CaptchaToken(answer=captcha['answer'], token=t)
+	ct.save()
+	
 	form =  RegisterForm()
 	if request.POST:
 		stripper = Stripper()
@@ -229,7 +267,7 @@ def register(request):
 				data['reply'] = ''
 				return render_to_response(
 					'userpanel/register.html',
-					{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
+					{'token': t, 'form': form, 'question': captcha['question'], 'error': True},
 					context_instance=RequestContext(request))
 			else:
 				user.save()
@@ -251,10 +289,10 @@ def register(request):
 					form.errors['password1'] = [_("Passwords do not match."),]
 			return render_to_response(
 				'userpanel/register.html',
-				{'hash': captcha['answer'], 'form': form, 'question': captcha['question'], 'error': True},
+				{'token': t, 'form': form, 'question': captcha['question'], 'error': True},
 				context_instance=RequestContext(request))
 	
 	return render_to_response(
 		'userpanel/register.html',
-		{'hash': captcha['answer'], 'form': form, 'question': captcha['question']},
+		{'token': t, 'form': form, 'question': captcha['question']},
 		context_instance=RequestContext(request))
