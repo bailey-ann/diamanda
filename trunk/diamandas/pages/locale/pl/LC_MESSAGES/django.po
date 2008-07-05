@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-03 00:42+0200\n"
+"POT-Creation-Date: 2008-07-05 21:43+0200\n"
 "PO-Revision-Date: 2005-09-28 12:52+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -111,44 +111,64 @@ msgstr "Zgłoszenie"
 msgid "2. Submissions"
 msgstr "2. Zgłoszenia"
 
-#: views.py:83 templates/404.html:4
+#: views.py:89 templates/404.html:4
 msgid "Page does not exist"
 msgstr "Strona nie istnieje"
 
-#: views.py:133 views.py:134 views.py:135 views.py:195 views.py:196
+#: views.py:139 views.py:140 views.py:141 views.py:230 views.py:231
 msgid "Anonymous"
 msgstr "Anonim"
 
-#: views.py:140
+#: views.py:148
+msgid "To many links. Is this spam?."
+msgstr "Zbyt wiele odnośników. Czy to spam?"
+
+#: views.py:152
 #, python-format
 msgid "Comments for: %s"
 msgstr "Komentarze dla: %s"
 
-#: views.py:149
+#: views.py:161
 msgid "This is a discussion about article"
 msgstr "To jest dyskusja poświęcona artykułowi"
 
-#: views.py:176
+#: views.py:190
 msgid "Comment Topic Created"
 msgstr "Temat Komentarzy Stworzony"
 
-#: views.py:176
+#: views.py:190
 msgid "Topic added"
 msgstr "Temat dodany"
 
-#: views.py:178 views.py:243
+#: views.py:192 views.py:278
 msgid "Comment added succesfuly."
 msgstr "Komentarz dodany pomyślnie."
 
-#: views.py:239
+#: views.py:199
+msgid "You can't add a post."
+msgstr "Nie możesz dodawać postów."
+
+#: views.py:204
+msgid "To many anonymous posts. Login to post topics and new messages."
+msgstr "Zbyt wiele anonimowych postów. Zaloguj się by móc dodawać nowe posty i tematy."
+
+#: views.py:213
+msgid "You can't post after your post"
+msgstr "Nie możesz dodać drugiego postu z rzędu"
+
+#: views.py:274
 msgid "Comment Post Added"
 msgstr "Post Komentarza Dodany"
 
-#: views.py:240
+#: views.py:275
 msgid "Post Added"
 msgstr "Post Dodany"
 
-#: views.py:274
+#: views.py:310
+msgid "Content submited"
+msgstr "Zgłoszenie materiału"
+
+#: views.py:311
 msgid ""
 "Your article have been saved. Staff will review the article and publish it "
 "afterwards."
@@ -156,7 +176,7 @@ msgstr ""
 "Twój artykuł został zapisany. Redator przejży go i opublikuje jeżeli będzie "
 "się nadawał."
 
-#: feedupdate.py:111 feedupdate.py:220
+#: feedupdate.py:113 feedupdate.py:222
 msgid "Solved: "
 msgstr "Rozwiązany: "
 
@@ -183,7 +203,7 @@ msgstr "Jesteś tutaj"
 #: templates/pages/body.html:17 templates/pages/show.html:7
 #: templates/pages/show_index.html:3 templates/pages/show_news.html:7
 #: templates/pages/news_list.html:32 templates/pages/news_list.html.py:35
-#: templates/pages/submit.html:6
+#: templates/pages/submit.html:6 templates/pages/show_help.html:7
 msgid "Home"
 msgstr "Biblioteka"
 
@@ -194,6 +214,12 @@ msgstr "Szukaj"
 #: templates/pages/body.html:28
 msgid "Categories:"
 msgstr "Kategorie:"
+
+#: templates/pages/body.html:36 templates/pages/show_help.html:4
+#: templates/pages/show_help.html.py:5 templates/pages/show_help.html:6
+#: templates/pages/show_help.html.py:7
+msgid "Help Page"
+msgstr "Pomoc"
 
 #: templates/pages/body.html:37
 msgid "Forum"
@@ -211,12 +237,12 @@ msgstr "Uzupełnij rejestrację OpenID"
 msgid "Login or Register"
 msgstr "Zaloguj lub Zarejestruj"
 
-#: templates/pages/body.html:60 templates/pages/show.html:77
+#: templates/pages/body.html:59 templates/pages/show.html:77
 #: templates/pages/show_news.html:72 templates/pages/show_news.html.py:78
 msgid "Browse news"
 msgstr "Przeglądaj newsy"
 
-#: templates/pages/body.html:61
+#: templates/pages/body.html:60
 msgid "RSS - Latest Publications"
 msgstr "RSS - Ostatnie Publikacje"
 
@@ -344,6 +370,171 @@ msgstr "Dodaj nowy artykuł"
 #: templates/pages/submit.html:31
 msgid "Save"
 msgstr "Zapis"
+
+#: templates/pages/show_help.html:10
+msgid "How to navigate on this site?"
+msgstr "Jak nawigować po stronie?"
+
+#: templates/pages/show_help.html:14
+msgid "This site contains pages and news grouped in categories."
+msgstr "Strona zawiera artykuły i wiadomości zebrane w kategoriach"
+
+#: templates/pages/show_help.html:15
+msgid "To navigate over the presented content you can use"
+msgstr "Do nawigacji po stronie możesz użyć"
+
+#: templates/pages/show_help.html:17
+msgid ""
+"<b>Categories</b> listed below the page title hold all available articles"
+msgstr ""
+"<b>Kategorii</b> wylistowanych poniżej tytułu strony"
+
+#: templates/pages/show_help.html:18
+msgid "<b>Search</b> form at the top right corner of the page"
+msgstr "Formularza <b>wyszukiwania</b> znajdującego się w prawym górnym rogu strony"
+
+#: templates/pages/show_help.html:19
+msgid ""
+"<b>You are here</b> links located at the top of the page - showing your "
+"current location. You can use those links to go back to categories from "
+"articles, news etc."
+msgstr ""
+"<b>Jesteś tutaj</b> - ścieżki odnośników wskazujących twoje obecne położenie w serwisie. "
+"Możesz używać te odnośniki do przechodzenia do kategorii danego artykułu czy wiadomości."
+
+#: templates/pages/show_help.html:26
+msgid "How can I track new artices and posts?"
+msgstr "Jak śledzić nowości na stronie?"
+
+#: templates/pages/show_help.html:30
+msgid ""
+"The <b>What's new?</b> column on the main page lists all new and updated "
+"articles, news, and posts."
+msgstr ""
+"<b>Co nowego</b> na stronie głównej zawiera listę ostatnich zmian dokonanych na stronie "
+"(nowe i zmienione artykuły, wiadomości czy posty)."
+
+#: templates/pages/show_help.html:31
+msgid "To track changes without visiting the site often you can use"
+msgstr "By śledzić zmiany bez częstego odwiedzania strony możesz użyć"
+
+#: templates/pages/show_help.html:31
+msgid "this RSS channel"
+msgstr "tego kanału RSS"
+
+#: templates/pages/show_help.html:31
+msgid "that tracks all articles and posts activity."
+msgstr ", który śledzi wszystkie zmiany w postach, artykułach, czy wiadomościach."
+
+#: templates/pages/show_help.html:32
+msgid ""
+"RSS Channels are handled by most browsers like Firefox or applications "
+"called feed aggregators, and will notify you about new entries without "
+"visiting the site."
+msgstr ""
+"Kanały RSS są obsługiwane przez większość przeglądarek jak Firefox czy też przez aplikacje "
+"nazywane agregatorami kanałów RSS. Taki program (czy przeglądarka) poinformuje ciebie jeżeli pojawi się "
+"coś nowego na stronie."
+
+#: templates/pages/show_help.html:38
+msgid "Do I have to register?"
+msgstr "Czy muszę się rejestrować?"
+
+#: templates/pages/show_help.html:42
+msgid ""
+"You can read all content on this page without the need to register or login"
+msgstr ""
+"Możesz przeglądać całą zawartość strony bez konieczności logowania się"
+
+#: templates/pages/show_help.html:43
+msgid ""
+"Registration will give you ability to add comments, posts and submit your "
+"own articles"
+msgstr ""
+"Rejestracja da ci możliwość pełnego komentowania, a także możliwość dodawania postów i tematów "
+"na forum. Będziesz mógł także zgłaszać własne artykuły"
+
+#: templates/pages/show_help.html:44
+msgid "If you are a new user you can"
+msgstr "Jeżeli jesteś pierwszy raz na stronie możesz"
+
+#: templates/pages/show_help.html:44
+msgid "register"
+msgstr "zarejestrować się"
+
+#: templates/pages/show_help.html:44
+msgid "using a simple form"
+msgstr "używając prostego formularza"
+
+#: templates/pages/show_help.html:45
+msgid ""
+"If you have an OpenID, then you can use it to login on this site and create "
+"a user account without any extra passwords"
+msgstr ""
+"Jeżeli masz OpenID i wiesz co to jest to możesz zalogować się za jego pomocą "
+"i utworzyć konto użytkownika bez konieczności podawania kolejnych haseł"
+
+#: templates/pages/show_help.html:46
+msgid "If you forgotten your password, then you can"
+msgstr "Jeżeli zapomniałeś hasła, to możesz je"
+
+#: templates/pages/show_help.html:46
+msgid "reset it"
+msgstr "zresetować"
+
+#: templates/pages/show_help.html:50
+msgid "How can I add or edit content on this site?"
+msgstr "Jak mogę dodawać i edytować artykuły na stronie?"
+
+#: templates/pages/show_help.html:54
+msgid "Using a"
+msgstr "Używając"
+
+#: templates/pages/show_help.html:54
+msgid "simple form"
+msgstr "prostego formularza"
+
+#: templates/pages/show_help.html:54
+msgid "you can add simple articles and news."
+msgstr "możesz zgłaszać proste artykuły i wiadomości."
+
+#: templates/pages/show_help.html:55
+msgid ""
+"Submitted articles will be reviewed/edited by the site staff and published "
+"in time if it will match staff criteria."
+msgstr ""
+"Nadesłane artykuły będą przejżane przez redaktorów i opublikowane "
+"jeżeli spełnią standardy serwisu."
+
+#: templates/pages/show_help.html:56
+msgid ""
+"You can also comment articles pointing outdated content, typos and unclear "
+"text. You can't edit it."
+msgstr ""
+"Możesz także komentować artykuły wskazując nieaktualne już informacje, błędy czy "
+"niejasne fragmenty. Nie ma opcji edycji."
+
+#: templates/pages/show_help.html:57
+msgid ""
+"For help, and question related to topics discussed in the articles please "
+"use our"
+msgstr ""
+"W przypadku pytań i problemów związanych z treścią artkułów prosimy korzystać z"
+
+#: templates/pages/show_help.html:57
+msgid "forums"
+msgstr "fora"
+
+#: templates/pages/show_help.html:58
+msgid "You can also contact with the staff by email"
+msgstr "Możesz także skontaktować się z redaktorami poprzez email"
+
+#: templates/pages/show_help.html:58
+msgid ""
+"if you want to contribute complex articles, tutorials, or ask about anything "
+"related with the site."
+msgstr ""
+"gdy chcesz zgłosić złożone artykuły, czy też gdy masz pytania związane z zawartością strony."
 
 #: templates/feed/content_rss.html:6
 msgid "Update"

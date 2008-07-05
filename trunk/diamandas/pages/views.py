@@ -142,6 +142,12 @@ def show(request, slug):
 				page_data['author_anonymous'] = 1
 
 		text = page_data['text']
+		# block anonymous messages with multiple links
+		if not perms['perms']['is_authenticated'] and text.count('http') > 1:
+			return render_to_response('pages/bug.html',
+				{'bug': _('To many links. Is this spam?.')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
 		
 		page_data['name'] = _('Comments for: %s') % page.title
 		page_data['forum'] = coment_forum_id
@@ -161,6 +167,8 @@ def show(request, slug):
 			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
 			if 'author_anonymous' in page_data:
 				post.author_anonymous = True
+			else:
+				post.author_system = request.user
 			post.save()
 			
 			forum.topics = forum.topics +1
@@ -186,6 +194,27 @@ def show(request, slug):
 		topic = Topic.objects.get(id=page.coment_topic.id)
 		forum = Forum.objects.get(id=topic.forum.id)
 		stripper = Stripper()
+		if not perms['perms']['add_post'] and not perms['perms']['is_spam']:
+			return render_to_response('pages/bug.html',
+				{'bug': _('You can\'t add a post.')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
+		if not perms['perms']['add_post'] and perms['perms']['is_spam']:
+			return render_to_response('pages/bug.html',
+				{'bug': _('To many anonymous posts. Login to post topics and new messages.')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
+		try:
+			# check who made the last post.
+			lastpost = Post.objects.order_by('-date').filter(topic=topic.id)[:1]
+			# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
+			if str(lastpost[0].author) == str(request.user) and not is_staff or str(lastpost[0].ip) == str(request.META['REMOTE_ADDR']) and not perms['perms']['is_staff']:
+				return render_to_response('pages/bug.html',
+					{'bug': _('You can\'t post after your post')},
+					context_instance=RequestContext(request, forumContext(request))
+					)
+		except:
+			pass
 		
 		page_data = request.POST.copy()
 		if perms['perms']['is_authenticated']:

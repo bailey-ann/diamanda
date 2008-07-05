@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stats\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-03 00:08+0200\n"
+"POT-Creation-Date: 2008-07-05 21:43+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -23,43 +23,109 @@ msgstr "Statystyki"
 msgid "Stats"
 msgstr "Statystyki"
 
-#: views.py:34 views.py:51 views.py:94
+#: views.py:34 views.py:52 views.py:94 views.py:104
 msgid "You don't have the permissions to view this page"
 msgstr "Brak uprawnień do oglądania tej strony"
 
-#: templates/stats/entries.html:13 templates/stats/google.html:17
-#: templates/stats/mainpage.html:5 templates/stats/mainpage.html.py:13
-#: templates/stats/refs.html:12
+#: templates/stats/entries.html:6 templates/stats/google.html:6
+#: templates/stats/mainpage.html:6 templates/stats/refs.html:6
+msgid "Admin Panel"
+msgstr "Panel Admina"
+
+#: templates/stats/entries.html:6 templates/stats/google.html:6
+#: templates/stats/mainpage.html:6 templates/stats/mainpage.html.py:12
+#: templates/stats/refs.html:6 templates/admin/index.html:71
+msgid "Site Statistics"
+msgstr "Statystyki Wejść"
+
+#: templates/stats/entries.html:12
+msgid "Entries"
+msgstr "Unikalne Wejscia"
+
+#: templates/stats/entries.html:26 templates/stats/google.html:38
+#: templates/stats/mainpage.html:27 templates/stats/refs.html:26
+msgid "Actions"
+msgstr "Akcje"
+
+#: templates/stats/entries.html:28 templates/stats/google.html:40
+#: templates/stats/mainpage.html:14 templates/stats/mainpage.html.py:29
+#: templates/stats/refs.html:28
 msgid "Unique Entries"
 msgstr "Unikalne Wejscia"
 
-#: templates/stats/entries.html:13 templates/stats/google.html:17
-#: templates/stats/mainpage.html:6 templates/stats/mainpage.html.py:13
-#: templates/stats/refs.html:4 templates/stats/refs.html.py:12
+#: templates/stats/entries.html:29 templates/stats/google.html:41
+#: templates/stats/mainpage.html:15 templates/stats/mainpage.html.py:30
+#: templates/stats/refs.html:12 templates/stats/refs.html.py:29
 msgid "Last Referers"
 msgstr "Ostatnie Referery"
 
-#: templates/stats/entries.html:13 templates/stats/google.html:4
-#: templates/stats/google.html.py:17 templates/stats/mainpage.html:7
-#: templates/stats/mainpage.html.py:13 templates/stats/refs.html:12
+#: templates/stats/entries.html:30 templates/stats/google.html:24
+#: templates/stats/google.html.py:42 templates/stats/mainpage.html:16
+#: templates/stats/mainpage.html.py:31 templates/stats/refs.html:30
 msgid "Google Keywords"
 msgstr "Słowa Kluczowe Google"
 
-#: templates/stats/entries.html:13 templates/stats/google.html:17
-#: templates/stats/mainpage.html:8 templates/stats/mainpage.html.py:13
-#: templates/stats/refs.html:12
+#: templates/stats/entries.html:31 templates/stats/google.html:43
+#: templates/stats/mainpage.html:17 templates/stats/mainpage.html.py:32
+#: templates/stats/refs.html:31
 msgid "Delete all data ?"
 msgstr "Skasować wszystkie dane ?"
 
-#: templates/stats/entries.html:13 templates/stats/google.html:17
-#: templates/stats/mainpage.html:8 templates/stats/mainpage.html.py:13
-#: templates/stats/refs.html:12
+#: templates/stats/entries.html:31 templates/stats/google.html:43
+#: templates/stats/mainpage.html:17 templates/stats/mainpage.html.py:32
+#: templates/stats/refs.html:31
 msgid "Delete Stat Data"
 msgstr "Kasowanie Danych Statystyk"
 
-#: templates/stats/mainpage.html:4
-msgid "Site Statistics"
-msgstr "Statystyki Wejść"
+#: templates/stats/google.html:12
+msgid "Search engine traffic sources"
+msgstr "Źródła ruchu z wyszukiwarek"
+
+#: templates/stats/google.html:14
+msgid "No data"
+msgstr "Brak danych"
+
+#: templates/stats/google.html:17
+msgid "Google"
+msgstr "Google"
+
+#: templates/stats/google.html:18
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: templates/admin/index.html:16
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr ""
+
+#: templates/admin/index.html:17
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: templates/admin/index.html:27
+msgid "Add"
+msgstr "Dodaj"
+
+#: templates/admin/index.html:33
+msgid "Change"
+msgstr "Zmień"
+
+#: templates/admin/index.html:43
+msgid "You don't have permission to edit anything."
+msgstr "Brak uprawnień do oglądania tej strony"
+
+#: templates/admin/index.html:51
+msgid "Recent Actions"
+msgstr "Ostatnie Akcje"
+
+#: templates/admin/index.html:52
+msgid "My Actions"
+msgstr "Moje Akcje"
+
+#: templates/admin/index.html:56
+msgid "None available"
+msgstr "Brak"
 
 #~ msgid "Permission Denied"
 #~ msgstr "Brak Uprawnień"

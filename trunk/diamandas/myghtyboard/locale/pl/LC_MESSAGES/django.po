@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MyghtyBoard\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-03 00:07+0200\n"
+"POT-Creation-Date: 2008-07-05 21:43+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -169,8 +169,8 @@ msgstr "Ostatnie Aktywne Tematy"
 msgid "User Posts in Latest Topics"
 msgstr "Posty użytkownika w ostatnio aktywnych tematach"
 
-#: views.py:209 views.py:269 views.py:270 views.py:271 views.py:318
-#: views.py:372 views.py:373
+#: views.py:209 views.py:286 views.py:287 views.py:288 views.py:335
+#: views.py:397 views.py:398
 msgid "Anonymous"
 msgstr "Anonim"
 
@@ -178,117 +178,125 @@ msgstr "Anonim"
 msgid "You can't add a topic."
 msgstr "Nie możesz dodawać nowych tematów"
 
-#: views.py:228 views.py:341 templates/myghtyboard/post_list.html:147
+#: views.py:228 views.py:358 templates/myghtyboard/post_list.html:147
 #: templates/myghtyboard/topics_list.html:192
 msgid "To many anonymous posts. Login to post topics and new messages."
 msgstr "Limit anonimowych postów przekroczony. Zaloguj się by móc kontynuować."
 
-#: views.py:302
+#: views.py:239
+msgid "You can't make more than 3 topics in a row"
+msgstr "Nie możeszesz stworzyć więcej niż 3 tematy z rzędu"
+
+#: views.py:260 views.py:384
+msgid "To many links. Is this spam?."
+msgstr "Zbyt wiele odnośników. Czy to spam?"
+
+#: views.py:319
 msgid "Topic Added"
 msgstr "Temat Dodany"
 
-#: views.py:302
+#: views.py:319
 msgid "Topic added"
 msgstr "Temat dodany"
 
-#: views.py:304
+#: views.py:321
 msgid "Topic added succesfuly."
 msgstr "Temat dodany pomyślnie."
 
-#: views.py:336
+#: views.py:353
 msgid "You can't add a post."
 msgstr "Nie możesz dodawać postów"
 
-#: views.py:346 views.py:454
+#: views.py:363 views.py:479
 msgid "Topic is closed"
 msgstr "Temat zamknięty"
 
-#: views.py:354
+#: views.py:371
 msgid "You can't post after your post"
 msgstr "Nie możesz dodawać postów po sobie"
 
-#: views.py:412 views.py:413
+#: views.py:437 views.py:438
 msgid "Post Added"
 msgstr "Post Dodany"
 
-#: views.py:416
+#: views.py:441
 msgid "Post added succesfuly."
 msgstr "Post dodany pomyślnie."
 
-#: views.py:425
+#: views.py:450
 msgid " wrote"
 msgstr " napisał"
 
-#: views.py:448
+#: views.py:473
 msgid "You can't edit a post."
 msgstr "Nie możesz edytować tego posta"
 
-#: views.py:468
+#: views.py:493
 msgid "Post edited succesfuly."
 msgstr "Post zmodyfikowany pomyślnie."
 
-#: views.py:476
+#: views.py:501
 msgid "You can't edit this post"
 msgstr "Nie możesz edytować tego posta"
 
-#: views.py:497
+#: views.py:522
 msgid "Post deleted succesfuly."
 msgstr "Post skasowany pomyślnie."
 
-#: views.py:501 views.py:527
+#: views.py:526 views.py:552
 msgid "Topic deleted succesfuly."
 msgstr "Temat skasowany pomyślnie."
 
-#: views.py:503 views.py:529 views.py:572 views.py:593
+#: views.py:528 views.py:554 views.py:597 views.py:618
 msgid "You aren't a moderator"
 msgstr "Nie jesteś moderatorem"
 
-#: views.py:520
+#: views.py:545
 msgid "Invalid Forum/Topic"
 msgstr "Błędne Forum/Temat"
 
-#: views.py:552
+#: views.py:577
 msgid "Topic Moved"
 msgstr "Temat Przeniesiony"
 
-#: views.py:557
+#: views.py:582
 msgid "This topic has been moved to another forum. To see the topic follow"
 msgstr ""
 "Ten temat został przeniesiony do innego forum. By przejść do tematu kliknij"
 
-#: views.py:558
+#: views.py:583
 msgid "this link"
 msgstr "w ten link"
 
-#: views.py:559
+#: views.py:584
 msgid "Forum Staff"
 msgstr "Obsługa Forum"
 
-#: views.py:562
+#: views.py:587
 msgid "Topic moved succesfuly."
 msgstr "Temat przeniesiony pomyślnie."
 
-#: views.py:591
+#: views.py:616
 msgid "Topic closed succesfuly."
 msgstr "Temat zamknięty pomyślnie."
 
-#: views.py:610
+#: views.py:635
 msgid "Topic opened succesfuly."
 msgstr "Temat otwarty pomyślnie."
 
-#: views.py:613
+#: views.py:638
 msgid "You aren't a moderator and you aren't logged in"
 msgstr "Nie jesteś moderatorem i nie jesteś zalogowany"
 
-#: views.py:631
+#: views.py:656
 msgid "Topic solved."
 msgstr "Problem rozwiązany."
 
-#: views.py:634 views.py:655
+#: views.py:659 views.py:680
 msgid "You aren't a moderator or topic author and you aren't logged in"
 msgstr "Nie jesteś moderatorem ani autorem tematu i nie jesteś zalogowany"
 
-#: views.py:652
+#: views.py:677
 msgid "Topic unsolved."
 msgstr "Problem nie jest rozwiązany."
 
@@ -626,9 +634,6 @@ msgstr "Stron: "
 
 #~ msgid "You can moderate this Topics"
 #~ msgstr "Możesz moderować ten Temat"
-
-#~ msgid "You can't moderate this Topics"
-#~ msgstr "Nie możeszesz moderować tego Tematu"
 
 #~ msgid "Permission Denied"
 #~ msgstr "Brak Uprawnień"
