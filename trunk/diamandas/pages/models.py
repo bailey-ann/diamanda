@@ -124,12 +124,16 @@ class Submission(models.Model):
 		verbose_name_plural = _('2. Submissions')
 		db_table = 'rk_submission' + str(settings.SITE_ID)
 	class Admin:
-		list_display = ('title', 'author', 'date')
+		list_display = ('title', 'author', 'date', 'parsed')
 		list_filter = ['author']
 	def __str__(self):
 		return self.title
 	def __unicode__(self):
 		return self.title
+	def parsed(self):
+		return _('<a href="/w/submit/r/%s/">Show parsed version</a>') % self.id
+	parsed.allow_tags = True
+	parsed.short_description = _('Render Markdown')
 
 class Feed(models.Model):
 	"""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-05 21:43+0200\n"
+"POT-Creation-Date: 2008-07-06 00:17+0200\n"
 "PO-Revision-Date: 2005-09-28 12:52+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -111,6 +111,15 @@ msgstr "Zgłoszenie"
 msgid "2. Submissions"
 msgstr "2. Zgłoszenia"
 
+#: models.py:134
+#, python-format
+msgid "<a href=\"/w/submit/r/%s/\">Show parsed version</a>"
+msgstr "<a href=\"/w/submit/r/%s/\">Pokaż wersję HTML</a>"
+
+#: models.py:136
+msgid "Render Markdown"
+msgstr "Parsowanie Markdown"
+
 #: views.py:89 templates/404.html:4
 msgid "Page does not exist"
 msgstr "Strona nie istnieje"
@@ -150,7 +159,9 @@ msgstr "Nie możesz dodawać postów."
 
 #: views.py:204
 msgid "To many anonymous posts. Login to post topics and new messages."
-msgstr "Zbyt wiele anonimowych postów. Zaloguj się by móc dodawać nowe posty i tematy."
+msgstr ""
+"Zbyt wiele anonimowych postów. Zaloguj się by móc dodawać nowe posty i "
+"tematy."
 
 #: views.py:213
 msgid "You can't post after your post"
@@ -176,6 +187,14 @@ msgstr ""
 "Twój artykuł został zapisany. Redator przejży go i opublikuje jeżeli będzie "
 "się nadawał."
 
+#: views.py:343
+msgid "Submission does not exist"
+msgstr "Zgłoszenie nie istnieje"
+
+#: views.py:351
+msgid "Permission Denied"
+msgstr "Brak Dostępu"
+
 #: feedupdate.py:113 feedupdate.py:222
 msgid "Solved: "
 msgstr "Rozwiązany: "
@@ -193,6 +212,7 @@ msgstr ""
 "Problem zostanie rozwiązany najszybciej jak to możliwe ;)"
 
 #: templates/500.html:7 templates/404.html:6 templates/pages/submit.html:39
+#: templates/pages/submission_show.html:18
 msgid "Main Page"
 msgstr "Strona Główna"
 
@@ -204,6 +224,7 @@ msgstr "Jesteś tutaj"
 #: templates/pages/show_index.html:3 templates/pages/show_news.html:7
 #: templates/pages/news_list.html:32 templates/pages/news_list.html.py:35
 #: templates/pages/submit.html:6 templates/pages/show_help.html:7
+#: templates/pages/submission_show.html:7
 msgid "Home"
 msgstr "Biblioteka"
 
@@ -294,11 +315,12 @@ msgid "Category RSS Feed"
 msgstr "Kanał RSS Kategorii"
 
 #: templates/pages/show.html:80 templates/pages/show_news.html:79
-#: templates/pages/news_list.html:33
+#: templates/pages/news_list.html:33 templates/pages/submission_show.html:13
 msgid "Add Content"
 msgstr "Dodaj Artykuł"
 
 #: templates/pages/show.html:81 templates/pages/show_news.html:80
+#: templates/pages/submission_show.html:19
 msgid "Admin"
 msgstr "Admin"
 
@@ -386,12 +408,12 @@ msgstr "Do nawigacji po stronie możesz użyć"
 #: templates/pages/show_help.html:17
 msgid ""
 "<b>Categories</b> listed below the page title hold all available articles"
-msgstr ""
-"<b>Kategorii</b> wylistowanych poniżej tytułu strony"
+msgstr "<b>Kategorii</b> wylistowanych poniżej tytułu strony"
 
 #: templates/pages/show_help.html:18
 msgid "<b>Search</b> form at the top right corner of the page"
-msgstr "Formularza <b>wyszukiwania</b> znajdującego się w prawym górnym rogu strony"
+msgstr ""
+"Formularza <b>wyszukiwania</b> znajdującego się w prawym górnym rogu strony"
 
 #: templates/pages/show_help.html:19
 msgid ""
@@ -399,8 +421,9 @@ msgid ""
 "current location. You can use those links to go back to categories from "
 "articles, news etc."
 msgstr ""
-"<b>Jesteś tutaj</b> - ścieżki odnośników wskazujących twoje obecne położenie w serwisie. "
-"Możesz używać te odnośniki do przechodzenia do kategorii danego artykułu czy wiadomości."
+"<b>Jesteś tutaj</b> - ścieżki odnośników wskazujących twoje obecne położenie "
+"w serwisie. Możesz używać te odnośniki do przechodzenia do kategorii danego "
+"artykułu czy wiadomości."
 
 #: templates/pages/show_help.html:26
 msgid "How can I track new artices and posts?"
@@ -411,8 +434,8 @@ msgid ""
 "The <b>What's new?</b> column on the main page lists all new and updated "
 "articles, news, and posts."
 msgstr ""
-"<b>Co nowego</b> na stronie głównej zawiera listę ostatnich zmian dokonanych na stronie "
-"(nowe i zmienione artykuły, wiadomości czy posty)."
+"<b>Co nowego</b> na stronie głównej zawiera listę ostatnich zmian dokonanych "
+"na stronie (nowe i zmienione artykuły, wiadomości czy posty)."
 
 #: templates/pages/show_help.html:31
 msgid "To track changes without visiting the site often you can use"
@@ -424,7 +447,8 @@ msgstr "tego kanału RSS"
 
 #: templates/pages/show_help.html:31
 msgid "that tracks all articles and posts activity."
-msgstr ", który śledzi wszystkie zmiany w postach, artykułach, czy wiadomościach."
+msgstr ""
+", który śledzi wszystkie zmiany w postach, artykułach, czy wiadomościach."
 
 #: templates/pages/show_help.html:32
 msgid ""
@@ -432,9 +456,9 @@ msgid ""
 "called feed aggregators, and will notify you about new entries without "
 "visiting the site."
 msgstr ""
-"Kanały RSS są obsługiwane przez większość przeglądarek jak Firefox czy też przez aplikacje "
-"nazywane agregatorami kanałów RSS. Taki program (czy przeglądarka) poinformuje ciebie jeżeli pojawi się "
-"coś nowego na stronie."
+"Kanały RSS są obsługiwane przez większość przeglądarek jak Firefox czy też "
+"przez aplikacje nazywane agregatorami kanałów RSS. Taki program (czy "
+"przeglądarka) poinformuje ciebie jeżeli pojawi się coś nowego na stronie."
 
 #: templates/pages/show_help.html:38
 msgid "Do I have to register?"
@@ -443,16 +467,16 @@ msgstr "Czy muszę się rejestrować?"
 #: templates/pages/show_help.html:42
 msgid ""
 "You can read all content on this page without the need to register or login"
-msgstr ""
-"Możesz przeglądać całą zawartość strony bez konieczności logowania się"
+msgstr "Możesz przeglądać całą zawartość strony bez konieczności logowania się"
 
 #: templates/pages/show_help.html:43
 msgid ""
 "Registration will give you ability to add comments, posts and submit your "
 "own articles"
 msgstr ""
-"Rejestracja da ci możliwość pełnego komentowania, a także możliwość dodawania postów i tematów "
-"na forum. Będziesz mógł także zgłaszać własne artykuły"
+"Rejestracja da ci możliwość pełnego komentowania, a także możliwość "
+"dodawania postów i tematów na forum. Będziesz mógł także zgłaszać własne "
+"artykuły"
 
 #: templates/pages/show_help.html:44
 msgid "If you are a new user you can"
@@ -503,23 +527,24 @@ msgid ""
 "Submitted articles will be reviewed/edited by the site staff and published "
 "in time if it will match staff criteria."
 msgstr ""
-"Nadesłane artykuły będą przejżane przez redaktorów i opublikowane "
-"jeżeli spełnią standardy serwisu."
+"Nadesłane artykuły będą przejżane przez redaktorów i opublikowane jeżeli "
+"spełnią standardy serwisu."
 
 #: templates/pages/show_help.html:56
 msgid ""
 "You can also comment articles pointing outdated content, typos and unclear "
 "text. You can't edit it."
 msgstr ""
-"Możesz także komentować artykuły wskazując nieaktualne już informacje, błędy czy "
-"niejasne fragmenty. Nie ma opcji edycji."
+"Możesz także komentować artykuły wskazując nieaktualne już informacje, błędy "
+"czy niejasne fragmenty. Nie ma opcji edycji."
 
 #: templates/pages/show_help.html:57
 msgid ""
 "For help, and question related to topics discussed in the articles please "
 "use our"
 msgstr ""
-"W przypadku pytań i problemów związanych z treścią artkułów prosimy korzystać z"
+"W przypadku pytań i problemów związanych z treścią artkułów prosimy "
+"korzystać z"
 
 #: templates/pages/show_help.html:57
 msgid "forums"
@@ -534,7 +559,18 @@ msgid ""
 "if you want to contribute complex articles, tutorials, or ask about anything "
 "related with the site."
 msgstr ""
-"gdy chcesz zgłosić złożone artykuły, czy też gdy masz pytania związane z zawartością strony."
+"gdy chcesz zgłosić złożone artykuły, czy też gdy masz pytania związane z "
+"zawartością strony."
+
+#: templates/pages/submission_show.html:4
+#: templates/pages/submission_show.html:5
+#: templates/pages/submission_show.html:6
+msgid "Submission Preview"
+msgstr "Podgląd Zgłoszenia"
+
+#: templates/pages/submission_show.html:20
+msgid "Delete"
+msgstr "Skasuj"
 
 #: templates/feed/content_rss.html:6
 msgid "Update"
@@ -551,9 +587,6 @@ msgstr "Aktualizacja"
 
 #~ msgid "Other"
 #~ msgstr "Inne"
-
-#~ msgid "Markdown"
-#~ msgstr "Markdown"
 
 #~ msgid "Translations"
 #~ msgstr "Tłumaczenia"

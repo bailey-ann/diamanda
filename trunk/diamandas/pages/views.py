@@ -334,6 +334,22 @@ def preview(request):
 		{'data': data},
 		context_instance=RequestContext(request))
 
+def show_submission(request, sid):
+	if request.user.is_authenticated() and request.user.is_staff:
+		try:
+			s = Submission.objects.get(id=sid)
+		except:
+			return render_to_response('pages/bug.html',
+				{'bug': _('Submission does not exist')},
+				context_instance=RequestContext(request))
+		preview = '[rk:syntax lang="html"]%s[/rk:syntax]' % s.text
+		return render_to_response(
+			'pages/submission_show.html',
+			{'s': s, 'preview': preview},
+			context_instance=RequestContext(request))
+	return render_to_response('pages/bug.html',
+		{'bug': _('Permission Denied')},
+		context_instance=RequestContext(request))
 
 
 def sitemap(request):

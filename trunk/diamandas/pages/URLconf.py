@@ -4,6 +4,7 @@ from django.conf import settings
 urlpatterns = patterns('',
 (r'^$', 'pages.views.show_help'),
 (r'^p/(?P<slug>[\w\-_]+)/', 'pages.views.show'),
+(r'^submit/r/(?P<sid>[0-9]+)/', 'pages.views.show_submission'),
 (r'^submit/', 'pages.views.submit_content'),
 (r'^mdk/', 'pages.views.preview'),
 (r'^rss/$', 'pages.views.full_rss'),
