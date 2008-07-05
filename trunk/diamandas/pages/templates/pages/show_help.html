@@ -23,17 +23,15 @@
 		</ul>
 	</div>
 
-
-	<div class="content_box_header">{% trans "How can I add or edit content on this site?" %}</div>
+	<div class="content_box_header">{% trans "How can I track new artices and posts?" %}</div>
 	<div class="content_box">
-		<div style="float:right;"><img src="/site_media/layout/help/submit.png" alt="" /></div>
+		<div style="float:right;"><img src="/site_media/layout/help/feeds.png" alt="" /></div>
 		<ul>
-			<li>{% trans "Using a" %} <a href="/w/submit/">{% trans "simple form" %}</a> {% trans "you can add simple articles and news." %}</li>
-			<li>{% trans "Submitted articles will be reviewed/edited by the site staff and published in time if it will match staff criteria." %}</li>
-			<li>{% trans "You can also comment articles pointing outdated content, typos and unclear text. You can't edit it." %}</li>
-			<li>{% trans "For help, and question related to topics discussed in the articles please use our" %} <a href="/forum/">{% trans "forums" %}</a>.</li>
-			<li>{% trans "You can also contact with the staff by email" %}: <a href="mailto:{{ email }}"><b>{{ email }}</b></a> {% trans "if you want to contribute complex articles, tutorials, or ask about anything related with the site." %}</li>
+			<li>{% trans "The <b>What's new?</b> column on the main page lists all new and updated articles, news, and posts." %}</li>
+			<li>{% trans "To track changes without visiting the site often you can use" %} <a href="/w/rss/"><b>{% trans "this RSS channel" %}</b></a> {% trans "that tracks all articles and posts activity." %}</li>
+			<li>{% trans "RSS Channels are handled by most browsers like Firefox or applications called feed aggregators, and will notify you about new entries without visiting the site." %}</li>
 		</ul>
+		<br /><br />
 	</div>
 
 
@@ -46,6 +44,18 @@
 			<li>{% trans "If you are a new user you can" %} <a href="/user/register/"><b>{% trans "register" %}</b></a> {% trans "using a simple form" %}.</li>
 			<li>{% trans "If you have an OpenID, then you can use it to login on this site and create a user account without any extra passwords" %}.</li>
 			<li>{% trans "If you forgotten your password, then you can" %} <a href="/user/password_reset/"><b>{% trans "reset it" %}</b></a>.</li>
+		</ul>
+	</div>
+
+	<div class="content_box_header">{% trans "How can I add or edit content on this site?" %}</div>
+	<div class="content_box">
+		<div style="float:right;"><img src="/site_media/layout/help/submit.png" alt="" /></div>
+		<ul>
+			<li>{% trans "Using a" %} <a href="/w/submit/">{% trans "simple form" %}</a> {% trans "you can add simple articles and news." %}</li>
+			<li>{% trans "Submitted articles will be reviewed/edited by the site staff and published in time if it will match staff criteria." %}</li>
+			<li>{% trans "You can also comment articles pointing outdated content, typos and unclear text. You can't edit it." %}</li>
+			<li>{% trans "For help, and question related to topics discussed in the articles please use our" %} <a href="/forum/">{% trans "forums" %}</a>.</li>
+			<li>{% trans "You can also contact with the staff by email" %}: <a href="mailto:{{ email }}"><b>{{ email }}</b></a> {% trans "if you want to contribute complex articles, tutorials, or ask about anything related with the site." %}</li>
 		</ul>
 	</div>
 

@@ -277,6 +277,8 @@ def submit_content(request):
 		form = SubmitContentForm(data)
 		if form.is_valid():
 			form.save()
+			if settings.NOTIFY_ADMINS:
+				mail_admins(_('Content submited'), _('Content submited') + ': http://www.%s/admin/pages/submission/' % settings.SITE_KEY, fail_silently=True)
 			return redirect_by_template(request, "/", _('Your article have been saved. Staff will review the article and publish it afterwards.'))
 		else:
 			return render_to_response(

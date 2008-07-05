@@ -1,0 +1,16 @@
+{% extends "pages/body.html" %}
+{% load i18n %}
+{% block content %}
+<form method="post" action="/user/assign_openid/">
+<div class="content">
+<table>
+<tr><th colspan="2" class="first"><strong>{% trans "Assign openID with existing user account" %}</strong></th></tr>
+<tr class="rowA small"><td class="first" style="width:30%;"><label for="id_username">{% trans "Username" %}:</label></td><td>{{ form.login }}</td></tr>
+<tr class="rowB small"><td class="first"><label for="id_password">{% trans "Password" %}:</label></td><td>{{ form.password }}</td></tr>
+<tr class="rowA small"><td class="first" colspan="2"><input type="submit" value="{% trans "Login" %}"></td></tr>
+</table>
+</div>
+</form>
+{% endblock %}
+{% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/user/">{% trans "User Panel" %}</a>{% endblock %}
+{% block on_user %} id="current"{% endblock %}

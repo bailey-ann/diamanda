@@ -13,12 +13,12 @@
 		{% if page.coment_topic %}
 			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Read comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% else %}
-			<a href="?c=ok#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+			{% if add_topic %}<a href="?c=ok#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>{% endif %}
 		{% endif %}
 	</li>
 	<li class="aauthor">{{ page.author }}</li>
 	{% if page.is_update %}<li class="update">{{ page.changes }}</li>{% endif %}
-	{% if not show_comment %}<li><input type="button" value="{% trans "Add a Comment" %}" onclick="location.assign('/w/p/{{ page.slug }}/?c=ok');" /></li>{% endif %}
+	{% if add_topic %}{% if not show_comment %}<li><input type="button" value="{% trans "Add a Comment" %}" onclick="location.assign('/w/p/{{ page.slug }}/?c=ok');" /></li>{% endif %}{% endif %}
 </ul>
 {% if add_topic %}
 	{% if show_comment %}
@@ -65,7 +65,7 @@
 {% endblock %}
 
 {% block pagemenu %}
-<li><a href="?c=ok#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>
+{% if add_topic %}<li><a href="?c=ok#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>{% endif %}
 {% ifequal page.content_type "book" %}
 	<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
 	<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>

@@ -14,6 +14,7 @@ from django.conf import settings
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
 
 from django import newforms as forms
 from django.contrib.auth import authenticate, login
@@ -29,7 +30,26 @@ def user_panel(request):
 	"""
 	main user panel
 	"""
-	return render_to_response('userpanel/panel.html', {'admin_mail': settings.SITE_ADMIN_MAIL}, context_instance=RequestContext(request, userpanelContext(request)))
+	# get associated OpenIDs if any
+	o = False
+	if request.user.is_authenticated():
+		o = OpenIdAssociation.objects.filter(user=request.user)
+		if o.count() < 1:
+			o = False
+	return render_to_response('userpanel/panel.html', {'admin_mail': settings.SITE_ADMIN_MAIL, 'o': o}, context_instance=RequestContext(request, userpanelContext(request)))
+
+@login_required
+def remove_openid(request, oid):
+	"""
+	remove associated OpenID
+	"""
+	try:
+		o = OpenIdAssociation.objects.get(user=request.user, id=oid)
+	except:
+		return redirect_by_template(request, "/user/", _('Bad OpenID ID.'))
+	else:
+		o.delete()
+		return redirect_by_template(request, "/user/", _('OpenID removed from list.'))
 
 def login_user(request):
 	"""
@@ -151,7 +171,7 @@ def register_from_openid(request):
 		if form.is_valid():
 			data = form.cleaned_data
 			# a random password.
-			password = ''.join([choice('qwertyuiopasdfghjklzxcvbnm') for i in range(10)])
+			password = ''.join([choice('1234567890qwertyuiopasdfghjklzxcvbnm') for i in range(10)])
 			try:
 				user = User.objects.create_user(data['login'], data['email'], password)
 			except Exception:
@@ -169,6 +189,12 @@ def register_from_openid(request):
 					o = OpenIdAssociation(user=user, openid=str(request.openid))
 					o.save()
 					request.session['new_openid'] = False
+				
+				# send a email to the user with generated password
+				MSG = _('You just registered on http://www.%s using OpenID') % settings.SITE_KEY
+				MSG +=  ' %s.\n\r' % str(request.openid)
+				MSG += _('If you will want to remove login by OpenID then you will have to use your password: %s (which can be changed after login).') % password
+				send_mail(_('OpenID Registration Notification'), MSG, settings.SITE_ADMIN_MAIL, [data['email']], fail_silently=True)
 				return redirect_by_template(request, "/user/", _('Registration compleated. To login on this site use your OpenID. You have been logged in succesfuly.'))
 		else:
 			data['reply'] = ''
@@ -190,6 +216,39 @@ def register_from_openid(request):
 		{'token': t, 'form': form, 'question': captcha['question'], 'openid': request.openid},
 		context_instance=RequestContext(request))
 
+
+class AssignOpenIdForm(forms.Form):
+	"""
+	Assign new OpenID to existing user account using login/password
+	"""
+	login = forms.CharField()
+	password = forms.CharField()
+
+def assign_openid(request):
+	"""
+	Assign new OpenID to existing user account using login/password
+	"""
+	if 'new_openid' in request.session and request.session['new_openid'] == False or 'new_openid' not in request.session or request.openid == None:
+		return HttpResponseRedirect("/user/")
+	
+	form =  AssignOpenIdForm()
+	if request.POST:
+		form = AssignOpenIdForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			user = authenticate(username=data['login'], password=data['password'])
+			if user is not None:
+				login(request, user)
+				# save the openID association
+				o = OpenIdAssociation(user=user, openid=str(request.openid))
+				o.save()
+				request.session['new_openid'] = False
+				return redirect_by_template(request, "/user/", _('OpenID assigned to your user account.'))
+
+	return render_to_response(
+		'userpanel/assign_openid.html',
+		{'form': form, 'openid': request.openid},
+		context_instance=RequestContext(request))
 
 class RegisterForm(forms.Form):
 	"""

@@ -44,7 +44,7 @@ class OpenIdAssociation(models.Model):
 	"""
 	Assoction of user accounts and openIDs
 	"""
-	user = models.ForeignKey(User, unique=True, verbose_name=_('User'), limit_choices_to={'is_staff': False})
+	user = models.ForeignKey(User, verbose_name=_('User'), limit_choices_to={'is_staff': False})
 	openid = models.CharField(max_length=255, verbose_name=_('OpenID'))
 	def __str__(self):
 		return self.openid

@@ -231,13 +231,16 @@ def add_topic(request, forum_id):
 	
 	forum = Forum.objects.get(id=forum_id)
 	
-	lasttopic = Topic.objects.filter(forum=forum).order_by('-modification_date')[:3]
-	if str(lasttopic[0].author) == str(request.user) and str(lasttopic[1].author) == str(request.user) and str(lasttopic[2].author) == str(request.user) and not perms['perms']['is_staff'] \
-	or lasttopic[0].author_anonymous and lasttopic[1].author_anonymous and lasttopic[2].author_anonymous:
-		return render_to_response('pages/bug.html',
-			{'bug': _('You can\'t make more than 3 topics in a row')},
-			context_instance=RequestContext(request, forumContext(request))
-			)
+	try:
+		lasttopic = Topic.objects.filter(forum=forum).order_by('-modification_date')[:3]
+		if str(lasttopic[0].author) == str(request.user) and str(lasttopic[1].author) == str(request.user) and str(lasttopic[2].author) == str(request.user) and not perms['perms']['is_staff'] \
+		or lasttopic[0].author_anonymous and lasttopic[1].author_anonymous and lasttopic[2].author_anonymous:
+			return render_to_response('pages/bug.html',
+				{'bug': _('You can\'t make more than 3 topics in a row')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
+	except:
+		pass
 	
 	pr = False
 	if forum.use_prefixes:
@@ -358,15 +361,18 @@ def add_post(request, topic_id, post_id = False):
 	
 	if topic.is_locked:
 		return render_to_response('pages/bug.html', {'bug': _('Topic is closed')}, context_instance=RequestContext(request, forumContext(request)))
-
-	# check who made the last post.
-	lastpost = Post.objects.order_by('-date').filter(topic=topic_id)[:1]
-	# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
-	if str(lastpost[0].author) == str(request.user) and not is_staff or str(lastpost[0].ip) == str(request.META['REMOTE_ADDR']) and not perms['perms']['is_staff']:
-		return render_to_response('pages/bug.html',
-			{'bug': _('You can\'t post after your post')},
-			context_instance=RequestContext(request, forumContext(request))
-			)
+	
+	try:
+		# check who made the last post.
+		lastpost = Post.objects.order_by('-date').filter(topic=topic_id)[:1]
+		# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
+		if str(lastpost[0].author) == str(request.user) and not is_staff or str(lastpost[0].ip) == str(request.META['REMOTE_ADDR']) and not perms['perms']['is_staff']:
+			return render_to_response('pages/bug.html',
+				{'bug': _('You can\'t post after your post')},
+				context_instance=RequestContext(request, forumContext(request))
+				)
+	except:
+		pass
 	
 	lastpost = Post.objects.filter(topic=topic_id).order_by('-id')[:10]
 	if request.POST:

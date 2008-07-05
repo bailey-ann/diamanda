@@ -2,7 +2,9 @@
 {% load i18n %}
 {% block content %}
 <h2>{% trans "Quick registration for" %} {{ openid }}</h2>
-{% trans "Fill in this form to get features of a full user account. You will be automatically logged in when you use your openID. No extra passwords! :)" %}
+{% trans "Fill in this form to get features of a full user account. You will be automatically logged in when you use your openID. No extra passwords! :)" %}<br />
+{% trans "If you already have an account on this site you can assign this OpenID with your account using" %} <a href="/user/assign_openid/">{% trans "simple login form" %}</a>.<br />
+
 <form action="." method="post"><input type="hidden" value="{{ token }}" name="token" />
 <div class="content">
           <table style="width:50%;">
