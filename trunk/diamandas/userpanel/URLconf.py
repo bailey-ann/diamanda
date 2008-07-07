@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('userpanel',
+urlpatterns = patterns('diamandas.userpanel',
 (r'^$', 'views.user_panel'),
 (r'^register/$', 'views.register'),
 (r'^register_openid/$', 'views.register_from_openid'),

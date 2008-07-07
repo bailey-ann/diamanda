@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 
-from myghtyboard.models import Forum, Post
+from diamandas.myghtyboard.models import Forum, Post
 
 def forum(request):
 	"""

@@ -2,11 +2,10 @@
 # Diamanda Application Set
 # Simple stats
 
-from pagestats.models import *
 from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
-#from django.db import connection
-#from django.template import Template, Context
+
+from diamandas.pagestats.models import *
 
 class statsMiddleware(object):
 	"""

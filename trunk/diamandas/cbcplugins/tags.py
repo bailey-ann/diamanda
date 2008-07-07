@@ -45,7 +45,7 @@ def art(dic, text):
 	USAGE:
 	[rk:art slug="slugname"]
 	"""
-	from pages.models import Content
+	from diamandas.pages.models import Content
 	lista = []
 	for i in dic:
 		lista.append(i['attributes']['slug'])
@@ -86,6 +86,9 @@ def syntax(dic, text):
 def h(dic, text):
 	"""
 	display h1-4 tags with labes/links
+	
+	USAGE:
+	[rk:h id="1-4"]Title[/rk:h]
 	"""
 	s = 1
 	for i in dic:

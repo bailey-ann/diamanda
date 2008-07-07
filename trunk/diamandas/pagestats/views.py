@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from pagestats.models import *
+from diamandas.pagestats.models import *
 
 
 def entries(request):

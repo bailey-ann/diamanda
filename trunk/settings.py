@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import *
-from sys import path
 import os.path
 
-path.append('diamandas/')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -68,15 +66,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    'pagestats.statsMiddleware.statsMiddleware',
-    'django_openidconsumer.middleware.OpenIDMiddleware',
-    'userpanel.userMiddleware.userMiddleware',
+    'diamandas.pagestats.statsMiddleware.statsMiddleware',
+    'diamandas.django_openidconsumer.middleware.OpenIDMiddleware',
+    'diamandas.userpanel.userMiddleware.userMiddleware',
     #'profiler.ProfileMiddleware', # debug !
     #'profiler_sql.SQLLogMiddleware', # debug !
 )
 
 AUTHENTICATION_BACKENDS = (
-    'userpanel.openIdAuth.OpenIdBackend',
+    'diamandas.userpanel.openIdAuth.OpenIdBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -99,9 +97,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.sites',
     'django.contrib.admin',
-    'django_openidconsumer',
-    'pagestats',
-    'pages',
-    'userpanel',
-    'myghtyboard',
+    'diamandas.django_openidconsumer',
+    'diamandas.pagestats',
+    'diamandas.pages',
+    'diamandas.userpanel',
+    'diamandas.myghtyboard',
     )

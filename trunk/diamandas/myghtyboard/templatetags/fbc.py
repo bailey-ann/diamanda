@@ -2,7 +2,7 @@
 # Diamanda Application Set
 # myghtyboard forum
 
-from postmarkup import render_bbcode
+from diamandas.postmarkup import render_bbcode
 
 from django import template
 from django.conf import settings

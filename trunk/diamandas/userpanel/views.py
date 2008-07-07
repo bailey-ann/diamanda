@@ -20,10 +20,10 @@ from django import newforms as forms
 from django.contrib.auth import authenticate, login
 from django.core import validators
 
-from userpanel.models import *
-from userpanel.context import userpanel as userpanelContext
-from userpanel.captcha import *
-from utils import *
+from diamandas.userpanel.models import *
+from diamandas.userpanel.context import userpanel as userpanelContext
+from diamandas.userpanel.captcha import *
+from diamandas.utils import *
 
 
 def user_panel(request):

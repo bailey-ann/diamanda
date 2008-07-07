@@ -7,9 +7,9 @@ from django.utils.translation import ugettext as _
 from django.template import Context, loader
 from django.conf import settings
 
-from postmarkup import render_bbcode
-from cbcplugins import cbcparser
-from utils import *
+from diamandas.postmarkup import render_bbcode
+from diamandas.cbcplugins import cbcparser
+from diamandas.utils import *
 
 class FeedUpdate:
 	"""
@@ -81,7 +81,7 @@ class FeedUpdate:
 		})
 		self.rss_feed = t.render(c)
 		
-		from pages.models import Feed
+		from diamandas.pages.models import Feed
 		try:
 			f = Feed.objects.get(site=self.site_id)
 		except:

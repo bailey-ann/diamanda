@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from pages.feedupdate import *
+from diamandas.pages.feedupdate import *
 
 
 class Category(models.Model):

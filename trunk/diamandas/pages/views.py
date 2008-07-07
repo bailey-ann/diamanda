@@ -13,13 +13,13 @@ from django import newforms as forms
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
 
-from pages.models import *
-from userpanel.models import Profile
-from myghtyboard.models import *
-from myghtyboard.context import forum as forumContext
-from myghtyboard.views import AddPostForm, AddTopicForm
-from utils import *
-from cbcplugins import cbcparser
+from diamandas.pages.models import *
+from diamandas.userpanel.models import Profile
+from diamandas.myghtyboard.models import *
+from diamandas.myghtyboard.context import forum as forumContext
+from diamandas.myghtyboard.views import AddPostForm, AddTopicForm
+from diamandas.utils import *
+from diamandas.cbcplugins import cbcparser
 
 def show_index(request):
 	"""

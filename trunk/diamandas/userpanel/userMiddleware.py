@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 
-from userpanel.models import *
+from diamandas.userpanel.models import *
 
 class userMiddleware(object):
 	"""

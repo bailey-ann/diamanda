@@ -1,5 +1,9 @@
+#!/usr/bin/python
+# Diamanda Application Set
+# TEMPLATE_CONTEXT_PROCESSOR
+
 from django.conf import settings
-from pages.models import Content
+from diamandas.pages.models import Content
 
 
 def bib(request):

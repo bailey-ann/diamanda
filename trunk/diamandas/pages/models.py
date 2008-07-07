@@ -8,9 +8,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-from cbcplugins import cbcparser
-from myghtyboard.models import Topic, Forum
-from pages.feedupdate import *
+from diamandas.cbcplugins import cbcparser
+from diamandas.myghtyboard.models import Topic, Forum
+from diamandas.pages.feedupdate import *
 
 class Content(models.Model):
 	"""

@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 # Myghtyboard URLs
-urlpatterns = patterns('myghtyboard',
+urlpatterns = patterns('diamandas.myghtyboard',
 (r'^$', 'views.category_list'),
 (r'^forum/(?P<forum_id>[0-9]+)/$', 'views.topic_list'),
 (r'^forum/(?P<forum_id>[0-9]+)/(?P<pagination_id>[0-9]+)/$', 'views.topic_list'),

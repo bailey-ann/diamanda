@@ -16,9 +16,9 @@ from django.db.models import Q
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
 
-from myghtyboard.models import *
-from myghtyboard.context import forum as forumContext
-from utils import *
+from diamandas.myghtyboard.models import *
+from diamandas.myghtyboard.context import forum as forumContext
+from diamandas.utils import *
 
 def category_list(request):
 	"""

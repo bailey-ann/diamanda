@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Diamanda Application Set
 # Pages module
-from cbcplugins import cbcparser
+from diamandas.cbcplugins import cbcparser
 from django import template
 
 register = template.Library()
