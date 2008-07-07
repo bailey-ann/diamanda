@@ -1,10 +1,10 @@
 from django.conf.urls.defaults import *
 
 # Wiki* URLs
-urlpatterns = patterns('diamandas.pagestats',
-(r'^/?$', 'views.mainpage'),
-(r'^entries/$', 'views.entries'),
-(r'^refs/$', 'views.referers'),
-(r'^google/$', 'views.google'),
-(r'^delete/$', 'views.delete_all'),
+urlpatterns = patterns('diamandas.pagestats.views',
+(r'^/?$', 'mainpage'),
+(r'^entries/$', 'entries'),
+(r'^refs/$', 'referers'),
+(r'^google/$', 'google'),
+(r'^delete/$', 'delete_all'),
 )
