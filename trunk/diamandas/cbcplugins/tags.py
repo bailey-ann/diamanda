@@ -83,6 +83,17 @@ def syntax(dic, text):
 	text = text + styles
 	return text
 
+def h(dic, text):
+	"""
+	display h1-4 tags with labes/links
+	"""
+	s = 1
+	for i in dic:
+		text = text.replace(i['tag'], '<a name="' + str(s) +'" class="' +  i['attributes']['id'] + '" title="' + i['code'] + '"></a><h' + i['attributes']['id'] + ' class="pageh"><a href="#' + str(s) +'">' + i['code'] + '</a></h' + i['attributes']['id'] + '>')
+		s = s+1
+	return text
+
+
 def box(dic, text):
 	"""
 	a small blue CSS box for text with a header
