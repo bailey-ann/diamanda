@@ -23,6 +23,7 @@ LANGUAGE_CODE = 'en'
 
 SITE_ID = 1 # ID of the site, used in table names etc
 SITE_KEY = 'localhost' # domain of the site, used in creation of full URLs to your site
+SITE_DOMAIN = 'http://localhost:8080' # Domain URL used for creating full links in RSS etc.
 SITE_NAME = 'Diamanda' # name displayed in templates
 SITE_DESCRIPTION = 'Diamanda' # description of the site used in meta description
 SITE_ADMIN_MAIL = '2@2.pl' # email shown to the users in User Panel as a contact mail

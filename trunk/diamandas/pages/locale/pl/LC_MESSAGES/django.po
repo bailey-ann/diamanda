@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-06 00:17+0200\n"
+"POT-Creation-Date: 2008-07-07 20:00+0200\n"
 "PO-Revision-Date: 2005-09-28 12:52+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -258,8 +258,8 @@ msgstr "Uzupełnij rejestrację OpenID"
 msgid "Login or Register"
 msgstr "Zaloguj lub Zarejestruj"
 
-#: templates/pages/body.html:59 templates/pages/show.html:77
-#: templates/pages/show_news.html:72 templates/pages/show_news.html.py:78
+#: templates/pages/body.html:59 templates/pages/show.html:76
+#: templates/pages/show_news.html:71 templates/pages/show_news.html.py:77
 msgid "Browse news"
 msgstr "Przeglądaj newsy"
 
@@ -271,8 +271,8 @@ msgstr "RSS - Ostatnie Publikacje"
 msgid "Read comments"
 msgstr "Czytaj komentarze"
 
-#: templates/pages/show.html:16 templates/pages/show.html.py:68
-#: templates/pages/show_news.html:18 templates/pages/show_news.html.py:71
+#: templates/pages/show.html:16 templates/pages/show.html.py:67
+#: templates/pages/show_news.html:18 templates/pages/show_news.html.py:70
 msgid "Comments"
 msgstr "Komentarze"
 
@@ -280,8 +280,8 @@ msgstr "Komentarze"
 msgid "Add a Comment"
 msgstr "Dodaj Komentarz"
 
-#: templates/pages/show.html:27 templates/pages/show.html.py:54
-#: templates/pages/show_news.html:30 templates/pages/show_news.html.py:57
+#: templates/pages/show.html:27 templates/pages/show.html.py:53
+#: templates/pages/show_news.html:30 templates/pages/show_news.html.py:56
 msgid "Add comment"
 msgstr "Dodaj komentarz"
 
@@ -293,33 +293,33 @@ msgstr "Imię"
 msgid "Comment"
 msgstr "Komentarz"
 
-#: templates/pages/show.html:56 templates/pages/show_news.html:59
+#: templates/pages/show.html:55 templates/pages/show_news.html:58
 msgid "Read all comments"
 msgstr "Przeczytaj wszystkie komentarze"
 
-#: templates/pages/show.html:63 templates/pages/show_news.html:66
+#: templates/pages/show.html:62 templates/pages/show_news.html:65
 msgid "Comments have been disabled for this page"
 msgstr "Komentarze zostały wyłączone dla tej strony"
 
-#: templates/pages/show.html:70
+#: templates/pages/show.html:69
 msgid "RSS Feed for"
 msgstr "Kanał RSS dla"
 
-#: templates/pages/show.html:71 templates/pages/show.html.py:75
-#: templates/pages/show_news.html:76
+#: templates/pages/show.html:70 templates/pages/show.html.py:74
+#: templates/pages/show_news.html:75
 msgid "Browse category news"
 msgstr "Przeglądaj wiadomości z kategorii"
 
-#: templates/pages/show.html:74 templates/pages/show_news.html:75
+#: templates/pages/show.html:73 templates/pages/show_news.html:74
 msgid "Category RSS Feed"
 msgstr "Kanał RSS Kategorii"
 
-#: templates/pages/show.html:80 templates/pages/show_news.html:79
+#: templates/pages/show.html:79 templates/pages/show_news.html:78
 #: templates/pages/news_list.html:33 templates/pages/submission_show.html:13
 msgid "Add Content"
 msgstr "Dodaj Artykuł"
 
-#: templates/pages/show.html:81 templates/pages/show_news.html:80
+#: templates/pages/show.html:80 templates/pages/show_news.html:79
 #: templates/pages/submission_show.html:19
 msgid "Admin"
 msgstr "Admin"
@@ -352,7 +352,7 @@ msgstr "lub zalogować się na stronie używając"
 msgid "login form"
 msgstr "formularza logowania"
 
-#: templates/pages/show_news.html:83
+#: templates/pages/show_news.html:82
 msgid "Edit"
 msgstr "Edytuj"
 

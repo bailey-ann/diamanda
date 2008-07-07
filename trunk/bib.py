@@ -10,5 +10,5 @@ def bib(request):
 	else:
 		new_openid = False
 		openid = False
-	return {'sid': settings.SITE_ID, 'domain': settings.SITE_KEY, 'books': books, 'siteName': settings.SITE_NAME, 'site_desc': settings.SITE_DESCRIPTION,
+	return {'sid': settings.SITE_ID, 'domain': settings.SITE_DOMAIN, 'books': books, 'siteName': settings.SITE_NAME, 'site_desc': settings.SITE_DESCRIPTION,
 			'new_openid': new_openid, 'openid': request.openid}

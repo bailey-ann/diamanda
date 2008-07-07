@@ -74,7 +74,7 @@ class FeedUpdate:
 		t = loader.get_template('feed/rss.html')
 		c = Context({
 			'rss': self.rss_feed,
-			'domain': settings.SITE_KEY,
+			'domain': settings.SITE_DOMAIN,
 			'site_name': settings.SITE_NAME,
 			'site_desc': settings.SITE_DESCRIPTION,
 			'site_lang': settings.LANGUAGE_CODE,
@@ -205,7 +205,7 @@ class FeedUpdate:
 			'slug': slug,
 			'is_update':is_update,
 			'changes':changes,
-			'domain': settings.SITE_KEY
+			'domain': settings.SITE_DOMAIN
 		})
 		self.rss_row = t.render(c)
 	
@@ -231,6 +231,6 @@ class FeedUpdate:
 			'pagination_page': pagination_page,
 			'topic_id':topic_id,
 			'prefix': prefix,
-			'domain': settings.SITE_KEY
+			'domain': settings.SITE_DOMAIN
 		})
 		self.rss_row = t.render(c)

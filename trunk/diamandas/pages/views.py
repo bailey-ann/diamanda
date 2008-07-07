@@ -187,7 +187,7 @@ def show(request, slug):
 			page.save()
 			
 			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Comment Topic Created'), _('Topic added') + ': http://www.%s/forum/forum/%s/' % (settings.SITE_KEY, coment_forum_id), fail_silently=True)
+				mail_admins(_('Comment Topic Created'), _('Topic added') + ': %s/forum/forum/%s/' % (settings.SITE_DOMAIN, coment_forum_id), fail_silently=True)
 			
 			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
 	elif request.POST and add_topic and page.coment_topic:
@@ -272,7 +272,7 @@ def show(request, slug):
 			if settings.NOTIFY_ADMINS:
 				mail_admins(
 					_('Comment Post Added'),
-					_('Post Added') + ': http://www.%s/forum/topic/%s/%s/' % (settings.SITE_KEY, str(pmax), topic.id),
+					_('Post Added') + ': %s/forum/topic/%s/%s/' % (settings.SITE_DOMAIN, str(pmax), topic.id),
 					fail_silently=True
 					)
 			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
@@ -307,7 +307,7 @@ def submit_content(request):
 		if form.is_valid():
 			form.save()
 			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Content submited'), _('Content submited') + ': http://www.%s/admin/pages/submission/' % settings.SITE_KEY, fail_silently=True)
+				mail_admins(_('Content submited'), _('Content submited') + ': %s/admin/pages/submission/' % settings.SITE_DOMAIN, fail_silently=True)
 			return redirect_by_template(request, "/", _('Your article have been saved. Staff will review the article and publish it afterwards.'))
 		else:
 			return render_to_response(

@@ -316,7 +316,7 @@ def add_topic(request, forum_id):
 			forum.modification_date = datetime.now()
 			forum.save()
 			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Topic Added'), _('Topic added') + ' http://www.%s/forum/forum/%s/' % (settings.SITE_KEY, id), fail_silently=True)
+				mail_admins(_('Topic Added'), _('Topic added') + ' %s/forum/forum/%s/' % (settings.SITE_DOMAIN, id), fail_silently=True)
 			
 			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic added succesfuly.'))
 		else:
@@ -435,7 +435,7 @@ def add_post(request, topic_id, post_id = False):
 			if settings.NOTIFY_ADMINS:
 				mail_admins(
 					_('Post Added'),
-					_('Post Added') + ' http://www.%s/forum/topic/%s/%s/' % (settings.SITE_KEY, str(pmax), topic_id),
+					_('Post Added') + '%s/forum/topic/%s/%s/' % (settings.SITE_DOMAIN, str(pmax), topic_id),
 					fail_silently=True
 					)
 			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + topic_id +"/", _('Post added succesfuly.'))

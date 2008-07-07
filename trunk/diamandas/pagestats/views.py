@@ -47,6 +47,7 @@ def referers(request):
 		refs = refs.exclude(referer__icontains='msn.com')
 		refs = refs.exclude(referer__icontains='onet.pl')
 		refs = refs.exclude(referer__icontains='netsprint.pl')
+		refs = refs.exclude(referer__icontains='search.live.com')
 		refs = refs.filter(referer__icontains='http://').values('referer')[:100]
 		return render_to_response('stats/refs.html', {'refs': refs}, context_instance=RequestContext(request))
 	return render_to_response('pages/bug.html', {'bug': _('You don\'t have the permissions to view this page')}, context_instance=RequestContext(request))
@@ -86,10 +87,12 @@ def google(request):
 		
 		wiki = refs = float(Stat.objects.filter(referer__icontains='wikipedia').count())
 		wiki_pr = str((wiki/all_links)*100)[0:5]
+		livese = refs = float(Stat.objects.filter(referer__icontains='search.live.com').count())
+		livese_pr = str((livese/all_links)*100)[0:5]
 		
 		return render_to_response(
 			'stats/google.html',
-			{'refs': results, 'google': google_pr, 'wiki': wiki_pr},
+			{'refs': results, 'google': google_pr, 'wiki': wiki_pr, 'livese': livese_pr},
 			context_instance=RequestContext(request))
 	return render_to_response('pages/bug.html', {'bug': _('You don\'t have the permissions to view this page')}, context_instance=RequestContext(request))
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stats\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-05 21:43+0200\n"
+"POT-Creation-Date: 2008-07-07 20:01+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -23,7 +23,7 @@ msgstr "Statystyki"
 msgid "Stats"
 msgstr "Statystyki"
 
-#: views.py:34 views.py:52 views.py:94 views.py:104
+#: views.py:34 views.py:53 views.py:97 views.py:107
 msgid "You don't have the permissions to view this page"
 msgstr "Brak uprawnień do oglądania tej strony"
 
@@ -42,36 +42,36 @@ msgstr "Statystyki Wejść"
 msgid "Entries"
 msgstr "Unikalne Wejscia"
 
-#: templates/stats/entries.html:26 templates/stats/google.html:38
+#: templates/stats/entries.html:26 templates/stats/google.html:39
 #: templates/stats/mainpage.html:27 templates/stats/refs.html:26
 msgid "Actions"
 msgstr "Akcje"
 
-#: templates/stats/entries.html:28 templates/stats/google.html:40
+#: templates/stats/entries.html:28 templates/stats/google.html:41
 #: templates/stats/mainpage.html:14 templates/stats/mainpage.html.py:29
 #: templates/stats/refs.html:28
 msgid "Unique Entries"
 msgstr "Unikalne Wejscia"
 
-#: templates/stats/entries.html:29 templates/stats/google.html:41
+#: templates/stats/entries.html:29 templates/stats/google.html:42
 #: templates/stats/mainpage.html:15 templates/stats/mainpage.html.py:30
 #: templates/stats/refs.html:12 templates/stats/refs.html.py:29
 msgid "Last Referers"
 msgstr "Ostatnie Referery"
 
-#: templates/stats/entries.html:30 templates/stats/google.html:24
-#: templates/stats/google.html.py:42 templates/stats/mainpage.html:16
-#: templates/stats/mainpage.html.py:31 templates/stats/refs.html:30
-msgid "Google Keywords"
-msgstr "Słowa Kluczowe Google"
+#: templates/stats/entries.html:30 templates/stats/google.html:43
+#: templates/stats/mainpage.html:16 templates/stats/mainpage.html.py:31
+#: templates/stats/refs.html:30
+msgid "Search Engines"
+msgstr "Wyszukiwarki"
 
-#: templates/stats/entries.html:31 templates/stats/google.html:43
+#: templates/stats/entries.html:31 templates/stats/google.html:44
 #: templates/stats/mainpage.html:17 templates/stats/mainpage.html.py:32
 #: templates/stats/refs.html:31
 msgid "Delete all data ?"
 msgstr "Skasować wszystkie dane ?"
 
-#: templates/stats/entries.html:31 templates/stats/google.html:43
+#: templates/stats/entries.html:31 templates/stats/google.html:44
 #: templates/stats/mainpage.html:17 templates/stats/mainpage.html.py:32
 #: templates/stats/refs.html:31
 msgid "Delete Stat Data"
@@ -90,8 +90,16 @@ msgid "Google"
 msgstr "Google"
 
 #: templates/stats/google.html:18
+msgid "Live Search"
+msgstr ""
+
+#: templates/stats/google.html:19
 msgid "Wikipedia"
 msgstr "Wikipedia"
+
+#: templates/stats/google.html:25
+msgid "Google Keywords"
+msgstr "Słowa Kluczowe Google"
 
 #: templates/admin/index.html:16
 #, python-format

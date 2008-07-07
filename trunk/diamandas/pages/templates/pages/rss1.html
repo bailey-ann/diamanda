@@ -1,19 +1,19 @@
 {% load cbc %}
 <rss version="2.0"><channel>
 <title>{{ site_name }} | {{ book.title }}</title>
-<link>http://www.{{ domain }}/</link>
+<link>{{ domain }}/</link>
 <description>{{ site_desc }}</description>
 <language>pl</language>
 <image>
 <title>{{ site_name }} | {{ book.title }}</title>
-<url>http://www.{{ domain }}/site_media/layout/tux.png</url>
-<link>http://www.{{ domain }}/</link>
+<url>{{ domain }}/site_media/layout/tux.png</url>
+<link>{{ domain }}/</link>
 <width>132</width>
 <height>124</height>
 </image>
 {% for p in pages %}<item>
-<guid>http://www.{{ domain }}/w/p/{{ p.slug }}/</guid>
-<link>http://www.{{ domain }}/w/p/{{ p.slug }}/</link>
+<guid>{{ domain }}/w/p/{{ p.slug }}/</guid>
+<link>{{ domain }}/w/p/{{ p.slug }}/</link>
 <title>{{ p.title }}</title>
 <description>{% ifequal p.content_type "news" %}{{ p.description|cbc|safe }}{% else %}{{ p.parsed_description }}{% endifequal %}</description>
 <pubDate>{{ p.date }}</pubDate>

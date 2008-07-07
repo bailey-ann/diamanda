@@ -1,7 +1,7 @@
 {% load i18n %}
 <item>
-<guid>http://www.{{ domain }}/w/p/{{ slug }}/</guid>
-<link>http://www.{{ domain }}/w/p/{{ slug }}/</link>
+<guid>{{ domain }}/w/p/{{ slug }}/</guid>
+<link>{{ domain }}/w/p/{{ slug }}/</link>
 <title>{{ title }}</title>
 <description><![CDATA[{% if is_update %}<b>{% trans "Update" %}</b>: {{ changes }}<br />{% endif %}{{ description|safe }}]]></description>
 <pubDate>{{ date }}</pubDate>
