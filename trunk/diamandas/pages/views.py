@@ -19,7 +19,7 @@ from diamandas.myghtyboard.models import *
 from diamandas.myghtyboard.context import forum as forumContext
 from diamandas.myghtyboard.views import AddPostForm, AddTopicForm
 from diamandas.utils import *
-from diamandas.cbcplugins import cbcparser
+from diamandas.markdown import markdown
 
 def show_index(request):
 	"""
@@ -326,7 +326,7 @@ def preview(request):
 	Markdown Preview for MarkitUp editor
 	"""
 	if 'data' in request.POST:
-		data = cbcparser.parse_cbc_tags(request.POST['data'])
+		data = markdown(request.POST['data'],safe_mode = True)
 	else:
 		data = ''
 	return render_to_response(
@@ -342,7 +342,7 @@ def show_submission(request, sid):
 			return render_to_response('pages/bug.html',
 				{'bug': _('Submission does not exist')},
 				context_instance=RequestContext(request))
-		preview = '[rk:syntax lang="html"]%s[/rk:syntax]' % s.text
+		preview = '[rk:syntax lang="html"]%s[/rk:syntax]' % markdown(s.text, safe_mode = True)
 		return render_to_response(
 			'pages/submission_show.html',
 			{'s': s, 'preview': preview},

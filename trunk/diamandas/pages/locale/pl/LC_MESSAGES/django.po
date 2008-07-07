@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:00+0200\n"
+"POT-Creation-Date: 2008-07-07 23:58+0200\n"
 "PO-Revision-Date: 2005-09-28 12:52+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "wpisów zależnych). Możesz ustawić dla wszystkich kategorii, a zawarte w niej "
 "Artykuły/Wiadomości będą korzystały z tych ustawień."
 
-#: models.py:23 models.py:118 templates/pages/submit.html:16
+#: models.py:23 models.py:118 templates/pages/submit.html:18
 msgid "Title"
 msgstr "Tytuł"
 
@@ -87,7 +87,7 @@ msgstr "Kolejność kategorii"
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:42 models.py:50 templates/pages/submit.html:22
+#: models.py:42 models.py:50 templates/pages/submit.html:24
 msgid "Content"
 msgstr "Treść"
 
@@ -211,7 +211,7 @@ msgstr ""
 "Pełna informacja o zaistniałym błędzie została wysłana administratorowi. "
 "Problem zostanie rozwiązany najszybciej jak to możliwe ;)"
 
-#: templates/500.html:7 templates/404.html:6 templates/pages/submit.html:39
+#: templates/500.html:7 templates/404.html:6 templates/pages/submit.html:41
 #: templates/pages/submission_show.html:18
 msgid "Main Page"
 msgstr "Strona Główna"
@@ -385,11 +385,20 @@ msgstr "Kliknij tutaj jeżeli nie chcesz czekać"
 msgid "Submit Content"
 msgstr "Dodaj Artykuł"
 
-#: templates/pages/submit.html:13
+#: templates/pages/submit.html:9
+msgid ""
+"Use this form to submit content on this site. To format the text you can use "
+"simple markup called markdown or you can just enter plain text. Do not use "
+"HTML."
+msgstr ""
+"Użyj poniższego formularza by zgłosić swój artykuł. Do formatowania możesz użyć prostego systemu znaczników Markdown "
+"lub po prostu wprowadzić sam tekst. Nie używaj tagów HTML."
+
+#: templates/pages/submit.html:15
 msgid "Submit new content"
 msgstr "Dodaj nowy artykuł"
 
-#: templates/pages/submit.html:31
+#: templates/pages/submit.html:33
 msgid "Save"
 msgstr "Zapis"
 
