@@ -10,18 +10,15 @@
 {{ page.description|cbc|safe }}
 {{ page.text|cbc|safe }}
 <ul class="newsbox">
-	<li class="added">{{ page.date|date:"d.m.Y" }}</li>
-	{% if add_topic %}<li class="comment">
+	<li><b>{% trans "Added" %}</b>: {{ page.date|date:"d.m.Y" }} {% trans "by" %} {{ page.author }}</li>
+	{% if add_topic %}<li>
 		{% if page.coment_topic %}
-			<a href="/forum/topic/1/{{ page.coment_topic.id }}/">{% trans "Read comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+			<a href="/forum/topic/1/{{ page.coment_topic.id }}/"><b>{% trans "Read comments" %}</b>{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% else %}
-			<a href="?c=ok#c">{% trans "Comments" %}{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
+			<a href="?c=ok#c"><b>{% trans "Comments" %}</b>{% if page.comments_count %} ({{ page.comments_count }}){% endif %}</a>
 		{% endif %}
 	</li>{% endif %}
-	<li class="aauthor">{{ page.author }}</li>
-	{% if page.is_update %}<li class="update">{{ page.changes }}</li>{% endif %}
-	{% if add_topic %}{% if not show_comment %}<li><input type="button" value="{% trans "Add a Comment" %}" onclick="location.assign('/w/p/{{ page.slug }}/?c=ok');" /></li>{% endif %}{% endif %}
-
+	{% if page.is_update %}<li><b>{% trans "Update" %}</b>: {{ page.changes }}</li>{% endif %}
 </ul>
 {% if add_topic %}
 	{% if show_comment %}

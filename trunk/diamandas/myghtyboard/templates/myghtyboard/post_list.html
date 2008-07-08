@@ -51,32 +51,32 @@ $(document).ready(function()    {
 			      {% if perms.is_staff %}{{ i.ip }}{% endif %}
 		    </div>
 		    <div class="rightbottompost">
-			      {% if perms.add_post %}
-				      {% if opened %}
-					      <a href="/forum/add_post/{{ topic.id }}/{{ i.id }}/" class="quote">{% trans "Reply with quote" %}</a>
-				      {% endif %}
-			      {% endif %}
-			      {% ifequal i.author current_user %}
-				      {% if opened %}
-					      {% if not i.author_anonymous %}
-						      <a href="/forum/edit_post/{{ i.id }}/" class="edit">{% trans "Edit this post" %}</a>
-					      {% endif %}
-				      {% endif %} 
-			      {% else %}
-				      {% if perms.is_staff %}
-					      <a href="/forum/edit_post/{{ i.id }}/" class="edit">{% trans "Edit this post" %}</a>
-				      {% endif %}
-			      {% endifequal %}
-			      {% if perms.is_staff %}
-					<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')" class="delete">{% trans "Delete this post" %}</a>
-			      {% endif %}
-			      {% pyif perms.is_staff or is_author %}
+				{% pyif perms.is_staff or is_author %}
                                         {% if topic.is_solved %}
                                                 <a href="/forum/topic/unsolve/{{ topic.id }}/{{ forum_id }}/" class="unsolve">{% trans "Unsolve Topic" %}</a>
                                             {% else %}
                                                 <a href="/forum/topic/solve/{{ topic.id }}/{{ forum_id }}/"  class="solve">{% trans "Mark as solved" %}</a>
                                         {% endif %}
                                 {% endif %}
+			      {% if perms.add_post %}
+				      {% if opened %}
+					      [<a href="/forum/add_post/{{ topic.id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a>]
+				      {% endif %}
+			      {% endif %}
+			      {% ifequal i.author current_user %}
+				      {% if opened %}
+					      {% if not i.author_anonymous %}
+						      [<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
+					      {% endif %}
+				      {% endif %} 
+			      {% else %}
+				      {% if perms.is_staff %}
+					      [<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
+				      {% endif %}
+			      {% endifequal %}
+			      {% if perms.is_staff %}
+					[<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete this post" %}</a>]
+			      {% endif %}
 		    </div>
 	</div>
 	<br />
