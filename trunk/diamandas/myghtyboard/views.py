@@ -541,7 +541,7 @@ def delete_topic(request, topic_id, forum_id):
 	if perms['perms']['is_staff']:
 		posts = Post.objects.filter(topic=topic_id).count()
 		t = Topic.objects.get(id=topic_id)
-		if t.forum.id != forum_id:
+		if t.forum.id != int(forum_id):
 			return render_to_response('pages/bug.html', {'bug': _('Invalid Forum/Topic')}, context_instance=RequestContext(request, forumContext(request)))
 		t.delete()
 		Post.objects.filter(topic=topic_id).delete()
