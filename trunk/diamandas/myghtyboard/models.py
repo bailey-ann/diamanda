@@ -58,7 +58,8 @@ class Forum(models.Model):
 		(None, {
 		'fields': ('category', 'name', 'description', 'order', 'use_moderators', 'moderators', 'use_prefixes', 'allow_anonymous')
 		}),
-		(_('Stats'), {'fields': ('topics', 'posts'), 'classes': 'collapse'}),)
+		(_('Stats'), {'fields': ('topics', 'posts'), 'classes': 'collapse'}),
+		('', {'fields': ('lastposter', 'lasttopic', 'modification_date', ), 'classes': 'collapse'}),)
 	def __str__(self):
 		return self.name
 	def __unicode__(self):
