@@ -157,9 +157,7 @@ class FeedUpdate:
 			text = self.stripper.strip(changes)
 			cssclass = 'content_update_feed'
 		else:
-			text = self.stripper.strip(description.strip().split('\n')[0])
-			if len(text) > 200:
-				text = '%s...' % text[0:200]
+			text = cbcparser.parse_cbc_tags(description.strip().split('\n')[0])
 			cssclass = 'content_feed'
 		
 		if content_type == 'news':

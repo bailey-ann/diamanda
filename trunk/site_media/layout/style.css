@@ -299,18 +299,17 @@ border:1px solid #F5F7F1;
 margin-bottom:4px;
 color:gray;
 }
-.feed a
-{
-font-size:13px;
-font-weight:normal;
-padding-bottom:5px !important;
-}
-
 .left_feed
 {
 width:20%;
 float:left;
 padding:3px;
+}
+.left_feed a
+{
+font-size:13px;
+font-weight:normal;
+padding-bottom:5px !important;
 }
 .right_feed
 {
