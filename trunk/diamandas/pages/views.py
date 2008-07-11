@@ -37,17 +37,20 @@ def show_index(request):
 		p = Content.objects.get(slug='index')
 	except:
 		home = settings.DEFAULT_HOME_TEXT
+		intro = settings.DEFAULT_HOME_INTRO
 	else:
 		home = p.text
+		intro = p.description
 	return render_to_response(
 		'pages/show_index.html',
-		{'onsite': onsite, 'home_text': home, 'feed': feed},
+		{'onsite': onsite, 'home_text': home, 'feed': feed, 'intro': intro},
 		context_instance=RequestContext(request))
 
 def show_help(request):
+	rss = Content.objects.filter(content_type='book').values('slug', 'title')
 	return render_to_response(
 		'pages/show_help.html',
-		{'email': settings.SITE_ADMIN_MAIL},
+		{'email': settings.SITE_ADMIN_MAIL, 'rss': rss},
 		context_instance=RequestContext(request, {'on_help': True}))
 
 def list_news(request, book=False):
@@ -379,9 +382,17 @@ def book_rss(request, slug):
 	* book - slug of a Content entry (book content_type)
 	"""
 	book = Content.objects.get(slug=slug)
-	pages = Content.objects.all().filter(place=book).values('slug', 'title',
+	pages = Content.objects.filter(place=book).values('slug', 'title',
 		'description', 'date', 'content_type').order_by('-id')[:10]
 	return render_to_response('pages/rss1.html', {'pages': pages, 'book': book}, context_instance=RequestContext(request))
+
+def content_rss(request):
+	"""
+	RSS channel for all pages
+	"""
+	pages = Content.objects.all().values('slug', 'title',
+		'description', 'date', 'content_type').order_by('-id')[:10]
+	return render_to_response('pages/rss.html', {'pages': pages}, context_instance=RequestContext(request))
 
 def search_pages(request):
 	"""

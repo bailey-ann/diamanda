@@ -28,10 +28,20 @@
 		<div style="float:right;"><img src="/site_media/layout/help/feeds.png" alt="" /></div>
 		<ul>
 			<li>{% trans "The <b>What's new?</b> column on the main page lists all new and updated articles, news, and posts." %}</li>
-			<li>{% trans "To track changes without visiting the site often you can use" %} <a href="/w/rss/"><b>{% trans "this RSS channel" %}</b></a> {% trans "that tracks all articles and posts activity." %}</li>
+			<li>{% trans "To track changes without visiting the site often you can use" %} <a href="/w/rss/all/"><b>{% trans "this RSS channel" %}</b></a> {% trans "that tracks all articles and posts activity." %}</li>
+			<li>{% trans "To get only new articles you can use" %} <a href="/w/rss/"><b>{% trans "this RSS channel" %}</b></a>.</li>
 			<li>{% trans "RSS Channels are handled by most browsers like Firefox or applications called feed aggregators, and will notify you about new entries without visiting the site." %}</li>
+			{% if rss %}
+				<li>{% trans "You can also use feeds for selected categories (pages and news)" %}:</li>
+				<ul>
+				{% for i in rss %}
+				<li><a href="/w/r/{{ i.slug }}/">{{ i.title }}</a></li>
+				{% endfor %}
+				</ul>
+			{% else %}
+			<br /><br />
+			{% endif %}
 		</ul>
-		<br /><br />
 	</div>
 
 

@@ -35,9 +35,9 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
 
-
-DEFAULT_HOME_TEXT = '''Diamanda Application Set :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]<br /><br />
-				You can edit this text by editing DEFAULT_HOME_TEXT in settings.py, or just by adding a Content entry with "index" slug.
+DEFAULT_HOME_INTRO = 'Diamanda Application Set is a set of Django applications like forum or articles. :) Visit <a href="http://www.rkblog.rk.edu.pl">rkblog.rk.edu.pl</a> for support, docs and more :]'
+DEFAULT_HOME_TEXT = '''<h3 style="margin-top:0px;">Info</h3>
+You can edit this text by editing DEFAULT_HOME_TEXT in settings.py, or just by adding a Content entry with "index" slug.
 				<div class="content_box_header">Diamanda resources and help</div>
 				<div  class="content_box">
 				<ul>

@@ -265,11 +265,22 @@ margin-bottom:3px;
 }
 #right
 {
-margin-left:10px;
-float:right;
-width:60%;
+margin-right:10px;
+float:left;
+width:65%;
 font-size:11px;
 }
+#intro
+{
+background-color:#0C2432;
+color:white;
+padding:4px;
+}
+#intro a
+{
+color:yellow !important;
+}
+
 /*
 Styles for the what's new Feed
  */
