@@ -15,9 +15,9 @@
     options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
       var searchControl = new GSearchControl();
       var siteSearch = new GwebSearch();
-siteSearch.setUserDefinedLabel("www.{{ domain }}");
+siteSearch.setUserDefinedLabel("{{ domain }}");
 siteSearch.setUserDefinedClassSuffix("siteSearch");
-siteSearch.setSiteRestriction("www.{{ domain }}");
+siteSearch.setSiteRestriction("{{ domain }}");
 searchControl.addSearcher(siteSearch, options);
 searchControl.draw(document.getElementById("searchcontrol"));
 {% if term %}searchControl.execute("{{ term }}");{% endif %}
