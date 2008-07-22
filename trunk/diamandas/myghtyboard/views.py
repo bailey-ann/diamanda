@@ -316,7 +316,7 @@ def add_topic(request, forum_id):
 			forum.modification_date = datetime.now()
 			forum.save()
 			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Topic Added'), _('Topic added') + ' %s/forum/forum/%s/' % (settings.SITE_DOMAIN, id), fail_silently=True)
+				mail_admins(_('Topic Added'), _('Topic added') + ' %s/forum/forum/%s/' % (settings.SITE_DOMAIN, forum_id), fail_silently=True)
 			
 			return redirect_by_template(request, "/forum/forum/" + forum_id +"/", _('Topic added succesfuly.'))
 		else:
