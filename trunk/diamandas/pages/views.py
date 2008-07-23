@@ -406,4 +406,4 @@ def search_pages(request):
 			context_instance=RequestContext(request)
 			)
 	else:
-		return render_to_response('pages/search.html', {'key': key}, context_instance=RequestContext(request))
+		return render_to_response('pages/search.html', {'key': settings.GOOGLE_AJAX_SEARCH_API_KEY}, context_instance=RequestContext(request))
