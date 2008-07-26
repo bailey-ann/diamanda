@@ -580,7 +580,7 @@ def move_topic(request, topic_id, forum_id):
 			p = Post(
 				topic = t,
 				text = _('This topic has been moved to another forum. To see the topic follow')
-					 + ' <a href="/forum/topic/1/' + str(topic_id) +'/"><b>' + _('this link') + '</b></a>',
+					 + ' [url="/forum/topic/1/' + str(topic_id) +'/"]' + _('this link') + '[/url]',
 				author = _('Forum Staff'),
 				ip = str(request.META['REMOTE_ADDR']))
 			p.save()
