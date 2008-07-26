@@ -1,3 +1,10 @@
+~~ 2008.07 Test 3 ~~
+- New look & feel of the pagestats application
+- Updated Polish translations
+- CSS/JS/HTML cleaning of the layout, CBC tags etc
+- Help Page
+- Fixes and enchantments submited by users :)
+
 ~~ 2008.07 Test 2 ~~
 - FORUM: Solve/Unsolve topic
 - FORUM: forum moderators, topic prefixes
