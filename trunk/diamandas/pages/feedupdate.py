@@ -99,6 +99,8 @@ class FeedUpdate:
 		Parse a Post entry
 		"""
 		text = self.stripper.strip(text.strip().split('\n')[0])
+		if len(text) < 10:
+			text = '---'
 		if len(text) > 200:
 			text = '%s...' % text[0:200]
 		
