@@ -2,7 +2,12 @@
 # Diamanda Application Set
 # myghtyboard forum
 
-from diamandas.postmarkup import render_bbcode
+from re import findall, compile
+import base64
+
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name,HtmlLexer
+from pygments.formatters import HtmlFormatter
 
 from django import template
 from django.conf import settings
@@ -13,12 +18,63 @@ def fbc(value):
 	"""
 	Parse emotes, BBcode and format [code] blocks
 	"""
-	value = render_bbcode(value,'UTF-8')
+	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value)
+	for i in tags:
+		j = base64.b64encode(i.encode('utf-8'))
+		high = '[code]%s[/code]' % j
+		value = value.replace('[code]%s[/code]' % i, high)
+	
+	tags = findall( r'(?xs)\[python\](.*?)\[/python]''', value)
+	for i in tags:
+		j = base64.b64encode(i.encode('utf-8'))
+		high = '[python]%s[/python]' % j
+		value = value.replace('[python]%s[/python]' % i, high)
+	
+	r = compile('<.*?>|\&.*?\;')
+	value = r.sub("", value)
+	value = value.replace('\n', '<br />')
+	value = value.replace("'", '&#39;').replace('"', '&#34;')
+	
+	
+	tags = findall( r'(?xs)\[code\](.*?)\[/code]''', value)
+	for i in tags:
+		j = base64.b64decode(i).replace('<br />', '\n')
+		high = '<div class="box" style="overflow:auto;font-size:10px;background-color:#EEEEEE;">%s</div><style>%s</style>' % (highlight(j, HtmlLexer(), HtmlFormatter()), HtmlFormatter().get_style_defs('.highlight'))
+		value = value.replace('[code]%s[/code]' % i, high)
+	
+	lexer = get_lexer_by_name('python')
+	tags = findall( r'(?xs)\[python\](.*?)\[/python]''', value)
+	for i in tags:
+		j = base64.b64decode(i).replace('<br />', '\n')
+		high = '<div class="box" style="overflow:auto;font-size:10px;background-color:#EEEEEE;">%s</div><style>%s</style>' % (highlight(j, lexer, HtmlFormatter()), HtmlFormatter().get_style_defs('.py_highlight'))
+		value = value.replace('[python]%s[/python]' % i, high)
+	
 	value = value.replace(' :( ', '<img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" />')
 	value = value.replace(' :o ', '<img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" />')
 	value = value.replace(' :p ', '<img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" />')
 	value = value.replace(' ;) ', '<img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" />')
 	value = value.replace(' :D ', '<img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" />')
+	
+	tags = findall( r'(?xs)\[url=(.*?)\](.*?)\[/url]''', value)
+	for i in tags:
+		value = value.replace('[url=%s]%s[/url]' % (i[0], i[1]), '<a href="%s">%s</a>' % (i[0], i[1]))
+	
+	value = value.replace('[b]', '<b>')
+	value = value.replace('[/b]', '</b>')
+	value = value.replace('[i]', '<i>')
+	value = value.replace('[/i]', '</i>')
+	value = value.replace('[u]', '<u>')
+	value = value.replace('[/u]', '</u>')
+	value = value.replace('[quote]', '<blockquote>')
+	value = value.replace('[/quote]', '</blockquote>')
+	value = value.replace('[url]', '')
+	value = value.replace('[/url]', '')
+	
+	tags = findall( r'(?xs)\[img\](.*?)\[/img]''', value)
+	for i in tags:
+		if not len(i) < 3 and i[0:4] == 'http':
+			value = value.replace('[img]%s[/img]' % i, '<img src="%s" alt="" />' % i)
+	
 	return value
 
 register.filter('fbc', fbc)

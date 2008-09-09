@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 from django.template import Context, loader
 from django.conf import settings
 
-from diamandas.postmarkup import render_bbcode
+from diamandas.myghtyboard.templatetags.fbc import fbc
 from diamandas.cbcplugins import cbcparser
 from diamandas.utils import *
 
@@ -35,7 +35,7 @@ class FeedUpdate:
 		query = Template("""
 			SELECT
 				'content', auth_user.username, date, title, description, is_update, changes, slug, content_type, author_id, Null, Null, Null
-					FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id
+					FROM rk_content$sid JOIN auth_user ON author_id = auth_user.id WHERE slug != 'index'
 			UNION ALL
 			SELECT
 				'post', rk_post$sid.author, rk_post$sid.date, rk_topic$sid.name, rk_post$sid.text, rk_topic$sid.posts, is_locked, rk_topic$sid.last_pagination_page,
@@ -125,7 +125,7 @@ class FeedUpdate:
 				'topic_id': topic_id,
 				'prefix': prefix,
 				'topic_title': self.stripper.strip(name),
-				'text': render_bbcode(text,'UTF-8'),
+				'text': fbc(text),
 				'author_anonymous': author_anonymous
 			})
 			appended = t.render(c)
@@ -143,7 +143,7 @@ class FeedUpdate:
 				'topic_id': topic_id,
 				'prefix': prefix,
 				'topic_title': self.stripper.strip(name),
-				'text': render_bbcode(text,'UTF-8'),
+				'text': fbc(text),
 				'author_anonymous': author_anonymous
 			})
 			self.r = t.render(c)
@@ -227,7 +227,7 @@ class FeedUpdate:
 		c = Context({
 			'date': date,
 			'title': title,
-			'description': render_bbcode(description, 'UTF-8'),
+			'description': fbc(description),
 			'pagination_page': pagination_page,
 			'topic_id':topic_id,
 			'prefix': prefix,

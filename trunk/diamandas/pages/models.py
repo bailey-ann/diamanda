@@ -21,7 +21,7 @@ class Content(models.Model):
 	CFORUM = _('Select a forum in which comment topics will be created (for this and child entries). You can set this for every book, and Articles/News placed in them will use book settings.')
 	
 	title = models.CharField(max_length=255, verbose_name=_('Title'))
-	slug = models.SlugField(max_length=255, unique=True, prepopulate_from=("title", ), verbose_name=_('Slug'))
+	slug = models.SlugField(max_length=255, unique=True, verbose_name=_('Slug'))
 	description = models.TextField(verbose_name=_('Description'))
 	text = models.TextField(verbose_name=_('Text'), blank=True)
 	content_type = models.CharField(max_length=255, verbose_name=_('Type'), choices=CONTENT_TYPE)
@@ -42,24 +42,6 @@ class Content(models.Model):
 		verbose_name = _('Content')
 		verbose_name_plural = _('1. Content')
 		db_table = 'rk_content' + str(settings.SITE_ID)
-	class Admin:
-		list_display = ('title', 'slug', 'content_type', 'place')
-		list_filter = ['date', 'content_type']
-		search_fields = ['title', 'slug', 'text']
-		fields = (
-		(_('Content'),
-			{
-			'fields': ('title', 'slug', 'description', 'text', 'content_type','place', 'author')
-			}),
-		(_('Book'),
-			{
-			'fields': ('book_order', 'coment_forum')
-			}),
-		(_('Updates'),
-			{
-			'fields': ('is_update', 'changes')
-			}),
-		)
 	def get_absolute_url(self):
 		return '/w/p/' + self.slug + '/'
 	def __str__(self):
@@ -123,17 +105,14 @@ class Submission(models.Model):
 		verbose_name = _('Submission')
 		verbose_name_plural = _('2. Submissions')
 		db_table = 'rk_submission' + str(settings.SITE_ID)
-	class Admin:
-		list_display = ('title', 'author', 'date', 'parsed')
-		list_filter = ['author']
 	def __str__(self):
 		return self.title
 	def __unicode__(self):
 		return self.title
 	def parsed(self):
 		return _('<a href="/w/submit/r/%s/">Show parsed version</a>') % self.id
-	parsed.allow_tags = True
-	parsed.short_description = _('Render Markdown')
+		parsed.allow_tags = True
+		parsed.short_description = _('Render Markdown')
 
 class Feed(models.Model):
 	"""

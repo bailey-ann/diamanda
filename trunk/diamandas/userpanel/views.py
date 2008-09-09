@@ -16,9 +16,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
 
-from django import newforms as forms
+from django import forms
 from django.contrib.auth import authenticate, login
-from django.core import validators
 
 from diamandas.userpanel.models import *
 from diamandas.userpanel.context import userpanel as userpanelContext

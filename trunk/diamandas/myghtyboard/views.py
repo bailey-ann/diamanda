@@ -6,7 +6,7 @@ from datetime import datetime
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from django import newforms as forms
+from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template import RequestContext
@@ -435,7 +435,7 @@ def add_post(request, topic_id, post_id = False):
 			if settings.NOTIFY_ADMINS:
 				mail_admins(
 					_('Post Added'),
-					_('Post Added') + '%s/forum/topic/%s/%s/' % (settings.SITE_DOMAIN, str(pmax), topic_id),
+					_('Post Added') + ' %s/forum/topic/%s/%s/' % (settings.SITE_DOMAIN, str(pmax), topic_id),
 					fail_silently=True
 					)
 			return redirect_by_template(request, "/forum/topic/" + str(pmax) + "/" + topic_id +"/", _('Post added succesfuly.'))

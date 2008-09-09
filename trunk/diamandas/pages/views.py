@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect,HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
-from django import newforms as forms
+from django import forms
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
 

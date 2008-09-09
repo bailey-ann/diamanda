@@ -52,18 +52,14 @@ class Forum(models.Model):
 		verbose_name = _("Forum")
 		verbose_name_plural = _("2. Forums")
 		db_table = 'rk_forum' + str(settings.SITE_ID)
-	class Admin:
-		list_display = ('name', 'description', 'category', 'prefixes', 'order')
-		fields = (
-		(None, {
-		'fields': ('category', 'name', 'description', 'order', 'use_moderators', 'moderators', 'use_prefixes', 'allow_anonymous')
-		}),
-		(_('Stats'), {'fields': ('topics', 'posts'), 'classes': 'collapse'}),
-		('', {'fields': ('lastposter', 'lasttopic', 'modification_date', ), 'classes': 'collapse'}),)
 	def __str__(self):
 		return self.name
 	def __unicode__(self):
 		return self.name
+	def save(self, **kwargs):
+		if self.pk:
+			self.modification_date = datetime.now()
+		super(Forum, self).save(**kwargs)
 	def prefixes(self):
 		if self.use_prefixes:
 			p = Prefix.objects.filter(forums=self)
@@ -81,10 +77,6 @@ class Forum(models.Model):
 			return _('Not used')
 	prefixes.allow_tags = True
 	prefixes.short_description = _('Prefixes')
-	def save(self, **kwargs):
-		if self.pk:
-			self.modification_date = datetime.now()
-		super(Forum, self).save(**kwargs)
 
 class Topic(models.Model):
 	"""
@@ -128,8 +120,10 @@ class Prefix(models.Model):
 		verbose_name = _("Topic Prefix")
 		verbose_name_plural = _("3. Topic Prefixes")
 		db_table = 'rk_prefix' + str(settings.SITE_ID)
-	class Admin:
-		list_display = ('name', 'list_forums')
+	def __str__(self):
+		return self.name
+	def __unicode__(self):
+		return self.name
 	def list_forums(self):
 		ret = False
 		for i in self.forums.values():
@@ -139,10 +133,6 @@ class Prefix(models.Model):
 				ret = '%s, %s' % (ret, i['name'])
 		return ret
 	list_forums.short_description = _('Forums')
-	def __str__(self):
-		return self.name
-	def __unicode__(self):
-		return self.name
 
 class TopicPrefix(models.Model):
 	"""

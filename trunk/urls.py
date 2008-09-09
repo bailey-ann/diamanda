@@ -1,9 +1,13 @@
-from django.conf.urls.defaults import *
 import os.path
+
+from django.conf.urls.defaults import *
+from django.contrib import admin
+
+admin.autodiscover()
 
 urlpatterns = patterns('',
 (r'^site_media/(.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(__file__), 'site_media')}), # change it or remove if not on dev server
-(r'^admin/', include('django.contrib.admin.urls')),
+(r'^admin/(.*)', admin.site.root),
 (r'^w/', include('diamandas.pages.URLconf')),
 (r'^forum/', include('diamandas.myghtyboard.URLconf')),
 (r'^stats/', include('diamandas.pagestats.URLconf')),

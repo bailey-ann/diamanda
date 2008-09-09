@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Diamanda Application Set
 # myghtyboard forum
-from diamandas.postmarkup import render_bbcode
+from diamandas.myghtyboard.templatetags.fbc import fbc
 
 from django.http import HttpResponse
 
@@ -10,7 +10,7 @@ def bbcode(request):
 	BBCode Preview for MarkitUp editor
 	"""
 	if 'data' in request.POST:
-		data = render_bbcode(request.POST['data'], "UTF-8")
+		data = fbc(request.POST['data'])
 	else:
 		data = ''
 	return HttpResponse(data)

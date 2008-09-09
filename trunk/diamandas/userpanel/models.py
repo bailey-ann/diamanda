@@ -53,6 +53,3 @@ class OpenIdAssociation(models.Model):
 	class Meta:
 		verbose_name = _('OpenID association')
 		verbose_name_plural = _('OpenID associations')
-	class Admin:
-		list_display = ('openid', 'user')
-		list_filter = ['openid', 'user']
