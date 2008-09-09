@@ -7,7 +7,7 @@
 	<a href="/w/rss/all/" id="feed_rss">{% trans "RSS" %}</a>
 	<h3 style="margin:0px;">{% trans "Whats new on" %} {{ siteName }} ?</h3>
 		<div id="intro">{{ intro|safe }}</div>
-		{{ feed|safe }}
+		{% if feed %}{{ feed|safe }}{% endif %}
 </div>
 <div id="left">
 {{ home_text|safe }}
