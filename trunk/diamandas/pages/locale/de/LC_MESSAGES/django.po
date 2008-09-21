@@ -622,7 +622,7 @@ msgstr "Speichern"
 #~ msgstr "Über mich"
 
 #~ msgid "About My Sites"
-#~ msgstr "Über meine Seite"
+#~ msgstr "Über diese Seiten"
 
 #~ msgid "Change theme"
 #~ msgstr "Thema wechseln"
