@@ -199,7 +199,6 @@ msgstr "Zu viele Links. Ist das spam?"
 msgid "Topic Added"
 msgstr "Thema hinzugefügt"
 
-#FIXME: Double entry present - Dieter Dannerbeck.
 #: views.py:319
 msgid "Topic added"
 msgstr "Thema hinzugefügt"
@@ -475,7 +474,6 @@ msgstr "Beitrag editieren"
 msgid "Delete This Post?"
 msgstr "Beitrag löschen?"
 
-# FIXME: Double entry present - Dieter Dannerbeck.
 #: templates/myghtyboard/post_list.html:78
 msgid "Delete this post"
 msgstr "Beitrag löschen"
