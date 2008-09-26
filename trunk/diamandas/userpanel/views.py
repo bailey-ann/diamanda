@@ -86,24 +86,41 @@ def password_change_done(request):
 	"""
 	return django.contrib.auth.views.password_change_done(request, template_name='userpanel/password_change_done.html')
 
-def password_reset(request):
-	"""
-	django.contrib.auth.views.password_reset view (forgotten password)
-	"""
-	if not request.user.is_authenticated():
-		return django.contrib.auth.views.password_reset(request, template_name='userpanel/password_reset.html', email_template_name= 'userpanel/password_reset_email.html')
-	else:
-		return HttpResponseRedirect("/user/")
+#def password_reset(request):
+	#"""
+	#django.contrib.auth.views.password_reset view (forgotten password)
+	#"""
+	#if not request.user.is_authenticated():
+		#return django.contrib.auth.views.password_reset(request, template_name='userpanel/password_reset_form.html', email_template_name= 'userpanel/password_reset_email.html', post_reset_redirect='/user/password_reset/done/')
+	#else:
+		#return HttpResponseRedirect("/user/")
 
-def password_reset_done(request):
-	"""
-	django.contrib.auth.views.password_reset_done - after password reset view
-	"""
-	if not request.user.is_authenticated():
-		return django.contrib.auth.views.password_reset_done(request, template_name='userpanel/password_reset_done.html')
-	else:
-		return HttpResponseRedirect("/user/")
+#def password_reset_done(request):
+	#"""
+	#django.contrib.auth.views.password_reset_done - after password reset view
+	#"""
+	#if not request.user.is_authenticated():
+		#return django.contrib.auth.views.password_reset_done(request, template_name='userpanel/password_reset_done.html')
+	#else:
+		#return HttpResponseRedirect("/user/")
 
+#def password_reset_confirm(request, uidb36, token):
+	#"""
+	#django.contrib.auth.views.password_reset_done - after password reset view
+	#"""
+	#if not request.user.is_authenticated():
+		#return django.contrib.auth.views.password_reset_confirm(request, uidb36, token, template_name='userpanel/password_reset_confirm.html', post_reset_redirect='/user/reset/done/')
+	#else:
+		#return HttpResponseRedirect("/user/")
+
+#def password_reset_complete(request):
+	#"""
+	#django.contrib.auth.views.password_reset_done - after password reset view
+	#"""
+	#if not request.user.is_authenticated():
+		#return django.contrib.auth.views.password_reset_complete(request, template_name='userpanel/password_reset_complete.html')
+	#else:
+		#return HttpResponseRedirect("/user/")
 
 class RegisterOpenIdForm(forms.Form):
 	"""
