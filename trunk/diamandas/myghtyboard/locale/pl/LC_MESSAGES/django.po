@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MyghtyBoard\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-05 21:43+0200\n"
+"POT-Creation-Date: 2008-09-29 13:42+0200\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -43,18 +43,18 @@ msgstr "Nazwa Forum"
 msgid "Forum Description"
 msgstr "Opis"
 
-#: models.py:39 models.py:109 templates/myghtyboard/category_list.html:19
+#: models.py:39 models.py:102 templates/myghtyboard/category_list.html:19
 msgid "Topics"
 msgstr "Tematów"
 
-#: models.py:40 models.py:98 models.py:168
+#: models.py:40 models.py:91 models.py:159
 #: templates/myghtyboard/category_list.html:20
 #: templates/myghtyboard/mytopics_list.html:11
 #: templates/myghtyboard/topics_list.html:40
 msgid "Posts"
 msgstr "Postów"
 
-#: models.py:41 models.py:99
+#: models.py:41 models.py:92
 msgid "Last Poster"
 msgstr "Ostatni Autor"
 
@@ -84,7 +84,7 @@ msgid ""
 msgstr ""
 "Wybierz zwykłych użytkowników, którzy mają być moderatorami (opcjonalne)."
 
-#: models.py:52 models.py:92
+#: models.py:52 models.py:85
 msgid "Forum"
 msgstr "Forum"
 
@@ -92,57 +92,53 @@ msgstr "Forum"
 msgid "2. Forums"
 msgstr "2. Fora"
 
-#: models.py:61
-msgid "Stats"
-msgstr "Statystyka"
-
-#: models.py:78
+#: models.py:75
 msgid "No prefixes specified"
 msgstr "Brak podanych prefiksów"
 
-#: models.py:80
+#: models.py:77
 msgid "Not used"
 msgstr "Nie używane"
 
-#: models.py:82 models.py:94 templates/myghtyboard/topics_list.html:145
+#: models.py:79 models.py:87 templates/myghtyboard/topics_list.html:145
 msgid "Prefixes"
 msgstr "Prefiksy"
 
-#: models.py:93
+#: models.py:86
 msgid "Topic Title"
 msgstr "Tytuł Tematu"
 
-#: models.py:95 templates/myghtyboard/mytopics_list.html:10
+#: models.py:88 templates/myghtyboard/mytopics_list.html:10
 #: templates/myghtyboard/topics_list.html:41
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:101
+#: models.py:94
 msgid "Pagination Page"
 msgstr "Ostatnia strona stronicowania"
 
-#: models.py:108 templates/myghtyboard/mytopics_list.html:9
+#: models.py:101 templates/myghtyboard/mytopics_list.html:9
 #: templates/myghtyboard/topics_list.html:39
 msgid "Topic"
 msgstr "Temat"
 
-#: models.py:124
+#: models.py:117
 msgid "Name"
 msgstr "Imię"
 
-#: models.py:125 models.py:140
+#: models.py:118 models.py:135
 msgid "Forums"
 msgstr "Fora"
 
-#: models.py:127
+#: models.py:120
 msgid "Topic Prefix"
 msgstr "Prefiks Tematu"
 
-#: models.py:128
+#: models.py:121
 msgid "3. Topic Prefixes"
 msgstr "3. Prefiksy Tematów"
 
-#: models.py:167
+#: models.py:158
 msgid "Post"
 msgstr "Post"
 
@@ -154,10 +150,10 @@ msgstr "Nie ma takiego forum. Wróć na stronę główną forum."
 msgid "User Topics"
 msgstr "Tematy Użytkownika"
 
-#: views.py:133 templates/myghtyboard/add_post.html:81
-#: templates/myghtyboard/add_topic.html:85
+#: views.py:133 templates/myghtyboard/add_post.html:80
+#: templates/myghtyboard/add_topic.html:84
 #: templates/myghtyboard/category_list.html:7
-#: templates/myghtyboard/edit_post.html:55
+#: templates/myghtyboard/edit_post.html:54
 #: templates/myghtyboard/move_topic.html:20
 #: templates/myghtyboard/mytopics_list.html:41
 #: templates/myghtyboard/post_list.html:33
@@ -178,8 +174,8 @@ msgstr "Anonim"
 msgid "You can't add a topic."
 msgstr "Nie możesz dodawać nowych tematów"
 
-#: views.py:228 views.py:358 templates/myghtyboard/post_list.html:147
-#: templates/myghtyboard/topics_list.html:192
+#: views.py:228 views.py:358 templates/myghtyboard/post_list.html:146
+#: templates/myghtyboard/topics_list.html:191
 msgid "To many anonymous posts. Login to post topics and new messages."
 msgstr "Limit anonimowych postów przekroczony. Zaloguj się by móc kontynuować."
 
@@ -300,6 +296,14 @@ msgstr "Nie jesteś moderatorem ani autorem tematu i nie jesteś zalogowany"
 msgid "Topic unsolved."
 msgstr "Problem nie jest rozwiązany."
 
+#: admin.py:13
+msgid "Data"
+msgstr "Dane"
+
+#: admin.py:16
+msgid "Stats"
+msgstr "Statystyka"
+
 #: templates/myghtyboard/add_post.html:4
 #: templates/myghtyboard/add_topic.html:3
 #: templates/myghtyboard/category_list.html:5
@@ -342,28 +346,28 @@ msgstr "Imię"
 msgid "Content"
 msgstr "Treść"
 
-#: templates/myghtyboard/add_post.html:54
-#: templates/myghtyboard/post_list.html:141
+#: templates/myghtyboard/add_post.html:53
+#: templates/myghtyboard/post_list.html:140
 msgid "Add post"
 msgstr "Dodaj post"
 
-#: templates/myghtyboard/add_post.html:60
+#: templates/myghtyboard/add_post.html:59
 msgid "Last 10 posts from topic"
 msgstr "Ostatnie 10 postów"
 
-#: templates/myghtyboard/add_post.html:80
-#: templates/myghtyboard/add_topic.html:84
-#: templates/myghtyboard/edit_post.html:54
+#: templates/myghtyboard/add_post.html:79
+#: templates/myghtyboard/add_topic.html:83
+#: templates/myghtyboard/edit_post.html:53
 #: templates/myghtyboard/mytopics_list.html:40
 #: templates/myghtyboard/post_list.html:32
 #: templates/myghtyboard/topics_list.html:29
 msgid "Back to Forum"
 msgstr "Powrót do Forum"
 
-#: templates/myghtyboard/add_post.html:82
-#: templates/myghtyboard/add_topic.html:86
+#: templates/myghtyboard/add_post.html:81
+#: templates/myghtyboard/add_topic.html:85
 #: templates/myghtyboard/category_list.html:8
-#: templates/myghtyboard/edit_post.html:56
+#: templates/myghtyboard/edit_post.html:55
 #: templates/myghtyboard/move_topic.html:21
 #: templates/myghtyboard/mytopics_list.html:42
 #: templates/myghtyboard/post_list.html:34
@@ -371,10 +375,10 @@ msgstr "Powrót do Forum"
 msgid "My Topics"
 msgstr "Moje Tematy"
 
-#: templates/myghtyboard/add_post.html:83
-#: templates/myghtyboard/add_topic.html:87
+#: templates/myghtyboard/add_post.html:82
+#: templates/myghtyboard/add_topic.html:86
 #: templates/myghtyboard/category_list.html:9
-#: templates/myghtyboard/edit_post.html:57
+#: templates/myghtyboard/edit_post.html:56
 #: templates/myghtyboard/move_topic.html:22
 #: templates/myghtyboard/mytopics_list.html:43
 #: templates/myghtyboard/post_list.html:35
@@ -396,23 +400,23 @@ msgstr "Tytuł"
 msgid "Prefix"
 msgstr "Prefiks"
 
-#: templates/myghtyboard/add_topic.html:67
-#: templates/myghtyboard/topics_list.html:176
+#: templates/myghtyboard/add_topic.html:66
+#: templates/myghtyboard/topics_list.html:175
 msgid "Options"
 msgstr "Opcje"
 
-#: templates/myghtyboard/add_topic.html:70
-#: templates/myghtyboard/topics_list.html:179
+#: templates/myghtyboard/add_topic.html:69
+#: templates/myghtyboard/topics_list.html:178
 msgid "Sticky"
 msgstr "Przyklejony"
 
-#: templates/myghtyboard/add_topic.html:71
-#: templates/myghtyboard/topics_list.html:180
+#: templates/myghtyboard/add_topic.html:70
+#: templates/myghtyboard/topics_list.html:179
 msgid "Global"
 msgstr "Globalny"
 
-#: templates/myghtyboard/add_topic.html:77
-#: templates/myghtyboard/topics_list.html:186
+#: templates/myghtyboard/add_topic.html:76
+#: templates/myghtyboard/topics_list.html:185
 msgid "Add topic"
 msgstr "Dodaj temat"
 
@@ -427,7 +431,7 @@ msgid "No topics in this forum"
 msgstr "Brak tematów"
 
 #: templates/myghtyboard/edit_post.html:27
-#: templates/myghtyboard/edit_post.html:46
+#: templates/myghtyboard/edit_post.html:45
 msgid "Edit post"
 msgstr "Edytuj post"
 
@@ -449,31 +453,31 @@ msgid "Add Post"
 msgstr "Dodaj Post"
 
 #: templates/myghtyboard/post_list.html:56
-msgid "Reply with quote"
-msgstr "Cytuj"
-
-#: templates/myghtyboard/post_list.html:62
-#: templates/myghtyboard/post_list.html:67
-msgid "Edit this post"
-msgstr "Edytuj ten post"
-
-#: templates/myghtyboard/post_list.html:71
-msgid "Delete This Post?"
-msgstr "Skasować ten post?"
-
-#: templates/myghtyboard/post_list.html:71
-msgid "Delete this post"
-msgstr "Skasować post"
-
-#: templates/myghtyboard/post_list.html:75
 #: templates/myghtyboard/topics_list.html:87
 msgid "Unsolve Topic"
 msgstr "Cofnij Rozwiązanie"
 
-#: templates/myghtyboard/post_list.html:77
+#: templates/myghtyboard/post_list.html:58
 #: templates/myghtyboard/topics_list.html:89
 msgid "Mark as solved"
 msgstr "Zaznacz jako rozwiązany"
+
+#: templates/myghtyboard/post_list.html:63
+msgid "Reply with quote"
+msgstr "Cytuj"
+
+#: templates/myghtyboard/post_list.html:69
+#: templates/myghtyboard/post_list.html:74
+msgid "Edit this post"
+msgstr "Edytuj ten post"
+
+#: templates/myghtyboard/post_list.html:78
+msgid "Delete This Post?"
+msgstr "Skasować ten post?"
+
+#: templates/myghtyboard/post_list.html:78
+msgid "Delete this post"
+msgstr "Skasować post"
 
 #: templates/myghtyboard/post_list.html:90
 msgid "First Page"
@@ -491,33 +495,33 @@ msgstr "Następna Strona"
 msgid "Last Page"
 msgstr "Ostatnia Strona"
 
-#: templates/myghtyboard/post_list.html:152
-#: templates/myghtyboard/topics_list.html:198
+#: templates/myghtyboard/post_list.html:151
+#: templates/myghtyboard/topics_list.html:197
 msgid "You <b>can</b> post new Topics"
 msgstr "<b>Możesz</b> dodawać nowe Tematy"
 
-#: templates/myghtyboard/post_list.html:154
-#: templates/myghtyboard/topics_list.html:200
+#: templates/myghtyboard/post_list.html:153
+#: templates/myghtyboard/topics_list.html:199
 msgid "You <b>can't</b> post new Topics"
 msgstr "<b>Nie możesz</b> dodawać nowych Tematów"
 
-#: templates/myghtyboard/post_list.html:157
-#: templates/myghtyboard/topics_list.html:203
+#: templates/myghtyboard/post_list.html:156
+#: templates/myghtyboard/topics_list.html:202
 msgid "You <b>can</b> post new Posts"
 msgstr "<b>Możesz</b> dodawać nowe Posty"
 
-#: templates/myghtyboard/post_list.html:159
-#: templates/myghtyboard/topics_list.html:205
+#: templates/myghtyboard/post_list.html:158
+#: templates/myghtyboard/topics_list.html:204
 msgid "You <b>can't</b> post new Posts"
 msgstr "<b>Nie możesz</b> dodawać nowych postów"
 
-#: templates/myghtyboard/post_list.html:162
-#: templates/myghtyboard/topics_list.html:208
+#: templates/myghtyboard/post_list.html:161
+#: templates/myghtyboard/topics_list.html:207
 msgid "You <b>are</b> a Moderator"
 msgstr "<b>Jesteś</b> moderatorem"
 
-#: templates/myghtyboard/post_list.html:164
-#: templates/myghtyboard/topics_list.html:210
+#: templates/myghtyboard/post_list.html:163
+#: templates/myghtyboard/topics_list.html:209
 msgid "You <b>aren't</b> a moderator"
 msgstr "<b>Nie jesteś</b> moderatorem"
 
@@ -664,9 +668,6 @@ msgstr "Stron: "
 
 #~ msgid "Public Email"
 #~ msgstr "Publiczny email"
-
-#~ msgid "Avatar"
-#~ msgstr "Awatar"
 
 #~ msgid "Theme"
 #~ msgstr "Skórka"

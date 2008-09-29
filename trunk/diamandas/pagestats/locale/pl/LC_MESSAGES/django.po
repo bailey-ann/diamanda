@@ -91,7 +91,7 @@ msgstr "Google"
 
 #: templates/stats/google.html:18
 msgid "Live Search"
-msgstr ""
+msgstr "Wyszukania"
 
 #: templates/stats/google.html:19
 msgid "Wikipedia"

@@ -1,3 +1,12 @@
+~~ 2008.09 STABLE ~~
+- German Translation
+- Django 1.0 reset password fixed
+- Translations updates
+
+~~ 2008.09 Test 4 ~~
+- fixed link to moved topic
+- Django 1.0 compatibility
+
 ~~ 2008.07 Test 3 ~~
 - New look & feel of the pagestats application
 - Updated Polish translations

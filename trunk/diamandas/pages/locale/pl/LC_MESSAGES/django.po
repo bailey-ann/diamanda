@@ -7,119 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-11 15:03+0200\n"
+"POT-Creation-Date: 2008-09-29 13:42+0200\n"
 "PO-Revision-Date: 2005-09-28 12:52+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: models.py:19 templates/pages/news_list.html:3
-#: templates/pages/news_list.html.py:4 templates/pages/news_list.html:5
-#: templates/pages/news_list.html.py:8 templates/pages/news_list.html:35
-msgid "News"
-msgstr "News"
-
-#: models.py:19
-msgid "Article"
-msgstr "Artykuł"
-
-#: models.py:19 models.py:54
-msgid "Book"
-msgstr "Kategoria"
-
-#: models.py:20
-msgid ""
-"If you add a book and want to display a link to it in the menu enter 1 or "
-"greater value"
-msgstr ""
-"Jeżeli dodajesz kategorię i chcesz wyświetlić link do niej w głównym menu to "
-"podaj wartość 1 lub większą"
-
-#: models.py:21
-msgid ""
-"Select a forum in which comment topics will be created (for this and child "
-"entries). You can set this for every book, and Articles/News placed in them "
-"will use book settings."
-msgstr ""
-"Podaj forum, w którym tematy-komentarze będą tworzone (dla tego wpisu i "
-"wpisów zależnych). Możesz ustawić dla wszystkich kategorii, a zawarte w niej "
-"Artykuły/Wiadomości będą korzystały z tych ustawień."
-
-#: models.py:23 models.py:118 templates/pages/submit.html:18
-msgid "Title"
-msgstr "Tytuł"
-
-#: models.py:24
-msgid "Slug"
-msgstr "Odnośnik"
-
-#: models.py:25
-msgid "Description"
-msgstr "Opis"
-
-#: models.py:26 models.py:119
-msgid "Text"
-msgstr "Tekst"
-
-#: models.py:27
-msgid "Type"
-msgstr "Typ"
-
-#: models.py:28
-msgid "Place in"
-msgstr "Umieść w"
-
-#: models.py:30
-msgid "Updated"
-msgstr "Aktualizacja"
-
-#: models.py:31
-msgid "Changes summary"
-msgstr "Podsumowanie zmian"
-
-#: models.py:32
-msgid "Book order"
-msgstr "Kolejność kategorii"
-
-#: models.py:33 models.py:120
-msgid "Author"
-msgstr "Autor"
-
-#: models.py:42 models.py:50 templates/pages/submit.html:24
-msgid "Content"
-msgstr "Treść"
-
-#: models.py:43
-msgid "1. Content"
-msgstr "1. Treść"
-
-#: models.py:58
-msgid "Updates"
-msgstr "Aktualizacje"
-
-#: models.py:121 templates/pages/show.html:11
-#: templates/pages/show_news.html:13
-msgid "Added"
-msgstr "Dodane"
-
-#: models.py:123
-msgid "Submission"
-msgstr "Zgłoszenie"
-
-#: models.py:124
-msgid "2. Submissions"
-msgstr "2. Zgłoszenia"
-
-#: models.py:134
-#, python-format
-msgid "<a href=\"/w/submit/r/%s/\">Show parsed version</a>"
-msgstr "<a href=\"/w/submit/r/%s/\">Pokaż wersję HTML</a>"
-
-#: models.py:136
-msgid "Render Markdown"
-msgstr "Parsowanie Markdown"
 
 #: views.py:92 templates/404.html:4
 msgid "Page does not exist"
@@ -196,9 +90,115 @@ msgstr "Zgłoszenie nie istnieje"
 msgid "Permission Denied"
 msgstr "Brak Dostępu"
 
-#: feedupdate.py:113 feedupdate.py:220
+#: models.py:19 templates/pages/news_list.html:3
+#: templates/pages/news_list.html.py:4 templates/pages/news_list.html:5
+#: templates/pages/news_list.html.py:8 templates/pages/news_list.html:35
+msgid "News"
+msgstr "News"
+
+#: models.py:19
+msgid "Article"
+msgstr "Artykuł"
+
+#: models.py:19 admin.py:17
+msgid "Book"
+msgstr "Kategoria"
+
+#: models.py:20
+msgid ""
+"If you add a book and want to display a link to it in the menu enter 1 or "
+"greater value"
+msgstr ""
+"Jeżeli dodajesz kategorię i chcesz wyświetlić link do niej w głównym menu to "
+"podaj wartość 1 lub większą"
+
+#: models.py:21
+msgid ""
+"Select a forum in which comment topics will be created (for this and child "
+"entries). You can set this for every book, and Articles/News placed in them "
+"will use book settings."
+msgstr ""
+"Podaj forum, w którym tematy-komentarze będą tworzone (dla tego wpisu i "
+"wpisów zależnych). Możesz ustawić dla wszystkich kategorii, a zawarte w niej "
+"Artykuły/Wiadomości będą korzystały z tych ustawień."
+
+#: models.py:23 models.py:100 templates/pages/submit.html:18
+msgid "Title"
+msgstr "Tytuł"
+
+#: models.py:24
+msgid "Slug"
+msgstr "Odnośnik"
+
+#: models.py:25
+msgid "Description"
+msgstr "Opis"
+
+#: models.py:26 models.py:101
+msgid "Text"
+msgstr "Tekst"
+
+#: models.py:27
+msgid "Type"
+msgstr "Typ"
+
+#: models.py:28
+msgid "Place in"
+msgstr "Umieść w"
+
+#: models.py:30
+msgid "Updated"
+msgstr "Aktualizacja"
+
+#: models.py:31
+msgid "Changes summary"
+msgstr "Podsumowanie zmian"
+
+#: models.py:32
+msgid "Book order"
+msgstr "Kolejność kategorii"
+
+#: models.py:33 models.py:102
+msgid "Author"
+msgstr "Autor"
+
+#: models.py:42 admin.py:13 templates/pages/submit.html:24
+msgid "Content"
+msgstr "Treść"
+
+#: models.py:43
+msgid "1. Content"
+msgstr "1. Treść"
+
+#: models.py:103 templates/pages/show.html:11
+#: templates/pages/show_news.html:13
+msgid "Added"
+msgstr "Dodane"
+
+#: models.py:105
+msgid "Submission"
+msgstr "Zgłoszenie"
+
+#: models.py:106
+msgid "2. Submissions"
+msgstr "2. Zgłoszenia"
+
+#: models.py:113
+#, python-format
+msgid "<a href=\"/w/submit/r/%s/\">Show parsed version</a>"
+msgstr "<a href=\"/w/submit/r/%s/\">Pokaż wersję HTML</a>"
+
+#: models.py:115
+msgid "Render Markdown"
+msgstr "Parsowanie Markdown"
+
+#: feedupdate.py:115 feedupdate.py:222
 msgid "Solved: "
 msgstr "Rozwiązany: "
+
+#: admin.py:21
+msgid "Updates"
+msgstr "Aktualizacje"
 
 #: templates/500.html:4
 msgid "Site Error"
@@ -446,7 +446,7 @@ msgstr ""
 "artykułu czy wiadomości."
 
 #: templates/pages/show_help.html:26
-msgid "How can I track new artices and posts?"
+msgid "How can I track new articles and posts?"
 msgstr "Jak śledzić nowości na stronie?"
 
 #: templates/pages/show_help.html:30
@@ -472,7 +472,9 @@ msgstr ""
 
 #: templates/pages/show_help.html:32
 msgid "To get only new articles you can use"
-msgstr "Jeżeli chcesz powiadomienia wyłącznie o nowych artykułach i wiadomościach możesz użyć"
+msgstr ""
+"Jeżeli chcesz powiadomienia wyłącznie o nowych artykułach i wiadomościach "
+"możesz użyć"
 
 #: templates/pages/show_help.html:33
 msgid ""
@@ -486,7 +488,9 @@ msgstr ""
 
 #: templates/pages/show_help.html:35
 msgid "You can also use feeds for selected categories (pages and news)"
-msgstr "Możesz też wykorzystać kanały RSS dla określonych kategorii (artykuły i wiadomości)"
+msgstr ""
+"Możesz też wykorzystać kanały RSS dla określonych kategorii (artykuły i "
+"wiadomości)"
 
 #: templates/pages/show_help.html:48
 msgid "Do I have to register?"

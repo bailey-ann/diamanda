@@ -405,7 +405,7 @@ msgstr ""
 "Sie sich gerade aufhalten"
 
  
-msgid "How can I track new artices and posts?"
+msgid "How can I track new articles and posts?"
 msgstr "Wie kann ich neue Artikel und Beiträge erstellen?"
 
 #: templates/pages/show_help.html:30
