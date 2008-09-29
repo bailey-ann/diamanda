@@ -111,8 +111,8 @@ class Submission(models.Model):
 		return self.title
 	def parsed(self):
 		return _('<a href="/w/submit/r/%s/">Show parsed version</a>') % self.id
-		parsed.allow_tags = True
-		parsed.short_description = _('Render Markdown')
+	parsed.allow_tags = True
+	parsed.short_description = _('Render Markdown')
 
 class Feed(models.Model):
 	"""
