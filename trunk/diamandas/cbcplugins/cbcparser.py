@@ -4,7 +4,6 @@
 
 from re import findall
 from tags import *
-import markdown
 import base64
 
 def parse_cbc_tags(text, use_mdk=True):

@@ -1,8 +1,7 @@
-<div class="left_feed">
-	<strong>{% if not author_anonymous %}<a>{% endif %}{{ username }}{% if not author_anonymous %}</a>{% endif %}</strong><br />
-	{{ date }}
-</div>
-<div class="right_feed">
-	<div class="{{ cssclass }}"><a href="/forum/topic/{{ pagination_page }}/{{ topic_id }}/">{{ prefix }}{{ topic_title }}</a></div>
-{{ text|safe }}
-<!-- --></div>
+<dt><b>{{ username }}</b><br />{{ date }}</dt>
+	<dd>
+		<ul>
+		<li><a href="/forum/topic/{{ pagination_page }}/{{ topic_id }}/" class="{{ cssclass }}">{{ prefix }}{{ topic_title }}</a> {{ text|safe }}</li>
+		<!-- -->
+		</ul>
+	</dd>

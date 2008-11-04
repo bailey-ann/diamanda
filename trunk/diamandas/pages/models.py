@@ -92,28 +92,6 @@ class Content(models.Model):
 		super(Content, self).save()
 		FeedUpdate(settings.SITE_ID)
 
-
-class Submission(models.Model):
-	"""
-	content submitted by users
-	"""
-	title = models.CharField(max_length=255, verbose_name=_('Title'))
-	text = models.TextField(verbose_name=_('Text'), blank=True)
-	author = models.ForeignKey(User, verbose_name=_('Author'))
-	date = models.DateTimeField(blank=True, null=True, verbose_name=_('Added'))
-	class Meta:
-		verbose_name = _('Submission')
-		verbose_name_plural = _('2. Submissions')
-		db_table = 'rk_submission' + str(settings.SITE_ID)
-	def __str__(self):
-		return self.title
-	def __unicode__(self):
-		return self.title
-	def parsed(self):
-		return _('<a href="/w/submit/r/%s/">Show parsed version</a>') % self.id
-	parsed.allow_tags = True
-	parsed.short_description = _('Render Markdown')
-
 class Feed(models.Model):
 	"""
 	storage for "what's new?" feeds

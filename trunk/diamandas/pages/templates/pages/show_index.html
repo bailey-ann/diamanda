@@ -1,22 +1,10 @@
-{% extends "pages/body.html" %}
+{% extends "pages/body_index.html" %}
 {% load i18n %}
+{% load cbc %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}
+{% block description %}{{ intro }}{% endblock %}
 
 {% block content %}
-<div id="right">
-	<a href="/w/rss/all/" id="feed_rss">{% trans "RSS" %}</a>
-	<h3 style="margin:0px;">{% trans "Whats new on" %} {{ siteName }} ?</h3>
-		<div id="intro">{{ intro|safe }}</div>
-		{% if feed %}{{ feed|safe }}{% endif %}
-</div>
-<div id="left">
-{{ home_text|safe }}
-
-{% if onsite %}
-	<h3 style="margin-bottom:0px;">{% trans "Users online" %}</h3>
-	{% for t in onsite %}
-		<div class="user{% cycle 1,2 %}">{{ t.user }}</div>
-	{% endfor %}
-{% endif %}
-</div>
+{{ home_text|cbc|safe }}
 {% endblock %}
+{% block feed %}{{ feed|safe }}{% endblock %}

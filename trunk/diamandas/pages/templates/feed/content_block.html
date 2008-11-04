@@ -1,8 +1,7 @@
-<div class="left_feed">
-	<strong><a>{{ username }}</a></strong><br />
-	{{ date }}
-</div>
-<div class="right_feed">
-	<div class="{{ cssclass }}"><a href="/w/p/{{ slug }}/"><b>{{ title }}</b></a></div>
-{{ text|safe }}
-<!-- --></div>
+<dt><b>{{ username }}</b><br />{{ date }}</dt>
+	<dd>
+		<ul>
+		<li><a href="/w/p/{{ slug }}/" class="{{ cssclass }}">{{ title }}</a> {{ text|safe }}</li>
+		<!-- -->
+		</ul>
+	</dd>

@@ -31,40 +31,36 @@
 </div>
 <div class="invertedshiftdown2">
 <ul>
-	<li><a href="/">{% trans "Home" %}</a></li>
+	<li class="current"><a href="/">{% trans "Home" %}</a></li>
 	{% for b in books %}
-		<li{% ifequal b.slug current_book %} class="current"{% endifequal %}><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
+		<li><a href="/w/p/{{ b.slug }}/">{{ b.title }}</a></li>
 	{% endfor %}
 </ul>
-
 
 <br style="clear: both;" />
 </div>
 
 <div id="container">
-	<div id="contentWrapper">
+	<div id="contentWrapperMainPage">
 		<div class="content">
-		<div id="crumb"><b>{% trans "You are here" %}</b>: {% block crumb %}<a href="/">{% trans "Home" %}</a>{% endblock %}</div>
+
 		{% block content %}{% endblock %}
+		<!--  NFO -->
 		</div>
 	</div>
-	
-	<div id="panelWrapper">
+	<div id="panelWrapperMainPage">
 		<div class="panel">
-			<div>
-			<form action="/w/search/" method="post">
-				<input type="text" name="term" /> <input class="button" type="submit" value="{% trans "Search" %}" />
-			</form>
+			<!--  FEED -->
+			<h3>{% trans "Whats new on" %} {{ siteName }} ?</h3>
+			<div id="feed">
+			{% block feed %}{% endblock %}
 			</div>
-			<ul>
-				{% block pagemenu %}{% endblock %}
-				<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-				<li><a href="/w/rss/">{% trans "RSS - Latest Articles" %}</a></li>
-				<li><a href="/w/rss/all/">{% trans "RSS - What's new" %}</a></li>
-			</ul>
+			<!--  FEED -->
 		</div>
 	</div>
 	<br style="clear:both;" />
 </div>
+
+
 </body>
 </html>

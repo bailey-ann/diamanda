@@ -11,7 +11,6 @@ from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django import forms
 from django.core.mail import mail_admins
-from django.contrib.auth.decorators import login_required
 
 from diamandas.pages.models import *
 from diamandas.userpanel.models import Profile
@@ -19,7 +18,7 @@ from diamandas.myghtyboard.models import *
 from diamandas.myghtyboard.context import forum as forumContext
 from diamandas.myghtyboard.views import AddPostForm, AddTopicForm
 from diamandas.utils import *
-from diamandas.markdown import markdown
+
 
 def show_index(request):
 	"""
@@ -290,70 +289,6 @@ def show(request, slug):
 		'pages/show.html',
 		{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment},
 		context_instance=RequestContext(request, {'current_book': cb}))
-
-
-class SubmitContentForm(forms.ModelForm):
-	class Meta:
-		model = Submission
-
-
-@login_required
-def submit_content(request):
-	"""
-	For users to submit new content
-	"""
-	if request.POST:
-		data = request.POST.copy()
-		data['author'] = request.user.id
-		data['date'] = datetime.now()
-		form = SubmitContentForm(data)
-		if form.is_valid():
-			form.save()
-			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Content submited'), _('Content submited') + ': %s/admin/pages/submission/' % settings.SITE_DOMAIN, fail_silently=True)
-			return redirect_by_template(request, "/", _('Your article have been saved. Staff will review the article and publish it afterwards.'))
-		else:
-			return render_to_response(
-				'pages/submit.html',
-				{'form': form, 'text': data['text']},
-				context_instance=RequestContext(request))
-
-	form = SubmitContentForm()
-	return render_to_response(
-		'pages/submit.html',
-		{'form': form},
-		context_instance=RequestContext(request))
-
-def preview(request):
-	"""
-	Markdown Preview for MarkitUp editor
-	"""
-	if 'data' in request.POST:
-		data = markdown(request.POST['data'],safe_mode = True)
-	else:
-		data = ''
-	return render_to_response(
-		'pages/submit_preview.html',
-		{'data': data},
-		context_instance=RequestContext(request))
-
-def show_submission(request, sid):
-	if request.user.is_authenticated() and request.user.is_staff:
-		try:
-			s = Submission.objects.get(id=sid)
-		except:
-			return render_to_response('pages/bug.html',
-				{'bug': _('Submission does not exist')},
-				context_instance=RequestContext(request))
-		preview = '[rk:syntax lang="html"]%s[/rk:syntax]' % markdown(s.text, safe_mode = True)
-		return render_to_response(
-			'pages/submission_show.html',
-			{'s': s, 'preview': preview},
-			context_instance=RequestContext(request))
-	return render_to_response('pages/bug.html',
-		{'bug': _('Permission Denied')},
-		context_instance=RequestContext(request))
-
 
 def sitemap(request):
 	"""

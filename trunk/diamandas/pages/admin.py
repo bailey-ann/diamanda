@@ -24,9 +24,4 @@ class ContentAdmin(admin.ModelAdmin):
 			}),
 		)
 
-class SubmissionAdmin(admin.ModelAdmin):
-	list_display = ('title', 'author', 'date', 'parsed')
-	list_filter = ['author']
-
 admin.site.register(Content, ContentAdmin)
-admin.site.register(Submission, SubmissionAdmin)

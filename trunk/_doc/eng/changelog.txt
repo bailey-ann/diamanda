@@ -1,3 +1,7 @@
+~~ 2008.11 TEST ~~
+- Markdown/Content Submission removed
+- New layout with, fixed templates, better HTML and CSS
+
 ~~ 2008.09 STABLE ~~
 - German Translation
 - Django 1.0 reset password fixed

@@ -67,7 +67,7 @@ class FeedUpdate:
 	
 		ff = ''
 		for i in self.feed:
-			ff += '<div class="feed">%s</div>' % i
+			ff += '<dl>%s</dl>' % i
 		self.feed = ff
 		
 		
@@ -104,17 +104,14 @@ class FeedUpdate:
 		if len(text) > 200:
 			text = '%s...' % text[0:200]
 		
+		cssclass = 'forum'
 		if is_external == 1:
 			prefix  = ''
-			cssclass = 'reply_feed'
 		elif posts > 1:
-			cssclass = 'reply_feed'
 			prefix  = 'Re: '
 		elif is_solved == 1:
-			cssclass = 'forum_feed'
 			prefix  = _('Solved: ')
 		else:
-			cssclass = 'forum_feed'
 			prefix  = ''
 		# append entry to current user DIV block
 		if self.lastuser and self.lastuser == author:
@@ -157,13 +154,13 @@ class FeedUpdate:
 		"""
 		if is_update == 1:
 			text = self.stripper.strip(changes)
-			cssclass = 'content_update_feed'
+			cssclass = 'art'
 		else:
 			text = cbcparser.parse_cbc_tags(description.strip().split('\n')[0])
-			cssclass = 'content_feed'
+			cssclass = 'art'
 		
 		if content_type == 'news':
-			cssclass = 'news_feed'
+			cssclass = 'news'
 		
 		# append entry to current user DIV block
 		if self.lastuser and self.lastuser == username:

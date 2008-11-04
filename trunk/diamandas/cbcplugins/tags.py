@@ -21,18 +21,20 @@ def thumb(dic, text):
 	USAGE:
 	[rk:thumb src="SITE_KEY/filename"]
 	"""
-	THUMB = '<a href="/site_media/resources/%s/images/%s" rel="facebox"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a>'
+	THUMB = '<div class="thumb"><a href="/site_media/resources/%s/images/%s" rel="facebox"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a></div>'
 	for i in dic:
 		img = i['attributes']['src'].split('/')
 		thumb = 'thumb_' + img[-1]
 		im = img[-1]
-		domain = img[0]
+		ext = im.split('.')[-1]
+		domain = '%s.rk.edu.pl' % img[0]
 		if isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im):
 			if not isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb):
 				imi = Image.open(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im)
-				imi.thumbnail((145, 145), Image.ANTIALIAS)
-				sharpener = ImageEnhance.Sharpness(imi)
-				imi = sharpener.enhance(2.4)
+				imi.thumbnail((155, 155), Image.ANTIALIAS)
+				if ext == 'jpg' or ext == 'png':
+					sharpener = ImageEnhance.Sharpness(imi)
+					imi = sharpener.enhance(2.4)
 				imi.save(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb)
 			thm = THUMB % (domain, im, domain, thumb, im)
 			text = text.replace(i['tag'], thm)
@@ -59,6 +61,40 @@ def art(dic, text):
 				'<li class="page"><a href="/w/p/%s/">%s</a> - %s</li>' % (i.slug, i.title, i.description))
 	return text
 
+def latest(dic, text):
+	from diamandas.pages.models import Content
+	c = Content.objects.filter(content_type='page').order_by('-date')[:4]
+	artlist = '<ul>'
+	for i in c:
+		artlist = '%s\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (artlist, i.slug, i.title)
+	artlist = artlist + '\n</ul>'
+	for i in dic:
+		text = text.replace(i['tag'],  artlist)
+	return text
+
+def qtnews(dic, text):
+	from diamandas.pages.models import Content
+	c = Content.objects.filter(content_type='news', current_book='qt').order_by('-date')[:10]
+	artlist = '<ul>'
+	for i in c:
+		artlist += '\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (i.slug, i.title)
+	artlist += '\n</ul>'
+	for i in dic:
+		text = text.replace(i['tag'],  artlist)
+	return text
+
+def embnews(dic, text):
+	from diamandas.pages.models import Content
+	c = Content.objects.filter(content_type='news', current_book='systemy-wbudowane').order_by('-date')[:10]
+	artlist = '<ul>'
+	for i in c:
+		artlist += '\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (i.slug, i.title)
+	artlist += '\n</ul>'
+	for i in dic:
+		text = text.replace(i['tag'],  artlist)
+	return text
+
+
 def syntax(dic, text):
 	"""
 	highlight code using pygments
@@ -73,6 +109,8 @@ def syntax(dic, text):
 			lexer = get_lexer_by_name(i['attributes']['lang'])
 		except ValueError:
 			lexer = get_lexer_by_name('text')
+		if i['attributes']['lang'] == 'php' and i['code'].find('<?php') < 1:
+			i['code'] = '<?php\n\r%s' % i['code']
 		parsed = highlight(i['code'], lexer, pygments_formatter)
 		text = text.replace(i['tag'],  '<div class="box" style="overflow:hidden;font-size:11px;">%s</div>' % parsed)
 		langs['<style>%s</style>' % pygments_formatter.get_style_defs()] = True
@@ -92,7 +130,7 @@ def h(dic, text):
 	"""
 	s = 1
 	for i in dic:
-		text = text.replace(i['tag'], '<a name="' + str(s) +'" class="' +  i['attributes']['id'] + '" title="' + i['code'] + '"></a><h' + i['attributes']['id'] + ' class="pageh"><a href="#' + str(s) +'">' + i['code'] + '</a></h' + i['attributes']['id'] + '>')
+		text = text.replace(i['tag'], '<a name="' + str(s) +'" class="' +  i['attributes']['id'] + '" title="' + i['code'] + '"></a><h' + i['attributes']['id'] + '><a href="#' + str(s) +'">' + i['code'] + '</a></h' + i['attributes']['id'] + '>')
 		s = s+1
 	return text
 
@@ -114,4 +152,17 @@ def box(dic, text):
 	
 	for i in dic:
 		text = text.replace(i['tag'],  TEMPLATE % (i['attributes']['title'], i['code']))
+	return text
+
+def link(dic, text):
+	"""
+	display external links
+	"""
+	for i in dic:
+		if i['attributes'].has_key('src'):
+			i['attributes']['href'] = i['attributes']['src']
+		if i['attributes'].has_key('desc'):
+			text = text.replace(i['tag'], '<a href="' + i['attributes']['href'] + '" class="ext">' + i['code'] + '</a> - '+ i['attributes']['desc'] + '<br />')
+		else:
+			text = text.replace(i['tag'], '<a href="' + i['attributes']['href'] + '" class="ext">' + i['code'] + '</a><br />')
 	return text
