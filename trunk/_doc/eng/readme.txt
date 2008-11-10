@@ -1,11 +1,8 @@
-Diamanda Applications Set 2008.07 Test 3
+Diamanda Applications Set 2008.11 TEST
 Author: Piotr Maliński ("Riklaunim")
 Mail: riklaunim@gmail.com
 License: GPL
 
-
-DIAMANDA 2008.07 Test 3 IS NOT COMPATIBLE WITH NEWFORMS-ADMIN
-TESTED with Django-SVN revision 7952
 
 ~~ Components ~~
 Currently Diamanda has several apps: 
@@ -14,18 +11,17 @@ Currently Diamanda has several apps:
 * Stats (diamandas/stats)
 * User Panel (diamandas/userpanel)
 * ContentBBCode Tag system (diamandas/cbcplugins, not a Django application)
-Applications removed from Diamanda 2007 will be available in Diamanda Extras.
+Applications removed since Diamanda 2007 will be available in Diamanda Extras.
 
 ~~ Dependencies ~~
 Here is a list of extra python modules that Diamanda uses: 
-* Django-SVN (tested on 0.97-pre-SVN-7403)
+* Django 1.0
 * PIL - ContentBBCode
 * Pygments - ContentBBCode and MyghtyBoard
 * Python-OpenID (+yadis +elementree)
 
-
-~~ How to start the dev server / Diamanda 2007 ~~
-* Check settings.py (SQLite by default)
+~~ How to start the dev server / Diamanda 2008 ~~
+* Check settings.py (SQLite set by default)
 * Create tables and superuser (If the SQLite database file already exists - delete it): 
     python manage.py syncdb
     python manage.py runserver 8080
