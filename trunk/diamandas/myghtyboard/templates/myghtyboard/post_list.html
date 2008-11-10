@@ -2,25 +2,7 @@
 {% load i18n %}
 {% load fbc %}
 {% load pyif %}
-
-{% block meta %}
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
-<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.pack.js"></script>
-<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function()    {
-    $('#bbcode').markItUp(myBbcodeSettings);
-
-    $('#emoticons a').click(function() {
-        emoticon = $(this).attr("title");
-        $.markItUp( { replaceWith:emoticon } );
-    });
-});
-</script>
-{% endblock %}
-
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block title %}{{ forum_name }} - {{ topic.name }}{% endblock %}
 {% block header %}{{ forum_name }} - {{ topic.name }}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum_id }}/">{{ forum_name }}</a> > <a href="/forum/topic/1/{{ topic.id }}">{{ topic.name }}</a>{% endblock %}
@@ -36,76 +18,56 @@ $(document).ready(function()    {
 {% endblock %}
 
 {% block content %}
-
-	{% for i in object_list %}
-	{% pyif user.get_profile.last_visit < i.date %}<a name="new"></a>{% endif %}
-	<div class="post">
-		    <div class="posthead">{{ i.date|date:"d.m.Y" }}</div>
-		    <div class="leftpost">
-			      <strong>{% if i.author_anonymous %}~<i>{% endif %}{{ i.author}}{% if i.author_anonymous %}</i>{% endif %}</strong>
-		    </div>
-		    <div class="rightpost">
-			      {{ i.text|fbc|safe|urlizetrunc:"60" }}
-		    </div>
-		    <div class="leftbottompost">
-			      {% if perms.is_staff %}{{ i.ip }}{% endif %}
-		    </div>
-		    <div class="rightbottompost">
-				{% pyif perms.is_staff or is_author %}
-                                        {% if topic.is_solved %}
-                                                <a href="/forum/topic/unsolve/{{ topic.id }}/{{ forum_id }}/" class="unsolve">{% trans "Unsolve Topic" %}</a>
-                                            {% else %}
-                                                <a href="/forum/topic/solve/{{ topic.id }}/{{ forum_id }}/"  class="solve">{% trans "Mark as solved" %}</a>
-                                        {% endif %}
-                                {% endif %}
-			      {% if perms.add_post %}
-				      {% if opened %}
-					      [<a href="/forum/add_post/{{ topic.id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a>]
-				      {% endif %}
-			      {% endif %}
-			      {% ifequal i.author current_user %}
-				      {% if opened %}
-					      {% if not i.author_anonymous %}
-						      [<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
-					      {% endif %}
-				      {% endif %} 
-			      {% else %}
-				      {% if perms.is_staff %}
-					      [<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
-				      {% endif %}
-			      {% endifequal %}
-			      {% if perms.is_staff %}
-					[<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete this post" %}</a>]
-			      {% endif %}
-		    </div>
-	</div>
-	<br />
-	{% endfor %}
+<div id="feed">
+{% for i in object_list %}
+<dl>
+	<dt>{% pyif user.get_profile.last_visit < i.date %}<a name="new"></a>{% endif %}<b>{% if i.author_anonymous %}~<i>{% endif %}{{ i.author}}{% if i.author_anonymous %}</i>{% endif %}</b><br />{{ i.date|date:"Y.m.d G:i" }}<br />{% if perms.is_staff %}{{ i.ip }}{% endif %}</dt>
+	<dd>
+	<ul>
+		<li>
+		{{ i.text|fbc|safe|urlizetrunc:"60" }}
+		</li>
+		<li class="post2">
+			{% pyif perms.is_staff or is_author %}
+				{% if topic.is_solved %}
+					<a href="/forum/topic/unsolve/{{ topic.id }}/{{ forum_id }}/" class="unsolve">{% trans "Unsolve Topic" %}</a>
+				{% else %}
+					<a href="/forum/topic/solve/{{ topic.id }}/{{ forum_id }}/"  class="solve">{% trans "Mark as solved" %}</a>
+				{% endif %}
+			{% endif %}
+			{% if perms.add_post %}
+				{% if opened %}
+					[<a href="/forum/add_post/{{ topic.id }}/{{ i.id }}/">{% trans "Reply with quote" %}</a>]
+				{% endif %}
+			{% endif %}
+			{% ifequal i.author current_user %}
+				{% if opened %}
+					{% if not i.author_anonymous %}
+						[<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
+					{% endif %}
+				{% endif %}
+			{% else %}
+				{% if perms.is_staff %}
+					[<a href="/forum/edit_post/{{ i.id }}/">{% trans "Edit this post" %}</a>]
+				{% endif %}
+			{% endifequal %}
+			{% if perms.is_staff %}
+				[<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete his post" %}</a>]
+			{% endif %}
+		</li>
+	</ul>
+	</dd>
+</dl>
+{% endfor %}
+</div>
 
 {% ifnotequal pages 1 %}
-	<div class="box">
-			<div style="text-align:center;">
-			{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			<a href="/forum/topic/1/{{ topic.id }}/"><b>{% trans "First Page" %}</b></a> | 
-			{% endifnotequal %}
-			{% endifnotequal %}
-			
-			{% if has_previous %}
-				<a href="/forum/topic/{{ previous }}/{{ topic.id }}/"><b>{% trans "Previous Page" %} </b></a>
-			{% endif %}
-			
-			{% if has_next %}
-			<a href="/forum/topic/{{ next }}/{{ topic.id }}/"><b> {% trans "Next Page" %}</b></a>
-			{% endif %}
-			
-			{% ifnotequal pages 0 %}
-			{% ifnotequal pages 1 %}
-			 | <a href="/forum/topic/{{ pages }}/{{ topic.id }}/"><b>{% trans "Last Page" %}</b></a>
-			{% endifnotequal %}
-			{% endifnotequal %}
-			</div>
-	</div>
+<div class="box">
+<strong>{% trans "Pages: " %}</strong>
+{% for i in cnt %}
+	[<a href="/forum/topic/{{ i }}/{{ topic.id }}/">{% ifequal i page %}<b>{{ i }}</b>{% else %}{{ i }}{% endifequal %}</a>]
+{% endfor %}
+</div>
 {% endifnotequal %}
 
 {% if perms.add_post %}
@@ -125,14 +87,10 @@ $(document).ready(function()    {
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">
-		<div id="emoticons"><a name="c"></a>
-				<a href="#c" title=" :( "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
-				<a href="#c" title=" :o "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
-				<a href="#c" title=" :p "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
-				<a href="#c" title=" ;) "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
-				<a href="#c" title=" :D "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
-			</div>
-	      <textarea name="text" id="bbcode" rows="6" cols="60">{{ text }}</textarea>
+		<a name="c"></a>
+	      <textarea name="text" rows="6" cols="60">{{ text }}</textarea>
+		<div><b>{% trans "Available Tags" %}</b>: [b], [u], [i], [code]. [python], [php], [url], [img], [quote].<br />
+		{% trans "Use <b>[code] or [python], [php]</b> for code and config text pasting." %}</div>
 	</div>
         <div class="leftpostform">
 	</div>

@@ -2,6 +2,8 @@
 # Diamanda Application Set
 # Utils
 import sgmllib
+from re import compile
+
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -23,6 +25,8 @@ class Stripper(sgmllib.SGMLParser):
 		self.theString = ""
 		self.feed(some_html)
 		self.close()
+		r = compile('<.*?>|\&.*?\;')
+		self.theString = r.sub("", self.theString)
 		return self.theString
 		
 	def handle_data(self, data):

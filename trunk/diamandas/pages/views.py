@@ -61,22 +61,36 @@ def list_news(request, book=False):
 	if book:
 		bk = Content.objects.get(slug=book)
 		news = Content.objects.filter(content_type='news', place=bk).order_by('-date')
+		count = news.count()
+		count = count/10
+		cnt = [1]
+		i = 1
+		while i <= count:
+			i = i+1
+			cnt.append(i)
 		return object_list(
 			request,
 			news,
 			paginate_by = 10,
 			allow_empty = True,
 			template_name = 'pages/news_list.html',
-			extra_context = {'book': book, 'bk':bk, 'current_book': bk.slug})
+			extra_context = {'book': book, 'bk':bk, 'current_book': bk.slug, 'cnt': cnt})
 	else:
 		news = Content.objects.filter(content_type='news').order_by('-date')
+	count = news.count()
+	count = count/10
+	cnt = [1]
+	i = 1
+	while i <= count:
+		i = i+1
+		cnt.append(i)
 	return object_list(
 		request,
 		news,
 		paginate_by = 10,
 		allow_empty = True,
 		template_name = 'pages/news_list.html',
-		extra_context = {'book': book})
+		extra_context = {'book': book, 'cnt':cnt})
 
 def show(request, slug):
 	"""

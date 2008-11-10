@@ -8,6 +8,7 @@
 <meta name="Robots" content="index,follow" />
 <link rel="stylesheet" href="/site_media/layout/style.css" type="text/css" />
 <link rel="shortcut icon" href="/site_media/layout/favicon.ico" />
+<script src="/site_media/layout/libs.js" type="text/javascript"></script>
 {% block meta %}{% endblock %}
 </head>
 <body>
@@ -51,18 +52,24 @@
 	
 	<div id="panelWrapper">
 		<div class="panel">
+		<ul>
+		{% block pagemenu %}{% endblock %}
+		</ul>
+		</div>
+		<div class="panel">
 			<div>
 			<form action="/w/search/" method="post">
 				<input type="text" name="term" /> <input class="button" type="submit" value="{% trans "Search" %}" />
 			</form>
 			</div>
 			<ul>
-				{% block pagemenu %}{% endblock %}
-				<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
-				<li><a href="/w/rss/">{% trans "RSS - Latest Articles" %}</a></li>
-				<li><a href="/w/rss/all/">{% trans "RSS - What's new" %}</a></li>
+				
+				<li class="book"><a href="/w/n/">{% trans "Browse news" %}</a></li>
+				<li class="pagerss"><a href="/w/rss/">{% trans "RSS - Latest Articles" %}</a></li>
+				<li class="pagerss"><a href="/w/rss/all/">{% trans "RSS - What's new" %}</a></li>
 			</ul>
 		</div>
+		{% block left %}{% endblock %}
 	</div>
 	<br style="clear:both;" />
 </div>

@@ -15,21 +15,20 @@
 	<b>{% trans "There are no news." %}</b><br /><br />
 {% endif %}
 
-{% if has_previous or has_next %}
-	<div class="box" style="text-align:center;">
-	{% if has_previous %}
-		<h3><a href="/w/n/{% if book %}{{ book }}/{% endif %}?page={{ previous }}">{% trans "Previous Page" %}</a></h3>
-	{% endif %}
-	{% if has_next %}
-		<h3><a href="/w/n/{% if book %}{{ book }}/{% endif %}?page={{ next }}">{% trans "Next Page" %}</a></h3>
-	{% endif %}
-	</div>
-{% endif %}
+
+{% ifnotequal pages 1 %}
+<div class="box">
+<strong>{% trans "Pages: " %}</strong>
+{% for i in cnt %}
+	[<a href="/w/n/{% if book %}{{ book }}/{% endif %}?page={{ i }}">{% ifequal i page %}<b>{{ i }}</b>{% else %}{{ i }}{% endifequal %}</a>]
+{% endfor %}
+</div>
+{% endifnotequal %}
+
 {% endblock %}
 
 {% block pagemenu %}
 {% if book %}<li><a href="/w/p/{{ bk.slug }}/">{% trans "Go Back" %}</a></li>{% endif %}
 <li><a href="/">{% trans "Home" %}</a></li>
-{% if user.is_authenticated %}<li><a href="/w/submit/">{% trans "Add Content" %}</a></li>{% endif %}
 {% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/w/n/">{% trans "News" %}</a>{% endblock %}

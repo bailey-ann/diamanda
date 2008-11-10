@@ -1,5 +1,6 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ topic.forum.id }}/">{{ topic.forum }}</a>{% endblock %}
 {% block content %}
 

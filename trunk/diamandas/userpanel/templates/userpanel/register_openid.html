@@ -6,24 +6,25 @@
 {% trans "If you already have an account on this site you can assign this OpenID with your account using" %} <a href="/user/assign_openid/">{% trans "simple login form" %}</a>.<br />
 
 <form action="." method="post"><input type="hidden" value="{{ token }}" name="token" />
-<div class="content">
-          <table style="width:50%;">
-            <tr class="rowA">
-              <td class="first" style="width:35%;"><b>{% trans "Login" %}</b></td>
+          <table>
+            <tr>
+              <td style="width:35%;"><b>{% trans "Login" %}</b></td>
               <td>{{ form.login }}{% if form.login.errors %}<div class="errmsg">{{ form.login.errors|join:", " }}</div>{% endif %}</td>
             </tr>
-            <tr class="rowB">
-              <td class="first"><b>{% trans "Email" %}</b></td>
+            <tr>
+              <td><b>{% trans "Email" %}</b></td>
               <td>{{ form.email }}{% if form.email.errors %}<div class="errmsg">{{ form.email.errors|join:", " }}</div>{% endif %}</td>
             </tr>
-            <tr class="rowA">
-              <td class="first"><b>{% trans "What's the answer?" %}</b></td>
+            <tr>
+              <td><b>{% trans "What's the answer?" %}</b></td>
               <td><b>{{ question }}</b><br />
 			{{ form.reply }}{% if form.reply.errors %}<div class="errmsg">{{ form.reply.errors|join:", " }}</div>{% endif %}<br /></td>
             </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" value="{% trans "Register My" %}"></td>
+            </tr>
           </table>
-</div>
-<br /><div class="box"><br /><div style="text-align:center;"><input type="submit" value="{% trans "Register My" %}"></div><br /></div>
 </form>
 {% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/user/">{% trans "User Panel" %}</a>{% endblock %}

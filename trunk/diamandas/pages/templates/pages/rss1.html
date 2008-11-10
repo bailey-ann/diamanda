@@ -14,7 +14,7 @@
 {% for p in pages %}<item>
 <guid>{{ domain }}/w/p/{{ p.slug }}/</guid>
 <link>{{ domain }}/w/p/{{ p.slug }}/</link>
-<title>{{ p.title }}</title>
+<title><![CDATA[{{ p.title }}]]></title>
 <description><![CDATA[{{ p.description|cbc|safe }}]]></description>
 <pubDate>{{ p.date }}</pubDate>
 </item>

@@ -1,19 +1,19 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
 {% block content %}
-<div class="content">
           <table>
             <tr>
-              <th class="first" style="width:20px;"></th>
-              <th><strong>{% trans "Topic" %}</strong></th>
-              <th style="width:90px;"><strong>{% trans "Author" %}</strong></th>
-              <th style="width:15px;"><strong>{% trans "Posts" %}</strong></th>
-              <th style="width:150px;"><strong>{% trans "Last Post" %}</strong></th>
+              <th style="width:20px;"></th>
+              <th>{% trans "Topic" %}</th>
+              <th style="width:90px;">{% trans "Author" %}</th>
+              <th style="width:15px;">{% trans "Posts" %}</th>
+              <th style="width:150px;">{% trans "Last Post" %}</th>
             </tr>
             {% for topic in topics%}
             <tr class="small">
-           <td class="first">
+           <td>
             {% if topic.is_locked %}
                     <img src="/site_media/layout/forum/lock.png" alt="*" />
             {% else %}
@@ -34,7 +34,6 @@
             </tr>
 	    {% endfor %}
           </table>
-</div>
 {% endblock %}
 {% block pagemenu %}
 <li><a href="/forum/">{% trans "Back to Forum" %}</a></li>

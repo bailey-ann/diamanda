@@ -1,24 +1,7 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a>{% endblock %}
-
-{% block meta %}
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
-<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.pack.js"></script>
-<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function()    {
-    $('#bbcode').markItUp(myBbcodeSettings);
-
-    $('#emoticons a').click(function() {
-        emoticon = $(this).attr("title");
-        $.markItUp( { replaceWith:emoticon } );
-    });
-});
-</script>
-{% endblock %}
 
 {% block content %}
 <form method="post" action=".">
@@ -52,15 +35,9 @@ $(document).ready(function()    {
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">
-		<div id="emoticons"><a name="c"></a>
-				<a href="#c" title=" :( "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
-				<a href="#c" title=" :o "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
-				<a href="#c" title=" :p "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
-				<a href="#c" title=" ;) "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
-				<a href="#c" title=" :D "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
-			</div>
-	      <textarea name="text" id="bbcode" rows="6" cols="60">{{ post_text }}</textarea>
+	      <textarea name="text" rows="6" cols="60">{{ post_text }}</textarea>
                     {% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
+                    <div><b>{% trans "Available Tags" %}</b>: [b], [u], [i], [code]. [python], [php], [url], [img], [quote]. {% trans "Use <b>[code] or [python], [php]</b> for code and config text pasting." %}</div>
 	</div>
         {% if perms.is_staff %}
             <div class="leftpostform"><strong>{% trans "Options" %}</strong>

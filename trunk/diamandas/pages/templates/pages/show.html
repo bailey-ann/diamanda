@@ -35,14 +35,8 @@
 			<strong>{% trans "Comment" %}</strong>
 		</div>
 		<div class="rightpostform">
-			<div id="emoticons"><a name="c"></a>
-				<a href="#c" title=" :( "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
-				<a href="#c" title=" :o "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
-				<a href="#c" title=" :p "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
-				<a href="#c" title=" ;) "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
-				<a href="#c" title=" :D "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
-			</div>
-			<textarea name="text" id="bbcode" rows="6" cols="60">{{ post_text }}</textarea>
+			<a name="c"></a>
+			<textarea name="text" rows="6" cols="60">{{ post_text }}</textarea>
 			{% if form.text.errors %}<br />*** {{ form.text.errors|join:", " }}{% endif %}
 		</div>
 		<div class="leftpostform">
@@ -61,41 +55,17 @@
 {% endif %}
 {% endblock %}
 
+{% block left %}{{ page.leftmenu|cbc|safe }}{% endblock %}
 {% block pagemenu %}
-{% if add_topic %}<li><a href="?c=ok#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>{% endif %}
+{% if add_topic %}<li class="book"><a href="?c=ok#c"><b>{% trans "Comments" %}</b> ({{ page.comments_count }})</a></li>{% endif %}
 {% ifequal page.content_type "book" %}
-	<li><a href="/w/r/{{ page.slug }}/">{% trans "RSS Feed for" %} {{ page.title }}</a></li>
-	<li><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>
+	<li class="book"><a href="/w/n/{{ page.slug }}/">{% trans "Browse category news" %}</a></li>
+	<li class="pagerss"><a href="/w/r/{{ page.slug }}/">{{ page.title }} {% trans "RSS" %} </a></li>
 {% else %}
 	{% if page.current_book %}
-		<li><a href="/w/r/{{ page.current_book }}/">{% trans "Category RSS Feed" %}</a></li>
-		<li><a href="/w/n/{{ page.current_book }}/">{% trans "Browse category news" %}</a></li>
-	{% else %}
-		<li><a href="/w/n/">{% trans "Browse news" %}</a></li>
+		<li class="book"><a href="/w/n/{{ page.current_book }}/">{% trans "Browse category news" %}</a></li>
+		<li class="pagerss"><a href="/w/r/{{ page.current_book }}/">{% trans "Category RSS" %}</a></li>
 	{% endif %}
 {% endifequal %}
-{% if user.is_authenticated %}<li><a href="/w/submit/">{% trans "Add Content" %}</a></li>{% endif %}
-{% if user.is_staff %}<li><a href="/admin/pages/content/{{ page.id }}/">{% trans "Admin" %}</a></li>{% endif %}
-{% endblock %}
-
-{% block meta %}
-{% if page.coment_forum or page.place.coment_forum %}
-	{% if show_comment %}
-	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
-	<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
-	<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.pack.js"></script>
-	<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
-	
-	<script type="text/javascript">
-	$(document).ready(function()    {
-	$('#bbcode').markItUp(myBbcodeSettings);
-	
-	$('#emoticons a').click(function() {
-		emoticon = $(this).attr("title");
-		$.markItUp( { replaceWith:emoticon } );
-	});
-	});
-	</script>
-	{% endif %}
-{% endif %}
+{% if user.is_staff %}<li class="book"><a href="/admin/pages/content/{{ page.id }}/">{% trans "Admin" %}</a></li>{% endif %}
 {% endblock %}

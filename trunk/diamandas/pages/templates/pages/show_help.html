@@ -44,13 +44,12 @@
 		</ul>
 	</div>
 
-
 	<div class="content_box_header">{% trans "Do I have to register?" %}</div>
 	<div class="content_box">
 		<div style="float:right;"><img src="/site_media/layout/help/user.png" alt="" /></div>
 		<ul>
 			<li>{% trans "You can read all content on this page without the need to register or login" %}.</li>
-			<li>{% trans "Registration will give you ability to add comments, posts and submit your own articles" %}.</li>
+			<li>{% trans "Registration will give you ability to add comments and posts" %}.</li>
 			<li>{% trans "If you are a new user you can" %} <a href="/user/register/"><b>{% trans "register" %}</b></a> {% trans "using a simple form" %}.</li>
 			<li>{% trans "If you have an OpenID, then you can use it to login on this site and create a user account without any extra passwords" %}.</li>
 			<li>{% trans "If you forgotten your password, then you can" %} <a href="/user/password_reset/"><b>{% trans "reset it" %}</b></a>.</li>
@@ -68,6 +67,4 @@
 			<li>{% trans "You can also contact with the staff by email" %}: <a href="mailto:{{ email }}"><b>{{ email }}</b></a> {% trans "if you want to contribute complex articles, tutorials, or ask about anything related with the site." %}</li>
 		</ul>
 	</div>
-
-
 {% endblock %}

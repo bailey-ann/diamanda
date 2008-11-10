@@ -19,11 +19,13 @@ class Content(models.Model):
 	CONTENT_TYPE = (('news', _('News')), ('page', _('Article')), ('book', _('Book')))
 	ORDER_HELP = _('If you add a book and want to display a link to it in the menu enter 1 or greater value')
 	CFORUM = _('Select a forum in which comment topics will be created (for this and child entries). You can set this for every book, and Articles/News placed in them will use book settings.')
+	CBC = _('You can use Content BBCode tags that can highlight code, or show images with thumbs. See Diamanda online documentation.')
+	LEFTMENU = _('You can add links or other content that will be displayer in the side menu. Use <b>div class="panel"</b> to wrap it in a box.')
 	
 	title = models.CharField(max_length=255, verbose_name=_('Title'))
 	slug = models.SlugField(max_length=255, unique=True, verbose_name=_('Slug'))
-	description = models.TextField(verbose_name=_('Description'))
-	text = models.TextField(verbose_name=_('Text'), blank=True)
+	description = models.TextField(verbose_name=_('Description'), help_text=CBC)
+	text = models.TextField(verbose_name=_('Text'), blank=True, help_text=CBC)
 	content_type = models.CharField(max_length=255, verbose_name=_('Type'), choices=CONTENT_TYPE)
 	place = models.ForeignKey('self', verbose_name=_('Place in'), blank=True, null=True, limit_choices_to={'content_type': 'book'})
 	date = models.DateTimeField(blank=True, null=True)
@@ -31,6 +33,7 @@ class Content(models.Model):
 	changes = models.CharField(max_length=255, verbose_name=_('Changes summary'), blank=True)
 	book_order = models.PositiveSmallIntegerField(default=0, verbose_name=_('Book order'), blank=True, help_text=ORDER_HELP)
 	author = models.ForeignKey(User, verbose_name=_('Author'))
+	leftmenu = models.TextField(verbose_name=_('Side Menu'), blank=True, help_text = '%s %s' % (LEFTMENU, CBC))
 	
 	comments_count = models.PositiveIntegerField(default=0, blank=True)
 	coment_topic = models.ForeignKey(Topic, blank=True, null=True)

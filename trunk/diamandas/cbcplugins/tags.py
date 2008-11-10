@@ -21,13 +21,14 @@ def thumb(dic, text):
 	USAGE:
 	[rk:thumb src="SITE_KEY/filename"]
 	"""
-	THUMB = '<div class="thumb"><a href="/site_media/resources/%s/images/%s" rel="facebox"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a></div>'
+	THUMB = '<div class="thumb"><a href="/site_media/resources/%s/images/%s" rel="thumbnail"><img src="/site_media/resources/%s/images/%s" alt="%s" /></a></div>'
 	for i in dic:
 		img = i['attributes']['src'].split('/')
 		thumb = 'thumb_' + img[-1]
 		im = img[-1]
 		ext = im.split('.')[-1]
-		domain = '%s.rk.edu.pl' % img[0]
+		#domain = '%s.rk.edu.pl' % img[0]
+		domain = img[0]
 		if isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im):
 			if not isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb):
 				imi = Image.open(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im)

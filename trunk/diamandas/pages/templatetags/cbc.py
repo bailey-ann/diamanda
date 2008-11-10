@@ -7,6 +7,9 @@ from django import template
 register = template.Library()
 
 def cbc(value):
-	return cbcparser.parse_cbc_tags(value)
+	if value:
+		return cbcparser.parse_cbc_tags(value)
+	else:
+		return u''
 
 register.filter('cbc', cbc)

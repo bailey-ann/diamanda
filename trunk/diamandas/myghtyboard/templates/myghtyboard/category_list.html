@@ -1,7 +1,7 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% load pyif %}
-
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a>{% endblock %}
 {% block pagemenu %}
 <li><a href="/forum/lasttopics/">{% trans "Last Active Topics" %}</a></li>
@@ -11,10 +11,9 @@
 
 {% block content %}
 {% for cat in categories %}
-<div class="content">
           <table>
             <tr>
-            <th class="first" style="width:20px;"></th>
+            <th style="width:20px;"></th>
               <th><strong>{{ cat.name }}</strong></th>
               <th style="width:30px;"><strong>{% trans "Topics" %}</strong></th>
               <th style="width:30px;"><strong>{% trans "Posts" %}</strong></th>
@@ -22,7 +21,7 @@
             </tr>
             {% for forum in cat.forums %}
             <tr class="small">
-              <td class="first">{% pyif user.get_profile.last_visit < forum.modification_date %}
+              <td>{% pyif user.get_profile.last_visit < forum.modification_date %}
                     <img src="/site_media/layout/forum/new.png" alt="*" />
                     {% else %}
                     <img src="/site_media/layout/forum/normal.png" alt="*" />
@@ -32,10 +31,10 @@
               </td>
               <td>{{ forum.topics }}</td>
               <td>{{ forum.posts }}</td>
-              <td>{% ifnotequal forum.lastposter None %}{{ forum.lastposter}}, {{forum.modification_date|date:"d.m.Y" }}<br />{{ forum.lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}</td>
+              <td>{% ifnotequal forum.lastposter None %}{{ forum.lastposter}}, {{forum.modification_date|date:"Y.m.d G:i" }}<br />{{ forum.lasttopic|safe }}{% else %}{% trans "No topics in this forum" %}{% endifnotequal %}</td>
             </tr>
 	    {% endfor %}
           </table>
-</div><br />
+<br />
 	{% endfor %}
 {% endblock %}

@@ -188,9 +188,17 @@ def post_list(request, topic_id, pagination_id):
 	forum = topic.forum
 	request.forum_id = forum.id
 	form = AddPostForm()
+	posts = topic.post_set.all().order_by('date')
+	count = posts.count()
+	count = count/10
+	cnt = [1]
+	i = 1
+	while i <= count:
+		i = i+1
+		cnt.append(i)
 	return object_list(
 		request,
-		topic.post_set.all().order_by('date'),
+		posts,
 		paginate_by = 10,
 		page = pagination_id,
 		context_processors = [forumContext],
@@ -198,6 +206,7 @@ def post_list(request, topic_id, pagination_id):
 			'opened': opened,
 			'is_author': is_author,
 			'topic': topic,
+			'cnt': cnt,
 			'forum_id': forum.id,
 			'form': form,
 			'forum_name': forum,

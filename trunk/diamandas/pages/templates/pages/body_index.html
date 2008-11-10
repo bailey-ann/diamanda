@@ -8,6 +8,7 @@
 <meta name="Robots" content="index,follow" />
 <link rel="stylesheet" href="/site_media/layout/style.css" type="text/css" />
 <link rel="shortcut icon" href="/site_media/layout/favicon.ico" />
+<script src="/site_media/layout/libs.js" type="text/javascript"></script>
 {% block meta %}{% endblock %}
 </head>
 <body>
@@ -45,17 +46,17 @@
 		<div class="content">
 
 		{% block content %}{% endblock %}
-		<!--  NFO -->
 		</div>
 	</div>
 	<div id="panelWrapperMainPage">
-		<div class="panel">
-			<!--  FEED -->
+		<div class="panelindex">
 			<h3>{% trans "Whats new on" %} {{ siteName }} ?</h3>
 			<div id="feed">
 			{% block feed %}{% endblock %}
 			</div>
-			<!--  FEED -->
+			<div id="endfeed">
+				<a href="/w/n/" class="ext">{% trans "Browse news" %}</a> <a href="/w/rss/" class="rss">{% trans "RSS - Latest Articles" %}</a> <a href="/w/rss/all/" class="rss">{% trans "RSS - What's new" %}</a>
+			</div>
 		</div>
 	</div>
 	<br style="clear:both;" />

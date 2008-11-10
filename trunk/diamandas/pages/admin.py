@@ -6,7 +6,7 @@ from diamandas.pages.models import *
 
 class ContentAdmin(admin.ModelAdmin):
 	list_display = ('title', 'slug', 'content_type', 'place')
-	list_filter = ['date', 'content_type']
+	list_filter = ['content_type']
 	search_fields = ['title', 'slug', 'text']
 	prepopulated_fields = {'slug': ('title',)}
 	fieldsets = (
@@ -21,6 +21,10 @@ class ContentAdmin(admin.ModelAdmin):
 		(_('Updates'),
 			{
 			'fields': ('is_update', 'changes')
+			}),
+		(_('Content Menu'),
+			{
+			'fields': ('leftmenu',)
 			}),
 		)
 

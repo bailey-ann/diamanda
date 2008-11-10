@@ -1,29 +1,10 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% load pyif %}
-
+{% block meta %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endblock %}
 {% block title %}{% trans "Topics from" %} "{{ forum.name }}"{% endblock %}
 {% block header %}{% trans "Topics from" %} "{{ forum.name }}"{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a> > <a href="/forum/">{% trans "Forum Index" %}</a> > <a href="/forum/forum/{{ forum.id }}/">{{ forum.name }}</a>{% endblock %}
-
-{% block meta %}
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/skins/simple/style.css" />
-<link rel="stylesheet" type="text/css" href="/site_media/layout/markitup/sets/bbcode/style.css" />
-<script type="text/javascript" src="/site_media/layout/markitup/jquery.markitup.pack.js"></script>
-<script type="text/javascript" src="/site_media/layout/markitup/sets/bbcode/set.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function()    {
-    $('#bbcode').markItUp(myBbcodeSettings);
-
-    $('#emoticons a').click(function() {
-        emoticon = $(this).attr("title");
-        $.markItUp( { replaceWith:emoticon } );
-    });
-});
-</script>
-{% endblock %}
-
 {% block pagemenu %}
 <li><a href="/forum/add_topic/{{ forum.id }}/">{% trans "Add New Topic" %}</a></li>
 <li><a href="/forum/">{% trans "Back to Forum" %}</a></li>
@@ -32,18 +13,17 @@ $(document).ready(function()    {
 <li><a href="/forum/myptopics/">{% trans "My Posts" %}</a></li>{% endblock %}
 
 {% block content %}
-<div class="content">
           <table>
             <tr>
-              <th class="first" style="width:20px;"></th>
-              <th style="width:70%;"><strong>{% trans "Topic" %}</strong></th>
+              <th style="width:20px;"></th>
+              <th><strong>{% trans "Topic" %}</strong></th>
               <th style="width:15px;"><strong>{% trans "Posts" %}</strong></th>
               <th style="width:15px;"><strong>{% trans "Author" %}</strong></th>
-              <th style="width:130px;"><strong>{% trans "Last Post" %}</strong></th>
+              <th style="width:100px;"><strong>{% trans "Last Post" %}</strong></th>
             </tr>
             {% if pr %}
-                <tr class="small_prefixes">
-                <td class="first"></td>
+                <tr class="small">
+                <td></td>
                 <td>
                 <strong>{% trans "Filter topics" %}: </strong>
                 <form action="./" method="post">
@@ -61,7 +41,7 @@ $(document).ready(function()    {
             {% endif %}
            {% for topic in object_list %}
             <tr {% if topic.is_solved %}class="small_solved"{% else %}class="small"{% endif %}>
-            <td class="first">
+            <td>
             {% if topic.is_locked %}
                     <img src="/site_media/layout/forum/lock.png" alt="*" />
             {% else %}
@@ -105,15 +85,15 @@ $(document).ready(function()    {
                           </td>
                           <td>{{ topic.posts }}</td>
                           <td>{{ topic.author }}</td>
-                          <td>{{ topic.lastposter}}, {{topic.modification_date|date:"d.m.Y" }}</td>
+                          <td>{{ topic.lastposter}}<br />{{topic.modification_date|date:"d.m.Y" }}</td>
             </tr>
 	    {% endfor %}
             {% ifnotequal pages 1 %}
-            <tr class="small_prefixes">
-                <td class="first"></td>
+            <tr class="small">
+                <td></td>
                 <td><strong>{% trans "Pages: " %}</strong>
                     {% for i in cnt %}
-                        [<a href="/forum/forum/{{ forum.id }}/{{ i }}/">{% ifequal i page %}<b>{{ i }}</b>{% else %}{{ i }}{% endifequal %}</a>] 
+                        [<a href="/forum/forum/{{ forum.id }}/{{ i }}/">{% ifequal i page %}<b>{{ i }}</b>{% else %}{{ i }}{% endifequal %}</a>]
                     {% endfor %}
                 </td>
                 <td></td>
@@ -122,7 +102,6 @@ $(document).ready(function()    {
             </tr>
             {% endifnotequal %}
           </table>
-</div>
 
 
 
@@ -162,14 +141,10 @@ $(document).ready(function()    {
 		<strong>{% trans "Content" %}</strong>
 	</div>
 	<div class="rightpostform">
-		<div id="emoticons"><a name="c"></a>
-				<a href="#c" title=" :( "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-unhappy.png" alt="" /></a>
-				<a href="#c" title=" :o "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-surprised.png" alt="" /></a>
-				<a href="#c" title=" :p "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-tongue.png" alt="" /></a>
-				<a href="#c" title=" ;) "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-wink.png" alt="" /></a>
-				<a href="#c" title=" :D "><img src="/site_media/layout/markitup/sets/bbcode/images/emoticon-smile.png" alt="" /></a>
-			</div>
-	      <textarea name="text" id="bbcode" rows="6" cols="60">{{ post_text }}</textarea>
+		<a name="c"></a>
+	      <textarea name="text" rows="6" cols="60">{{ post_text }}</textarea>
+	      <div><b>{% trans "Available Tags" %}</b>: [b], [u], [i], [code]. [python], [php], [url], [img], [quote].<br />
+		{% trans "Use <b>[code] or [python], [php]</b> for code and config text pasting." %}</div>
 	</div>
         {% if perms.is_staff %}
             <div class="leftpostform"><strong>{% trans "Options" %}</strong>
