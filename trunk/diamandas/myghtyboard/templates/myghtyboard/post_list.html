@@ -52,7 +52,7 @@
 				{% endif %}
 			{% endifequal %}
 			{% if perms.is_staff %}
-				[<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete his post" %}</a>]
+				[<a href="/forum/delete_post/{{ i.id }}/{{ topic.id }}/" onclick="return confirm('{% trans "Delete This Post?" %}')">{% trans "Delete this post" %}</a>]
 			{% endif %}
 		</li>
 	</ul>

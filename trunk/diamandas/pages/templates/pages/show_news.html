@@ -1,9 +1,11 @@
 {% extends "pages/body.html" %}
 {% load i18n %}
 {% load cbc %}
+{% load fbc %}
 {% block header %}{{ page.title }}{% endblock %}
 {% block title %}{{ page.title }}{% endblock %}
 {% block description %}{{ page.title }}{% endblock %}
+{% block meta %}{% if add_topic %}<link rel="stylesheet" href="/site_media/layout/forum.css" type="text/css" />{% endif %}{% endblock %}
 {% block crumb %}<a href="/">{% trans "Home" %}</a>{% if page.crumb %} > {{ page.crumb|safe }}{% endif %}{% endblock %}
 
 {% block content %}
@@ -22,6 +24,26 @@
 </ul>
 {% if add_topic %}
 	{% if show_comment %}
+	{% if comments %}
+		<div id="feed">
+		{% for i in comments %}
+		{% if not i.is_injected_post %}
+		<dl>
+			<dt><b>{% if i.author_anonymous %}~<i>{% endif %}{{ i.author}}{% if i.author_anonymous %}</i>{% endif %}</b></dt>
+			<dd>
+			<ul>
+				<li>
+				{{ i.text|fbc|safe|urlizetrunc:"60" }}
+				</li>
+				<li class="post2">{{ i.date|date:"Y.m.d G:i" }}{% if user.is_staff %} | {{ i.ip }}{% endif %}</li>
+			</ul>
+			</dd>
+		</dl>
+		{% endif %}
+		{% endfor %}
+		</div>
+	{% endif %}
+
 	<form method="post" action=".">
 	<div class="postform">
 		<div class="posthead">{% trans "Add comment" %}</div>
@@ -29,7 +51,7 @@
 			<div class="leftpostform">
 				<strong>{% trans "Nick" %}</strong>
 			</div>
-			<div class="rightpostform">	
+			<div class="rightpostform">
 				{{ form.nick }}{% if form.nick.errors %}<br />*** {{ form.nick.errors|join:", " }}{% endif %}
 			</div>
 		{% endif %}

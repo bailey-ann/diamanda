@@ -27,8 +27,8 @@ def thumb(dic, text):
 		thumb = 'thumb_' + img[-1]
 		im = img[-1]
 		ext = im.split('.')[-1]
-		#domain = '%s.rk.edu.pl' % img[0]
-		domain = img[0]
+		domain = '%s.rk.edu.pl' % img[0]
+		#domain = img[0]
 		if isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im):
 			if not isfile(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + thumb):
 				imi = Image.open(settings.MEDIA_ROOT + '/resources/' + domain + '/images/' + im)

@@ -98,11 +98,15 @@ class FeedUpdate:
 		"""
 		Parse a Post entry
 		"""
+		if text.find(_('This is a discussion about article')) != -1:
+			return True
 		text = self.stripper.strip(text.strip().split('\n')[0])
 		if len(text) < 10:
-			text = '---'
-		if len(text) > 200:
+			text = ''
+		if len(text) > 200 and text.find('[quote]') == -1:
 			text = '%s...' % text[0:200]
+		elif text.find('[quote]') != -1:
+			text = ''
 		
 		cssclass = 'forum'
 		if is_external == 1:

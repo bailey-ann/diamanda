@@ -16,7 +16,7 @@ from diamandas.pages.models import *
 from diamandas.userpanel.models import Profile
 from diamandas.myghtyboard.models import *
 from diamandas.myghtyboard.context import forum as forumContext
-from diamandas.myghtyboard.views import AddPostForm, AddTopicForm
+from diamandas.myghtyboard import modelwrappers as diamandaModelwrappers
 from diamandas.utils import *
 
 
@@ -105,9 +105,6 @@ def show(request, slug):
 			{'bug': _('Page does not exist')},
 			context_instance=RequestContext(request))
 	
-	if page.current_book:
-		cb = page.current_book
-	
 	add_topic = False
 	if page.coment_forum:
 		request.forum_id = page.coment_forum.id
@@ -123,185 +120,41 @@ def show(request, slug):
 			add_topic = True
 	
 	if add_topic and not page.coment_topic:
-		form = AddTopicForm()
+		form = diamandaModelwrappers.AddTopicForm()
 	elif add_topic and page.coment_topic:
-		form = AddPostForm()
+		form = diamandaModelwrappers.AddPostForm()
 	else:
 		form = False
 	
+	comments = False
 	# check if user wants to add a comment - show the form if possible
 	if 'c' in request.GET:
 		show_comment = True
+		if form and page.coment_topic:
+			comments = page.coment_topic.post_set.all().order_by('-id')[:10]
 	else:
 		show_comment = False
 	
 	if request.POST and add_topic and not page.coment_topic:
-		forum = Forum.objects.get(id=coment_forum_id)
-		stripper = Stripper()
-		page_data = request.POST.copy()
-		
-		if perms['perms']['is_authenticated']:
-			page_data['lastposter'] = str(request.user)
-			page_data['author'] = str(request.user)
-			author = str(request.user)
-			page_data['author_system'] = request.user.id
-		else:
-			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
-				author = stripper.strip(page_data['nick'])[0:14]
-				page_data['lastposter'] = author
-				page_data['author'] = author
-				page_data['author_anonymous'] = 1
-			else:
-				page_data['lastposter'] = _('Anonymous')
-				page_data['author'] = _('Anonymous')
-				author = _('Anonymous')
-				page_data['author_anonymous'] = 1
-
-		text = page_data['text']
-		# block anonymous messages with multiple links
-		if not perms['perms']['is_authenticated'] and text.count('http') > 1:
-			return render_to_response('pages/bug.html',
-				{'bug': _('To many links. Is this spam?.')},
-				context_instance=RequestContext(request, forumContext(request))
-				)
-		
-		page_data['name'] = _('Comments for: %s') % page.title
-		page_data['forum'] = coment_forum_id
-		page_data['posts'] = 1
-		page_data['last_pagination_page'] = 1
-		page_data['is_external'] = True
-		page_data['modification_date'] = datetime.now()
-		form = AddTopicForm(page_data)
-		if form.is_valid():
-			new_place = form.save()
-			COMMENT_POST = _('This is a discussion about article') + ': [url="/w/p/%s/"]%s[/url].' % (page.slug, page.title)
-			post = Post(topic = new_place, text = COMMENT_POST, author = author, ip = request.META['REMOTE_ADDR'])
-			if 'author_anonymous' in page_data:
-				post.author_anonymous = True
-			post.save()
-			
-			post = Post(topic = new_place, text = text, author = author, ip = request.META['REMOTE_ADDR'])
-			if 'author_anonymous' in page_data:
-				post.author_anonymous = True
-			else:
-				post.author_system = request.user
-			post.save()
-			
-			forum.topics = forum.topics +1
-			forum.posts = forum.posts +1
-			forum.lastposter = author
-			if len(new_place.name) > 25:
-				tname = new_place.name[0:25] + '...'
-			else:
-				tname = new_place.name
-			forum.lasttopic = '<a href="/forum/topic/1/' + str(new_place.id) + '/">' + tname + '</a>'
-			forum.modification_date = datetime.now()
-			forum.save()
-			
-			page.coment_topic = new_place
-			page.comments_count = page.coment_topic.posts
-			page.save()
-			
-			if settings.NOTIFY_ADMINS:
-				mail_admins(_('Comment Topic Created'), _('Topic added') + ': %s/forum/forum/%s/' % (settings.SITE_DOMAIN, coment_forum_id), fail_silently=True)
-			
-			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
+		COMMENT_POST = _('This is a discussion about article') + ': [url="/w/p/%s/"]%s[/url].' % (page.slug, page.title)
+		REDIRECT = ("/w/p/" + slug +"/?c=ok", _('Comment added succesfuly.'))
+		TITLE = _('Comments for: %s') % page.title
+		return diamandaModelwrappers.add_topic(request, coment_forum_id, inject_post=COMMENT_POST, inject_title=TITLE, redirect_link=REDIRECT, content_obj=page)
 	elif request.POST and add_topic and page.coment_topic:
-		topic = Topic.objects.get(id=page.coment_topic.id)
-		forum = Forum.objects.get(id=topic.forum.id)
-		stripper = Stripper()
-		if not perms['perms']['add_post'] and not perms['perms']['is_spam']:
-			return render_to_response('pages/bug.html',
-				{'bug': _('You can\'t add a post.')},
-				context_instance=RequestContext(request, forumContext(request))
-				)
-		if not perms['perms']['add_post'] and perms['perms']['is_spam']:
-			return render_to_response('pages/bug.html',
-				{'bug': _('To many anonymous posts. Login to post topics and new messages.')},
-				context_instance=RequestContext(request, forumContext(request))
-				)
-		try:
-			# check who made the last post.
-			lastpost = Post.objects.order_by('-date').filter(topic=topic.id)[:1]
-			# if the last poster is the current one (login) and he isn't staff then we don't let him post after his post
-			if str(lastpost[0].author) == str(request.user) and not is_staff or str(lastpost[0].ip) == str(request.META['REMOTE_ADDR']) and not perms['perms']['is_staff']:
-				return render_to_response('pages/bug.html',
-					{'bug': _('You can\'t post after your post')},
-					context_instance=RequestContext(request, forumContext(request))
-					)
-		except:
-			pass
-		
-		page_data = request.POST.copy()
-		if perms['perms']['is_authenticated']:
-			page_data['author'] = str(request.user)
-			author = str(request.user)
-			page_data['author_system'] = request.user.id
-		else:
-			if 'nick' in page_data and len(stripper.strip(page_data['nick'])) > 2:
-				author = stripper.strip(page_data['nick'])[0:14]
-				page_data['author'] = author
-				page_data['author_anonymous'] = 1
-			else:
-				page_data['author'] = _('Anonymous')
-				author = _('Anonymous')
-				page_data['author_anonymous'] = 1
-
-		page_data['ip'] = request.META['REMOTE_ADDR']
-		page_data['topic'] = page.coment_topic.id
-		page_data['date'] = datetime.now()
-		form = AddPostForm(page_data)
-		if form.is_valid():
-			form.save()
-		
-			posts = Post.objects.filter(topic=topic).count()
-			
-			pmax =  posts/10
-			pmaxten =  posts%10
-			if pmaxten != 0:
-				pmax = pmax+1
-				topic.last_pagination_page = pmax
-			elif pmax > 0:
-				topic.last_pagination_page = pmax
-			else:
-				pmax = 1
-				topic.last_pagination_page = 1
-			topic.posts = posts
-			topic.lastposter = author
-			topic.modification_date = datetime.now()
-			topic.save()
-			
-			forum.posts = forum.posts +1
-			
-			forum.lastposter = author
-			if len(topic.name) > 25:
-				tname = topic.name[0:25] + '...'
-			else:
-				tname = topic.name
-			forum.lasttopic = '<a href="/forum/topic/' + str(pmax) + '/' + str(topic.id) + '/">' + tname + '</a>'
-			forum.modification_date = datetime.now()
-			forum.save()
-			
-			page.comments_count = page.coment_topic.posts
-			page.save()
-			
-			if settings.NOTIFY_ADMINS:
-				mail_admins(
-					_('Comment Post Added'),
-					_('Post Added') + ': %s/forum/topic/%s/%s/' % (settings.SITE_DOMAIN, str(pmax), topic.id),
-					fail_silently=True
-					)
-			return redirect_by_template(request, "/w/p/" + slug +"/?a=a", _('Comment added succesfuly.'))
-		
+		REDIRECT = ("/w/p/" + slug +"/?c=ok", _('Comment added succesfuly.'))
+		return diamandaModelwrappers.add_post(request, page.coment_topic.id, redirect_link=REDIRECT, content_obj=page)
+	
+	if page.current_book:
+		cb = page.current_book
 	
 	if page.content_type == 'news':
 		return render_to_response(
 			'pages/show_news.html',
-			{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment},
+			{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment, 'comments': comments},
 			context_instance=RequestContext(request, {'current_book': cb}))
 	return render_to_response(
 		'pages/show.html',
-		{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment},
+		{'page': page, 'add_topic': add_topic, 'form': form, 'show_comment': show_comment, 'comments': comments},
 		context_instance=RequestContext(request, {'current_book': cb}))
 
 def sitemap(request):

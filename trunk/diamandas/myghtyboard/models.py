@@ -158,6 +158,11 @@ class Post(models.Model):
 		verbose_name = _("Post")
 		verbose_name_plural = _("Posts")
 		db_table = 'rk_post' + str(settings.SITE_ID)
+	def is_injected_post(self):
+		if self.text.find(_('This is a discussion about article')) == -1:
+			return False
+		else:
+			return True
 	def __str__(self):
 		return str(self.id)
 	def __unicode__(self):
