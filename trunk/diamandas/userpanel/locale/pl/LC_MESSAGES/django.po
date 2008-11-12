@@ -7,30 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: userpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-29 13:42+0200\n"
+"POT-Creation-Date: 2008-11-12 15:25+0100\n"
 "PO-Revision-Date: 2006-04-08 12:19+0900\n"
 "Last-Translator: Piotr Maliński <riklaunim@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: models.py:47
-msgid "User"
-msgstr "Użytkownik"
-
-#: models.py:48 templates/userpanel/login.html:29
-#: templates/userpanel/login_light.html:29
-msgid "OpenID"
-msgstr "OpenID"
-
-#: models.py:54
-msgid "OpenID association"
-msgstr "Powiązanie OpenID"
-
-#: models.py:55
-msgid "OpenID associations"
-msgstr "Powiązania OpenID"
 
 #: views.py:48
 msgid "Bad OpenID ID."
@@ -40,27 +23,26 @@ msgstr "Błędny ID dla OpenID"
 msgid "OpenID removed from list."
 msgstr "OpenID usunięte z listy."
 
-#: views.py:139 views.py:144 views.py:146 views.py:285 views.py:290
-#: views.py:292
+#: views.py:85 views.py:90 views.py:92 views.py:231 views.py:236 views.py:238
 msgid "Incorrect answer."
 msgstr "Błędna odpowiedź."
 
-#: views.py:155 views.py:221 views.py:222 views.py:308 views.py:359
-#: views.py:360
+#: views.py:101 views.py:167 views.py:168 views.py:254 views.py:305
+#: views.py:306
 msgid "Login already taken"
 msgstr "Logij już zajęty"
 
-#: views.py:162 views.py:223 views.py:224 views.py:315 views.py:361
-#: views.py:362
+#: views.py:108 views.py:169 views.py:170 views.py:261 views.py:307
+#: views.py:308
 msgid "Email already taken"
 msgstr "Email zajęty"
 
-#: views.py:210
+#: views.py:156
 #, python-format
 msgid "You just registered on http://www.%s using OpenID"
 msgstr "Przed chwilą zarejestrowałeś się na http://www.%s używają OpenID"
 
-#: views.py:212
+#: views.py:158
 #, python-format
 msgid ""
 "If you will want to remove login by OpenID then you will have to use your "
@@ -69,11 +51,11 @@ msgstr ""
 "Jeżeli chcesz usunąć logowanie poprzez OpenID, to będziesz potrzebował "
 "swojego hasła: %s (które można zmienić po logowaniu)."
 
-#: views.py:213
+#: views.py:159
 msgid "OpenID Registration Notification"
 msgstr "Powiadomienie o rejestracji z OpenID"
 
-#: views.py:214
+#: views.py:160
 msgid ""
 "Registration compleated. To login on this site use your OpenID. You have "
 "been logged in succesfuly."
@@ -81,19 +63,19 @@ msgstr ""
 "Rejestracja zakończona. By zalogować się na konto wystarczy użyć OpenID. "
 "Zostałeś zalogowany pomyślnie."
 
-#: views.py:219 views.py:220 views.py:357 views.py:358
+#: views.py:165 views.py:166 views.py:303 views.py:304
 msgid "Incorrect answer"
 msgstr "Błędna odpowiedź"
 
-#: views.py:262
+#: views.py:208
 msgid "OpenID assigned to your user account."
 msgstr "OpenID przypisane do twojego konta użytkownika."
 
-#: views.py:301 views.py:363 views.py:364
+#: views.py:247 views.py:309 views.py:310
 msgid "Passwords do not match."
 msgstr "Hasła nie zgadzają się."
 
-#: views.py:352
+#: views.py:298
 msgid "Registration compleated. You have been logged in succesfuly."
 msgstr "Rejestracja zakończona. Zostałeś zalogowany pomyślnie."
 
@@ -111,87 +93,21 @@ msgstr " cyfra w %s?"
 msgid " character in %s?"
 msgstr " litera w %s?"
 
-#: templates/userpanel/login.html:4 templates/userpanel/login_light.html:4
-msgid ""
-"As a registered user you will have full access to comments and forum. "
-"Registration isn't however required to browse this site content."
-msgstr ""
-"Jako zarejestrowany użytkownik będziesz miał pełen dostęp do forum i "
-"komentarzy. Rejestracja nie jest wymagana do przeglądania zawartości strony."
+#: models.py:47
+msgid "User"
+msgstr "Użytkownik"
 
-#: templates/userpanel/login.html:6 templates/userpanel/login_light.html:6
-msgid "If you are a new user you can"
-msgstr "Jeżeli jesteś nowym użytkownikiem możesz"
+#: models.py:48 templates/userpanel/login.html:26
+msgid "OpenID"
+msgstr "OpenID"
 
-#: templates/userpanel/login.html:6 templates/userpanel/login_light.html:6
-msgid "register"
-msgstr "zarejestrować się"
+#: models.py:54
+msgid "OpenID association"
+msgstr "Powiązanie OpenID"
 
-#: templates/userpanel/login.html:6 templates/userpanel/login_light.html:6
-msgid "using a simple form"
-msgstr "używając prostego formularza"
-
-#: templates/userpanel/login.html:7 templates/userpanel/login_light.html:7
-msgid "If you forgotten your password, then you can"
-msgstr "Jeżeli zapomniałeś hasła, to możesz"
-
-#: templates/userpanel/login.html:7 templates/userpanel/login_light.html:7
-msgid "reset it"
-msgstr "je zresetować"
-
-#: templates/userpanel/login.html:11 templates/userpanel/login_light.html:11
-msgid "Your username and password didn't match. Please try again."
-msgstr "Login i hasło nie pasują. Spróbuj ponownie"
-
-#: templates/userpanel/login.html:17 templates/userpanel/login_light.html:17
-msgid "Standard login"
-msgstr "Zwykłe logowanie"
-
-#: templates/userpanel/login.html:18 templates/userpanel/login_light.html:18
-#: templates/userpanel/assign_openid.html:8
-msgid "Username"
-msgstr "Nazwa użytkownika"
-
-#: templates/userpanel/login.html:19 templates/userpanel/register.html:13
-#: templates/userpanel/login_light.html:19
-#: templates/userpanel/assign_openid.html:9
-msgid "Password"
-msgstr "Hasło"
-
-#: templates/userpanel/login.html:20 templates/userpanel/login.html.py:31
-#: templates/userpanel/panel.html:23 templates/userpanel/register.html:9
-#: templates/userpanel/login_light.html:20
-#: templates/userpanel/login_light.html:31
-#: templates/userpanel/register_openid.html:12
-#: templates/userpanel/assign_openid.html:10
-msgid "Login"
-msgstr "Login"
-
-#: templates/userpanel/login.html:36 templates/userpanel/panel.html:30
-#: templates/userpanel/password_change.html:21
-#: templates/userpanel/password_change_done.html:7
-#: templates/userpanel/password_reset_done.html:13
-#: templates/userpanel/register.html:35
-#: templates/userpanel/register_openid.html:29
-#: templates/userpanel/assign_openid.html:15
-#: templates/userpanel/password_reset_complete.html:15
-#: templates/userpanel/password_reset_confirm.html:31
-#: templates/userpanel/password_reset_form.html:17
-msgid "Home"
-msgstr "Strona Główna"
-
-#: templates/userpanel/login.html:36 templates/userpanel/panel.html:30
-#: templates/userpanel/password_change.html:21
-#: templates/userpanel/password_change_done.html:7
-#: templates/userpanel/password_reset_done.html:13
-#: templates/userpanel/register.html:35
-#: templates/userpanel/register_openid.html:29
-#: templates/userpanel/assign_openid.html:15
-#: templates/userpanel/password_reset_complete.html:15
-#: templates/userpanel/password_reset_confirm.html:31
-#: templates/userpanel/password_reset_form.html:17
-msgid "User Panel"
-msgstr "Panel Użytkownika"
+#: models.py:55
+msgid "OpenID associations"
+msgstr "Powiązania OpenID"
 
 #: templates/userpanel/panel.html:5
 msgid "User Profile"
@@ -201,9 +117,10 @@ msgstr "Profil Użytkownika"
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/userpanel/panel.html:9 templates/userpanel/password_change.html:4
-#: templates/userpanel/password_change.html:17
+#: templates/userpanel/panel.html:9
 #: templates/userpanel/password_change_done.html:4
+#: templates/userpanel/password_change.html:4
+#: templates/userpanel/password_change.html:14
 msgid "Change Password"
 msgstr "Zmień Hasło"
 
@@ -219,6 +136,14 @@ msgstr "OpenID dla tego użytkownika"
 msgid "remove openID"
 msgstr "usuń OpenID"
 
+#: templates/userpanel/panel.html:23
+#: templates/userpanel/register_openid.html:11
+#: templates/userpanel/register.html:8 templates/userpanel/login.html:19
+#: templates/userpanel/login.html.py:28
+#: templates/userpanel/assign_openid.html:10
+msgid "Login"
+msgstr "Login"
+
 #: templates/userpanel/panel.html:24 templates/userpanel/register.html:4
 msgid "Register"
 msgstr "Rejestracja"
@@ -227,23 +152,44 @@ msgstr "Rejestracja"
 msgid "Lost Password"
 msgstr "Zapomniane Hasło"
 
-#: templates/userpanel/password_change.html:6
-msgid ""
-"There was a problem with password change. Did you entered correct current "
-"password?"
-msgstr "Wystąpił błąd ze zmianą hasła. Czy podałeś poprawne obecne hasło?"
+#: templates/userpanel/panel.html:30
+#: templates/userpanel/password_reset_complete.html:15
+#: templates/userpanel/password_change_done.html:7
+#: templates/userpanel/password_reset_done.html:13
+#: templates/userpanel/password_change.html:19
+#: templates/userpanel/register_openid.html:30
+#: templates/userpanel/password_reset_confirm.html:31
+#: templates/userpanel/password_reset_form.html:17
+#: templates/userpanel/register.html:35 templates/userpanel/login.html:32
+#: templates/userpanel/assign_openid.html:15
+msgid "Home"
+msgstr "Strona Główna"
 
-#: templates/userpanel/password_change.html:12
-msgid "Current Password"
-msgstr "Obecne Hasło"
+#: templates/userpanel/panel.html:30
+#: templates/userpanel/password_reset_complete.html:15
+#: templates/userpanel/password_change_done.html:7
+#: templates/userpanel/password_reset_done.html:13
+#: templates/userpanel/password_change.html:19
+#: templates/userpanel/register_openid.html:30
+#: templates/userpanel/password_reset_confirm.html:31
+#: templates/userpanel/password_reset_form.html:17
+#: templates/userpanel/register.html:35 templates/userpanel/login.html:32
+#: templates/userpanel/assign_openid.html:15
+msgid "User Panel"
+msgstr "Panel Użytkownika"
 
-#: templates/userpanel/password_change.html:13
-msgid "New Password"
-msgstr "Nowe Hasło"
+#: templates/userpanel/password_reset_complete.html:4
+#: templates/userpanel/password_reset_complete.html:8
+msgid "Password reset complete"
+msgstr "Resetowanie hasła zakończone"
 
-#: templates/userpanel/password_change.html:14
-msgid "New Password again"
-msgstr "Nowe Hasło ponownie"
+#: templates/userpanel/password_reset_complete.html:10
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Twoje hasło zostało zmienione. Możesz już się zalogować."
+
+#: templates/userpanel/password_reset_complete.html:12
+msgid "Log in"
+msgstr "Zaloguj Się"
 
 #: templates/userpanel/password_change_done.html:5
 msgid "Password have been changed succesfuly"
@@ -255,60 +201,34 @@ msgstr "Przejdź do Głównej Strony"
 
 #: templates/userpanel/password_reset_done.html:4
 #: templates/userpanel/password_reset_done.html:8
-#, fuzzy
 msgid "Password reset successful"
-msgstr "Hasło zmienione pomyślnie"
+msgstr "Hasło zresetowane pomyślnie"
 
 #: templates/userpanel/password_reset_done.html:10
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
 msgstr ""
+"Wysłaliśmy na twój adres email instrukcje dotyczące zmiany hasła. Niebawem "
+"powinna pojawić się w twojej skrzynce."
 
-#: templates/userpanel/password_reset_email.html:2
-msgid "You're receiving this e-mail because you requested a password reset"
-msgstr ""
+#: templates/userpanel/password_change.html:6
+msgid ""
+"There was a problem with password change. Did you entered correct current "
+"password?"
+msgstr "Wystąpił błąd ze zmianą hasła. Czy podałeś poprawne obecne hasło?"
 
-#: templates/userpanel/password_reset_email.html:3
-#, python-format
-msgid "for your user account at %(site_name)s"
-msgstr ""
+#: templates/userpanel/password_change.html:11
+msgid "Current Password"
+msgstr "Obecne Hasło"
 
-#: templates/userpanel/password_reset_email.html:5
-msgid "Please go to the following page and choose a new password:"
-msgstr ""
+#: templates/userpanel/password_change.html:12
+msgid "New Password"
+msgstr "Nowe Hasło"
 
-#: templates/userpanel/password_reset_email.html:9
-msgid "Your username, in case you've forgotten:"
-msgstr ""
-
-#: templates/userpanel/password_reset_email.html:11
-msgid "Thanks for using our site!"
-msgstr ""
-
-#: templates/userpanel/password_reset_email.html:13
-#, python-format
-msgid "The %(site_name)s team"
-msgstr ""
-
-#: templates/userpanel/register.html:17
-msgid "Password Again"
-msgstr "Hasło Ponownie"
-
-#: templates/userpanel/register.html:21
-#: templates/userpanel/register_openid.html:16
-msgid "Email"
-msgstr "Email"
-
-#: templates/userpanel/register.html:25
-#: templates/userpanel/register_openid.html:20
-msgid "What's the answer?"
-msgstr "Jaka jest odpowiedź?"
-
-#: templates/userpanel/register.html:32
-#: templates/userpanel/register_openid.html:26
-msgid "Register My"
-msgstr "Zarejestruj Mnie"
+#: templates/userpanel/password_change.html:13
+msgid "New Password again"
+msgstr "Nowe Hasło ponownie"
 
 #: templates/userpanel/register_openid.html:4
 msgid "Quick registration for"
@@ -334,82 +254,153 @@ msgstr ""
 msgid "simple login form"
 msgstr "prostego formularza logowania"
 
-#: templates/userpanel/assign_openid.html:7
-msgid "Assign openID with existing user account"
-msgstr "Przypisz OpenID do istniejącego konta"
+#: templates/userpanel/register_openid.html:15
+#: templates/userpanel/register.html:20
+msgid "Email"
+msgstr "Email"
 
-#: templates/userpanel/password_reset_complete.html:4
-#: templates/userpanel/password_reset_complete.html:8
-#, fuzzy
-msgid "Password reset complete"
-msgstr "Resetowanie Hasła"
+#: templates/userpanel/register_openid.html:19
+#: templates/userpanel/register.html:24
+msgid "What's the answer?"
+msgstr "Jaka jest odpowiedź?"
 
-#: templates/userpanel/password_reset_complete.html:10
-msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
-
-#: templates/userpanel/password_reset_complete.html:12
-msgid "Log in"
-msgstr "Zaloguj Się"
+#: templates/userpanel/register_openid.html:25
+#: templates/userpanel/register.html:30
+msgid "Register My"
+msgstr "Zarejestruj Mnie"
 
 #: templates/userpanel/password_reset_confirm.html:4
 #: templates/userpanel/password_reset_form.html:3
 #: templates/userpanel/password_reset_form.html:7
-#, fuzzy
 msgid "Password reset"
 msgstr "Resetowanie Hasła"
 
 #: templates/userpanel/password_reset_confirm.html:10
-#, fuzzy
 msgid "Enter new password"
-msgstr "Nowe hasło"
+msgstr "Podaj Nowe hasło"
 
 #: templates/userpanel/password_reset_confirm.html:12
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
+"Podaj nowe hasło dwa razy."
 
 #: templates/userpanel/password_reset_confirm.html:16
-#, fuzzy
 msgid "New password:"
-msgstr "Nowe hasło"
+msgstr "Nowe hasło:"
 
 #: templates/userpanel/password_reset_confirm.html:18
-#, fuzzy
 msgid "Confirm password:"
-msgstr "Zmień Hasło"
+msgstr "Powtórz Hasło:"
 
 #: templates/userpanel/password_reset_confirm.html:19
-#, fuzzy
 msgid "Change my password"
-msgstr "Zmień Hasło"
+msgstr "Zmień moje hasło"
 
 #: templates/userpanel/password_reset_confirm.html:24
-#, fuzzy
 msgid "Password reset unsuccessful"
-msgstr "Hasło zmienione pomyślnie"
+msgstr "Błąd resetowania haslamsgstr"
 
 #: templates/userpanel/password_reset_confirm.html:26
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
+"Link resetowania hasła jest niepoprawny. Może to być spowodowane wykorzystaniem wygenerowanego linka."
+
+#: templates/userpanel/password_reset_email.html:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr "Otrzymujesz tą wiadomość ponieważ użyłeś opcji resetowania hasła"
+
+#: templates/userpanel/password_reset_email.html:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "dla twojego konta na %(site_name)s"
+
+#: templates/userpanel/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Proszę udać się na podaną stronę i wybrać nowe hasło:"
+
+#: templates/userpanel/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "Twój login, dla przypomnienia to:"
+
+#: templates/userpanel/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "---"
+
+#: templates/userpanel/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "---"
 
 #: templates/userpanel/password_reset_form.html:9
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr ""
+msgstr "Zapomniałeś hasła? Podaj adres e-mail, a wyślemy instrukcje dotyczące zmiany hasła."
 
 #: templates/userpanel/password_reset_form.html:13
 msgid "E-mail address:"
-msgstr ""
+msgstr "Adres E-mail:"
 
 #: templates/userpanel/password_reset_form.html:13
-#, fuzzy
 msgid "Reset my password"
-msgstr "Resetuj Hasło"
+msgstr "Zresetuj Hasło"
+
+#: templates/userpanel/register.html:12 templates/userpanel/login.html:18
+#: templates/userpanel/assign_openid.html:9
+msgid "Password"
+msgstr "Hasło"
+
+#: templates/userpanel/register.html:16
+msgid "Password Again"
+msgstr "Hasło Ponownie"
+
+#: templates/userpanel/login.html:4
+msgid ""
+"As a registered user you will have full access to comments and forum. "
+"Registration isn't however required to browse this site content."
+msgstr ""
+"Jako zarejestrowany użytkownik będziesz miał pełen dostęp do forum i "
+"komentarzy. Rejestracja nie jest wymagana do przeglądania zawartości strony."
+
+#: templates/userpanel/login.html:6
+msgid "If you are a new user you can"
+msgstr "Jeżeli jesteś nowym użytkownikiem możesz"
+
+#: templates/userpanel/login.html:6
+msgid "register"
+msgstr "zarejestrować się"
+
+#: templates/userpanel/login.html:6
+msgid "using a simple form"
+msgstr "używając prostego formularza"
+
+#: templates/userpanel/login.html:7
+msgid "If you forgotten your password, then you can"
+msgstr "Jeżeli zapomniałeś hasła, to możesz"
+
+#: templates/userpanel/login.html:7
+msgid "reset it"
+msgstr "je zresetować"
+
+#: templates/userpanel/login.html:11
+msgid "Your username and password didn't match. Please try again."
+msgstr "Login i hasło nie pasują. Spróbuj ponownie"
+
+#: templates/userpanel/login.html:16
+msgid "Standard login"
+msgstr "Zwykłe logowanie"
+
+#: templates/userpanel/login.html:17 templates/userpanel/assign_openid.html:8
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: templates/userpanel/assign_openid.html:7
+msgid "Assign openID with existing user account"
+msgstr "Przypisz OpenID do istniejącego konta"
 
 #~ msgid ""
 #~ "There was a problem with password reset. Did you entered correct email "
