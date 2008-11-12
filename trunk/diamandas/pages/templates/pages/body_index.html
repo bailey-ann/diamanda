@@ -25,7 +25,8 @@
 			{% if new_openid %}
 				<a href="/user/register_openid/" >{% trans "Compleate OpenID registration" %}</a>
 			{% else %}
-				<a href="/user/login/" rel="facebox">{% trans "Login or Register" %}</a>
+				<a href="/user/login/">{% trans "Login or Register" %}</a>
+				</li><li><a href="/user/login/">{% trans "Login with OpenID" %}</a>
 			{% endif %}
 		{% endif %}</li>
 	</ul>

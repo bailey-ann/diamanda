@@ -6,6 +6,5 @@ from diamandas.userpanel.models import *
 
 class OpenIdAssociationAdmin(admin.ModelAdmin):
 	list_display = ('openid', 'user')
-	list_filter = ['openid', 'user']
 
 admin.site.register(OpenIdAssociation, OpenIdAssociationAdmin)

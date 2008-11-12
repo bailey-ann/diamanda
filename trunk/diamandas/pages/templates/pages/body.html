@@ -25,7 +25,8 @@
 			{% if new_openid %}
 				<a href="/user/register_openid/" >{% trans "Compleate OpenID registration" %}</a>
 			{% else %}
-				<a href="/user/login/" rel="facebox">{% trans "Login or Register" %}</a>
+				<a href="/user/login/">{% trans "Login or Register" %}</a>
+				</li><li><a href="/user/login/">{% trans "Login with OpenID" %}</a>
 			{% endif %}
 		{% endif %}</li>
 	</ul>
@@ -54,6 +55,9 @@
 		<div class="panel">
 		<ul>
 		{% block pagemenu %}{% endblock %}
+		<li class="book" style="margin-top:15px;"><a href="/w/n/">{% trans "Browse news" %}</a></li>
+		<li class="pagerss"><a href="/w/rss/">{% trans "RSS - Latest Articles" %}</a></li>
+		<li class="pagerss"><a href="/w/rss/all/">{% trans "RSS - What's new" %}</a></li>
 		</ul>
 		</div>
 		<br />
@@ -65,9 +69,7 @@
 			</div>
 			<ul>
 				
-				<li class="book"><a href="/w/n/">{% trans "Browse news" %}</a></li>
-				<li class="pagerss"><a href="/w/rss/">{% trans "RSS - Latest Articles" %}</a></li>
-				<li class="pagerss"><a href="/w/rss/all/">{% trans "RSS - What's new" %}</a></li>
+				
 			</ul>
 		</div>
 		{% block left %}{% endblock %}
