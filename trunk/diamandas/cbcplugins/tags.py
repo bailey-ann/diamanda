@@ -63,8 +63,14 @@ def art(dic, text):
 	return text
 
 def latest(dic, text):
+	"""
+	display a list of latest pages
+	
+	USAGE:
+	[rk:latest foo="bar"]
+	"""
 	from diamandas.pages.models import Content
-	c = Content.objects.filter(content_type='page').order_by('-date')[:4]
+	c = Content.objects.filter(content_type='page').order_by('-date')[:5]
 	artlist = '<ul>'
 	for i in c:
 		artlist = '%s\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (artlist, i.slug, i.title)
@@ -72,29 +78,6 @@ def latest(dic, text):
 	for i in dic:
 		text = text.replace(i['tag'],  artlist)
 	return text
-
-def qtnews(dic, text):
-	from diamandas.pages.models import Content
-	c = Content.objects.filter(content_type='news', current_book='qt').order_by('-date')[:10]
-	artlist = '<ul>'
-	for i in c:
-		artlist += '\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (i.slug, i.title)
-	artlist += '\n</ul>'
-	for i in dic:
-		text = text.replace(i['tag'],  artlist)
-	return text
-
-def embnews(dic, text):
-	from diamandas.pages.models import Content
-	c = Content.objects.filter(content_type='news', current_book='systemy-wbudowane').order_by('-date')[:10]
-	artlist = '<ul>'
-	for i in c:
-		artlist += '\n<li class="page"><a href="/w/p/%s/">%s</a></li>' % (i.slug, i.title)
-	artlist += '\n</ul>'
-	for i in dic:
-		text = text.replace(i['tag'],  artlist)
-	return text
-
 
 def syntax(dic, text):
 	"""
