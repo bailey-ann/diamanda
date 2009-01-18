@@ -101,4 +101,4 @@ class Feed(models.Model):
 	"""
 	site = models.PositiveSmallIntegerField(unique=True) # site id
 	html = models.TextField() # rendered html
-	rss = models.CharField(max_length=4) # rss
+	rss = models.TextField() # rendered rss

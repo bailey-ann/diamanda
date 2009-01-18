@@ -138,7 +138,7 @@ class FeedUpdate:
 			c = Context({
 				'user_id': author_system_id,
 				'username': author[0:14],
-				'date': date[:10],
+				'date': str(date)[:10],
 				'cssclass': cssclass,
 				'pagination_page': last_pagination_page,
 				'topic_id': topic_id,
@@ -183,7 +183,7 @@ class FeedUpdate:
 			c = Context({
 				'user_id': author_id,
 				'username': username[0:14],
-				'date': date[:10],
+				'date': str(date)[:10],
 				'cssclass': cssclass,
 				'slug': slug,
 				'title': self.stripper.strip(title),
