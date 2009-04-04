@@ -136,7 +136,7 @@ def show(request, slug):
 		show_comment = False
 	
 	if request.POST and add_topic and not page.coment_topic:
-		COMMENT_POST = _('This is a discussion about article') + ': [url="/w/p/%s/"]%s[/url].' % (page.slug, page.title)
+		COMMENT_POST = _('This is a discussion about article') + ': [url=/w/p/%s/]%s[/url].' % (page.slug, page.title)
 		REDIRECT = ("/w/p/" + slug +"/?c=ok", _('Comment added succesfuly.'))
 		TITLE = _('Comments for: %s') % page.title
 		return diamandaModelwrappers.add_topic(request, coment_forum_id, inject_post=COMMENT_POST, inject_title=TITLE, redirect_link=REDIRECT, content_obj=page)

@@ -45,7 +45,7 @@ def fbc(value):
 	
 	tags = findall( r'(?xs)\[url=(.*?)\](.*?)\[/url]''', value)
 	for i in tags:
-		value = value.replace('[url=%s]%s[/url]' % (i[0], i[1]), '<a href="%s">%s</a>' % (i[0], i[1]))
+		value = value.replace('[url=%s]%s[/url]' % (i[0], i[1]), '<a href="%s">%s</a>' % (i[0].replace('"', ''), i[1]))
 	
 	value = value.replace('[b]', '<b>')
 	value = value.replace('[/b]', '</b>')
